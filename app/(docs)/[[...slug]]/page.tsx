@@ -11,15 +11,16 @@ import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/components/mdx';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
-import { getPageImageUrl, gitConfig } from '@/lib/shared';
+import { basePath, getPageImageUrl, gitConfig } from '@/lib/shared';
 
-export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
+export default async function Page(props: PageProps<'/[[...slug]]'>) {
   const params = await props.params;
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
   const MDX = page.data.body;
-  const markdownUrl = `${page.url}.md`;
+  // page.url is inside the app; the browser needs the /docs base path.
+  const markdownUrl = `${basePath}${page.url === '/' ? '/index' : page.url}.md`;
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
@@ -48,7 +49,7 @@ export async function generateStaticParams() {
   return source.generateParams();
 }
 
-export async function generateMetadata(props: PageProps<'/docs/[[...slug]]'>): Promise<Metadata> {
+export async function generateMetadata(props: PageProps<'/[[...slug]]'>): Promise<Metadata> {
   const params = await props.params;
   const page = source.getPage(params.slug);
   if (!page) notFound();
@@ -57,7 +58,7 @@ export async function generateMetadata(props: PageProps<'/docs/[[...slug]]'>): P
     title: page.data.title,
     description: page.data.description,
     openGraph: {
-      images: getPageImageUrl(page).url,
+      images: `${basePath}${getPageImageUrl(page).url}`,
     },
   };
 }

@@ -1,0 +1,84 @@
+---
+title: Quick Start
+description: Create a project and put a public Docker image on the internet, from the dashboard, in a few clicks.
+---
+
+This guide deploys [nginx](https://hub.docker.com/_/nginx), a small public web server, so you can see the whole flow without writing any code. You need a StackBlaze account and nothing else.
+
+<Steps>
+
+<Step>
+
+### Create a project
+
+Open the [dashboard](https://dashboard.stackblaze.com). On the **Projects** page, click **New Project**.
+
+Give the project a name, or leave **Project Name** blank and StackBlaze picks one. Choose a **Region**, then click **Create Project**.
+
+<Screenshot id="quickstart/1-new-project" alt="The Create a New Project dialog" />
+
+</Step>
+
+<Step>
+
+### Pick Docker image
+
+The new project opens on its **Dev** environment, with **Deploy your first app**. Under **Start**, click **Docker image**.
+
+<Screenshot id="quickstart/2-first-app" alt="An empty project: Deploy your first app, with the Start list and the StackBlaze CLI commands" />
+
+</Step>
+
+<Step>
+
+### Choose the image
+
+In **Container registry**, type `nginx`. Docker Hub results appear as you type. Next to **nginx** (**Official**), click **Use**.
+
+You can also paste a full image reference here, such as `ghcr.io/org/app:latest`.
+
+<Screenshot id="quickstart/3-search-image" alt="Searching Docker Hub for nginx in the Container registry dialog" />
+
+</Step>
+
+<Step>
+
+### Open the new service
+
+An **nginx** card appears on the canvas, marked **Ready to deploy**. Nothing runs yet. Click the card.
+
+<Screenshot id="quickstart/4-ready" alt="The nginx card on the canvas, Ready to deploy" />
+
+</Step>
+
+<Step>
+
+### Review and deploy
+
+The panel shows the image (`nginx:latest`) and the application it creates. **Configure** holds variables, runtime and other settings; the defaults are fine for nginx. Click **Deploy**.
+
+<Screenshot id="quickstart/5-review" alt="Review, then deploy: nginx:latest with Configure applications and the Deploy button" />
+
+</Step>
+
+<Step>
+
+### Wait for Running
+
+The card shows **Updating** while the service starts, then **Running**. The card also shows the app's public URL.
+
+<Screenshot id="quickstart/6-running" alt="The nginx card, Running, with its public URL" />
+
+</Step>
+
+<Step>
+
+### Open your app
+
+Click the URL on the card. The nginx welcome page opens.
+
+<Screenshot id="quickstart/7-app" alt="The nginx welcome page at the app's URL" />
+
+</Step>
+
+</Steps>

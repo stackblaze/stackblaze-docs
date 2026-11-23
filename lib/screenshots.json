@@ -1,0 +1,51 @@
+{
+  "quickstart/1-new-project": {
+    "src": "/screenshots/quickstart/1-new-project.png",
+    "width": 560,
+    "height": 482,
+    "capturedAt": "2026-11-23T13:52:21.736Z",
+    "source": "/"
+  },
+  "quickstart/2-first-app": {
+    "src": "/screenshots/quickstart/2-first-app.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T13:52:29.407Z",
+    "source": "/pipeline/my-first-project-rt7u/apps"
+  },
+  "quickstart/3-search-image": {
+    "src": "/screenshots/quickstart/3-search-image.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-23T13:52:31.348Z",
+    "source": "/pipeline/my-first-project-rt7u/apps"
+  },
+  "quickstart/4-ready": {
+    "src": "/screenshots/quickstart/4-ready.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T13:52:32.894Z",
+    "source": "/pipeline/my-first-project-rt7u/apps"
+  },
+  "quickstart/5-review": {
+    "src": "/screenshots/quickstart/5-review.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T13:52:33.888Z",
+    "source": "/pipeline/my-first-project-rt7u/apps"
+  },
+  "quickstart/6-running": {
+    "src": "/screenshots/quickstart/6-running.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T13:53:00.331Z",
+    "source": "/pipeline/my-first-project-rt7u/apps"
+  },
+  "quickstart/7-app": {
+    "src": "/screenshots/quickstart/7-app.png",
+    "width": 1100,
+    "height": 520,
+    "capturedAt": "2026-11-23T13:53:00.000Z",
+    "source": "deployed app URL (same capture run)"
+  }
+}

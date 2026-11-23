@@ -1,6 +1,6 @@
 import { llms, loader } from 'fumadocs-core/source';
 import { lucideIconsPlugin } from 'fumadocs-core/source/lucide-icons';
-import { docsRoute } from './shared';
+import { basePath, docsRoute, siteUrl } from './shared';
 import { defineDocs } from 'fumadocs-mdx/macro';
 import { metaSchema, pageSchema } from 'fumadocs-core/source/schema';
 
@@ -25,7 +25,9 @@ export const source = loader({
 });
 
 export const docsLlms = llms(source, {
-  renderPage: async (page) => `# ${page.data.title} (${page.url})
+  // Links in llms.txt are absolute: the app runs under /docs on www.stackblaze.com.
+  renderUrl: (item) => `${siteUrl}${basePath}${item.url}`,
+  renderPage: async (page) => `# ${page.data.title} (${siteUrl}${basePath}${page.url === '/' ? '' : page.url})
 
 ${await page.data.getText('processed')}`,
 });

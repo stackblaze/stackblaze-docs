@@ -1,13 +1,17 @@
 import { createGetUrl } from 'fumadocs-core/source';
 
-export const appName = 'My App';
-export const docsRoute = '/docs';
-export const docsImageRoute = '/og/docs';
+export const appName = 'StackBlaze Docs';
+// The app runs under basePath '/docs' (next.config.mjs), served at
+// www.stackblaze.com/docs. Routes inside the app start at '/'.
+export const basePath = '/docs';
+export const siteUrl = 'https://www.stackblaze.com';
+export const dashboardUrl = 'https://dashboard.stackblaze.com';
+export const docsRoute = '/';
+export const docsImageRoute = '/og/pages';
 
-// fill this with your actual GitHub info, for example:
 export const gitConfig = {
-  user: 'fuma-nama',
-  repo: 'fumadocs',
+  user: 'stackblaze',
+  repo: 'stackblaze-docs',
   branch: 'main',
 };
 

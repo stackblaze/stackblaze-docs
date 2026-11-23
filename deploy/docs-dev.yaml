@@ -1,0 +1,76 @@
+# StackBlaze docs on leaseweb-montreal: namespace docs-dev, image tag :dev.
+# Served at docs-dev-origin.stackblaze.cloud; the website (Vercel) forwards www.stackblaze.com/docs/* here.
+# Apply: kubectl --context leaseweb-montreal apply -f deploy/docs-dev.yaml
+# Roll out a new image: kubectl --context leaseweb-montreal -n docs-dev rollout restart deploy/docs
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: docs-dev
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docs
+  namespace: docs-dev
+  labels: { app: docs }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: docs }
+  template:
+    metadata:
+      labels: { app: docs }
+    spec:
+      containers:
+        - name: docs
+          image: ghcr.io/stackblaze/stackblaze-docs:dev
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          readinessProbe:
+            httpGet: { path: /docs, port: 3000 }
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /docs, port: 3000 }
+            initialDelaySeconds: 20
+            periodSeconds: 30
+          resources:
+            requests: { cpu: 50m, memory: 128Mi }
+            limits: { memory: 512Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: docs
+  namespace: docs-dev
+spec:
+  selector: { app: docs }
+  ports:
+    - port: 80
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: docs
+  namespace: docs-dev
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts: [docs-dev-origin.stackblaze.cloud]
+      secretName: docs-tls
+  rules:
+    - host: docs-dev-origin.stackblaze.cloud
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: docs
+                port: { number: 80 }

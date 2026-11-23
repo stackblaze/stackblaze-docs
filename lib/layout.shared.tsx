@@ -1,12 +1,24 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
-import { appName, gitConfig } from './shared';
+import { dashboardUrl, siteUrl } from './shared';
 
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      // JSX supported
-      title: appName,
+      title: (
+        <span className="flex items-center gap-2 font-semibold">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/docs/logo.svg" alt="" className="h-6 w-auto" />
+          <span>StackBlaze</span>
+          <span className="font-normal text-fd-muted-foreground">Docs</span>
+        </span>
+      ),
+      // The docs home is /docs; plain <a> so it isn't prefixed twice.
+      url: '/',
     },
-    githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
+    links: [
+      { text: 'Dashboard', url: `${dashboardUrl}/login`, external: true },
+      { text: 'Website', url: siteUrl, external: true },
+      { text: 'Status', url: 'https://status.stackblaze.cloud', external: true },
+    ],
   };
 }
