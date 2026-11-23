@@ -35,7 +35,8 @@ await page.locator('div', { has: page.getByText('Official build of Nginx.') })
 const ready = page.getByText('Ready to deploy').first();
 await ready.waitFor({ timeout: 30000 });
 await page.waitForTimeout(800);
-await c.shot('quickstart/4-ready');
+// The card and the toolbar above it: the rest of the canvas is empty.
+await c.shot('quickstart/4-ready', { around: [page.getByText('Ready to deploy').first(), page.getByRole('button', { name: 'Service' })], pad: 24 });
 
 console.log('5. Click the card → Review, then deploy');
 // The click handler is on the card, not on its status line.
@@ -49,7 +50,7 @@ console.log('6. Deploy → Running');
 await page.getByRole('button', { name: 'Deploy', exact: true }).click();
 await page.getByText('Running', { exact: true }).first().waitFor({ timeout: 180000 });
 const host = (await page.locator('text=/\\.stackblaze\\.app/').first().innerText()).trim();
-await c.shot('quickstart/6-running');
+await c.shot('quickstart/6-running', { around: [page.getByText('Running', { exact: true }).first(), page.getByRole('button', { name: 'Service' })], pad: 24 });
 
 console.log(`7. Open https://${host}`);
 const res = await fetch(`https://${host}`);

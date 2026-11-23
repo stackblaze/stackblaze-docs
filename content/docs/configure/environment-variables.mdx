@@ -1,0 +1,55 @@
+---
+title: Environment variables
+description: Add a variable to a service, commit the change and deploy it.
+---
+
+Variables are key/value pairs that StackBlaze injects into the service's container when it starts. Changing them is a staged change: nothing reaches the running service until you commit and deploy it.
+
+<Steps>
+
+<Step>
+
+### Open the service
+
+On the project canvas, click the service's name on its card. The service panel opens on the right.
+
+<Screenshot id="service/1-open" alt="The service panel, open on the Deployment tab" />
+
+</Step>
+
+<Step>
+
+### Add the variable
+
+Open **Variables**, click **Add variable**, and type a **KEY** and a **value**.
+
+As soon as you change anything, **Commit 1 change** appears in the canvas toolbar.
+
+<Screenshot id="variables/1-add" alt="Environment Variables with a new GREETING variable" />
+
+</Step>
+
+<Step>
+
+### Commit and deploy
+
+Click **Commit 1 change**. The dialog lists what will be applied to the environment. Add a **Commit message** if you want one (it is optional and shows in the deploy history), then click **Deploy 1 change**.
+
+<Screenshot id="variables/2-commit" alt="1 change to apply: GREETING, with the commit message and Deploy 1 change" />
+
+</Step>
+
+</Steps>
+
+The service restarts with the new value. If you change your mind before deploying, **Discard all** in the same dialog drops every staged change.
+
+## Other ways to set variables
+
+The **Variables** tab also has:
+
+- **Raw editor**, to edit all variables as text.
+- **Export**, to download them.
+- **Drop or select a `.env` file**, to import a file.
+- **App** and **Shared**, to switch between this service's own variables and shared groups.
+
+A value can reference another variable with `$(NAME)`. The panel notes that references are "resolved at start, so add-on credentials stay secret".

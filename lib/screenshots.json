@@ -1,51 +1,163 @@
 {
+  "deployments/1-list": {
+    "src": "/screenshots/deployments/1-list.png",
+    "width": 816,
+    "height": 670,
+    "capturedAt": "2026-11-23T14:46:21.041Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "deployments/2-manual-deploy": {
+    "src": "/screenshots/deployments/2-manual-deploy.png",
+    "width": 816,
+    "height": 670,
+    "capturedAt": "2026-11-23T14:46:21.959Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "deployments/3-row-menu": {
+    "src": "/screenshots/deployments/3-row-menu.png",
+    "width": 816,
+    "height": 670,
+    "capturedAt": "2026-11-23T14:46:22.860Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "logs/1-app-logs": {
+    "src": "/screenshots/logs/1-app-logs.png",
+    "width": 816,
+    "height": 670,
+    "capturedAt": "2026-11-23T14:46:27.867Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "metrics/1-app-metrics": {
+    "src": "/screenshots/metrics/1-app-metrics.png",
+    "width": 816,
+    "height": 670,
+    "capturedAt": "2026-11-23T14:46:34.813Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
   "quickstart/1-new-project": {
     "src": "/screenshots/quickstart/1-new-project.png",
     "width": 560,
     "height": 482,
-    "capturedAt": "2026-11-23T13:52:21.736Z",
+    "capturedAt": "2026-11-23T14:39:59.912Z",
     "source": "/"
   },
   "quickstart/2-first-app": {
     "src": "/screenshots/quickstart/2-first-app.png",
     "width": 1440,
     "height": 900,
-    "capturedAt": "2026-11-23T13:52:29.407Z",
-    "source": "/pipeline/my-first-project-rt7u/apps"
+    "capturedAt": "2026-11-23T14:40:08.462Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
   },
   "quickstart/3-search-image": {
     "src": "/screenshots/quickstart/3-search-image.png",
     "width": 768,
     "height": 722,
-    "capturedAt": "2026-11-23T13:52:31.348Z",
-    "source": "/pipeline/my-first-project-rt7u/apps"
+    "capturedAt": "2026-11-23T14:40:11.327Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
   },
   "quickstart/4-ready": {
     "src": "/screenshots/quickstart/4-ready.png",
-    "width": 1440,
-    "height": 900,
-    "capturedAt": "2026-11-23T13:52:32.894Z",
-    "source": "/pipeline/my-first-project-rt7u/apps"
+    "width": 1393,
+    "height": 232,
+    "capturedAt": "2026-11-23T14:40:13.039Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
   },
   "quickstart/5-review": {
     "src": "/screenshots/quickstart/5-review.png",
     "width": 1440,
     "height": 900,
-    "capturedAt": "2026-11-23T13:52:33.888Z",
-    "source": "/pipeline/my-first-project-rt7u/apps"
+    "capturedAt": "2026-11-23T14:40:14.505Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
   },
   "quickstart/6-running": {
     "src": "/screenshots/quickstart/6-running.png",
-    "width": 1440,
-    "height": 900,
-    "capturedAt": "2026-11-23T13:53:00.331Z",
-    "source": "/pipeline/my-first-project-rt7u/apps"
+    "width": 1393,
+    "height": 232,
+    "capturedAt": "2026-11-23T14:40:47.206Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
   },
   "quickstart/7-app": {
     "src": "/screenshots/quickstart/7-app.png",
     "width": 1100,
     "height": 520,
-    "capturedAt": "2026-11-23T13:53:00.000Z",
-    "source": "deployed app URL (same capture run)"
+    "capturedAt": "2026-11-23T14:40:48.066Z",
+    "source": "https://nginx-w29b.cloud-dev-central-1.stackblaze.app"
+  },
+  "service/1-open": {
+    "src": "/screenshots/service/1-open.png",
+    "width": 816,
+    "height": 670,
+    "capturedAt": "2026-11-23T14:46:09.121Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "settings/0-overview": {
+    "src": "/screenshots/settings/0-overview.png",
+    "width": 816,
+    "height": 670,
+    "capturedAt": "2026-11-23T14:46:38.307Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "settings/access": {
+    "src": "/screenshots/settings/access.png",
+    "width": 620,
+    "height": 160,
+    "capturedAt": "2026-11-23T14:46:39.594Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "settings/deploy": {
+    "src": "/screenshots/settings/deploy.png",
+    "width": 620,
+    "height": 246,
+    "capturedAt": "2026-11-23T14:46:42.213Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "settings/domains": {
+    "src": "/screenshots/settings/domains.png",
+    "width": 620,
+    "height": 166,
+    "capturedAt": "2026-11-23T14:46:40.893Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "settings/health": {
+    "src": "/screenshots/settings/health.png",
+    "width": 620,
+    "height": 214,
+    "capturedAt": "2026-11-23T14:46:43.492Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "settings/network": {
+    "src": "/screenshots/settings/network.png",
+    "width": 620,
+    "height": 91,
+    "capturedAt": "2026-11-23T14:46:44.726Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "settings/scale": {
+    "src": "/screenshots/settings/scale.png",
+    "width": 620,
+    "height": 230,
+    "capturedAt": "2026-11-23T14:46:46.008Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "settings/storage": {
+    "src": "/screenshots/settings/storage.png",
+    "width": 620,
+    "height": 119,
+    "capturedAt": "2026-11-23T14:46:47.284Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "variables/1-add": {
+    "src": "/screenshots/variables/1-add.png",
+    "width": 816,
+    "height": 670,
+    "capturedAt": "2026-11-23T14:46:10.113Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "variables/2-commit": {
+    "src": "/screenshots/variables/2-commit.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-23T14:46:11.683Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
   }
 }

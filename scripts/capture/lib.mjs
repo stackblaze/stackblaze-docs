@@ -8,6 +8,8 @@ import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '../..');
 const MANIFEST = path.join(ROOT, 'lib/screenshots.json');
+// The service panel that slides in over the right of the canvas.
+export const PANEL = { x: 624, y: 112, width: 852, height: 670 };
 export const DASHBOARD = process.env.CAPTURE_DASHBOARD ?? 'https://dashboard-dev.stackblaze.com';
 const CDP = process.env.CAPTURE_CDP ?? 'http://127.0.0.1:9222';
 
@@ -17,14 +19,23 @@ const MASK = (process.env.CAPTURE_MASK ?? '').split(',').filter(Boolean);
 
 export async function open() {
   const browser = await chromium.connectOverCDP(CDP);
-  const context = browser.contexts()[0];
-  // Disconnect (Chrome keeps running) so the script exits when it's done.
-  process.on('exit', () => {});
-  const page = await context.newPage();
-  const cdp = await context.newCDPSession(page);
-  await cdp.send('Emulation.setDeviceMetricsOverride', {
-    width: 1440, height: 900, deviceScaleFactor: 2, mobile: false,
+  // A fresh 2x context with the signed-in Chrome's cookies and the
+  // dashboard's localStorage, so screenshots are sharp and the viewport exact.
+  const base = browser.contexts()[0];
+  const probe = await base.newPage();
+  await probe.goto(DASHBOARD + '/favicon.ico').catch(() => {});
+  const local = await probe.evaluate(() => Object.entries(localStorage)).catch(() => []);
+  await probe.close();
+  const context = await browser.newContext({
+    viewport: { width: 1440, height: 900 },
+    deviceScaleFactor: 2,
+    colorScheme: 'light',
+    storageState: {
+      cookies: await base.cookies(),
+      origins: [{ origin: DASHBOARD, localStorage: [...local.filter(([k]) => k !== 'theme').map(([name, value]) => ({ name, value })), { name: 'theme', value: 'light' }] }],
+    },
   });
+  const page = await context.newPage();
   const pending = {};
   return {
     page,
@@ -39,7 +50,7 @@ export async function open() {
       }
     },
     /** Screenshot the page (or one element) in light mode under `id`. */
-    async shot(id, { locator } = {}) {
+    async shot(id, { locator, around, pad = 16, clip } = {}) {
       await settle(page);
       await page.evaluate(() => {
         localStorage.setItem('theme', 'light');
@@ -50,8 +61,26 @@ export async function open() {
       const rel = `/screenshots/${id}.png`;
       const out = path.join(ROOT, 'public', rel);
       fs.mkdirSync(path.dirname(out), { recursive: true });
-      const target = locator ? page.locator(locator).first() : page;
-      await target.screenshot({ path: out, animations: 'disabled' });
+      if (clip) {
+        await page.screenshot({ path: out, clip, animations: 'disabled' });
+      } else if (around) {
+        // Crop to the union of these elements (plus padding): the part of the
+        // screen the step is about, not the whole window.
+        const boxes = [];
+        for (const sel of [].concat(around)) {
+          const b = await (typeof sel === 'string' ? page.locator(sel).first() : sel).boundingBox();
+          if (!b) throw new Error(`shot ${id}: nothing to crop around (${sel})`);
+          boxes.push(b);
+        }
+        const x = Math.max(0, Math.min(...boxes.map((b) => b.x)) - pad);
+        const y = Math.max(0, Math.min(...boxes.map((b) => b.y)) - pad);
+        const r = Math.min(1440, Math.max(...boxes.map((b) => b.x + b.width)) + pad);
+        const btm = Math.min(900, Math.max(...boxes.map((b) => b.y + b.height)) + pad);
+        await page.screenshot({ path: out, clip: { x, y, width: r - x, height: btm - y }, animations: 'disabled' });
+      } else {
+        const target = locator ? page.locator(locator).first() : page;
+        await target.screenshot({ path: out, animations: 'disabled' });
+      }
       const { width, height } = pngSize(out);
       const dpr = await page.evaluate(() => window.devicePixelRatio || 1);
       pending[id] = {
@@ -79,7 +108,7 @@ export async function open() {
       Object.assign(m, pending);
       const sorted = Object.fromEntries(Object.keys(m).sort().map((k) => [k, m[k]]));
       fs.writeFileSync(MANIFEST, JSON.stringify(sorted, null, 2) + '\n');
-      await page.close();
+      await context.close();
       await browser.close(); // over CDP this only disconnects
     },
   };

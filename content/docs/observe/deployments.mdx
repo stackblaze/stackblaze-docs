@@ -1,0 +1,31 @@
+---
+title: Deployments
+description: See every deploy of a service, who made it and what changed.
+---
+
+Open a service and click **Deployment**. The list shows events, deploys and rollbacks, newest first.
+
+<Screenshot id="deployments/1-list" alt="The Deployment tab with two deploys" />
+
+Each row shows:
+
+- the image (for example `nginx:latest`) and its status, such as **rolling out** or **running**;
+- when it happened, how long it took and who made it;
+- the commit message, if one was given when the change was committed (**First Deploy** for the first one).
+
+A deploy that is still rolling out has **Cancel**.
+
+## Deploy again
+
+**Manual Deploy** at the top of the list. For a service that runs a Docker image it offers:
+
+- **Deploy latest reference**: pull the image reference again and deploy it.
+- **Restart service**: restart what is running.
+
+<Screenshot id="deployments/2-manual-deploy" alt="The Manual Deploy menu: Deploy latest reference, Restart service" />
+
+## Actions on a past deploy
+
+The **⋯** menu on a deploy row offers **Redeploy**, **Inspect Deployment**, **Copy URL** and **Visit**.
+
+<Screenshot id="deployments/3-row-menu" alt="The row menu: Redeploy, Inspect Deployment, Copy URL, Visit" />

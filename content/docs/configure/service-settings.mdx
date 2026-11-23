@@ -1,0 +1,53 @@
+---
+title: Service settings
+description: What each section of a service's Settings tab controls.
+---
+
+Open a service (click its name on the canvas card), then **Settings**. Like variables, every change here is staged: it is applied when you click **Commit N changes** → **Deploy N changes** in the canvas toolbar.
+
+<Screenshot id="settings/0-overview" alt="The Settings tab of a service" />
+
+## Access & traffic
+
+**Visibility** decides who can reach the service: **Public** ("Public URL using the port on the card header"), **Internal** or **Worker**.
+
+<Screenshot id="settings/access" alt="Access & traffic: Visibility Public, Internal, Worker" />
+
+## Custom domains
+
+Lists the hostnames that reach the service. The default `*.stackblaze.app` URL already includes HTTPS. **+ Custom Domain** adds your own hostname.
+
+<Screenshot id="settings/domains" alt="Custom domains with the default URL and + Custom Domain" />
+
+## Deploy
+
+- **Pre-deploy**: an optional command that runs before the new version starts. If it fails, the current version stays live.
+- **Start command**: overrides the image's default process. Leave it empty to use the image default.
+
+<Screenshot id="settings/deploy" alt="Deploy: Pre-deploy and Start command" />
+
+## Health checks
+
+An HTTP probe that runs before a new version gets traffic. The new version takes traffic only after `GET <path>` passes. You can set the **Path**, **Startup**, **Timeout** and **Interval**.
+
+<Screenshot id="settings/health" alt="Health checks: path /, Startup 90, Timeout 3, Interval 10" />
+
+## Basic Auth
+
+**Enable Basic Auth** asks for a username and password before anyone can open the site in a browser.
+
+<Screenshot id="settings/network" alt="Basic Auth with the Enable Basic Auth switch" />
+
+## Scale and sleep mode
+
+- **Instances** sets how many copies of the service run. The section shows how many your plan allows.
+- **Autoscale** turns automatic scaling on.
+- **Sleep mode** scales the service to zero after it has been idle for a while.
+
+<Screenshot id="settings/scale" alt="Scale: Instances and Autoscale" />
+
+## Volumes
+
+**+ Add volume** adds a shared (RWX) filesystem. Every instance mounts the same volume.
+
+<Screenshot id="settings/storage" alt="Volumes with + Add volume" />
