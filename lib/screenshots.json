@@ -90,6 +90,195 @@
     "capturedAt": "2026-11-23T16:57:01.802Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "postgresql/m-card-volume": {
+    "src": "/screenshots/postgresql/m-card-volume.png",
+    "width": 1440,
+    "height": 493,
+    "capturedAt": "2026-11-23T17:03:31.560Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-console": {
+    "src": "/screenshots/postgresql/m-console.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T17:13:18.908Z",
+    "source": "CloudBeaver (database link on the card)"
+  },
+  "postgresql/m-console-query": {
+    "src": "/screenshots/postgresql/m-console-query.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T17:13:25.818Z",
+    "source": "CloudBeaver SQL editor"
+  },
+  "postgresql/m-deploy-after-redeploy": {
+    "src": "/screenshots/postgresql/m-deploy-after-redeploy.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T17:32:34.582Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-deploy-inspect": {
+    "src": "/screenshots/postgresql/m-deploy-inspect.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T17:27:25.747Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-deploy-menu": {
+    "src": "/screenshots/postgresql/m-deploy-menu.png",
+    "width": 918,
+    "height": 201,
+    "capturedAt": "2026-11-23T17:27:20.365Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-deploy-redeploy-confirm": {
+    "src": "/screenshots/postgresql/m-deploy-redeploy-confirm.png",
+    "width": 974,
+    "height": 764,
+    "capturedAt": "2026-11-23T17:27:27.372Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-deployment": {
+    "src": "/screenshots/postgresql/m-deployment.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T17:03:36.448Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-ext-on": {
+    "src": "/screenshots/postgresql/m-ext-on.png",
+    "width": 730,
+    "height": 391,
+    "capturedAt": "2026-11-23T17:07:52.428Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-ext-restart-dialog": {
+    "src": "/screenshots/postgresql/m-ext-restart-dialog.png",
+    "width": 426,
+    "height": 232,
+    "capturedAt": "2026-11-23T17:07:55.387Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-ext-restart-on": {
+    "src": "/screenshots/postgresql/m-ext-restart-on.png",
+    "width": 730,
+    "height": 391,
+    "capturedAt": "2026-11-23T17:08:08.906Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-ext-restart-row": {
+    "src": "/screenshots/postgresql/m-ext-restart-row.png",
+    "width": 730,
+    "height": 391,
+    "capturedAt": "2026-11-23T17:07:53.771Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-ha-confirm": {
+    "src": "/screenshots/postgresql/m-ha-confirm.png",
+    "width": 974,
+    "height": 764,
+    "capturedAt": "2026-11-23T17:32:43.195Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-ha-off": {
+    "src": "/screenshots/postgresql/m-ha-off.png",
+    "width": 730,
+    "height": 187,
+    "capturedAt": "2026-11-23T17:32:41.517Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-ha-on": {
+    "src": "/screenshots/postgresql/m-ha-on.png",
+    "width": 730,
+    "height": 684,
+    "capturedAt": "2026-11-23T17:34:07.450Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-limits": {
+    "src": "/screenshots/postgresql/m-limits.png",
+    "width": 730,
+    "height": 167,
+    "capturedAt": "2026-11-23T17:04:02.431Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-logs": {
+    "src": "/screenshots/postgresql/m-logs.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T17:03:41.359Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-logs-range": {
+    "src": "/screenshots/postgresql/m-logs-range.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T17:03:42.723Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-logs-source": {
+    "src": "/screenshots/postgresql/m-logs-source.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T17:03:44.098Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-metrics": {
+    "src": "/screenshots/postgresql/m-metrics.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T17:03:51.448Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-metrics-health": {
+    "src": "/screenshots/postgresql/m-metrics-health.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T17:03:55.466Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-metrics-workload": {
+    "src": "/screenshots/postgresql/m-metrics-workload.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T17:03:53.467Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-public-off": {
+    "src": "/screenshots/postgresql/m-public-off.png",
+    "width": 698,
+    "height": 175,
+    "capturedAt": "2026-11-23T17:08:24.904Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-public-on": {
+    "src": "/screenshots/postgresql/m-public-on.png",
+    "width": 698,
+    "height": 335,
+    "capturedAt": "2026-11-23T17:08:28.296Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-storage": {
+    "src": "/screenshots/postgresql/m-storage.png",
+    "width": 730,
+    "height": 184,
+    "capturedAt": "2026-11-23T17:14:16.307Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-storage-expanded": {
+    "src": "/screenshots/postgresql/m-storage-expanded.png",
+    "width": 730,
+    "height": 184,
+    "capturedAt": "2026-11-23T17:24:39.074Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/m-storage-sizes": {
+    "src": "/screenshots/postgresql/m-storage-sizes.png",
+    "width": 745,
+    "height": 199,
+    "capturedAt": "2026-11-23T17:14:17.128Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
   "quickstart/1-new-project": {
     "src": "/screenshots/quickstart/1-new-project.png",
     "width": 560,

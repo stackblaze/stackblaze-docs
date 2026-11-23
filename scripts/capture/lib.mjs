@@ -16,6 +16,9 @@ const CDP = process.env.CAPTURE_CDP ?? 'http://127.0.0.1:9222';
 // Text that must never appear in a published screenshot (the capture
 // account's email, etc.), replaced before each shot.
 const MASK = (process.env.CAPTURE_MASK ?? '').split(',').filter(Boolean);
+// Other text to swap before a shot, e.g. this machine's IP for a
+// documentation address: CAPTURE_REPLACE="38.1.2.3=>203.0.113.10".
+const REPLACE = (process.env.CAPTURE_REPLACE ?? '').split(';').filter(Boolean).map((p) => p.split('=>'));
 
 export async function open() {
   const browser = await chromium.connectOverCDP(CDP);
@@ -124,9 +127,10 @@ async function settle(page) {
 // a `scheme://user:password@host` URL, `*PASSWORD=value` lines, and the
 // partly revealed `ab••••••yz` password field.
 async function mask(page) {
-  await page.evaluate((words) => {
+  await page.evaluate(([words, pairs]) => {
     const fix = (t) => {
       for (const w of words) if (t.includes(w)) t = t.split(w).join('you@example.com');
+      for (const [a, b] of pairs) if (t.includes(a)) t = t.split(a).join(b);
       return t
         .replace(/^\s*[^\s•]{0,4}•{6,}[^\s•]{0,4}\s*$/, '••••••••••••')
         .replace(/(:\/\/[^:\/\s@]+:)\S+@/g, '$1••••••••@')
@@ -141,7 +145,7 @@ async function mask(page) {
       const v = fix(el.value);
       if (v !== el.value) el.value = v;
     }
-  }, MASK);
+  }, [MASK, REPLACE]);
 }
 
 function pngSize(file) {
