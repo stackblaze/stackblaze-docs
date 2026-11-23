@@ -1,0 +1,64 @@
+---
+title: Deploy a template
+description: Deploy a ready-made app from the template catalog. A template can add several services at once, such as an app and its database.
+---
+
+Templates are ready-made apps from the StackBlaze catalog. Picking one deploys it right away, with every service it needs. This guide uses **uptime-kuma**, which adds the app and a MariaDB database.
+
+<Steps>
+
+<Step>
+
+### Open the add menu
+
+In your project, click **+ Service** in the canvas toolbar (or press **Ctrl+K**). Pick **Template** ("One-click apps from the catalog").
+
+<Screenshot id="templates/1-add-menu" alt="The add menu with Template at the top" />
+
+</Step>
+
+<Step>
+
+### Find the template
+
+The **Templates** list opens. Scroll it, or type in **Search templates**. The **All** menu next to the search box filters the list.
+
+<Screenshot id="templates/2-list" alt="The Templates list" />
+
+<Screenshot id="templates/3-search" alt="Searching for uptime: uptime-kuma, Self-hosted uptime monitoring" />
+
+</Step>
+
+<Step>
+
+### Pick it
+
+Click the template. There is no extra confirmation: StackBlaze deploys it at once. Every service the template needs appears on the canvas, marked **Deploying**. For uptime-kuma that is the **uptime-kuma** app and a **MariaDB** database.
+
+<Screenshot id="templates/4-deploying" alt="uptime-kuma and MariaDB on the canvas, Deploying" />
+
+</Step>
+
+<Step>
+
+### Wait for Running
+
+When every service shows **Running**, the app card shows its public URL.
+
+<Screenshot id="templates/5-running" alt="uptime-kuma and MariaDB, Running, with the app's URL" />
+
+</Step>
+
+<Step>
+
+### Open the app
+
+Click the URL on the app's card.
+
+<Screenshot id="templates/6-app" alt="Uptime Kuma, open at the app's URL" />
+
+</Step>
+
+</Steps>
+
+The services a template adds are ordinary services: open them on the canvas to change their [variables](/configure/environment-variables) and [settings](/configure/service-settings).

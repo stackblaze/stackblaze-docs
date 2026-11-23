@@ -50,7 +50,7 @@ export async function open() {
       }
     },
     /** Screenshot the page (or one element) in light mode under `id`. */
-    async shot(id, { locator, around, pad = 16, clip } = {}) {
+    async shot(id, { locator, around, pad = 16, clip, extraBottom = 0 } = {}) {
       await settle(page);
       await page.evaluate(() => {
         localStorage.setItem('theme', 'light');
@@ -75,7 +75,7 @@ export async function open() {
         const x = Math.max(0, Math.min(...boxes.map((b) => b.x)) - pad);
         const y = Math.max(0, Math.min(...boxes.map((b) => b.y)) - pad);
         const r = Math.min(1440, Math.max(...boxes.map((b) => b.x + b.width)) + pad);
-        const btm = Math.min(900, Math.max(...boxes.map((b) => b.y + b.height)) + pad);
+        const btm = Math.min(900, Math.max(...boxes.map((b) => b.y + b.height)) + pad + extraBottom);
         await page.screenshot({ path: out, clip: { x, y, width: r - x, height: btm - y }, animations: 'disabled' });
       } else {
         const target = locator ? page.locator(locator).first() : page;

@@ -146,6 +146,48 @@
     "capturedAt": "2026-11-23T14:46:47.284Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "templates/1-add-menu": {
+    "src": "/screenshots/templates/1-add-menu.png",
+    "width": 768,
+    "height": 720,
+    "capturedAt": "2026-11-23T14:49:41.660Z",
+    "source": "/pipeline/templates-demo-tdjh/apps"
+  },
+  "templates/2-list": {
+    "src": "/screenshots/templates/2-list.png",
+    "width": 768,
+    "height": 720,
+    "capturedAt": "2026-11-23T14:49:44.622Z",
+    "source": "/pipeline/templates-demo-tdjh/apps"
+  },
+  "templates/3-search": {
+    "src": "/screenshots/templates/3-search.png",
+    "width": 768,
+    "height": 720,
+    "capturedAt": "2026-11-23T14:49:45.812Z",
+    "source": "/pipeline/templates-demo-tdjh/apps"
+  },
+  "templates/4-deploying": {
+    "src": "/screenshots/templates/4-deploying.png",
+    "width": 1440,
+    "height": 453,
+    "capturedAt": "2026-11-23T14:49:49.745Z",
+    "source": "/pipeline/templates-demo-tdjh/apps"
+  },
+  "templates/5-running": {
+    "src": "/screenshots/templates/5-running.png",
+    "width": 1440,
+    "height": 453,
+    "capturedAt": "2026-11-23T14:51:16.509Z",
+    "source": "/pipeline/templates-demo-tdjh/apps"
+  },
+  "templates/6-app": {
+    "src": "/screenshots/templates/6-app.png",
+    "width": 1100,
+    "height": 640,
+    "capturedAt": "2026-11-23T14:51:20.931Z",
+    "source": "https://uptime-kuma-z7mo.cloud-dev-central-1.stackblaze.app"
+  },
   "variables/1-add": {
     "src": "/screenshots/variables/1-add.png",
     "width": 816,

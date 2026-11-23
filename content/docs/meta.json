@@ -1,4 +1,13 @@
 {
   "title": "Docs",
-  "pages": ["index", "quickstart", "---Configure---", "...configure", "---Observe---", "...observe"]
+  "pages": [
+    "index",
+    "quickstart",
+    "---Deploy---",
+    "...deploy",
+    "---Configure---",
+    "...configure",
+    "---Observe---",
+    "...observe"
+  ]
 }
