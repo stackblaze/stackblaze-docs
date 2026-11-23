@@ -1,0 +1,95 @@
+---
+title: PostgreSQL
+description: Add a PostgreSQL database to an environment, find its connection details, and connect an app to it.
+---
+
+A database is added to one environment of a project, and any app in that environment can connect to it. This guide adds PostgreSQL to the **Dev** environment and connects an app that is already running there.
+
+<Steps>
+
+<Step>
+
+### Add PostgreSQL
+
+On the project canvas, click **+ Service**, then **Database or cache**. Pick **PostgreSQL**.
+
+<Screenshot id="postgresql/1-databases" alt="The Databases list in the add menu, with PostgreSQL" />
+
+A PostgreSQL card appears under **Databases** marked **Ready to deploy**. Nothing has been created yet.
+
+<Screenshot id="postgresql/2-ready" alt="The PostgreSQL card on the canvas, Ready to deploy" />
+
+</Step>
+
+<Step>
+
+### Review and deploy
+
+Click the card. The panel says the database "deploys with the catalog defaults", and that size, high availability and connections are tuned in this panel once it is running. Click **Deploy**.
+
+<Screenshot id="postgresql/3-review" alt="Ready to deploy, creates it on Dev right away, with Remove from canvas and Deploy" />
+
+When it is ready, the card shows **Running**.
+
+<Screenshot id="postgresql/4-running" alt="The PostgreSQL card, Running" />
+
+</Step>
+
+<Step>
+
+### Find the connection details
+
+Click **PostgreSQL** on the card, open **Settings**, and look under **Access**:
+
+- **Connect from apps**: the **Host**, the short **Service** name, **Username**, **Password** and **Database**. The port is `5432`.
+- **Connection URL**: the same details as a `postgresql://` URL, plus a **JDBC** URL. These work from apps in this environment and are "not reachable from the public internet".
+- **Environment snippet**: ready-made lines (`DATABASE_URL`, `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, `PGDATABASE`, …) to paste into an app's variables.
+
+<Screenshot id="postgresql/5-access" alt="Access: Connect from apps, Connection URL and Environment snippet" />
+
+</Step>
+
+<Step>
+
+### Connect an app
+
+Further down, **Connections** lists the apps in the environment. Turn on the switch next to your app. The change is staged.
+
+<Screenshot id="postgresql/6-connect" alt="Connections with nginx switched on, marked staged" />
+
+Close the panel, click **Commit 1 change**, then **Deploy 1 change**. The app redeploys.
+
+<Screenshot id="postgresql/7-commit" alt="1 change to apply: nginx ⇄ postgresql, off → on" />
+
+</Step>
+
+<Step>
+
+### Check the app's variables
+
+Open the app and go to **Variables**. Connecting added:
+
+| Variable | |
+|---|---|
+| `PGHOST`, `PGPORT` | the database's in-cluster address |
+| `PGHOST_RO`, `PGPORT_RO` | the read-only address |
+| `PGUSER`, `PGDATABASE` | the user and database name |
+| `PGPASSWORD` | read from the database's secret ("Provided by add-on") |
+
+<Screenshot id="postgresql/8-variables" alt="The app's variables, with PGHOST to PGDATABASE and PGPASSWORD provided by add-on" />
+
+</Step>
+
+</Steps>
+
+Connecting does not add `DATABASE_URL`. If your app needs a URL, copy it from **Connection URL** or the **Environment snippet** into the app's variables.
+
+## Disconnect or delete
+
+Turning the switch off in **Connections** (and deploying the change) removes those variables from the app.
+
+**Delete add-on**, at the bottom of **Settings**, deletes the database and its data. It is only available once no apps are connected.
+
+## Other settings
+
+The same **Settings** tab has **Plan limits** (for example the number of connections and how long backups are kept), **Extensions** (turn PostgreSQL extensions on or off), **HA**, and **Storage** (volumes can only grow).

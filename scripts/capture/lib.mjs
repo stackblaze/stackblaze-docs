@@ -120,15 +120,26 @@ async function settle(page) {
   await page.waitForFunction(() => !document.querySelector('.animate-spin, [data-skeleton], .skeleton'), null, { timeout: 15000 }).catch(() => {});
 }
 
+// Also blanks credentials the dashboard shows in clear text: the password in
+// a `scheme://user:password@host` URL, `*PASSWORD=value` lines, and the
+// partly revealed `ab••••••yz` password field.
 async function mask(page) {
-  if (!MASK.length) return;
   await page.evaluate((words) => {
+    const fix = (t) => {
+      for (const w of words) if (t.includes(w)) t = t.split(w).join('you@example.com');
+      return t
+        .replace(/^\s*[^\s•]{0,4}•{6,}[^\s•]{0,4}\s*$/, '••••••••••••')
+        .replace(/(:\/\/[^:\/\s@]+:)\S+@/g, '$1••••••••@')
+        .replace(/(PASSWORD[A-Z_]*=)\S+/g, '$1••••••••');
+    };
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     for (let n = walker.nextNode(); n; n = walker.nextNode()) {
-      for (const w of words) if (n.nodeValue.includes(w)) n.nodeValue = n.nodeValue.split(w).join('you@example.com');
+      const v = fix(n.nodeValue);
+      if (v !== n.nodeValue) n.nodeValue = v;
     }
-    for (const el of document.querySelectorAll('input')) {
-      for (const w of words) if (el.value.includes(w)) el.value = el.value.split(w).join('you@example.com');
+    for (const el of document.querySelectorAll('input, textarea')) {
+      const v = fix(el.value);
+      if (v !== el.value) el.value = v;
     }
   }, MASK);
 }

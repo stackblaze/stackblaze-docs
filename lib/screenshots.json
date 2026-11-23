@@ -34,6 +34,62 @@
     "capturedAt": "2026-11-23T14:46:34.813Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "postgresql/1-databases": {
+    "src": "/screenshots/postgresql/1-databases.png",
+    "width": 768,
+    "height": 720,
+    "capturedAt": "2026-11-23T16:55:46.873Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/2-ready": {
+    "src": "/screenshots/postgresql/2-ready.png",
+    "width": 1440,
+    "height": 449,
+    "capturedAt": "2026-11-23T16:55:47.854Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/3-review": {
+    "src": "/screenshots/postgresql/3-review.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T16:55:48.987Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/4-running": {
+    "src": "/screenshots/postgresql/4-running.png",
+    "width": 1440,
+    "height": 449,
+    "capturedAt": "2026-11-23T16:56:23.986Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/5-access": {
+    "src": "/screenshots/postgresql/5-access.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T16:56:48.642Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/6-connect": {
+    "src": "/screenshots/postgresql/6-connect.png",
+    "width": 730,
+    "height": 159,
+    "capturedAt": "2026-11-23T16:56:49.422Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/7-commit": {
+    "src": "/screenshots/postgresql/7-commit.png",
+    "width": 576,
+    "height": 362,
+    "capturedAt": "2026-11-23T16:56:50.627Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "postgresql/8-variables": {
+    "src": "/screenshots/postgresql/8-variables.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-23T16:57:01.802Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
   "quickstart/1-new-project": {
     "src": "/screenshots/quickstart/1-new-project.png",
     "width": 560,
