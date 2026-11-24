@@ -2043,6 +2043,27 @@
     "capturedAt": "2026-11-24T16:11:04.859Z",
     "source": "/pipeline/github-demo-kpw0/apps"
   },
+  "settings/basic-auth": {
+    "src": "/screenshots/settings/basic-auth.png",
+    "width": 620,
+    "height": 278,
+    "capturedAt": "2026-11-24T17:47:18.082Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "settings/basic-auth-commit": {
+    "src": "/screenshots/settings/basic-auth-commit.png",
+    "width": 576,
+    "height": 360,
+    "capturedAt": "2026-11-24T17:47:19.347Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "settings/basic-auth-empty": {
+    "src": "/screenshots/settings/basic-auth-empty.png",
+    "width": 620,
+    "height": 208,
+    "capturedAt": "2026-11-24T17:47:16.953Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
   "settings/deploy": {
     "src": "/screenshots/settings/deploy.png",
     "width": 620,
