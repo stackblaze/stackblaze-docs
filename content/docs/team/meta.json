@@ -1,0 +1,4 @@
+{
+  "title": "Team and account",
+  "pages": ["members-and-roles", "api-tokens", "ssh-keys", "account-security", "audit-log", "integrations"]
+}

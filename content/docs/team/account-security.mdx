@@ -1,0 +1,64 @@
+---
+title: Account security
+description: Two-factor authentication, recovery codes, passkeys, your sign-in methods, and changing your password or email.
+---
+
+Your sign-in settings are on **Personal settings → Authentication**. Click the person icon at the top right, choose **Personal settings**, then open **Authentication**. These settings belong to your account and apply in every organization you're in.
+
+## Two-factor authentication
+
+**Two-factor authentication** adds a second step to every sign-in, on top of your password or provider. The card says **Enabled** when you have a second factor (an authenticator app or a passkey), and **Not enabled** otherwise.
+
+<Screenshot id="team/security-1-2fa" alt="Two-factor authentication: Enabled, with Authenticator app On, Recovery codes 9 left and Passkeys None" />
+
+It has three rows.
+
+### Authenticator app
+
+Shows **On** when a TOTP authenticator app is paired, with **Reset**. Without one it shows **None** and **Set up**. **Set up** opens the pairing page.
+
+**Reset** pairs a new authenticator. It first asks you to prove it's you: a code from your current app (or your passkey, if you have one). Then **Reset & set up new** takes you to pair the new app. Your current authenticator keeps working until you confirm the new one. If you've lost your authenticator, ask an administrator to reset 2FA for you.
+
+<Screenshot id="team/security-3-reset" alt="Reset two-factor authentication: a code from your current authenticator, and Reset & set up new" />
+
+### Recovery codes
+
+Recovery codes let you sign in with a one-time code if you lose your authenticator app. The row only appears when an authenticator app is on. It shows how many codes are left (**9 left** here), and the badge turns red at 2 or fewer.
+
+**Generate new** makes a fresh set, and your old codes stop working. It asks for a code from your authenticator app (or your passkey) first, then shows the new codes.
+
+<Screenshot id="team/security-4-recovery" alt="Generate new recovery codes: Your old codes stop working. Enter a code from your authenticator app to continue." />
+
+### Passkey count
+
+Shows how many passkeys you have (**None** here). **Manage** scrolls down to the [Passkeys](#passkeys) card.
+
+## Sign-in methods
+
+**Sign-in methods** shows how you sign in to your StackBlaze account: **Email and password**, **GitHub** or **Google**. The one you use is **Linked** and marked **Current**. The others are **Not linked**. This card is read-only.
+
+<Screenshot id="team/security-2-methods" alt="Sign-in methods: Email and password Current and Linked, GitHub and Google Not linked" />
+
+## Change password
+
+Accounts that sign in with email and password have a **Change password** card. Enter your **Current password**, a **New password**, and the same again under **Confirm new password**. **Change password** stays disabled until all three are filled and the two new ones match. A message confirms "Password changed."
+
+<Screenshot id="team/security-5-password" alt="Change password: Current password, New password, Confirm new password" />
+
+## Change email
+
+Under **Change email**, type the **New email address** and click **Send verification code**. StackBlaze first confirms it's you (with your authenticator code, password or passkey), then sends a code to the new address. Your current email, shown under the field, stays until you confirm.
+
+<Screenshot id="team/security-6-email" alt="Change email: New email address, the current address, and Send verification code" />
+
+## Passkeys
+
+A passkey lets you sign in with your fingerprint, face or device PIN instead of a password. It also counts as your second step. With none, the card says "No passkeys yet."
+
+<Screenshot id="team/security-7-passkeys" alt="Passkeys: No passkeys yet, and Add passkey" />
+
+**Add passkey** opens **Add a passkey**. Give it a **Name** (up to 64 characters, for example `MacBook Touch ID`), enter a code from your authenticator app, click **Continue** and follow your browser to create the passkey.
+
+<Screenshot id="team/security-8-add-passkey" alt="Add a passkey: Name, and a code from your authenticator app" />
+
+Each passkey in the list can be renamed or removed. If a passkey is your only second factor, removing it asks you to confirm it's you first.

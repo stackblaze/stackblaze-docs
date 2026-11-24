@@ -1,0 +1,68 @@
+---
+title: API tokens
+description: Create a token for the StackBlaze API and CLI, choose when it expires, and revoke it.
+---
+
+An API token lets scripts and CI call the StackBlaze API or CLI as you. A token belongs to one organization, the one you're in when you create it, and acts on your behalf there. Treat it like a password.
+
+## Open API tokens
+
+Click the person icon at the top right and choose **API tokens**. This opens **Personal settings** on the **API tokens** tab.
+
+<Screenshot id="team/tokens-1-account-menu" alt="The account menu: Personal settings, Access control, Theme (System, Dark, Light), Documentation, Join community, API tokens and Logout" />
+
+**Your tokens** lists each token's **Name**, when it was **Created** and when it **Expires** (**Never** for a token without an expiry). Sign-ins from the CLI add tokens here too, named like **CLI · 2026-11-24**.
+
+## Create a token
+
+<Steps>
+
+<Step>
+
+### Name it
+
+Click **Create token**. **Create API token** opens with a warning: the token is shown once, so copy it and keep it somewhere safe. You can't view it again.
+
+<Screenshot id="team/tokens-2-create" alt="Create API token: the shown-once warning, Name, and the Expires choices with No expiry selected" />
+
+Enter a **Name**, for example `ci-deploys`.
+
+</Step>
+
+<Step>
+
+### Choose when it expires
+
+Under **Expires** (optional), pick **No expiry** (the default), **7 days**, **30 days**, **90 days**, **1 year** or **Custom**. **Custom** adds a date field. It can't be earlier than today.
+
+<Screenshot id="team/tokens-3-custom" alt="Expires set to Custom, with a date field" />
+
+<Screenshot id="team/tokens-4-filled" alt="Create API token filled in: name docs-demo-token, expires in 30 days" />
+
+There are no scopes to pick. The token can do what you can do in this organization.
+
+</Step>
+
+<Step>
+
+### Copy it
+
+Click **Create token**. **Token created** shows the token once. Click the copy button, store the token safely and click **Done**.
+
+<Screenshot id="team/tokens-5-created" alt="Token created: Copy it now. You won't see it again once you close this. The value is hidden here." />
+
+</Step>
+
+</Steps>
+
+Back in the list, the eye button shows or hides a token. Right after you create a token, this browser can still show its full value. Otherwise only its prefix is shown ("Only the prefix is shown. The full value was shown once, when it was created.").
+
+<Screenshot id="team/tokens-6-row" alt="Your tokens filtered to docs-demo-token, created today, expiring in 30 days; the value is hidden here" />
+
+To use the token with the CLI, see [the CLI](/cli).
+
+## Revoke a token
+
+Open the token's **⋯** menu and choose **Revoke token**. The browser asks "Revoke token "docs-demo-token"? Any service using it will lose access." Click **OK** and the token is gone from the list.
+
+<Screenshot id="team/tokens-7-menu" alt="A token's menu: Revoke token" />

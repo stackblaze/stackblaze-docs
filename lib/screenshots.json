@@ -1658,6 +1658,363 @@
     "capturedAt": "2026-11-23T14:46:47.284Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "team/1-users": {
+    "src": "/screenshots/team/1-users.png",
+    "width": 994,
+    "height": 541,
+    "capturedAt": "2026-11-24T16:12:35.502Z",
+    "source": "/settings/members"
+  },
+  "team/10-invitations-history": {
+    "src": "/screenshots/team/10-invitations-history.png",
+    "width": 994,
+    "height": 516,
+    "capturedAt": "2026-11-24T15:44:55.385Z",
+    "source": "/settings/members"
+  },
+  "team/11-teams": {
+    "src": "/screenshots/team/11-teams.png",
+    "width": 994,
+    "height": 744,
+    "capturedAt": "2026-11-24T16:12:43.708Z",
+    "source": "/settings/members"
+  },
+  "team/12-team-create": {
+    "src": "/screenshots/team/12-team-create.png",
+    "width": 432,
+    "height": 352,
+    "capturedAt": "2026-11-24T16:12:45.009Z",
+    "source": "/settings/members"
+  },
+  "team/13-team-add-member": {
+    "src": "/screenshots/team/13-team-add-member.png",
+    "width": 432,
+    "height": 361,
+    "capturedAt": "2026-11-24T16:12:46.485Z",
+    "source": "/settings/members"
+  },
+  "team/15-team-assign-role": {
+    "src": "/screenshots/team/15-team-assign-role.png",
+    "width": 432,
+    "height": 259,
+    "capturedAt": "2026-11-24T16:12:48.604Z",
+    "source": "/settings/members"
+  },
+  "team/16-team-remove-member": {
+    "src": "/screenshots/team/16-team-remove-member.png",
+    "width": 480,
+    "height": 216,
+    "capturedAt": "2026-11-24T16:12:50.640Z",
+    "source": "/settings/members"
+  },
+  "team/17-team-menu": {
+    "src": "/screenshots/team/17-team-menu.png",
+    "width": 208,
+    "height": 156,
+    "capturedAt": "2026-11-24T16:12:51.745Z",
+    "source": "/settings/members"
+  },
+  "team/18-team-edit": {
+    "src": "/screenshots/team/18-team-edit.png",
+    "width": 432,
+    "height": 352,
+    "capturedAt": "2026-11-24T16:12:52.858Z",
+    "source": "/settings/members"
+  },
+  "team/19-team-delete": {
+    "src": "/screenshots/team/19-team-delete.png",
+    "width": 480,
+    "height": 198,
+    "capturedAt": "2026-11-24T16:12:54.596Z",
+    "source": "/settings/members"
+  },
+  "team/2-users-filter": {
+    "src": "/screenshots/team/2-users-filter.png",
+    "width": 288,
+    "height": 195,
+    "capturedAt": "2026-11-24T16:12:36.280Z",
+    "source": "/settings/members"
+  },
+  "team/20-roles": {
+    "src": "/screenshots/team/20-roles.png",
+    "width": 994,
+    "height": 840,
+    "capturedAt": "2026-11-24T16:12:56.366Z",
+    "source": "/settings/members"
+  },
+  "team/21-roles-filter": {
+    "src": "/screenshots/team/21-roles-filter.png",
+    "width": 288,
+    "height": 231,
+    "capturedAt": "2026-11-24T16:12:57.070Z",
+    "source": "/settings/members"
+  },
+  "team/22-role-create-empty": {
+    "src": "/screenshots/team/22-role-create-empty.png",
+    "width": 672,
+    "height": 826,
+    "capturedAt": "2026-11-24T16:12:58.563Z",
+    "source": "/settings/members"
+  },
+  "team/23-role-create": {
+    "src": "/screenshots/team/23-role-create.png",
+    "width": 672,
+    "height": 826,
+    "capturedAt": "2026-11-24T16:13:00.440Z",
+    "source": "/settings/members"
+  },
+  "team/27-sso-locked": {
+    "src": "/screenshots/team/27-sso-locked.png",
+    "width": 952,
+    "height": 616,
+    "capturedAt": "2026-11-24T16:04:00.920Z",
+    "source": "/settings/sso"
+  },
+  "team/3-user-menu": {
+    "src": "/screenshots/team/3-user-menu.png",
+    "width": 240,
+    "height": 156,
+    "capturedAt": "2026-11-24T16:12:37.163Z",
+    "source": "/settings/members"
+  },
+  "team/4-invite-roles": {
+    "src": "/screenshots/team/4-invite-roles.png",
+    "width": 560,
+    "height": 900,
+    "capturedAt": "2026-11-24T16:12:39.083Z",
+    "source": "/settings/members"
+  },
+  "team/5-invite-teams": {
+    "src": "/screenshots/team/5-invite-teams.png",
+    "width": 545,
+    "height": 177,
+    "capturedAt": "2026-11-24T16:12:40.003Z",
+    "source": "/settings/members"
+  },
+  "team/6-invite-invalid": {
+    "src": "/screenshots/team/6-invite-invalid.png",
+    "width": 543,
+    "height": 239,
+    "capturedAt": "2026-11-24T16:12:40.804Z",
+    "source": "/settings/members"
+  },
+  "team/7-invite-filled": {
+    "src": "/screenshots/team/7-invite-filled.png",
+    "width": 560,
+    "height": 900,
+    "capturedAt": "2026-11-24T16:12:41.721Z",
+    "source": "/settings/members"
+  },
+  "team/8-invitations": {
+    "src": "/screenshots/team/8-invitations.png",
+    "width": 994,
+    "height": 516,
+    "capturedAt": "2026-11-24T15:44:51.893Z",
+    "source": "/settings/members"
+  },
+  "team/9-revoke-confirm": {
+    "src": "/screenshots/team/9-revoke-confirm.png",
+    "width": 480,
+    "height": 216,
+    "capturedAt": "2026-11-24T15:44:53.109Z",
+    "source": "/settings/members"
+  },
+  "team/audit-1-list": {
+    "src": "/screenshots/team/audit-1-list.png",
+    "width": 994,
+    "height": 780,
+    "capturedAt": "2026-11-24T16:09:03.237Z",
+    "source": "/audit-log"
+  },
+  "team/audit-2-custom-error": {
+    "src": "/screenshots/team/audit-2-custom-error.png",
+    "width": 885,
+    "height": 142,
+    "capturedAt": "2026-11-24T16:09:04.842Z",
+    "source": "/audit-log"
+  },
+  "team/audit-3-severity": {
+    "src": "/screenshots/team/audit-3-severity.png",
+    "width": 264,
+    "height": 238,
+    "capturedAt": "2026-11-24T16:09:06.187Z",
+    "source": "/audit-log"
+  },
+  "team/audit-4-limit": {
+    "src": "/screenshots/team/audit-4-limit.png",
+    "width": 264,
+    "height": 174,
+    "capturedAt": "2026-11-24T16:09:07.050Z",
+    "source": "/audit-log"
+  },
+  "team/audit-5-search": {
+    "src": "/screenshots/team/audit-5-search.png",
+    "width": 994,
+    "height": 640,
+    "capturedAt": "2026-11-24T16:09:09.145Z",
+    "source": "/audit-log"
+  },
+  "team/integrations-1": {
+    "src": "/screenshots/team/integrations-1.png",
+    "width": 1000,
+    "height": 304,
+    "capturedAt": "2026-11-24T16:08:41.728Z",
+    "source": "/settings/integrations"
+  },
+  "team/integrations-2-hf-menu": {
+    "src": "/screenshots/team/integrations-2-hf-menu.png",
+    "width": 976,
+    "height": 115,
+    "capturedAt": "2026-11-24T16:08:42.741Z",
+    "source": "/settings/integrations"
+  },
+  "team/security-1-2fa": {
+    "src": "/screenshots/team/security-1-2fa.png",
+    "width": 949,
+    "height": 310,
+    "capturedAt": "2026-11-24T16:06:13.562Z",
+    "source": "/personal-settings"
+  },
+  "team/security-2-methods": {
+    "src": "/screenshots/team/security-2-methods.png",
+    "width": 949,
+    "height": 318,
+    "capturedAt": "2026-11-24T16:06:14.412Z",
+    "source": "/personal-settings"
+  },
+  "team/security-3-reset": {
+    "src": "/screenshots/team/security-3-reset.png",
+    "width": 432,
+    "height": 472,
+    "capturedAt": "2026-11-24T16:06:16.416Z",
+    "source": "/personal-settings"
+  },
+  "team/security-4-recovery": {
+    "src": "/screenshots/team/security-4-recovery.png",
+    "width": 432,
+    "height": 264,
+    "capturedAt": "2026-11-24T16:06:18.984Z",
+    "source": "/personal-settings"
+  },
+  "team/security-5-password": {
+    "src": "/screenshots/team/security-5-password.png",
+    "width": 949,
+    "height": 364,
+    "capturedAt": "2026-11-24T16:06:21.583Z",
+    "source": "/personal-settings"
+  },
+  "team/security-6-email": {
+    "src": "/screenshots/team/security-6-email.png",
+    "width": 949,
+    "height": 252,
+    "capturedAt": "2026-11-24T16:06:22.510Z",
+    "source": "/personal-settings"
+  },
+  "team/security-7-passkeys": {
+    "src": "/screenshots/team/security-7-passkeys.png",
+    "width": 949,
+    "height": 152,
+    "capturedAt": "2026-11-24T16:06:24.773Z",
+    "source": "/personal-settings"
+  },
+  "team/security-8-add-passkey": {
+    "src": "/screenshots/team/security-8-add-passkey.png",
+    "width": 432,
+    "height": 338,
+    "capturedAt": "2026-11-24T16:06:25.927Z",
+    "source": "/personal-settings"
+  },
+  "team/ssh-1-empty": {
+    "src": "/screenshots/team/ssh-1-empty.png",
+    "width": 633,
+    "height": 306,
+    "capturedAt": "2026-11-24T16:06:47.157Z",
+    "source": "/personal-settings"
+  },
+  "team/ssh-2-dialog": {
+    "src": "/screenshots/team/ssh-2-dialog.png",
+    "width": 480,
+    "height": 446,
+    "capturedAt": "2026-11-24T16:06:48.267Z",
+    "source": "/personal-settings"
+  },
+  "team/ssh-3-invalid": {
+    "src": "/screenshots/team/ssh-3-invalid.png",
+    "width": 480,
+    "height": 501,
+    "capturedAt": "2026-11-24T16:06:49.827Z",
+    "source": "/personal-settings"
+  },
+  "team/ssh-4-filled": {
+    "src": "/screenshots/team/ssh-4-filled.png",
+    "width": 480,
+    "height": 501,
+    "capturedAt": "2026-11-24T16:06:50.977Z",
+    "source": "/personal-settings"
+  },
+  "team/ssh-5-added": {
+    "src": "/screenshots/team/ssh-5-added.png",
+    "width": 946,
+    "height": 265,
+    "capturedAt": "2026-11-24T16:06:54.090Z",
+    "source": "/personal-settings"
+  },
+  "team/ssh-6-menu": {
+    "src": "/screenshots/team/ssh-6-menu.png",
+    "width": 929,
+    "height": 122,
+    "capturedAt": "2026-11-24T16:06:54.871Z",
+    "source": "/personal-settings"
+  },
+  "team/tokens-1-account-menu": {
+    "src": "/screenshots/team/tokens-1-account-menu.png",
+    "width": 280,
+    "height": 540,
+    "capturedAt": "2026-11-24T16:13:40.234Z",
+    "source": "/"
+  },
+  "team/tokens-2-create": {
+    "src": "/screenshots/team/tokens-2-create.png",
+    "width": 480,
+    "height": 446,
+    "capturedAt": "2026-11-24T16:13:41.822Z",
+    "source": "/personal-settings"
+  },
+  "team/tokens-3-custom": {
+    "src": "/screenshots/team/tokens-3-custom.png",
+    "width": 480,
+    "height": 490,
+    "capturedAt": "2026-11-24T16:13:42.918Z",
+    "source": "/personal-settings"
+  },
+  "team/tokens-4-filled": {
+    "src": "/screenshots/team/tokens-4-filled.png",
+    "width": 480,
+    "height": 446,
+    "capturedAt": "2026-11-24T16:13:44.039Z",
+    "source": "/personal-settings"
+  },
+  "team/tokens-5-created": {
+    "src": "/screenshots/team/tokens-5-created.png",
+    "width": 480,
+    "height": 242,
+    "capturedAt": "2026-11-24T16:13:45.697Z",
+    "source": "/personal-settings"
+  },
+  "team/tokens-6-row": {
+    "src": "/screenshots/team/tokens-6-row.png",
+    "width": 953,
+    "height": 304,
+    "capturedAt": "2026-11-24T16:13:47.113Z",
+    "source": "/personal-settings"
+  },
+  "team/tokens-7-menu": {
+    "src": "/screenshots/team/tokens-7-menu.png",
+    "width": 936,
+    "height": 122,
+    "capturedAt": "2026-11-24T16:13:47.951Z",
+    "source": "/personal-settings"
+  },
   "templates/1-add-menu": {
     "src": "/screenshots/templates/1-add-menu.png",
     "width": 768,

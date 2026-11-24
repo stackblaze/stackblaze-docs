@@ -1,0 +1,55 @@
+---
+title: Audit log
+description: See who changed what in your organization and when, filter by time and severity, and export it as CSV.
+---
+
+The audit log records every change in your organization: who made it, what changed and when. Deploys, updates, restarts, pauses and deletes are all there, along with events the platform raises itself, such as an app becoming ready or failing.
+
+To read it you need a role with **Audit · read**. All three built-in roles have it (see [Roles](/team/members-and-roles#roles)). Without it, the page says "You need the audit:read permission to view the audit trail."
+
+## Open the audit log
+
+Click **Audit log** in the sidebar.
+
+<Screenshot id="team/audit-1-list" alt="Audit log: Audit history with Refresh, Export CSV, the 1h 24h 7d 30d Custom range and a list of events" />
+
+Each row has four columns:
+
+| Column | Shows |
+| --- | --- |
+| **Time** | How long ago it happened (**Just now**, **5m ago**, **2h ago**, then the date). Hover for the exact time in UTC. |
+| **Event** | What happened, for example "Updated app: nginx-9agm in github-demo-gv35 phase: dev", with the action under it (**update**, **restart**, **create**, **delete** …). Warnings and critical events carry a **Warning** or **Critical** badge. |
+| **Who** | The member who did it, or **system** for events the platform raised. |
+| **Resource** | The kind of thing (**App**, **Ai-Model** …) and where it lives: project · environment · service. |
+
+Click a column name to sort. **Refresh** reloads the list.
+
+## Time range
+
+The buttons above the list set the range: **1h**, **24h** (the default), **7d**, **30d** or **Custom**. The range is kept in the page address, so you can share or reload a filtered view.
+
+**Custom** adds **From** and **To** fields. The range can be up to 90 days. If it doesn't make sense, the page says so, for example "The end must be after the start."
+
+<Screenshot id="team/audit-2-custom-error" alt="Custom range with From after To: The end must be after the start." />
+
+## Filters
+
+The filter button next to the search box has two settings:
+
+- **Severity**: **All**, **Normal**, **Info**, **Warning**, **Error** or **Critical**.
+
+  <Screenshot id="team/audit-3-severity" alt="The filter popover with the Severity menu open: All, Normal, Info, Warning, Error, Critical" />
+
+- **Events to load**: **100**, **250** (the default), **500** or **1000**.
+
+  <Screenshot id="team/audit-4-limit" alt="Events to load: 100, 250, 500, 1000" />
+
+## Search
+
+**Search by user, action, resource or app…** narrows the loaded events as you type. Here it's the events of one project:
+
+<Screenshot id="team/audit-5-search" alt="The audit log searched for github-demo-gv35" />
+
+## Export CSV
+
+**Export CSV** downloads the events you're looking at, after the range, severity and search filters, as `audit-trail-YYYY-MM-DD.csv`. The columns are `timestamp`, `user`, `severity`, `action`, `resource`, `pipeline`, `phase`, `app`, `namespace` and `message`.

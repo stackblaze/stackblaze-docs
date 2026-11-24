@@ -1,0 +1,178 @@
+---
+title: Members and roles
+description: Invite people to your organization, group them into teams and choose what each role can do.
+---
+
+**Access control** decides who can open your organization and what they can do there. Open it from the sidebar: click **Settings**, then **Access control**. You can also choose **Access control** in the account menu (the person icon at the top right).
+
+The page has four tabs: **Users**, **Invitations**, **Teams** and **Roles**. Each tab has a search box. Its list pages at **20 / page** by default.
+
+## Users
+
+**Organization users** lists everyone in the organization, with their **Name**, **Email**, **Organization role** and **Teams**. The owner has an **Owner** badge. Click a column name to sort by it.
+
+<Screenshot id="team/1-users" alt="Access control, Users tab: one user with the Owner badge, the Admin role and the admin and all users teams" />
+
+The filter button next to the search box filters by role. It offers **All Roles** and each role your members hold.
+
+<Screenshot id="team/2-users-filter" alt="The Role filter: All Roles and Admin" />
+
+The **⋯** menu on a row has **Edit member** and **Remove from organization**. **Edit member** opens **Edit user**, where you pick the member's **Role**. **Remove from organization** removes the person from this organization only. Their account stays, and they keep any other organizations.
+
+<Screenshot id="team/3-user-menu" alt="A user's menu: Edit member and Remove from organization" />
+
+For other members, the **Organization role** column is a menu, so you can change their role in place. Your own role isn't a menu.
+
+## Invite people
+
+<Steps>
+
+<Step>
+
+### Open the invite sheet
+
+On **Users** or **Invitations**, click **Invite**. **Invite others to** *your organization* opens. Each address gets its own invite link by email.
+
+</Step>
+
+<Step>
+
+### Enter the addresses
+
+Type one or more addresses under **Emails**. Separate them with commas, spaces or new lines. You can invite up to 50 at a time. The sheet counts the valid addresses and lists anything that isn't one, for example "Not an email address: teammate".
+
+<Screenshot id="team/6-invite-invalid" alt="Emails with an invalid entry: 1 address, Not an email address: teammate" />
+
+</Step>
+
+<Step>
+
+### Choose the role and team
+
+Under **Assign organization role**, pick **admin**, **member** or **guest**, or a custom role (see [Roles](#roles)). The role decides what they can do across the organization, and you can change it later.
+
+<Screenshot id="team/4-invite-roles" alt="The invite sheet with the role menu open: admin, member, guest" />
+
+**Add to a team** (optional) puts them in a team when they join. Leave it at **None** for organization-wide access only.
+
+<Screenshot id="team/5-invite-teams" alt="Add to a team: None, admin, all users" />
+
+</Step>
+
+<Step>
+
+### Send
+
+Click **Invite** (with several addresses it reads **Invite 3 people**, for example). The button stays disabled until there's at least one valid address and a role.
+
+<Screenshot id="team/7-invite-filled" alt="The invite sheet filled in: one address, role member, team None" />
+
+A message confirms "Invitation sent to …". If some addresses fail, they stay in the box with the reason so you can try again.
+
+</Step>
+
+</Steps>
+
+## Invitations
+
+**Invitations** lists the people you've invited who haven't joined yet, with their **Email**, who invited them, the **Role** (and team), the **Status** and when it was **Sent**. An invitation link is valid for 7 days.
+
+<Screenshot id="team/8-invitations" alt="Invitations: one Pending invitation with role member" />
+
+To cancel an invitation, open its **⋯** menu and choose **Revoke invitation**, then confirm with **Revoke**. The recipient can no longer use the link they received.
+
+<Screenshot id="team/9-revoke-confirm" alt="Revoke invitation to teammate@example.com? The recipient will no longer be able to use the link they received." />
+
+By default the tab shows only pending invitations. To see past ones too, open the filter and turn on **Include accepted and revoked**.
+
+<Screenshot id="team/10-invitations-history" alt="Invitations with the filter on: the invitation is now Revoked" />
+
+## Teams
+
+A team groups members so you can give them access to projects together. A new organization has two teams: **admin** ("Group for admin users") and **all users** ("Standard group for all users"). Click the arrow next to a team to show its **Members**. Each member shows their role in the team.
+
+<Screenshot id="team/11-teams" alt="Teams: admin expanded with one member and its role, and all users" />
+
+### Create a team
+
+Click **Create team**. Enter a **Team name** and, if you like, a **Description**, then click **Create**. The new team is listed, and you're already a member of it, with your organization role.
+
+<Screenshot id="team/12-team-create" alt="Create team: Team name docs-demo and a description" />
+
+### Manage a team's members
+
+Expand a team to see its members:
+
+- **Add member** opens a dialog. Pick a **User** from the organization and their **Role** in the team.
+
+  <Screenshot id="team/13-team-add-member" alt="Add member: User and Role, with the role menu open: admin, member, guest" />
+
+- The shield button (**Assign role**) changes a member's role in this team.
+
+  <Screenshot id="team/15-team-assign-role" alt="Assign role for a member, with the role menu open" />
+
+- The red button (**Remove member**) asks you to confirm first. The member loses the access this team gave them.
+
+  <Screenshot id="team/16-team-remove-member" alt="Remove you@example.com from team admin? The user will lose access that was granted via this team membership." />
+
+### Edit or delete a team
+
+The team's **⋯** menu has **Edit team** and **Delete team**.
+
+<Screenshot id="team/17-team-menu" alt="A team's menu: Edit team and Delete team" />
+
+**Edit team** opens the team's name and description, with **Save**.
+
+<Screenshot id="team/18-team-edit" alt="Edit team: Team name and Description" />
+
+**Delete team** asks you to confirm: "This action cannot be undone. All memberships for this team will be removed." Click **Delete** and the team is gone from the list.
+
+<Screenshot id="team/19-team-delete" alt="Delete team admin? This action cannot be undone. All memberships for this team will be removed." />
+
+<Callout type="warn">
+Changing teams, roles or memberships signs the affected members out of the dashboard. They sign in again to get the new access.
+</Callout>
+
+## Roles
+
+A role is a set of permissions. There are three built-in roles, marked **System** and **Built-in**. They can't be changed or deleted. Each role lists what it allows.
+
+<Screenshot id="team/20-roles" alt="Roles: admin, guest and member with their permissions" />
+
+| Role | Description | Permissions |
+| --- | --- | --- |
+| **admin** | Tenant administrator — full access within their tenant | Apps · write, Projects · write, Accounts · write, Settings · write, Security · write, Tokens · all, Audit · read, Console · allowed, Logs · allowed, Reboot · allowed |
+| **member** | Tenant member — deploy and manage apps within their teams | Apps · write, Projects · write, Accounts · read, Security · write, Tokens · own, Audit · read, Console · allowed, Logs · allowed, Reboot · allowed |
+| **guest** | Tenant guest — read-only | Apps · read, Projects · read, Security · read, Audit · read |
+
+The filter button narrows the list to **All roles**, **Built-in** or **Custom**.
+
+<Screenshot id="team/21-roles-filter" alt="The Type filter: All roles, Built-in, Custom" />
+
+### Create a custom role
+
+Click **Create role**. Give it a **Role name** and a **Description**, then choose its permissions. Everything starts at **none** or off:
+
+- **Apps**, **Projects**, **Accounts**, **Settings** and **Security**: **none**, **read** or **write**.
+- **Tokens**: **none**, **own** or **all**.
+- **Audit**, **Console**, **Logs** and **Reboot**: on or off.
+
+<Screenshot id="team/22-role-create-empty" alt="Create role: Role name, Description and the permission table, all none or off" />
+
+This example allows reading apps and projects, and viewing logs:
+
+<Screenshot id="team/23-role-create" alt="Create role docs-viewer: Apps read, Projects read, Logs on" />
+
+Click **Create** to add the role, or **Cancel** to close the form without saving. A role you create can be assigned like the built-in ones, when you invite someone or in a team.
+
+## Single sign-on
+
+**Settings** also lists **SSO & provisioning**. Only people who can manage users see it. If single sign-on isn't included for your organization, the entry has a lock. Opening it shows **Unlock single sign-on**, with what you'd get:
+
+- **One login for your team**: members sign in with a SAML or OIDC identity provider.
+- **Just-in-time provisioning**: new members are added on their first sign-in, with a default role.
+- **Require SSO**: the identity provider becomes the only way into the organization.
+
+It reads "Not on your current plan", with **View plans** and **Compare all plans**.
+
+<Screenshot id="team/27-sso-locked" alt="Unlock single sign-on: One login for your team, Just-in-time provisioning, Require SSO, Not on your current plan, View plans" />
