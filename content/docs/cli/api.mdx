@@ -1,0 +1,34 @@
+---
+title: HTTP API
+description: Call the StackBlaze API directly with an API token, and find every endpoint in the API reference.
+---
+
+Everything the dashboard and the CLI do goes through the StackBlaze API at `https://api.stackblaze.cloud`. You can call it yourself, for example from a script or a CI job.
+
+## Get a token
+
+Create an API token in **Personal settings** → **API tokens** (see [API tokens](/team/api-tokens)). Tokens start with `sb_pat_` and act as you in the organization you created them in. Treat a token like a password.
+
+## Call the API
+
+Send the token as a bearer token. Listing your projects:
+
+```sh
+curl -H "Authorization: Bearer $STACKBLAZE_TOKEN" https://api.stackblaze.cloud/api/pipelines
+```
+
+The answer is JSON. Projects come back under `items`, one object per project. A request without a token gets `401`.
+
+## The API reference
+
+The full reference is at [api.stackblaze.cloud/api/docs](https://api.stackblaze.cloud/api/docs), with every endpoint, its parameters and its responses. The same description is at `https://api.stackblaze.cloud/api/docs-json` as an OpenAPI document, which you can load into an API client or generate code from.
+
+## From the CLI
+
+`stackblaze api` calls any endpoint with the CLI's own sign-in, so you don't need to handle the token:
+
+```sh
+stackblaze api GET /api/pipelines
+```
+
+It prints the JSON response. A path without a leading slash gets `/api/` added. The exit code is `0` for a 2xx answer, `2` for 401 and `3` for 402 or 403. Every option is in the [api reference](/cli/reference/api).
