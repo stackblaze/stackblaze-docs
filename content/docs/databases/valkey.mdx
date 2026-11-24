@@ -49,6 +49,14 @@ Connecting added these variables to the app:
 
 <Screenshot id="valkey/7-variables" alt="The app's variables with REDISHOST, REDISPORT and REDIS_URL" />
 
+From the connected app, `redis-cli -u "$REDIS_URL"` reached the database:
+
+```text
+PING            → PONG
+SET docs hello EX 60   → OK
+GET docs        → "hello"
+```
+
 </Step>
 
 </Steps>
