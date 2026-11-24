@@ -65,3 +65,17 @@ The task's menu (next to **Run now**) has **View logs**, **Edit**, **Pause** and
 </Step>
 
 </Steps>
+
+## Pause, edit or remove a task
+
+Each of these is a canvas change: it is staged until you click **Commit** and **Deploy**.
+
+- **Pause** stops the task from firing. Once deployed, the task shows **paused** instead of its next run, and the menu offers **Resume** in place of **Pause**. Ours, paused at 23:17, skipped its 23:30 run. **Run now** still works on a paused task. **Resume**, committed and deployed, brings the schedule back ("next run in 25m").
+- **Edit** reopens the task editor with every task, to change a name, schedule, where it runs or its command. Click **Stage** when you're done.
+- **Remove** takes the task out. Removing the last task that runs in a service also disconnects that service: the review lists **Scheduled tasks** with **0 tasks** and **nginx ⇄ scheduled-tasks on → off**.
+
+<Screenshot id="addons/cron-commit-pause-done" alt="The task list: hello, */30 * * * * in nginx-9agm, paused" />
+
+<Screenshot id="addons/cron-13-paused-menu" alt="The menu of a paused task: View logs, Edit, Resume and Remove" />
+
+<Screenshot id="addons/cron-17-remove-commit" alt="2 changes to apply: Scheduled tasks 0 tasks, and nginx ⇄ scheduled-tasks on → off" />

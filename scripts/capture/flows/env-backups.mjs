@@ -5,6 +5,7 @@ const STEP = process.env.STEP ?? 'explore';
 const STEP_COMMIT = !!process.env.COMMIT;
 const c = await open();
 const { page } = c;
+const ACT = process.env.ACT ?? '';
 const text = async (l) => (await l.innerText()).replace(/\s+/g, ' ').slice(0, 2000);
 const ctl = (l) => l.locator('button, [role=tab], [role=combobox], [role=switch], input, textarea, select, a').evaluateAll((els) => els.map((e) => `${e.tagName}:${e.getAttribute('role') ?? ''}:${e.getAttribute('aria-label') ?? ''}:${(e.innerText || e.getAttribute('placeholder') || '').trim().slice(0, 40)}`));
 await c.goto(`/pipeline/${PROJECT}/apps?phase=dev`);
@@ -582,6 +583,93 @@ if (STEP === 'cron-more') {
   console.log('LOGS:', t.slice(0, 900));
   console.log('has output:', /hello from nginx/.test(t), /nginx version/.test(t));
   await c.shot('addons/cron-11-logs');
+}
+if (STEP === 'cron-actions') {
+  // The task menu: Pause, Edit and Remove, each tried for real.
+  const tasks = async () => {
+    const sh = page.locator('[role=dialog]').last();
+    if (!(await sh.getByRole('tab', { name: /Scheduled tasks/ }).count())) await openCard('Scheduled tasks');
+    const d = page.locator('[role=dialog]').last();
+    await d.getByRole('tab', { name: /Scheduled tasks/ }).first().click(); await page.waitForTimeout(2000);
+    return d;
+  };
+  const taskMenu = async () => {
+    const d = await tasks();
+    await d.locator('button:not([role=tab])').filter({ hasText: /^$/ }).first().click(); await page.waitForTimeout(1500);
+    const m = page.locator('[role=menu]').last();
+    console.log('MENU:', await text(m));
+    return m;
+  };
+  await openCard('Scheduled tasks');
+  console.log('TAB:', await text(await tasks()));
+  if (ACT.split(',').includes('pause')) {
+    await (await taskMenu()).getByRole('menuitem', { name: /^Pause/ }).click(); await page.waitForTimeout(3000);
+    console.log('AFTER PAUSE:', await text(page.locator('body')).then((t) => t.slice(0, 1500)));
+    await c.shot('addons/cron-12-paused');
+    const m = await taskMenu();
+    await c.shot('addons/cron-13-paused-menu');
+    await page.keyboard.press('Escape');
+  }
+  if (ACT.split(',').includes('resume')) {
+    await (await taskMenu()).getByRole('menuitem', { name: /^Resume/ }).click(); await page.waitForTimeout(3000);
+    console.log('AFTER RESUME:', await text(page.locator('body')).then((t) => t.slice(0, 1500)));
+    await c.shot('addons/cron-14-resumed');
+  }
+  if (ACT.split(',').includes('edit')) {
+    await (await taskMenu()).getByRole('menuitem', { name: /^Edit/ }).click(); await page.waitForTimeout(2500);
+    const d = page.locator('[role=dialog]').last();
+    console.log('EDIT:', await text(d)); console.log('controls:', JSON.stringify(await ctl(d)));
+    await c.shot('addons/cron-15-edit');
+  }
+  if (ACT.split(',').includes('remove')) {
+    await (await taskMenu()).getByRole('menuitem', { name: /^Remove/ }).click(); await page.waitForTimeout(2500);
+    console.log('AFTER REMOVE:', await text(page.locator('body')).then((t) => t.slice(0, 1500)));
+    await c.shot('addons/cron-16-remove');
+  }
+  if (ACT.split(',').includes('runnow')) {
+    const d = await tasks();
+    await d.getByRole('button', { name: 'Run now' }).first().click(); await page.waitForTimeout(2500);
+    console.log('TOAST:', await page.locator('[data-sonner-toast], [role=status]').allInnerTexts());
+    await page.waitForTimeout(60000);
+    await d.getByRole('tab', { name: /^Deployment/ }).first().click(); await page.waitForTimeout(2000);
+    const r = d.getByRole('button', { name: 'Refresh' }); if (await r.count()) { await r.click(); await page.waitForTimeout(3000); }
+    console.log('RUNS:', await text(d));
+  }
+  if (ACT.split(',').includes('runs')) {
+    const d = page.locator('[role=dialog]').last();
+    await d.getByRole('tab', { name: /^Deployment/ }).first().click(); await page.waitForTimeout(3000);
+    console.log('RUNS:', await text(d));
+    await c.shot('addons/cron-18-runs-paused');
+  }
+  if (ACT.split(',').includes('review-discard')) {
+    await page.keyboard.press('Escape'); await page.waitForTimeout(1000);
+    await page.getByRole('button', { name: /^Commit \d+ change/ }).first().click(); await page.waitForTimeout(2000);
+    const d = page.locator('[role=dialog]').last();
+    for (const b of await d.locator('button[aria-expanded=false]').all()) await b.click().catch(() => {});
+    await page.waitForTimeout(800);
+    console.log('REVIEW:', await text(d));
+    await c.shot('addons/cron-17-remove-commit', { locator: '[role=dialog]' });
+    c.checkpoint();
+    await d.getByRole('button', { name: 'Discard all' }).click(); await page.waitForTimeout(1500);
+    const cf = page.locator('[role=alertdialog], [role=dialog]').last();
+    console.log('DISCARD:', await text(cf));
+    const ok = cf.getByRole('button', { name: /^Discard/ }).last(); if (await ok.count()) await ok.click();
+    await page.waitForTimeout(2000);
+    console.log('COMMIT BUTTON LEFT:', await page.getByRole('button', { name: /^Commit \d+ change/ }).count());
+  }
+  const CM = ACT.split(',').find((a) => a.startsWith('commit'));
+  if (CM) {
+    await page.keyboard.press('Escape'); await page.waitForTimeout(1000);
+    await page.getByRole('button', { name: /^Commit \d+ change/ }).first().click(); await page.waitForTimeout(2000);
+    const d = page.locator('[role=dialog]').last();
+    console.log('COMMIT:', await text(d));
+    await c.shot(`addons/cron-${CM}`, { locator: '[role=dialog]' });
+    await d.getByRole('button', { name: /^Deploy \d+ change/ }).click(); await page.waitForTimeout(8000);
+    await openCard('Scheduled tasks');
+    console.log('AFTER DEPLOY:', await text(await tasks()));
+    await c.shot(`addons/cron-${CM}-done`);
+  }
+  c.checkpoint();
 }
 if (STEP === 'waf') {
   await addAddon('Web application firewall (OWASP rules) in front of one of your services.');

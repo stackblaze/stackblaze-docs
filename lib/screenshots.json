@@ -69,6 +69,20 @@
     "capturedAt": "2026-11-24T12:40:36.607Z",
     "source": "/pipeline/github-demo-gv35/apps"
   },
+  "addons/cron-13-paused-menu": {
+    "src": "/screenshots/addons/cron-13-paused-menu.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T23:17:16.872Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/cron-17-remove-commit": {
+    "src": "/screenshots/addons/cron-17-remove-commit.png",
+    "width": 576,
+    "height": 464,
+    "capturedAt": "2026-11-24T23:36:15.900Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
   "addons/cron-2-review": {
     "src": "/screenshots/addons/cron-2-review.png",
     "width": 1440,
@@ -95,6 +109,13 @@
     "width": 1440,
     "height": 900,
     "capturedAt": "2026-11-24T12:39:03.584Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/cron-commit-pause-done": {
+    "src": "/screenshots/addons/cron-commit-pause-done.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T23:17:36.877Z",
     "source": "/pipeline/github-demo-gv35/apps"
   },
   "addons/cron-tab-scheduled-tasks": {
