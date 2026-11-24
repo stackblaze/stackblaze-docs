@@ -2918,6 +2918,20 @@
     "capturedAt": "2026-11-24T19:10:37.435Z",
     "source": "/pipeline/github-demo-cw8z/apps"
   },
+  "support/1-list": {
+    "src": "/screenshots/support/1-list.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T21:38:33.518Z",
+    "source": "/support"
+  },
+  "support/2-new": {
+    "src": "/screenshots/support/2-new.png",
+    "width": 400,
+    "height": 530,
+    "capturedAt": "2026-11-24T21:38:36.688Z",
+    "source": "/support"
+  },
   "team/1-users": {
     "src": "/screenshots/team/1-users.png",
     "width": 994,
@@ -3113,6 +3127,13 @@
     "height": 640,
     "capturedAt": "2026-11-24T16:09:09.145Z",
     "source": "/audit-log"
+  },
+  "team/email-prefs": {
+    "src": "/screenshots/team/email-prefs.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T21:38:47.792Z",
+    "source": "/personal-settings"
   },
   "team/integrations-1": {
     "src": "/screenshots/team/integrations-1.png",
