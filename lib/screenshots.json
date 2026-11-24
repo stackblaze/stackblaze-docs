@@ -1476,6 +1476,125 @@
     "capturedAt": "2026-11-23T14:40:48.066Z",
     "source": "https://nginx-w29b.cloud-dev-central-1.stackblaze.app"
   },
+  "sandbox/1-menu": {
+    "src": "/screenshots/sandbox/1-menu.png",
+    "width": 768,
+    "height": 720,
+    "capturedAt": "2026-11-24T12:02:27.842Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/2-ready": {
+    "src": "/screenshots/sandbox/2-ready.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:02:32.196Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/4-filled": {
+    "src": "/screenshots/sandbox/4-filled.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:02:37.986Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/6-running": {
+    "src": "/screenshots/sandbox/6-running.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:04:36.006Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/m-asleep": {
+    "src": "/screenshots/sandbox/m-asleep.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:32:01.221Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/m-checkpoint-dialog": {
+    "src": "/screenshots/sandbox/m-checkpoint-dialog.png",
+    "width": 384,
+    "height": 234,
+    "capturedAt": "2026-11-24T12:10:50.824Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/m-checkpoints": {
+    "src": "/screenshots/sandbox/m-checkpoints.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:11:01.521Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/m-delete": {
+    "src": "/screenshots/sandbox/m-delete.png",
+    "width": 448,
+    "height": 166,
+    "capturedAt": "2026-11-24T13:10:56.303Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/m-delete-checkpoint": {
+    "src": "/screenshots/sandbox/m-delete-checkpoint.png",
+    "width": 384,
+    "height": 150,
+    "capturedAt": "2026-11-24T13:23:38.306Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/m-fork-dialog": {
+    "src": "/screenshots/sandbox/m-fork-dialog.png",
+    "width": 384,
+    "height": 234,
+    "capturedAt": "2026-11-24T12:11:39.286Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/m-forked": {
+    "src": "/screenshots/sandbox/m-forked.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:11:49.040Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/m-resize": {
+    "src": "/screenshots/sandbox/m-resize.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T13:12:34.560Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/m-sheet": {
+    "src": "/screenshots/sandbox/m-sheet.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T13:23:35.974Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/m-shell": {
+    "src": "/screenshots/sandbox/m-shell.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:07:16.818Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/m-ssh": {
+    "src": "/screenshots/sandbox/m-ssh.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:07:26.580Z",
+    "source": "/pipeline/github-demo-bmme/apps"
+  },
+  "sandbox/m-vscode": {
+    "src": "/screenshots/sandbox/m-vscode.png",
+    "width": 1280,
+    "height": 800,
+    "capturedAt": "2026-11-24T12:10:02.524Z",
+    "source": "https://docs-sandbox-726c.cloud-dev-central-1.stackblaze.app"
+  },
+  "sandbox/m-vscode-login": {
+    "src": "/screenshots/sandbox/m-vscode-login.png",
+    "width": 1280,
+    "height": 800,
+    "capturedAt": "2026-11-24T12:09:43.823Z",
+    "source": "https://docs-sandbox-726c.cloud-dev-central-1.stackblaze.app"
+  },
   "service/1-open": {
     "src": "/screenshots/service/1-open.png",
     "width": 816,

@@ -29,3 +29,9 @@ explore.mjs
 .agentdbg.mjs
 .agentbtns.mjs
 .gwclean.mjs
+.sbxbtn.mjs
+.sbxstate.mjs
+.sbximg.mjs
+.sbxdel.mjs
+.installurl.mjs
+.envcheck.mjs
