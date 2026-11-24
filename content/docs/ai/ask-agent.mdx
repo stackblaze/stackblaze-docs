@@ -1,0 +1,62 @@
+---
+title: Ask Agent
+description: Ask the StackBlaze agent about your projects and apps from any page, attach an app with @, and pick up past conversations.
+---
+
+**Ask Agent**, in the header on every page, opens the assistant in a side panel. It can look at your projects and apps to answer questions about them. Click the button again, or the panel's close button, to hide it.
+
+## Ask a question
+
+<Steps>
+
+<Step>
+
+### Start a conversation
+
+Click **New conversation** at the top of the panel. Type in **Ask anything…**.
+
+<Screenshot id="ask-agent/3-new" alt="The Ask Agent panel with a new, empty conversation" />
+
+</Step>
+
+<Step>
+
+### Attach a project or app with @
+
+Type `@` to attach context. The list, **ATTACH CONTEXT**, shows your projects and, under each, its apps and add-ons with their environment. Pick one, or keep typing to narrow it down.
+
+<Screenshot id="ask-agent/4-mention" alt="Typing @ lists projects, apps and add-ons to attach" />
+
+Here the question is "How many instances is @nginx-w29b running? Answer in one sentence."
+
+<Screenshot id="ask-agent/5-typed" alt="The question typed with @nginx-w29b attached" />
+
+</Step>
+
+<Step>
+
+### Send it
+
+Press **Enter** or click **Send message**. The panel shows each step the agent takes, then its answer. Ours ran a **Get app** step and answered: "nginx-w29b is running 1 instance (web replicas = 1, with 1 pod ready and 0 restarts)." The attached app is listed under **ATTACHED CONTEXT**.
+
+<Screenshot id="ask-agent/6-answer" alt="The agent's answer: nginx-w29b is running 1 instance, with the Get app step and the attached context" />
+
+</Step>
+
+</Steps>
+
+Next to the message box, **Attach image** adds a picture ("or paste / drop"). Messages you sent have an **Edit message** button.
+
+## Past conversations and options
+
+**Conversation history** lists your earlier conversations by day.
+
+<Screenshot id="ask-agent/2-history" alt="Conversation history: Today, with an earlier conversation" />
+
+**More options** has **Copy conversation** and **Agent mode (beta)**.
+
+<Screenshot id="ask-agent/2-more" alt="More options: Copy conversation and Agent mode (beta)" />
+
+## Cost
+
+Ask Agent's tokens are billed as **AI assistant** on [Usage](/billing/usage), at $1 per 1M tokens.

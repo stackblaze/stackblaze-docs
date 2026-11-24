@@ -391,6 +391,48 @@
     "capturedAt": "2026-11-24T12:55:34.214Z",
     "source": "/pipeline/github-demo-cw8z/apps"
   },
+  "ask-agent/2-history": {
+    "src": "/screenshots/ask-agent/2-history.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T19:21:01.524Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "ask-agent/2-more": {
+    "src": "/screenshots/ask-agent/2-more.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T19:21:05.066Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "ask-agent/3-new": {
+    "src": "/screenshots/ask-agent/3-new.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T19:21:09.002Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "ask-agent/4-mention": {
+    "src": "/screenshots/ask-agent/4-mention.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T19:21:12.683Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "ask-agent/5-typed": {
+    "src": "/screenshots/ask-agent/5-typed.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T19:21:17.293Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "ask-agent/6-answer": {
+    "src": "/screenshots/ask-agent/6-answer.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T19:21:43.598Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
   "backups/1-sheet": {
     "src": "/screenshots/backups/1-sheet.png",
     "width": 548,
