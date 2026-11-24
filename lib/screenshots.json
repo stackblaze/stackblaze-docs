@@ -1315,6 +1315,41 @@
     "capturedAt": "2026-11-23T14:46:27.867Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "logs/1-tab": {
+    "src": "/screenshots/logs/1-tab.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:59:24.185Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "logs/2-search": {
+    "src": "/screenshots/logs/2-search.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:57:38.950Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "logs/4-system-events": {
+    "src": "/screenshots/logs/4-system-events.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:57:53.417Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "logs/menu-more": {
+    "src": "/screenshots/logs/menu-more.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:59:26.746Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "logs/menu-range": {
+    "src": "/screenshots/logs/menu-range.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:59:33.679Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
   "mariadb/1-ready": {
     "src": "/screenshots/mariadb/1-ready.png",
     "width": 1440,

@@ -1,12 +1,39 @@
 ---
 title: Logs
-description: Read and search a service's logs, live.
+description: Follow a service's logs live, filter them by text or instance, switch to system events, and copy or download them.
 ---
 
-Open a service and click **Logs**.
+Open a service on the canvas and click **Logs**. New lines appear as the service writes them.
 
-<Screenshot id="logs/1-app-logs" alt="The Logs tab streaming nginx access logs" />
+<Screenshot id="logs/1-tab" alt="The Logs tab: App logs, Search logs, Live tail and nginx access log lines" />
 
-- Each line shows the time, the instance it came from and the log text.
-- **Search logs** filters the lines.
-- **Live tail** keeps new lines coming in as the service writes them.
+Each line shows the time, the instance it came from in brackets (for example `[4gwkq]`), and the text.
+
+## Filter the lines
+
+- **Search logs** keeps only the lines that contain your text. Here, `kube-probe` keeps the health check requests.
+- Click an instance tag such as `[4gwkq]` to show only that instance's lines. The search box then shows **instance: 4gwkq**.
+
+<Screenshot id="logs/2-search" alt="Logs filtered by kube-probe: only the health check requests" />
+
+## App logs and system events
+
+The source menu, **App logs** by default, switches to **System events**: what the platform did with the service, such as a container image pulled, a container created and started, or a new version scaled up.
+
+<Screenshot id="logs/4-system-events" alt="System events: Pulled, Created, SuccessfulCreate, ScalingReplicaSet, Scheduled and Started" />
+
+## Live tail and time ranges
+
+**Live tail** follows new lines. Its menu also lists **Last 15 minutes**, **Last 1 hour**, **Last 6 hours**, **Last 24 hours**, **Last 7 days** and **Last 30 days**. How far back logs are kept depends on your plan; see [Log retention](/configure/tracing-and-log-retention#log-retention).
+
+<Screenshot id="logs/menu-range" alt="The time menu: Live tail, Last 15 minutes up to Last 30 days" />
+
+## Copy and download
+
+The **⋯** menu has **Refresh**, **Copy logs** and **Download logs**.
+
+<Screenshot id="logs/menu-more" alt="The ⋯ menu: Refresh, Copy logs and Download logs" />
+
+## From the CLI
+
+`stackblaze logs` prints the same lines in your terminal, and `-f` follows them live. See [logs](/cli/reference/logs).
