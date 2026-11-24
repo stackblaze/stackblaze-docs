@@ -49,6 +49,13 @@ Connecting added these variables to the app:
 
 Connecting also adds `DATABASE_URL`, a `mysql://` URL built from the `MYSQL_*` values. A variable you set yourself with the same name always wins. If another connected database already sets `DATABASE_URL`, this one's variables are also added under its own prefix, such as `MARIADB_DATABASE_URL`.
 
+From the connected app, the `MYSQL_*` values reached the database:
+
+```text
+$ MYSQL_PWD="$MYSQL_PASSWORD" mariadb -h "$MYSQL_HOST" -P "$MYSQL_PORT" -u "$MYSQL_USER" "$MYSQL_DATABASE" -e "select version();"
+11.4.13-MariaDB-ubu2404-log
+```
+
 </Step>
 
 </Steps>

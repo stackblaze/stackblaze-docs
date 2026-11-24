@@ -88,6 +88,14 @@ Connecting also adds `DATABASE_URL`, a `postgres://` URL built from the `PG*` va
 
 If the app is connected to two databases that both set `DATABASE_URL` (for example PostgreSQL and MariaDB), the first keeps the plain names and the second also gets its whole set under its own prefix, such as `MARIADB_DATABASE_URL` and `MARIADB_MYSQL_HOST`.
 
+From the connected app, `psql "$DATABASE_URL"` reached the database:
+
+```text
+$ psql "$DATABASE_URL" -At -c "show server_version;" -c "select current_database();"
+17.5 (Debian 17.5-1.pgdg110+1)
+app
+```
+
 To disconnect, turn the switch off and deploy the change; the `PG*` variables are removed from the app.
 
 ## The database card
