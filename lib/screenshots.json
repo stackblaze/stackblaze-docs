@@ -2176,6 +2176,27 @@
     "capturedAt": "2026-11-24T17:47:16.953Z",
     "source": "/pipeline/github-demo-gv35/apps"
   },
+  "settings/build-command": {
+    "src": "/screenshots/settings/build-command.png",
+    "width": 620,
+    "height": 340,
+    "capturedAt": "2026-11-24T18:28:22.530Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "settings/build-command-commit": {
+    "src": "/screenshots/settings/build-command-commit.png",
+    "width": 576,
+    "height": 360,
+    "capturedAt": "2026-11-24T18:28:23.796Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "settings/build-method": {
+    "src": "/screenshots/settings/build-method.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:27:43.269Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
   "settings/deploy": {
     "src": "/screenshots/settings/deploy.png",
     "width": 620,
@@ -2294,6 +2315,13 @@
     "height": 360,
     "capturedAt": "2026-11-24T16:09:19.824Z",
     "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/source-account": {
+    "src": "/screenshots/settings/source-account.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:27:33.081Z",
+    "source": "/pipeline/github-demo-587h/apps"
   },
   "settings/start-command": {
     "src": "/screenshots/settings/start-command.png",

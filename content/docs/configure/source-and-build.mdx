@@ -1,0 +1,45 @@
+---
+title: Source and build
+description: For a service built from a git repository, pick its repository and branch, how it's built, and a custom build command.
+---
+
+A service deployed [from a git repository](/deploy-from-github) has two more sections at the top of its **Settings**: **Source** and **Build**. **Deploy** also gets a **Build command**.
+
+## Source
+
+**Source** ("Pick a repository. Branch is saved with this app.") shows the **Repository**, for example `stackblaze/react-vite-starter`, and the **Branch** it deploys, here `main`.
+
+The gear button next to it has **Refresh**, **Add GitHub org or repositories** and **Disconnect GitHub**.
+
+<Screenshot id="settings/source-account" alt="Source: Repository stackblaze/react-vite-starter, Branch main, and the gear menu with Refresh, Add GitHub org or repositories and Disconnect GitHub" />
+
+## Build
+
+**Build** ("How this app is built from the connected repository. Defaults come from detection.") has two settings:
+
+- **Build method**, here the default **Railpack (auto-detect, fast rebuilds)**. The menu, with **Search build method…**, also lists **Docker**, **Buildpacks**, and presets for **Next.js**, **NestJS**, **Express**, **Fastify**, **React**, **Node**, **FastAPI**, **Flask**, **Django**, **Python**, **Go**, **Ruby** and **Rust**.
+- **Build path**, the folder to build from, **./** by default. "Paths are relative to the repo root."
+
+<Screenshot id="settings/build-method" alt="The Build method menu: Search build method, Docker, Next.js, NestJS, Express, Fastify, React, Node and more" />
+
+## Build command
+
+In **Deploy**, **Build command** ("How this app is built. Leave blank to use the framework default.") replaces the build step. Here it runs the project's build and then prints a line:
+
+```sh
+npm run build && echo built-with-a-custom-command
+```
+
+<Screenshot id="settings/build-command" alt="Deploy: Pre-deploy, Start command, and Build command filled in" />
+
+Commit and deploy it. The dialog lists the new command:
+
+<Screenshot id="settings/build-command-commit" alt="1 change to apply: build step command npm run build && echo built-with-a-custom-command" />
+
+Saving it started a new build. In the build's log (`stackblaze builds logs`), the step ran our command and printed `built-with-a-custom-command`; the build **Succeeded** and the site kept answering `200`. To go back to the default, empty the field and deploy again.
+
+## Build limits
+
+Further down, **Deploy** shows two build limits: **Build timeout** ("A build that runs longer than this stops."), here **90 minutes**, and **Concurrent builds** ("Builds that can run at the same time across the workspace; more wait their turn."), here **10**.
+
+**Autodeploy** ("Deploy automatically when you push to the connected branch.") is also there; it was on for this service.
