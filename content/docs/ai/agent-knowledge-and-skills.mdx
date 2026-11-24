@@ -1,0 +1,167 @@
+---
+title: Knowledge, skills and integrations
+description: Give your AI agent documents to answer from, step-by-step skills for particular tasks, and outside services it can use as tools.
+---
+
+Three sections of an [AI agent](/ai/agents)'s **Agent** tab change what it knows and what it can do: **Knowledge** (its documents), **Skills** (how to handle particular tasks) and **Integrations** (outside services it can use as tools). All three are saved at once, without staging.
+
+Click the agent's card on the canvas to open its sheet, then **Agent**.
+
+## Knowledge
+
+**Knowledge** holds files the agent can read and search with its **read**, **grep** and **glob** tools. New chats use the files; open chats keep what they had.
+
+<Steps>
+
+<Step>
+
+### Upload files
+
+Click **Upload files** and pick one or more files. The agent takes md, txt, csv, json, html, htm, xml, yaml, yml and pdf files, up to 10 MB each.
+
+<Screenshot id="ai-agent/kn-empty" alt="Knowledge: No files yet. md, txt, csv, json, html, htm, xml, yaml, yml, pdf; up to 10 MB each." />
+
+Any other file is refused with a toast. For a PNG it says **logo.png was not uploaded** and **Use one of: md, txt, csv, json, html, htm, xml, yaml, yml, pdf.**
+
+Each file in the list shows its name, size and date, with **Delete**.
+
+<Screenshot id="ai-agent/kn-uploaded" alt="Knowledge: faq.md, 261 B, with Delete" />
+
+</Step>
+
+<Step>
+
+### Check that the agent uses it
+
+The agent reads its files only when it decides to use a tool. Check its answers in **Sessions**: a chat that used a file shows a **used read** line before the answer.
+
+In our test, the **FAQ bot** template on Qwen3 4B got a small FAQ file (`faq.md`) that says the Night Owl blend is decaf:
+
+- Asked **Do you sell decaf?**, it called no tool and answered **I don't sell decaf.** That's wrong.
+- Asked **Read faq.md in your knowledge folder, then tell me: do you sell decaf?**, it used **read** and answered **Yes, I do sell decaf. The Night Owl blend is Swiss Water decaf.**
+
+<Callout type="warn">
+A file in **Knowledge** doesn't mean the agent will look at it. A small model may skip the tools and answer from its own knowledge. Name the files in the instructions, add a [skill](#skills) for the task, or use a larger model. Then check with an [eval](/ai/agent-evals) that it now reads them.
+</Callout>
+
+</Step>
+
+<Step>
+
+### Delete a file
+
+Click **Delete** next to it and confirm **Delete faq.md? New chats will not see it.**
+
+</Step>
+
+</Steps>
+
+## Skills
+
+A skill is a step-by-step note for one kind of task, like how to handle a refund. The agent sees each skill's name and description, and reads the steps when a request matches. New chats use them; open chats keep what they had.
+
+<Steps>
+
+<Step>
+
+### Write a skill
+
+Click **New skill**. A skill has:
+
+- **Name**: lowercase letters, digits and dashes, up to 40. What you type is turned into that form as you type: `Decaf Orders!` becomes `decaf-orders-`.
+- **When to use it**: one line that says when the agent should use the skill.
+- **Steps**: what the agent should do, up to 40,000 characters. The counter shows how many you have used.
+
+<Screenshot id="ai-agent/sk-form" alt="New skill: Name decaf-question, When to use it, and three Steps" />
+
+**Save skill** with empty fields shows what is missing: **Lowercase letters, digits and dashes, up to 40.**, **Say in one line when the agent should use this skill.** and **Write the steps the agent should follow.** **Cancel** closes the form without saving.
+
+<Screenshot id="ai-agent/sk-errors" alt="The skill form with the three errors" />
+
+Click **Save skill**. The toast says **Skill decaf-question saved** and **New chats use it.**
+
+<Screenshot id="ai-agent/sk-list" alt="Skills: decaf-question, A customer asks whether we sell decaf, Edit and Delete" />
+
+</Step>
+
+<Step>
+
+### Check what it does
+
+In our test, with a skill whose last step said to end with **Enjoy your coffee!**, a new chat asking **Do you sell decaf?** used **read** and answered **We sell decaf. The decaf blend is named "Smooth Morning Blend". Enjoy your coffee!**
+
+It followed the skill's last step but made up the name of the blend: it didn't read the FAQ file, as the skill's first step said. Check every new skill in **Sessions**, or with an eval.
+
+</Step>
+
+<Step>
+
+### Edit or delete it
+
+**Edit** opens the skill again. You can change **When to use it** and **Steps**, but not the name. **Delete** asks **Delete the skill decaf-question? New chats will not have it.**
+
+</Step>
+
+</Steps>
+
+## Integrations
+
+Integrations are outside services the agent can use as tools, like looking up an issue or an order. Each one is a hosted MCP server. Adding or removing one restarts the agent. Integrations are off while the [website widget](/ai/agent-channels#put-it-on-your-website) is on.
+
+<Steps>
+
+<Step>
+
+### Pick a service
+
+Click **Add integration**, then open **Service**. It lists **GitHub**, **Stripe**, **Linear** and **Another MCP server** (any hosted server, by URL).
+
+<Screenshot id="ai-agent/in-services" alt="The Service menu: GitHub, Stripe, Linear, Another MCP server" />
+
+Picking a service fills in the **Name**: lowercase letters, digits and dashes, up to 32. **Add integration** without a service shows **Pick a service.**
+
+</Step>
+
+<Step>
+
+### Add its token
+
+GitHub, Stripe and Linear need a **Token**. The field says which kind, for example **A personal access token (ghp_… or github_pat_…)** for GitHub. Without one, the form shows **Paste the token.**
+
+The token is kept in the agent's variables, masked like any secret, and never shown again. Use a token limited to what the agent should be able to do.
+
+<Screenshot id="ai-agent/in-github" alt="Add integration with GitHub: Service, Name and Token, with Paste the token." />
+
+</Step>
+
+<Step>
+
+### Or name another server
+
+**Another MCP server** asks for:
+
+- **Server URL**: `https`, with a host name. A service of this environment can be given as `http://<service>/mcp`.
+- **Token (optional)**: leave it empty if the server needs none.
+- **Header (optional)**: the header that carries the token. Empty sends `Authorization: Bearer`.
+
+A bad URL is refused:
+
+- `http://mcp.example.com/mcp`: **The URL must be https (http only for a service of this environment).**
+- `https://10.0.0.5/mcp`: **Name the server by host name, not by address.**
+- A user and password in the URL: **Put the secret in the token field, not in the URL.**
+
+</Step>
+
+<Step>
+
+### Add it and check its tools
+
+Click **Add integration**. The list shows its name, URL, **token stored** or **no token**, and **Remove**. The agent restarts with the new tools.
+
+In our test, we added a public MCP server without a token under the name `docs`. Asked to list its tools, the agent answered **read**, **grep**, **glob** and three tools named `mcp__docs_…`. The server's tools are named `mcp__<name>_<tool>`.
+
+**Remove** asks **Remove docs? The agent loses its tools and its token is deleted.** and restarts the agent.
+
+</Step>
+
+</Steps>
