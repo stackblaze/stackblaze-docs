@@ -31,6 +31,18 @@ Click the card and open **Settings**. Under **Connections**, turn on the switch 
 
 The service gets `MEMCACHED_HOST`, `MEMCACHED_PORT` and `MEMCACHED_LOCATION`.
 
+From our connected service, using those variables, we stored a value and read it back:
+
+```text
+set docs 0 60 5
+hello
+STORED
+get docs
+VALUE docs 0 5
+hello
+END
+```
+
 </Step>
 
 </Steps>
