@@ -3,6 +3,7 @@
   "pages": [
     "email",
     "scheduled-tasks",
-    "memcached"
+    "memcached",
+    "proxysql"
   ]
 }

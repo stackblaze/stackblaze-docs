@@ -1791,6 +1791,34 @@
     "capturedAt": "2026-11-24T16:20:26.579Z",
     "source": "/pipeline/github-demo-cw8z/settings/general"
   },
+  "proxysql/1-menu": {
+    "src": "/screenshots/proxysql/1-menu.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T17:54:35.582Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "proxysql/3c-chosen": {
+    "src": "/screenshots/proxysql/3c-chosen.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T17:54:47.723Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "proxysql/5-settings": {
+    "src": "/screenshots/proxysql/5-settings.png",
+    "width": 974,
+    "height": 764,
+    "capturedAt": "2026-11-24T18:03:01.602Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "proxysql/6-commit": {
+    "src": "/screenshots/proxysql/6-commit.png",
+    "width": 576,
+    "height": 362,
+    "capturedAt": "2026-11-24T18:03:07.418Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
   "quickstart/1-new-project": {
     "src": "/screenshots/quickstart/1-new-project.png",
     "width": 560,
