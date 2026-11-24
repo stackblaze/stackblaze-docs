@@ -1,1 +1,1 @@
-{"title": "Databases", "pages": ["postgresql", "backups"]}
+{"title": "Databases", "pages": ["postgresql", "mariadb", "valkey", "backups"]}

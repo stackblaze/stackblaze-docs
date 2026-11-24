@@ -1,0 +1,124 @@
+---
+title: MariaDB
+description: Add MariaDB (MySQL-compatible) to an environment, connect an app, open it to the internet from allowed IPs, install plugins and turn on high availability.
+---
+
+MariaDB is a MySQL-compatible relational database. Like every database, it belongs to one environment, and any app in that environment can connect to it.
+
+<Steps>
+
+<Step>
+
+### Add MariaDB
+
+On the project canvas, click **+ Service**, then **Database or cache**, and pick **MariaDB**. A card appears under **Databases** marked **Ready to deploy**.
+
+<Screenshot id="mariadb/1-ready" alt="The MariaDB card on the canvas, Ready to deploy" />
+
+</Step>
+
+<Step>
+
+### Deploy it
+
+Click the card, then **Deploy** (or **Remove from canvas** to drop it). It deploys with the catalog defaults.
+
+<Screenshot id="mariadb/2-review" alt="MariaDB review: Ready to deploy, with Remove from canvas and Deploy" />
+
+<Screenshot id="mariadb/3-running" alt="The MariaDB card, Running" />
+
+</Step>
+
+<Step>
+
+### Connect an app
+
+Click **MariaDB** on the card, open **Settings**, and in **Connections** turn on the switch next to your app. Then **Commit 1 change** and **Deploy 1 change**. The app redeploys.
+
+<Screenshot id="mariadb/6-connect" alt="Connections with nginx switched on, marked staged" />
+
+Connecting added these variables to the app:
+
+| Variable | |
+|---|---|
+| `MYSQL_HOST`, `MYSQL_PORT` | the in-cluster address and port (`3306`) |
+| `MYSQL_USER`, `MYSQL_DATABASE` | the user (`root`) and database (`app`) |
+| `MYSQL_PASSWORD` | read from the database's secret ("Provided by add-on") |
+
+<Screenshot id="mariadb/7-variables" alt="The app's variables with MYSQL_HOST to MYSQL_DATABASE" />
+
+Connecting does not add `DATABASE_URL`. If your app needs a URL, copy it from **Connection URL** or the **Environment snippet**.
+
+</Step>
+
+</Steps>
+
+## Connection details
+
+**Settings** → **Access** → **Connect from apps** shows the **Host**, the short **Service** name, **Username**, **Password** and **Database**. **Connection URL** gives a `mysql://` URL and a JDBC URL; **Environment snippet** gives `DATABASE_URL` and the `MYSQL_*` lines. These work from apps in the same environment and are "not reachable from the public internet".
+
+<Screenshot id="mariadb/5-access" alt="Access: Host, Service, Username, Password, Database, Connection URL and Environment snippet" />
+
+## Connect from outside StackBlaze
+
+**Public access** opens the database to clients outside the platform, only from the IP addresses you allow, and only over TLS. Enter your addresses in **Allowed IPs** (CIDR ranges work too) and turn the switch on. You get an **Address** and a **Connection string**.
+
+<Screenshot id="mariadb/19-public-on" alt="Public access, On, with Address, Connection string and Allowed IPs" />
+
+We connected from an allowed address with a MySQL client over TLS. The address took a few minutes after the switch turned on before it accepted connections. After we turned it off, it no longer accepted them. Turning it off asks first: "Turn off public access? Clients outside the platform will be disconnected."
+
+## Plugins
+
+**Settings** → **Extensions** → **Plugin libraries** lists the plugins available on the database's image and how many are installed. Use **Filter** to find one and turn its switch on.
+
+<Screenshot id="mariadb/18-plugin-on" alt="Plugin libraries filtered to ha_archive, switched On" />
+
+We installed `ha_archive` and checked over SQL that the plugin was `ACTIVE`.
+
+## Plan limits
+
+The top of **Settings** shows what your plan allows: **Connections** (clients at once) and **Backup retention** (how long its backups are kept).
+
+<Screenshot id="mariadb/4-limits" alt="Plan limits: Connections and Backup retention" />
+
+## Storage
+
+**Settings** → **Storage** shows the volume and **Expand storage**. Volumes can only grow. We expanded ours from 1 GiB to 10 GiB.
+
+<Screenshot id="mariadb/11-storage" alt="Storage: the volume and Expand storage" />
+
+<Screenshot id="mariadb/12-storage-expanded" alt="Storage after expanding: 10 GiB" />
+
+## High availability
+
+High availability works differently for MariaDB than for PostgreSQL or Valkey: it builds a **new** cluster. **Settings** → **HA** → **Enable HA** asks first:
+
+> Builds a new 3-node Galera cluster from a fresh backup, then cuts your apps over to it. This instance stays for rollback. You will be taken to the new cluster when promotion finishes — HA cannot be toggled back off.
+
+<Screenshot id="mariadb/13-ha-off" alt="High availability: Single primary, with Enable HA" />
+
+<Screenshot id="mariadb/14-ha-confirm" alt="Enable high availability? Builds a new 3-node Galera cluster" />
+
+While it runs, the section lists its steps: **Preflight checks**, **Fresh backup**, **Provision HA cluster**, **Wait for cluster ready**, **Cut over apps**, **Verify & finalize**. Ours finished **Healthy** with **3/3** ready (one primary, two replicas), and our connected app was moved to the new cluster.
+
+<Screenshot id="mariadb/15-ha-on" alt="High availability: 3 instances, Galera, Healthy, 3/3 ready" />
+
+The canvas then shows two MariaDB cards. The original says it was "Promoted to …" and "is retained for rollback", with **Open HA cluster**.
+
+<Screenshot id="mariadb/16-rollback" alt="The original instance: promoted to the HA cluster, retained for rollback, Open HA cluster" />
+
+## Deployments, logs and metrics
+
+**Deployment** lists deploys and restarts, and **Logs** streams the database's output (see [PostgreSQL](/databases/postgresql#deployments) for their menus).
+
+<Screenshot id="mariadb/8-deployment" alt="MariaDB: the Deployment tab" />
+
+<Screenshot id="mariadb/9-logs" alt="MariaDB: the Logs tab" />
+
+**Metrics** shows the last **2h**, **24h** or **7d**, with **Refresh**. At the top: **Connections** (open sessions), **Cache hit** (buffer pool hits), **Threads** (actively running) and **Queries** (statement rate). Below that are charts for **Host resources** (Memory usage, CPU usage), **Workload** (Threads running, Queries / s, Commits / s, Rollbacks / s), **Health** (Buffer pool hit, Slow queries / s) and **Network** (Bytes sent / s, Bytes received / s).
+
+<Screenshot id="mariadb/10-metrics" alt="MariaDB: the Metrics tab" />
+
+## Delete
+
+**Delete add-on** at the bottom of **Settings** deletes the database and its data. Disconnect its apps first.

@@ -139,6 +139,139 @@
     "capturedAt": "2026-11-23T14:46:27.867Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "mariadb/1-ready": {
+    "src": "/screenshots/mariadb/1-ready.png",
+    "width": 1440,
+    "height": 513,
+    "capturedAt": "2026-11-24T06:43:06.736Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/10-metrics": {
+    "src": "/screenshots/mariadb/10-metrics.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T06:44:45.966Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/11-storage": {
+    "src": "/screenshots/mariadb/11-storage.png",
+    "width": 730,
+    "height": 185,
+    "capturedAt": "2026-11-24T06:44:50.700Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/12-storage-expanded": {
+    "src": "/screenshots/mariadb/12-storage-expanded.png",
+    "width": 730,
+    "height": 185,
+    "capturedAt": "2026-11-24T06:55:05.690Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/13-ha-off": {
+    "src": "/screenshots/mariadb/13-ha-off.png",
+    "width": 730,
+    "height": 186,
+    "capturedAt": "2026-11-24T06:55:10.420Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/14-ha-confirm": {
+    "src": "/screenshots/mariadb/14-ha-confirm.png",
+    "width": 448,
+    "height": 226,
+    "capturedAt": "2026-11-24T06:55:11.594Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/15-ha-on": {
+    "src": "/screenshots/mariadb/15-ha-on.png",
+    "width": 730,
+    "height": 720,
+    "capturedAt": "2026-11-24T07:02:56.275Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/16-rollback": {
+    "src": "/screenshots/mariadb/16-rollback.png",
+    "width": 730,
+    "height": 98,
+    "capturedAt": "2026-11-24T07:14:02.254Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/17-plugin-off": {
+    "src": "/screenshots/mariadb/17-plugin-off.png",
+    "width": 730,
+    "height": 473,
+    "capturedAt": "2026-11-24T07:14:08.131Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/18-plugin-on": {
+    "src": "/screenshots/mariadb/18-plugin-on.png",
+    "width": 730,
+    "height": 473,
+    "capturedAt": "2026-11-24T07:14:08.850Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/19-public-on": {
+    "src": "/screenshots/mariadb/19-public-on.png",
+    "width": 698,
+    "height": 335,
+    "capturedAt": "2026-11-24T07:14:12.581Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/2-review": {
+    "src": "/screenshots/mariadb/2-review.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T06:43:07.883Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/3-running": {
+    "src": "/screenshots/mariadb/3-running.png",
+    "width": 1440,
+    "height": 513,
+    "capturedAt": "2026-11-24T06:44:02.538Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/4-limits": {
+    "src": "/screenshots/mariadb/4-limits.png",
+    "width": 730,
+    "height": 167,
+    "capturedAt": "2026-11-24T06:44:07.382Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/5-access": {
+    "src": "/screenshots/mariadb/5-access.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T06:44:09.787Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/6-connect": {
+    "src": "/screenshots/mariadb/6-connect.png",
+    "width": 730,
+    "height": 159,
+    "capturedAt": "2026-11-24T06:44:10.583Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/7-variables": {
+    "src": "/screenshots/mariadb/7-variables.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T06:44:23.257Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/8-deployment": {
+    "src": "/screenshots/mariadb/8-deployment.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T06:44:28.399Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "mariadb/9-logs": {
+    "src": "/screenshots/mariadb/9-logs.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T06:44:36.693Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
   "metrics/1-app-metrics": {
     "src": "/screenshots/metrics/1-app-metrics.png",
     "width": 816,
@@ -544,6 +677,111 @@
     "height": 640,
     "capturedAt": "2026-11-23T14:51:20.931Z",
     "source": "https://uptime-kuma-z7mo.cloud-dev-central-1.stackblaze.app"
+  },
+  "valkey/1-ready": {
+    "src": "/screenshots/valkey/1-ready.png",
+    "width": 1440,
+    "height": 513,
+    "capturedAt": "2026-11-24T06:27:10.727Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "valkey/10-metrics": {
+    "src": "/screenshots/valkey/10-metrics.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T06:30:20.882Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "valkey/11-storage": {
+    "src": "/screenshots/valkey/11-storage.png",
+    "width": 730,
+    "height": 185,
+    "capturedAt": "2026-11-24T06:30:25.754Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "valkey/12-storage-expanded": {
+    "src": "/screenshots/valkey/12-storage-expanded.png",
+    "width": 730,
+    "height": 185,
+    "capturedAt": "2026-11-24T06:40:40.417Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "valkey/13-ha-off": {
+    "src": "/screenshots/valkey/13-ha-off.png",
+    "width": 730,
+    "height": 186,
+    "capturedAt": "2026-11-24T06:42:09.385Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "valkey/14-ha-confirm": {
+    "src": "/screenshots/valkey/14-ha-confirm.png",
+    "width": 448,
+    "height": 186,
+    "capturedAt": "2026-11-24T06:42:10.403Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "valkey/15-ha-on": {
+    "src": "/screenshots/valkey/15-ha-on.png",
+    "width": 730,
+    "height": 547,
+    "capturedAt": "2026-11-24T06:42:35.431Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "valkey/2-review": {
+    "src": "/screenshots/valkey/2-review.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T06:27:11.916Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "valkey/3-running": {
+    "src": "/screenshots/valkey/3-running.png",
+    "width": 1440,
+    "height": 513,
+    "capturedAt": "2026-11-24T06:28:06.596Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "valkey/4-limits": {
+    "src": "/screenshots/valkey/4-limits.png",
+    "width": 730,
+    "height": 167,
+    "capturedAt": "2026-11-24T06:28:11.280Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "valkey/5-access": {
+    "src": "/screenshots/valkey/5-access.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T06:28:18.588Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "valkey/6-connect": {
+    "src": "/screenshots/valkey/6-connect.png",
+    "width": 730,
+    "height": 159,
+    "capturedAt": "2026-11-24T06:28:19.357Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "valkey/7-variables": {
+    "src": "/screenshots/valkey/7-variables.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T07:02:39.740Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "valkey/8-deployment": {
+    "src": "/screenshots/valkey/8-deployment.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T06:30:03.225Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "valkey/9-logs": {
+    "src": "/screenshots/valkey/9-logs.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T06:30:11.604Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
   },
   "variables/1-add": {
     "src": "/screenshots/variables/1-add.png",

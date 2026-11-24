@@ -7,3 +7,5 @@ explore.mjs
 .login.mjs
 .cbtest.mjs
 .view.mjs
+.reinject.mjs
+.dump-settings.mjs
