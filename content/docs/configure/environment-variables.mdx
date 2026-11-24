@@ -43,13 +43,95 @@ Click **Commit 1 change**. The dialog lists what will be applied to the environm
 
 The service restarts with the new value. If you change your mind before deploying, **Discard all** in the same dialog drops every staged change.
 
-## Other ways to set variables
+## Working with values
 
-The **Variables** tab also has:
+Each row has a **KEY** (up to 60 characters) and a **value**, and a **Remove** (×) button on the right.
 
-- **Raw editor**, to edit all variables as text.
-- **Export**, to download them.
-- **Drop or select a `.env` file**, to import a file.
-- **App** and **Shared**, to switch between this service's own variables and shared groups.
+### Show and copy a value
+
+Stored values are hidden. Hover over a row, or tab to it, to see two buttons: **Show value** / **Hide value** and **Copy value**. Showing or copying a stored value fetches it from the server. That needs write access to the service, and it is recorded in the audit log.
+
+<Screenshot id="variables/app-1-hover" alt="The PORT row with the show and copy buttons" />
+
+### Generate a secret
+
+A row with an empty value has a **Generate** button. It fills the value with a random 32-character secret.
+
+<Screenshot id="variables/app-2-generate" alt="A new SESSION_SECRET row with Generate" />
+
+### Errors on a row
+
+The editor flags two mistakes in red:
+
+- A name that is already used: "Environment variable name already exists".
+- A value without a name: "Name required: a variable without a name is not saved."
+
+<Screenshot id="variables/app-3-errors" alt="A duplicate PORT row and a row with a value but no KEY, both with errors" />
+
+### Passwords written inline
+
+If a value contains a password inside a URL (`scheme://user:password@host`) and a database or other add-on gives the service its credentials, you see "Password written inline — it will break when the add-on rotates." Click **Use $(NAME) instead** to swap the password for a reference to the add-on's variable. The reference is resolved when the service starts.
+
+<Screenshot id="variables/app-4-inline-password" alt="DATABASE_URL with an inline password, and Use $(SMTP_PASSWORD) instead" />
+
+### Variables you can't edit
+
+Variables that an add-on provides are locked and say **Provided by add-on · secret** and the secret's name (here `smtp`, from the email add-on). You can't edit or remove them here, and they are kept as they are when you save.
+
+## Raw editor
+
+**Raw editor** opens all of the service's own variables as text. Add-on and platform variables are not listed and stay as they are.
+
+<Steps>
+
+<Step>
+
+### Edit as .env
+
+The editor opens in **ENV** mode, one `NAME="value"` per line. (Within a visit it reopens in the mode you used last.) Stored values are fetched first, so the text has the real values.
+
+<Screenshot id="variables/app-5-raw-env" alt="The Raw editor in ENV mode" />
+
+</Step>
+
+<Step>
+
+### Or as JSON
+
+Click **JSON** to switch to a `{ "NAME": "value" }` object. **Copy ENV** / **Copy JSON** copies the text.
+
+<Screenshot id="variables/app-6-raw-json" alt="The Raw editor in JSON mode" />
+
+</Step>
+
+<Step>
+
+### Update variables
+
+Click **Update variables** to put the text back into the Variables tab. Variables you removed in the text are removed from the service. As with any edit, nothing is applied until you commit and deploy. **Cancel** closes the editor without changes.
+
+If the text doesn't parse, the editor says why and keeps the dialog open:
+
+<Screenshot id="variables/app-7-raw-error" alt="Not valid JSON: Unexpected end of JSON input" />
+
+</Step>
+
+</Steps>
+
+## Export to a .env file
+
+**Export** downloads the variables as a `.env` file named after the service's resource name (for example `nginx-9agm.env`). The file starts with a comment header with the export date. Variables that an add-on provides are written as comments, not values, so the file never holds a database password. **Export** only shows when the service has variables.
+
+## Import a .env file
+
+Drop a `.env` file on **Drop or select a .env file**, or click it to choose one. Its variables are added to the tab as staged changes. Commit and deploy to apply them.
+
+<Screenshot id="variables/app-8-imported" alt="IMPORTED_FLAG and IMPORTED_NAME added from a .env file" />
+
+## Shared groups
+
+**App** and **Shared** switch between the service's own variables and the project's shared groups. See [Shared variables](/configure/shared-variables).
+
+## References
 
 A value can reference another variable with `$(NAME)`. The panel notes that references are "resolved at start, so add-on credentials stay secret".

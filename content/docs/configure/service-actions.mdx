@@ -1,0 +1,111 @@
+---
+title: Service actions
+description: Restart, pause, resume, rename or delete a running service from its card menu.
+---
+
+Every service card on the project canvas has a menu. Right-click the card to open it.
+
+<Screenshot id="actions/1-menu" alt="The menu of the nginx-unprivileged card: Open app, Settings, Logs, Metrics, Terminal, Rename, Backups, Develop, Restart, Pause and Delete" />
+
+| Item | What it does |
+| --- | --- |
+| **Open app** | Opens the service's public URL in a new tab. Only there when the service has one. |
+| **Settings**, **Logs**, **Metrics**, **Terminal** | Open the service panel on that tab. See [Service settings](/configure/service-settings), [Logs](/observe/logs), [Metrics](/observe/metrics) and [Terminal and SSH](/configure/terminal-and-ssh). |
+| **Rename** | Changes the name shown on the canvas. |
+| **Backups** | Opens **Backup and restore** for the environment. See [Environment backups](/backups). |
+| **Develop** | Creates a developer sandbox for this service. See [Developer sandbox](/sandboxes). |
+| **Restart** | Restarts the service without rebuilding it. |
+| **Pause** / **Resume** | Stops the service's instances, or starts them again. |
+| **Delete** | Stages the service for deletion. |
+
+## Restart
+
+Click **Restart**. You see **Restart requested**, and the service's instances are replaced one by one with the same image and settings. Nothing is rebuilt. The card goes back to **Running** when the new instance is up.
+
+<Screenshot id="actions/2-restart" alt="Toast: Restart requested, nginx-unprivileged-mi0u" />
+
+From the CLI, `stackblaze restart` does the same.
+
+## Pause and resume
+
+Pausing stops every instance of the service but keeps the service, its instance count and autoscaling settings, its volumes and its add-ons. It takes effect right away. There is no confirmation and nothing to commit.
+
+<Steps>
+
+<Step>
+
+### Pause
+
+Click **Pause**. You see **App paused**: "Pods stop now. Volumes and add-ons keep running."
+
+<Screenshot id="actions/3-paused-toast" alt="Toast: App paused. Pods stop now. Volumes and add-ons keep running." />
+
+The card now says **Paused**.
+
+</Step>
+
+<Step>
+
+### Resume
+
+On a paused service, the menu shows **Resume** where **Restart** and **Pause** were.
+
+<Screenshot id="actions/4-paused-menu" alt="The menu of a paused service, with Resume instead of Restart and Pause" />
+
+Click **Resume**. You see **App resumed**: "Starting with its saved instance and autoscaling settings." The card goes back to **Running**.
+
+<Screenshot id="actions/5-resumed-toast" alt="Toast: App resumed. Starting with its saved instance and autoscaling settings." />
+
+</Step>
+
+</Steps>
+
+From the CLI, `stackblaze down` pauses the service and `stackblaze resume` resumes it. `stackblaze down --help` notes that compute stops billing while the service is paused, but volumes and add-ons keep running and billing.
+
+## Rename
+
+Click **Rename**, type a new **Name** and click **Rename**. **Cancel** closes the dialog without changes.
+
+<Screenshot id="actions/6-rename" alt="The Rename dialog with the Name field, Cancel and Rename" />
+
+Only the name people see changes. The service's resource name, URL and data stay the same. If you clear the name, it goes back to the original one.
+
+## Delete
+
+Deleting a service is a staged change, like any other change on the canvas. It is gated by a typed confirmation.
+
+<Steps>
+
+<Step>
+
+### Stage the delete
+
+Click **Delete**. There is no dialog yet. The card turns red and says **Removes on commit**, and **Commit 1 change** appears in the toolbar.
+
+<Screenshot id="actions/7-delete-staged" alt="The nginx-unprivileged card in red with Removes on commit, and Commit 1 change in the toolbar" />
+
+If the service was the last one using a database, that database is staged for removal too.
+
+</Step>
+
+<Step>
+
+### Review it
+
+Click **Commit 1 change**. The dialog lists the service under **Services** with **delete**, and warns that it "is deleted permanently, with any data it holds".
+
+To go ahead, type the phrase it shows (`sudo delete nginx-unprivileged` here) and click **Delete 1 resource**. That button stays disabled until the phrase matches.
+
+<Screenshot id="actions/8-delete-commit" alt="1 change to apply: nginx-unprivileged delete, with Type sudo delete nginx-unprivileged to confirm, Discard all and Delete 1 resource" />
+
+</Step>
+
+<Step>
+
+### Or cancel it
+
+To keep the service, click **Discard all** (this drops every staged change), or click the **×** next to the row to unstage only that one. The card goes back to normal.
+
+</Step>
+
+</Steps>

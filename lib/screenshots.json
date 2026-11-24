@@ -1,4 +1,60 @@
 {
+  "actions/1-menu": {
+    "src": "/screenshots/actions/1-menu.png",
+    "width": 520,
+    "height": 520,
+    "capturedAt": "2026-11-24T16:04:57.679Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "actions/2-restart": {
+    "src": "/screenshots/actions/2-restart.png",
+    "width": 362,
+    "height": 94,
+    "capturedAt": "2026-11-24T16:05:17.185Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "actions/3-paused-toast": {
+    "src": "/screenshots/actions/3-paused-toast.png",
+    "width": 362,
+    "height": 111,
+    "capturedAt": "2026-11-24T16:05:32.278Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "actions/4-paused-menu": {
+    "src": "/screenshots/actions/4-paused-menu.png",
+    "width": 520,
+    "height": 520,
+    "capturedAt": "2026-11-24T16:05:45.027Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "actions/5-resumed-toast": {
+    "src": "/screenshots/actions/5-resumed-toast.png",
+    "width": 362,
+    "height": 111,
+    "capturedAt": "2026-11-24T16:05:47.049Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "actions/6-rename": {
+    "src": "/screenshots/actions/6-rename.png",
+    "width": 448,
+    "height": 220,
+    "capturedAt": "2026-11-24T16:05:54.920Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "actions/7-delete-staged": {
+    "src": "/screenshots/actions/7-delete-staged.png",
+    "width": 1440,
+    "height": 240,
+    "capturedAt": "2026-11-24T16:06:27.718Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "actions/8-delete-commit": {
+    "src": "/screenshots/actions/8-delete-commit.png",
+    "width": 576,
+    "height": 518,
+    "capturedAt": "2026-11-24T16:06:29.881Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
   "addons/1-menu": {
     "src": "/screenshots/addons/1-menu.png",
     "width": 768,
@@ -2519,6 +2575,20 @@
     "capturedAt": "2026-11-23T14:51:20.931Z",
     "source": "https://uptime-kuma-z7mo.cloud-dev-central-1.stackblaze.app"
   },
+  "terminal/1-ready": {
+    "src": "/screenshots/terminal/1-ready.png",
+    "width": 851,
+    "height": 764,
+    "capturedAt": "2026-11-24T15:43:06.338Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "terminal/2-ls": {
+    "src": "/screenshots/terminal/2-ls.png",
+    "width": 851,
+    "height": 764,
+    "capturedAt": "2026-11-24T15:43:13.473Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
   "valkey/1-ready": {
     "src": "/screenshots/valkey/1-ready.png",
     "width": 1440,
@@ -2637,5 +2707,117 @@
     "height": 764,
     "capturedAt": "2026-11-23T14:46:11.683Z",
     "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "variables/app-1-hover": {
+    "src": "/screenshots/variables/app-1-hover.png",
+    "width": 804,
+    "height": 54,
+    "capturedAt": "2026-11-24T16:35:33.551Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "variables/app-2-generate": {
+    "src": "/screenshots/variables/app-2-generate.png",
+    "width": 804,
+    "height": 54,
+    "capturedAt": "2026-11-24T16:35:36.075Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "variables/app-3-errors": {
+    "src": "/screenshots/variables/app-3-errors.png",
+    "width": 804,
+    "height": 184,
+    "capturedAt": "2026-11-24T16:35:37.654Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "variables/app-4-inline-password": {
+    "src": "/screenshots/variables/app-4-inline-password.png",
+    "width": 804,
+    "height": 80,
+    "capturedAt": "2026-11-24T16:35:38.743Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "variables/app-5-raw-env": {
+    "src": "/screenshots/variables/app-5-raw-env.png",
+    "width": 760,
+    "height": 584,
+    "capturedAt": "2026-11-24T16:35:40.321Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "variables/app-6-raw-json": {
+    "src": "/screenshots/variables/app-6-raw-json.png",
+    "width": 760,
+    "height": 584,
+    "capturedAt": "2026-11-24T16:35:42.188Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "variables/app-7-raw-error": {
+    "src": "/screenshots/variables/app-7-raw-error.png",
+    "width": 760,
+    "height": 584,
+    "capturedAt": "2026-11-24T16:35:44.151Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "variables/app-8-imported": {
+    "src": "/screenshots/variables/app-8-imported.png",
+    "width": 851,
+    "height": 764,
+    "capturedAt": "2026-11-24T16:35:47.682Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "variables/shared-1-empty": {
+    "src": "/screenshots/variables/shared-1-empty.png",
+    "width": 1395,
+    "height": 598,
+    "capturedAt": "2026-11-24T16:37:03.191Z",
+    "source": "/pipeline/github-demo-gv35/settings/variables"
+  },
+  "variables/shared-2-group": {
+    "src": "/screenshots/variables/shared-2-group.png",
+    "width": 1183,
+    "height": 617,
+    "capturedAt": "2026-11-24T16:37:05.576Z",
+    "source": "/pipeline/github-demo-gv35/settings/variables"
+  },
+  "variables/shared-3-menu": {
+    "src": "/screenshots/variables/shared-3-menu.png",
+    "width": 1181,
+    "height": 168,
+    "capturedAt": "2026-11-24T16:37:06.928Z",
+    "source": "/pipeline/github-demo-gv35/settings/variables"
+  },
+  "variables/shared-4-saved": {
+    "src": "/screenshots/variables/shared-4-saved.png",
+    "width": 1183,
+    "height": 267,
+    "capturedAt": "2026-11-24T16:37:15.896Z",
+    "source": "/pipeline/github-demo-gv35/settings/variables"
+  },
+  "variables/shared-5-pane": {
+    "src": "/screenshots/variables/shared-5-pane.png",
+    "width": 851,
+    "height": 764,
+    "capturedAt": "2026-11-24T16:37:26.378Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "variables/shared-6-linked": {
+    "src": "/screenshots/variables/shared-6-linked.png",
+    "width": 851,
+    "height": 764,
+    "capturedAt": "2026-11-24T16:37:27.791Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "variables/shared-7-commit": {
+    "src": "/screenshots/variables/shared-7-commit.png",
+    "width": 576,
+    "height": 360,
+    "capturedAt": "2026-11-24T16:37:29.327Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "variables/shared-9-delete-group": {
+    "src": "/screenshots/variables/shared-9-delete-group.png",
+    "width": 448,
+    "height": 146,
+    "capturedAt": "2026-11-24T16:39:11.041Z",
+    "source": "/pipeline/github-demo-gv35/settings/variables"
   }
 }
