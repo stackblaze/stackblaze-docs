@@ -28,7 +28,7 @@ if (s0.basicAuth?.enabled) {
 const url = `https://${s0.ingress.hosts[0].host}/`;
 console.log('   site', (await probe(url)).status, '| annotations', JSON.stringify(s0.ingress?.annotations));
 console.log('   ', (await net().innerText()).replace(/\s+/g, ' '));
-await c.shot('settings/network', { around: [net(), adv()], pad: 8 });
+console.log('   adv cards', await adv().count()); await c.shot('settings/network', { locator: '[data-settings-section="network"]' });
 
 console.log('2. Enable Basic Auth');
 await h.setSwitch('#app-basic-auth', true);

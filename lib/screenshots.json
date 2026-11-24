@@ -2232,6 +2232,13 @@
     "capturedAt": "2026-11-24T15:41:53.882Z",
     "source": "/pipeline/github-demo-kpw0/apps"
   },
+  "settings/advanced-off-commit": {
+    "src": "/screenshots/settings/advanced-off-commit.png",
+    "width": 576,
+    "height": 406,
+    "capturedAt": "2026-11-24T18:40:32.716Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
   "settings/autoscale-commit": {
     "src": "/screenshots/settings/autoscale-commit.png",
     "width": 576,
@@ -2308,6 +2315,20 @@
     "height": 900,
     "capturedAt": "2026-11-24T18:27:43.269Z",
     "source": "/pipeline/github-demo-587h/apps"
+  },
+  "settings/cors": {
+    "src": "/screenshots/settings/cors.png",
+    "width": 623,
+    "height": 278,
+    "capturedAt": "2026-11-24T18:39:13.724Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "settings/cors-commit": {
+    "src": "/screenshots/settings/cors-commit.png",
+    "width": 576,
+    "height": 406,
+    "capturedAt": "2026-11-24T18:39:16.085Z",
+    "source": "/pipeline/github-demo-gv35/apps"
   },
   "settings/deploy": {
     "src": "/screenshots/settings/deploy.png",
@@ -2392,6 +2413,20 @@
     "height": 214,
     "capturedAt": "2026-11-24T16:11:50.042Z",
     "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/ip-rules-commit": {
+    "src": "/screenshots/settings/ip-rules-commit.png",
+    "width": 576,
+    "height": 360,
+    "capturedAt": "2026-11-24T18:40:01.711Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "settings/ip-rules-warning": {
+    "src": "/screenshots/settings/ip-rules-warning.png",
+    "width": 588,
+    "height": 172,
+    "capturedAt": "2026-11-24T18:39:14.804Z",
+    "source": "/pipeline/github-demo-gv35/apps"
   },
   "settings/logs": {
     "src": "/screenshots/settings/logs.png",
