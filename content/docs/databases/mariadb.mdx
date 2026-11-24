@@ -47,7 +47,7 @@ Connecting added these variables to the app:
 
 <Screenshot id="mariadb/7-variables" alt="The app's variables with MYSQL_HOST to MYSQL_DATABASE" />
 
-Connecting does not add `DATABASE_URL`. If your app needs a URL, copy it from **Connection URL** or the **Environment snippet**.
+Connecting also adds `DATABASE_URL`, a `mysql://` URL built from the `MYSQL_*` values. A variable you set yourself with the same name always wins. If another connected database already sets `DATABASE_URL`, this one's variables are also added under its own prefix, such as `MARIADB_DATABASE_URL`.
 
 </Step>
 

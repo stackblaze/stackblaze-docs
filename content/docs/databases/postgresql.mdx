@@ -84,7 +84,9 @@ Open the app and go to **Variables**. Connecting added:
 
 </Steps>
 
-Connecting does not add `DATABASE_URL`. If your app needs a URL, copy it from **Connection URL** or the **Environment snippet** into the app's variables.
+Connecting also adds `DATABASE_URL`, a `postgres://` URL built from the `PG*` values. A variable you set yourself with the same name always wins.
+
+If the app is connected to two databases that both set `DATABASE_URL` (for example PostgreSQL and MariaDB), the first keeps the plain names and the second also gets its whole set under its own prefix, such as `MARIADB_DATABASE_URL` and `MARIADB_MYSQL_HOST`.
 
 To disconnect, turn the switch off and deploy the change; the `PG*` variables are removed from the app.
 

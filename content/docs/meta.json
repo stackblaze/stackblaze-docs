@@ -3,6 +3,7 @@
   "pages": [
     "index",
     "quickstart",
+    "deploy-from-github",
     "---Templates---",
     "...templates",
     "---AI---",

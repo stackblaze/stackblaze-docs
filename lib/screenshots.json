@@ -132,6 +132,125 @@
     "capturedAt": "2026-11-23T14:46:22.860Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "github-opts/1-service-menu": {
+    "src": "/screenshots/github-opts/1-service-menu.png",
+    "width": 768,
+    "height": 720,
+    "capturedAt": "2026-11-24T11:16:24.461Z",
+    "source": "/pipeline/github-opts-ae1e/apps"
+  },
+  "github-opts/10-another": {
+    "src": "/screenshots/github-opts/10-another.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T11:17:08.869Z",
+    "source": "/pipeline/github-opts-ae1e/apps"
+  },
+  "github-opts/12-branch": {
+    "src": "/screenshots/github-opts/12-branch.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T11:17:45.287Z",
+    "source": "/pipeline/github-opts-ae1e/apps"
+  },
+  "github-opts/2-source": {
+    "src": "/screenshots/github-opts/2-source.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T11:16:31.206Z",
+    "source": "/pipeline/github-opts-ae1e/apps"
+  },
+  "github-opts/3-gear": {
+    "src": "/screenshots/github-opts/3-gear.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T11:16:36.071Z",
+    "source": "/pipeline/github-opts-ae1e/apps"
+  },
+  "github-opts/4-public": {
+    "src": "/screenshots/github-opts/4-public.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T11:16:40.002Z",
+    "source": "/pipeline/github-opts-ae1e/apps"
+  },
+  "github-opts/5-after-public": {
+    "src": "/screenshots/github-opts/5-after-public.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T11:16:47.073Z",
+    "source": "/pipeline/github-opts-ae1e/apps"
+  },
+  "github-opts/6-review-public": {
+    "src": "/screenshots/github-opts/6-review-public.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T11:16:52.324Z",
+    "source": "/pipeline/github-opts-ae1e/apps"
+  },
+  "github-opts/7-runtime": {
+    "src": "/screenshots/github-opts/7-runtime.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T11:16:54.679Z",
+    "source": "/pipeline/github-opts-ae1e/apps"
+  },
+  "github-opts/8-name": {
+    "src": "/screenshots/github-opts/8-name.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T11:16:57.320Z",
+    "source": "/pipeline/github-opts-ae1e/apps"
+  },
+  "github-opts/9-configure": {
+    "src": "/screenshots/github-opts/9-configure.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T11:17:02.558Z",
+    "source": "/pipeline/github-opts-ae1e/apps"
+  },
+  "github/1-pick": {
+    "src": "/screenshots/github/1-pick.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T11:02:50.201Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "github/2-ready": {
+    "src": "/screenshots/github/2-ready.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T11:02:52.449Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "github/3-review": {
+    "src": "/screenshots/github/3-review.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T11:03:10.373Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "github/4-building": {
+    "src": "/screenshots/github/4-building.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T11:03:33.498Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "github/5-running": {
+    "src": "/screenshots/github/5-running.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T11:05:02.594Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "github/6-app": {
+    "src": "/screenshots/github/6-app.png",
+    "width": 1100,
+    "height": 640,
+    "capturedAt": "2026-11-24T11:05:06.532Z",
+    "source": "https://react-vite-starter-4l47.cloud-dev-central-1.stackblaze.app"
+  },
   "logs/1-app-logs": {
     "src": "/screenshots/logs/1-app-logs.png",
     "width": 816,

@@ -9,3 +9,6 @@ explore.mjs
 .view.mjs
 .reinject.mjs
 .dump-settings.mjs
+.rvwatch.mjs
+.envcheck.mjs
+.installurl.mjs
