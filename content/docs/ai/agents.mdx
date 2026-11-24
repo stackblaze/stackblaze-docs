@@ -1,0 +1,124 @@
+---
+title: AI agents
+description: Deploy a chatbot or support agent with your instructions and documents, a team chat page and an API, on a model of your choice.
+---
+
+An AI agent is a service in your environment that answers with your instructions and can use the tools you allow. It comes with a team chat page and an API. It talks to its model through an **AI Gateway**, which holds the model's key: the agent only gets its own gateway key, for one model.
+
+This guide deploys an **FAQ bot** on an [AI model](/ai/models) running in the same environment, so no outside API key is needed.
+
+<Steps>
+
+<Step>
+
+### Add an AI agent
+
+In your project, click **+ Service** and choose **AI agent** (**Chatbot or support agent with your instructions**). **New AI agent** opens.
+
+<Screenshot id="ai-agent/1-open" alt="New AI agent: Start from, Instructions, Model, API key and Tools" />
+
+</Step>
+
+<Step>
+
+### Start from a template
+
+**Start from** fills in the instructions for a common job. You can edit them in **Instructions** (up to 20,000 characters):
+
+- **Blank**: your own instructions from scratch.
+- **Customer support**: answers about products, orders, shipping and returns from the files in its knowledge folder.
+- **FAQ bot**: answers only from its documents, quotes them and names the file; says so when the documents don't have the answer.
+- **Internal helpdesk**: IT, accounts, tools, leave and policies from its files, and it can search the web for general how-to steps.
+- **Webhook triage**: summarizes each event it receives through a webhook and rates it Urgent, Normal or Ignore.
+- **Daily report**: a short weekday status report from the files in its knowledge folder.
+
+<Screenshot id="ai-agent/2-support" alt="The Customer support template's instructions" />
+
+</Step>
+
+<Step>
+
+### Pick the model
+
+**Model** lists:
+
+- **Anthropic** (Claude), **OpenAI**, **DeepSeek**, **Qwen**, **Kimi** and **GLM**: paste that provider's API key.
+- An AI Gateway already in the environment, with the models it serves (**AI Gateway …, already here**): no key to paste.
+- **Another endpoint**: any OpenAI-compatible URL, with its **Base URL**, an optional **API key** and the **Model ids** (comma-separated; the agent uses the first).
+
+<Screenshot id="ai-agent/3-providers" alt="The Model list: Anthropic, OpenAI, DeepSeek, Qwen, Kimi, GLM and Another endpoint" />
+
+Picking a provider or another endpoint also deploys an AI Gateway for the agent, which takes about two minutes. The key is saved in the gateway's variables, not on the agent. The gateway and the agent share one PostgreSQL database and show as one app.
+
+To use an AI model from this environment, choose **Another endpoint** and paste the model's **Base URL**, **API key** and model id from its [Connect](/ai/models#call-it) section.
+
+<Screenshot id="ai-agent/5-endpoint" alt="Another endpoint: Base URL, API key (optional) and Model ids" />
+
+<Callout>
+Keep the **New AI agent** panel open until the agent appears on the canvas. If you close it while the gateway starts, the gateway keeps starting: open **AI agent** again and pick it in **Model** as **AI Gateway …, already here**.
+</Callout>
+
+<Screenshot id="ai-agent/7-on-gateway" alt="Model set to the AI Gateway already here: no key to paste" />
+
+</Step>
+
+<Step>
+
+### Choose its tools and deploy
+
+**Tools** sets what the agent can do: **read** (read files in its knowledge folder), **grep** (search file contents), **glob** (find files by name), **web_search**, **todo** (keep a task list), **bash** (run shell commands), **edit** and **write** (files). The templates start with **read**, **grep** and **glob**.
+
+<Screenshot id="ai-agent/4-tools" alt="Tools: read, grep, glob, web_search, todo, bash, edit, write" />
+
+Click **Deploy**. A toast says the agent is deploying and suggests uploading its documents in **Agent** → **Knowledge**. The agent's card appears on the canvas, with **open chat**, and shows **Running** when it is up.
+
+<Screenshot id="ai-agent/8-created" alt="Deploying: the AI Gateway and its PostgreSQL on the canvas, and the toast: AI agent ai-agent is deploying" />
+
+</Step>
+
+</Steps>
+
+## Give it documents
+
+**Agent** → **Knowledge** → **Upload files** adds documents to its knowledge folder: md, txt, csv, json, html, htm, xml, yaml, yml or pdf, up to 10 MB each. Each file shows its size and date, with **Delete**.
+
+<Screenshot id="ai-agent/u-knowledge" alt="Knowledge: faq.md uploaded" />
+
+## Chat with it
+
+**open chat**, on the card, opens the agent's team chat page in a new tab, already signed in.
+
+<Screenshot id="ai-agent/u-chat-empty" alt="The team chat page with the agent selected" />
+
+**Agent** → **Sessions** lists every conversation, from all channels, with its number of turns. Pick one to read it, with the tokens it used in and out. **Add to eval** turns it into a test case.
+
+<Screenshot id="ai-agent/u-session-detail" alt="Sessions: a team chat with its tokens and Add to eval" />
+
+## The Agent tab
+
+The agent's sheet has the usual service tabs (**Deployment**, **Variables**, **Logs**, **Metrics**, **Terminal**, **Settings**) and an **Agent** tab with these sections. Changes to **General** and **Triggers** are staged: **Stage changes**, then deploy them from the canvas.
+
+- **General**: the **Instructions**, the **Model** and the **Tools**.
+- **Knowledge**: the documents above.
+- **Skills**: **New skill**, with a **Name**, **When to use it** and its **Steps** (up to 40,000 characters).
+- **Integrations**: **Add integration**: pick a **Service** and give it a **Name**.
+- **Triggers**: what starts the agent besides the chat page. **Time** (**Add schedule**), **Webhook** (**Create webhook**), **API** (**Create key**, for API keys) and **Widget** (a website widget).
+- **Evals**: **New eval**: test cases (requests the agent should handle), checks such as **Judge response quality**, and how many times each case runs (1 to 3). Every trial is a real chat on the eval channel: it uses tokens and shows in **Sessions**.
+- **Optimizations**: needs 10 completed sessions, with a **Budget**.
+- **Sessions**: the conversations above.
+
+<Screenshot id="ai-agent/a-general" alt="Agent → General: Instructions, Model and Tools" />
+
+<Screenshot id="ai-agent/u-skills-new" alt="New skill: Name, When to use it, Steps" />
+
+<Screenshot id="ai-agent/u-trigger-webhook" alt="Triggers → Webhook: Create webhook" />
+
+<Screenshot id="ai-agent/u-evals-new" alt="New eval: test cases, checks and run settings" />
+
+## Delete it
+
+Right-click the agent's card and choose **Delete**. Like every canvas change, it is staged: click **Commit 1 change**, type the confirmation it asks for (`sudo delete <name>`) and click the delete button. The agent's AI Gateway stays as its own card: delete it the same way, and its PostgreSQL database is deleted with it.
+
+<Screenshot id="ai-agent/x-context-menu" alt="The agent card's menu: Open chat, Settings, Logs, Metrics, Files, Terminal, Rename, Backups, Develop, Restart, Pause, Delete" />
+
+<Screenshot id="ai-agent/x-commit-dialog" alt="Commit 2 changes: deleting the model and the agent, with the confirmation to type" />

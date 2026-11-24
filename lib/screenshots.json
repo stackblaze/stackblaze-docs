@@ -118,6 +118,223 @@
     "capturedAt": "2026-11-24T12:50:12.627Z",
     "source": "/pipeline/github-demo-gv35/apps"
   },
+  "ai-agent/1-open": {
+    "src": "/screenshots/ai-agent/1-open.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:27:10.912Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/2-support": {
+    "src": "/screenshots/ai-agent/2-support.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:27:13.449Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/3-providers": {
+    "src": "/screenshots/ai-agent/3-providers.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:27:23.287Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/4-tools": {
+    "src": "/screenshots/ai-agent/4-tools.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:27:27.110Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/5-endpoint": {
+    "src": "/screenshots/ai-agent/5-endpoint.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:25:36.608Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/7-on-gateway": {
+    "src": "/screenshots/ai-agent/7-on-gateway.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:27:33.811Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/8-created": {
+    "src": "/screenshots/ai-agent/8-created.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:27:50.216Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/a-general": {
+    "src": "/screenshots/ai-agent/a-general.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:30:27.424Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/u-chat-empty": {
+    "src": "/screenshots/ai-agent/u-chat-empty.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:38:37.034Z",
+    "source": "https://chat.cloud-dev-central-1.us-central-1.stackblaze.cloud/?models=aiagent%3Agithub-demo-cw8z.dev.ai-agent-bwb5"
+  },
+  "ai-agent/u-evals-new": {
+    "src": "/screenshots/ai-agent/u-evals-new.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:37:29.479Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/u-knowledge": {
+    "src": "/screenshots/ai-agent/u-knowledge.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:31:45.523Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/u-session-detail": {
+    "src": "/screenshots/ai-agent/u-session-detail.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:38:00.950Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/u-skills-new": {
+    "src": "/screenshots/ai-agent/u-skills-new.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:37:02.570Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/u-trigger-webhook": {
+    "src": "/screenshots/ai-agent/u-trigger-webhook.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:36:42.484Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/x-commit-dialog": {
+    "src": "/screenshots/ai-agent/x-commit-dialog.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:55:59.091Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/x-context-menu": {
+    "src": "/screenshots/ai-agent/x-context-menu.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:55:44.507Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-model/2-form": {
+    "src": "/screenshots/ai-model/2-form.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:03:22.990Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-model/3-hf-menu": {
+    "src": "/screenshots/ai-model/3-hf-menu.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T12:03:25.890Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-model/4-models": {
+    "src": "/screenshots/ai-model/4-models.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:03:30.585Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-model/5-gpu-type": {
+    "src": "/screenshots/ai-model/5-gpu-type.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T12:03:34.214Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-model/6-hf-search": {
+    "src": "/screenshots/ai-model/6-hf-search.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:03:40.360Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-model/8-gpus-2": {
+    "src": "/screenshots/ai-model/8-gpus-2.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T12:03:49.549Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-model/m-chat": {
+    "src": "/screenshots/ai-model/m-chat.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:22:12.698Z",
+    "source": "https://chat.cloud-dev-central-1.us-central-1.stackblaze.cloud/?models=50fbe49277c9717a"
+  },
+  "ai-model/m-deployment": {
+    "src": "/screenshots/ai-model/m-deployment.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:11:34.018Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-model/m-logs": {
+    "src": "/screenshots/ai-model/m-logs.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:11:38.660Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-model/m-manual-menu": {
+    "src": "/screenshots/ai-model/m-manual-menu.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:22:18.202Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-model/m-metrics-after": {
+    "src": "/screenshots/ai-model/m-metrics-after.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:21:49.244Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-model/m-settings": {
+    "src": "/screenshots/ai-model/m-settings.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:11:47.767Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-model/m-sleep-after": {
+    "src": "/screenshots/ai-model/m-sleep-after.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:21:55.023Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-model/m-snippet-curl": {
+    "src": "/screenshots/ai-model/m-snippet-curl.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:20:42.744Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-model/x-delete-staged": {
+    "src": "/screenshots/ai-model/x-delete-staged.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:55:34.214Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
   "backups/1-sheet": {
     "src": "/screenshots/backups/1-sheet.png",
     "width": 548,

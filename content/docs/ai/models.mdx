@@ -1,0 +1,116 @@
+---
+title: AI models (GPU)
+description: Run an open model on its own GPU behind an OpenAI-compatible URL, from the catalog or any Hugging Face model.
+---
+
+An AI model runs an open model, such as Qwen3, Mistral or Phi-4, on a GPU rented for you. It answers at its own URL, with the same API as OpenAI, so any OpenAI client library works with it. This guide deploys **Qwen3 4B**.
+
+<Callout type="warn">
+GPUs are billed per second while they run, and the price range is shown before you deploy. Deploying starts a GPU right away to download the model.
+</Callout>
+
+<Steps>
+
+<Step>
+
+### Add an AI model
+
+In your project, click **+ Service** and choose **AI model (GPU)** (**Run an open model on a GPU**). An **ai-model** card appears on the canvas as **Ready to deploy**. Click it to open **New AI model**.
+
+<Screenshot id="ai-model/2-form" alt="New AI model: Hugging Face account, model, GPU type, price, Region, GPUs and How it runs" />
+
+The line under the pickers shows what it costs: the hourly range **On demand**, the price while **asleep**, the monthly range **Always on**, and your **GPU credit**. GPU prices follow the market, so the range can change.
+
+</Step>
+
+<Step>
+
+### Pick the model
+
+The model menu lists the catalog: Qwen, Mistral, Microsoft Phi, DeepSeek, IBM Granite, Nous Hermes and SmolLM models. Each shows what it is good at, its Hugging Face id, its license and the GPU memory it needs.
+
+<Screenshot id="ai-model/4-models" alt="The model menu: the catalog grouped by family, with license and GPU size" />
+
+To run any other model, type in the menu's search (**Search, or type owner/model…**). Results **From Hugging Face** appear with their downloads and the GPU size they need. Some show **Size checked on pick**: the size is looked up when you choose it.
+
+<Screenshot id="ai-model/6-hf-search" alt="Searching smollm2: results from Hugging Face with downloads and GPU size" />
+
+The account menu on the left shows the Hugging Face account models download with, gated models included. It links to **Open on huggingface.co** and **Manage in Integrations**.
+
+<Screenshot id="ai-model/3-hf-menu" alt="The Hugging Face account menu" />
+
+</Step>
+
+<Step>
+
+### Choose where and how it runs
+
+- **GPU type (advanced)**: **Any GPU that fits (cheapest)**, or one GPU type, each with its memory and starting hourly price.
+- **Region**: **United States**, **Canada**, **Europe**, **Asia Pacific** or **Any region**, with how many GPUs for this model are available there right now. The price range updates for the region.
+- **GPUs**: copies of the model on separate GPUs, sharing the requests, up to your plan's limit. With one GPU, the model is down a few minutes if its machine fails or has maintenance.
+- **How it runs**: **On demand** sleeps after 5 minutes idle and wakes in about a minute. **Always on** never sleeps, and is billed every hour.
+
+<Screenshot id="ai-model/5-gpu-type" alt="GPU type: Any GPU that fits (cheapest), then each GPU with memory and price" />
+
+<Screenshot id="ai-model/8-gpus-2" alt="GPUs set to 2: two copies on separate GPUs, with the price per GPU" />
+
+</Step>
+
+<Step>
+
+### Deploy
+
+Click **Deploy**. The model gets its own name, and its **Deployment** tab shows the progress. Renting a GPU and loading the model takes about 5 to 8 minutes for small models, up to 15 for large ones. **Logs** lists each step: looking for a GPU, renting it, downloading the model server, loading the model.
+
+<Screenshot id="ai-model/m-logs" alt="Logs while it starts: looking for a GPU, renting it, GPU rented, downloading the model server" />
+
+<Screenshot id="ai-model/m-deployment" alt="Deployment while it starts: preparing GPU, with the GPU and where it runs" />
+
+When it is ready, the last log line is "Ready: the model is answering requests", Deployment says **live** ("Answering requests"), and the card shows **Running**.
+
+</Step>
+
+<Step>
+
+### Call it
+
+**Settings** → **Connect** has the **Base URL** and the **API key** (**Show** reveals it), plus ready-made code in **Python**, **JavaScript** and **curl**. Set any OpenAI-compatible client's base URL and API key to these.
+
+<Screenshot id="ai-model/m-settings" alt="Settings: Connect with Base URL, API key and the Python snippet" />
+
+<Screenshot id="ai-model/m-snippet-curl" alt="The curl snippet" />
+
+A request to a sleeping model wakes it and waits for the answer, which takes about a minute.
+
+</Step>
+
+</Steps>
+
+## Chat with it
+
+**Open chat**, on the card and next to **Connect**, opens a chat page for the model in a new tab, already signed in.
+
+<Screenshot id="ai-model/m-chat" alt="The chat page with the model selected" />
+
+## Sleep and wake
+
+- **Sleep after**, in **Settings**: **5 minutes**, **15 minutes**, **1 hour** or **Never (always on)**. Asleep, no GPU runs; the model stays stored, so the next request or **Open chat** starts it again, in about a minute.
+- **Manual Deploy**, on the **Deployment** tab: **Put to sleep** and **Replace GPU…**.
+
+<Screenshot id="ai-model/m-sleep-after" alt="Sleep after: 5 minutes, 15 minutes, 1 hour, Never (always on)" />
+
+<Screenshot id="ai-model/m-manual-menu" alt="Manual Deploy: Put to sleep and Replace GPU…" />
+
+## Metrics
+
+**Metrics** shows, for **1h**, **6h**, **24h** or **7d**: requests, response time, tokens and errors through the model's URL, and the GPU's load, memory and temperature and the CPU while it runs.
+
+<Screenshot id="ai-model/m-metrics-after" alt="Metrics after one request: Requests, Response time, Tokens, Errors" />
+
+## Change or delete it
+
+**Settings** also shows the **Model**, its **GPU**, **Region** and **Machine**, the number of **GPUs** (change it with − and +), and **What it costs**: while starting or answering, while sleeping, and **Deleted** ($0). **Delete** releases the GPU and stops all charges for the model.
+
+Delete is a canvas change: it is staged ("Delete staged") until you commit. Click **Commit 1 change** on the canvas. The review says the model "releases its GPU; its URL and API key stop working". Type the confirmation it asks for (`sudo delete <name>`) and click the delete button.
+
+<Screenshot id="ai-model/x-delete-staged" alt="Delete staged: commit the changes to delete this model and release its GPU" />
