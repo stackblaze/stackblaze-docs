@@ -5,7 +5,7 @@ description: Every release of a service, what it changed and who made it. Redepl
 
 Each time a service's configuration changes, or it is restarted or deployed again, StackBlaze makes a new **release**. Open a service on the canvas and click **Deployment** to see them: **Events, deploys and rollbacks**, newest first.
 
-<Screenshot id="deployments/1-tab" alt="The Deployment tab: the running release titled Manual, then earlier ones titled Rollback to Add CANVAS_DEMO, Remove CANVAS_DEMO and Add CANVAS_DEMO" />
+<Screenshot id="deployments/1-tab" alt="The Deployment tab: the running release titled Redeploy, then earlier ones titled Restarted, Rollback to Add CANVAS_DEMO and Remove CANVAS_DEMO" />
 
 Each row shows:
 
@@ -31,7 +31,7 @@ The message is optional. Without one, the release is titled **Configuration upda
 
 <Screenshot id="deployments/2-manual-menu" alt="The Manual Deploy menu: Deploy latest reference and Restart service" />
 
-Both add a release titled **Manual**.
+**Restart service** adds a release titled **Restarted**, and **Deploy latest reference** one titled **Redeploy**.
 
 ## Services built from git
 
@@ -50,7 +50,7 @@ For a service built from a [git repository](/deploy-from-github), each release r
 
 Every row has a **⋯** menu:
 
-- **Redeploy** runs the service again. For a Docker image service, it restarts the service with its current configuration; it doesn't bring back that release's settings. To do that, use **Rollback Config**.
+- **Redeploy** runs the service again. For a Docker image service, it restarts the service with its current configuration, adding a release titled **Restarted**; it doesn't bring back that release's settings. To do that, use **Rollback Config**.
 - **Inspect Deployment** opens the service's logs.
 - **Copy URL** and **Visit**.
 - **Cancel**, only while a release is rolling out. The row also has a **Cancel** button then.

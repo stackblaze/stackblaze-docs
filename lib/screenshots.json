@@ -920,7 +920,7 @@
     "src": "/screenshots/deployments/1-tab.png",
     "width": 1440,
     "height": 900,
-    "capturedAt": "2026-11-24T16:22:14.264Z",
+    "capturedAt": "2026-11-24T22:21:09.431Z",
     "source": "/pipeline/import-demo-brkm/apps"
   },
   "deployments/10-rollback-review": {
@@ -948,7 +948,7 @@
     "src": "/screenshots/deployments/2-manual-menu.png",
     "width": 1440,
     "height": 900,
-    "capturedAt": "2026-11-24T16:22:17.163Z",
+    "capturedAt": "2026-11-24T22:21:12.279Z",
     "source": "/pipeline/import-demo-brkm/apps"
   },
   "deployments/3-row-menu": {
