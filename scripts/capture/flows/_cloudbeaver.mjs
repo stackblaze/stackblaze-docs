@@ -4,7 +4,7 @@
 export async function openConsole(page, instance) {
   const [cb] = await Promise.all([
     page.context().waitForEvent('page', { timeout: 30000 }),
-    page.locator(`[data-testid=app-card-cloudbeaver-addon-${instance}]`).click(),
+    page.locator(`[data-testid^=app-card-cloudbeaver-][data-testid$="-${instance}"]`).first().click(),
   ]);
   await cb.setViewportSize({ width: 1440, height: 900 });
   await cb.getByText(new RegExp(`/${instance}$`)).first().waitFor({ timeout: 60000 });
@@ -19,7 +19,10 @@ export async function openConsole(page, instance) {
       // is disabled when it is already the editor's connection).
       if (!picked) {
         await cb.getByText(/^(Select connection|my-first.*)$/).first().click();
-        const item = cb.getByText(new RegExp(`/${instance}$`)).last();
+        // The dropdown's entry, not the same name in the navigator. Long
+        // names are shortened in the middle ("my-first ... ql-restored-9u8z").
+        const item = cb.locator('[class*=menuItemText]').filter({ hasText: new RegExp(`${instance.slice(-12).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`) }).first();
+        await item.waitFor({ timeout: 10000 });
         if (await item.isEnabled()) await item.click(); else await cb.keyboard.press('Escape');
         await cb.waitForTimeout(1500);
         picked = true;

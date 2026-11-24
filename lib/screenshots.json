@@ -6,6 +6,34 @@
     "capturedAt": "2026-11-24T05:38:24.304Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "backups/10-switch": {
+    "src": "/screenshots/backups/10-switch.png",
+    "width": 753,
+    "height": 211,
+    "capturedAt": "2026-11-24T06:04:37.068Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "backups/11-switched": {
+    "src": "/screenshots/backups/11-switched.png",
+    "width": 753,
+    "height": 211,
+    "capturedAt": "2026-11-24T06:05:28.222Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "backups/12-delete-point": {
+    "src": "/screenshots/backups/12-delete-point.png",
+    "width": 548,
+    "height": 764,
+    "capturedAt": "2026-11-24T06:08:10.108Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "backups/13-delete-commit": {
+    "src": "/screenshots/backups/13-delete-commit.png",
+    "width": 576,
+    "height": 518,
+    "capturedAt": "2026-11-24T06:08:11.318Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
   "backups/2-commit": {
     "src": "/screenshots/backups/2-commit.png",
     "width": 576,
@@ -26,6 +54,48 @@
     "height": 764,
     "capturedAt": "2026-11-24T05:38:46.988Z",
     "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "backups/5-restore": {
+    "src": "/screenshots/backups/5-restore.png",
+    "width": 548,
+    "height": 764,
+    "capturedAt": "2026-11-24T05:39:07.087Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "backups/6-restore-choose": {
+    "src": "/screenshots/backups/6-restore-choose.png",
+    "width": 548,
+    "height": 764,
+    "capturedAt": "2026-11-24T05:39:07.950Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "backups/7-restore-commit": {
+    "src": "/screenshots/backups/7-restore-commit.png",
+    "width": 576,
+    "height": 560,
+    "capturedAt": "2026-11-24T05:39:09.291Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "backups/7-restore-commit-typed": {
+    "src": "/screenshots/backups/7-restore-commit-typed.png",
+    "width": 576,
+    "height": 560,
+    "capturedAt": "2026-11-24T05:39:10.374Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "backups/8-copy": {
+    "src": "/screenshots/backups/8-copy.png",
+    "width": 1440,
+    "height": 493,
+    "capturedAt": "2026-11-24T06:01:04.922Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "backups/9-copy-query": {
+    "src": "/screenshots/backups/9-copy-query.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T06:01:20.359Z",
+    "source": "CloudBeaver: postgresql-restored-9u8z"
   },
   "cli/login-approve": {
     "src": "/screenshots/cli/login-approve.png",

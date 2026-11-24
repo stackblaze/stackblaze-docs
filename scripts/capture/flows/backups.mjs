@@ -47,15 +47,21 @@ const clusters = () => page.evaluate(async ([p, ph]) => {
   const a = await (await fetch(`/api/pipelines/${p}/apps`)).json();
   return ((a.phases || []).find((x) => x.name === ph).sharedAddons || []).filter((x) => x.kind === 'Cluster').map((x) => x.instance);
 }, [PROJECT, PHASE]);
-for (const old of (await clusters()).filter((i) => i !== INSTANCE && /restored/.test(i))) {
+for (const old of process.env.RESUME_COPY ? [] : (await clusters()).filter((i) => i !== INSTANCE && /restored/.test(i))) {
   // A copy left by an earlier run (setup, not captured).
   const st = await page.evaluate(async ([p, ph, i]) => (await fetch(`/api/pipelines/${p}/${ph}/shared-addons/${i}`, { method: 'DELETE' })).status, [PROJECT, PHASE, old]);
   console.log(`(deleted earlier copy ${old}: ${st})`);
 }
 const clustersBefore = await clusters();
+let COPY;
+let con;
 
+// RESUME_COPY=<instance>: steps 0–5 already ran (their shots are saved);
+// continue from the restored copy.
+const RESUME = process.env.RESUME_COPY;
+if (!RESUME) {
 console.log('0. Marker row before the backup (setup, not captured)');
-let con = await openConsole(page, INSTANCE);
+con = await openConsole(page, INSTANCE);
 await con.run('create table if not exists docs_check (note text);');
 await con.run("delete from docs_check where note is not null;");
 await con.run("insert into docs_check values ('before backup');");
@@ -107,14 +113,14 @@ await page.getByRole('button', { name: 'Stage restore' }).click();
 await commitAndDeploy('backups/7-restore-commit');
 // The copy's real name can differ from the one the form shows, so take the
 // database that appears after the restore.
-let COPY;
+COPY = undefined;
 const until2 = Date.now() + 15 * 60000;
 while (Date.now() < until2) {
   await page.waitForTimeout(20000);
   COPY ??= (await clusters()).find((i) => !clustersBefore.includes(i));
   if (!COPY) continue;
   await canvas();
-  const card = page.locator(`[data-testid=app-card-cloudbeaver-addon-${COPY}]`);
+  const card = page.locator(`[data-testid^=app-card-cloudbeaver-][data-testid$="-${COPY}"]`);
   if (await card.count()) {
     const txt = await page.locator('body').innerText();
     if (!/Restoring|Updating|Deploying\n/.test(txt)) break;
@@ -123,10 +129,18 @@ while (Date.now() < until2) {
 if (!COPY) throw new Error('no restored copy appeared');
 console.log(`    copy ${COPY} (the form said ${SAID})`);
 c.checkpoint();
-await page.locator(`[data-testid=app-card-cloudbeaver-addon-${COPY}]`).waitFor({ timeout: 10000 });
+await page.locator(`[data-testid^=app-card-cloudbeaver-][data-testid$="-${COPY}"]`).waitFor({ timeout: 10000 });
 await page.waitForTimeout(3000);
 await c.shot('backups/8-copy', { around: [page.getByText('DATABASES'), page.getByTestId('canvas-new-service')], pad: 24, extraBottom: 200 });
 
+} // end of !RESUME
+if (RESUME) {
+  COPY = RESUME;
+  await canvas();
+  await page.locator(`[data-testid^=app-card-cloudbeaver-][data-testid$="-${COPY}"]`).waitFor({ timeout: 30000 });
+  await page.waitForTimeout(3000);
+  await c.shot('backups/8-copy', { around: [page.getByText('DATABASES'), page.getByTestId('canvas-new-service')], pad: 24, extraBottom: 200 });
+}
 console.log('6. The copy has the data as it was at backup time');
 con = await openConsole(page, COPY);
 const copyRows = await con.run('select note from docs_check order by note;');
