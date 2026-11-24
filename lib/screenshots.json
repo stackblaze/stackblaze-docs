@@ -1343,6 +1343,41 @@
     "capturedAt": "2026-11-23T14:46:34.813Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "notifications/1-empty": {
+    "src": "/screenshots/notifications/1-empty.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:15:14.761Z",
+    "source": "/settings/notifications"
+  },
+  "notifications/2-dialog": {
+    "src": "/screenshots/notifications/2-dialog.png",
+    "width": 560,
+    "height": 820,
+    "capturedAt": "2026-11-24T18:15:18.151Z",
+    "source": "/settings/notifications"
+  },
+  "notifications/3-filled": {
+    "src": "/screenshots/notifications/3-filled.png",
+    "width": 560,
+    "height": 820,
+    "capturedAt": "2026-11-24T18:15:57.713Z",
+    "source": "/settings/notifications"
+  },
+  "notifications/4-listed": {
+    "src": "/screenshots/notifications/4-listed.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:16:02.887Z",
+    "source": "/settings/notifications"
+  },
+  "notifications/5-menu": {
+    "src": "/screenshots/notifications/5-menu.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:19:47.568Z",
+    "source": "/settings/notifications"
+  },
   "postgresql/1-databases": {
     "src": "/screenshots/postgresql/1-databases.png",
     "width": 768,
