@@ -88,6 +88,25 @@ if (STEP === 'remove-var') {
   const btns = s2.locator('button:not([aria-label])').filter({ hasText: /^\s*$/ });
   for (let i = 0; i < await btns.count(); i++) { await btns.nth(i).click(); await page.waitForTimeout(1200); console.log(`    row ${i}:`, await text(page.locator('[role=menu]').last())); await c.shot(`deployments/9-row-menu-${i}`); await page.keyboard.press('Escape'); await page.waitForTimeout(600); }
 }
+if (STEP === 'git-commit-dialog' || STEP === 'git-latest') {
+  await sheet.getByRole('button', { name: /Manual Deploy/ }).click(); await page.waitForTimeout(1200);
+  await c.shot('deployments/git-1-manual-menu');
+  if (STEP === 'git-commit-dialog') {
+    await page.locator('[role=menu]').last().getByText('Deploy a specific commit').click(); await page.waitForTimeout(3000);
+    const dl = page.locator('[role=dialog]').last();
+    console.log('   dialog:', await text(dl));
+    await c.shot('deployments/git-2-commit-dialog');
+    await page.keyboard.press('Escape'); await page.waitForTimeout(800);
+  } else {
+    await page.locator('[role=menu]').last().getByText('Deploy latest commit').click(); await page.waitForTimeout(2500);
+    const dlg = page.locator('[role=alertdialog]');
+    if (await dlg.count()) { console.log('    confirm:', await text(dlg.last())); await dlg.last().getByRole('button').last().click(); }
+    await page.waitForTimeout(8000);
+    const s2 = await openTab();
+    console.log('   ', (await text(s2)).slice(0, 700));
+    await c.shot('deployments/git-3-building');
+  }
+}
 if (STEP === 'rollback-review') {
   const m = await rowMenu(Number(process.env.ROW ?? 2)); await m.getByText('Rollback Config').click(); await page.waitForTimeout(3000);
   const dl = page.getByRole('dialog').filter({ hasText: /^Rollback to/ }).last();

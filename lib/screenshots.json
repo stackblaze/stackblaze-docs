@@ -650,6 +650,20 @@
     "capturedAt": "2026-11-24T16:18:07.582Z",
     "source": "/pipeline/import-demo-brkm/apps"
   },
+  "deployments/git-1-manual-menu": {
+    "src": "/screenshots/deployments/git-1-manual-menu.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:34:08.232Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "deployments/git-2-commit-dialog": {
+    "src": "/screenshots/deployments/git-2-commit-dialog.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:33:44.977Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
   "docker/1-open": {
     "src": "/screenshots/docker/1-open.png",
     "width": 768,

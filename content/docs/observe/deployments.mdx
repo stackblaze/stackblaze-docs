@@ -33,6 +33,19 @@ The message is optional. Without one, the release is titled **Configuration upda
 
 Both add a release titled **Manual**.
 
+## Services built from git
+
+For a service built from a [git repository](/deploy-from-github), each release row shows the commit it was built from: its short hash and message, for example `92fdae6 Remove build artifacts…`. A release that is still building reads **Deploy building**, with **Cancel**.
+
+**Manual Deploy** offers different actions:
+
+- **Deploy latest commit** builds the newest commit of the branch and deploys it. Ours added a release titled **Manual**; its build **Succeeded** and the new version went live.
+- **Deploy a specific commit…** opens **Choose commit to deploy**: "Builds the selected commit from main. Auto-deploy stays on — the next push supersedes this deploy." Pick a commit from the list or paste a SHA, then click **Deploy commit**.
+
+<Screenshot id="deployments/git-1-manual-menu" alt="Manual Deploy for a git service: Deploy latest commit and Deploy a specific commit" />
+
+<Screenshot id="deployments/git-2-commit-dialog" alt="Choose commit to deploy: a search field, two commits with their messages, Cancel and Deploy commit" />
+
 ## Actions on a release
 
 Every row has a **⋯** menu:
