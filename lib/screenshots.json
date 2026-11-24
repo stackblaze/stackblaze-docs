@@ -328,6 +328,118 @@
     "capturedAt": "2026-11-24T20:32:54.893Z",
     "source": "/pipeline/github-demo-cw8z/apps"
   },
+  "ai-agent/chat-empty": {
+    "src": "/screenshots/ai-agent/chat-empty.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T21:36:31.423Z",
+    "source": "/"
+  },
+  "ai-agent/chat-ins-answer": {
+    "src": "/screenshots/ai-agent/chat-ins-answer.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T21:51:20.641Z",
+    "source": "/"
+  },
+  "ai-agent/chat-model-controls": {
+    "src": "/screenshots/ai-agent/chat-model-controls.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T22:18:55.059Z",
+    "source": "/"
+  },
+  "ai-agent/chat-selected-model-ai-agent-ai-agent": {
+    "src": "/screenshots/ai-agent/chat-selected-model-ai-agent-ai-agent.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T21:39:46.982Z",
+    "source": "/"
+  },
+  "ai-agent/chat-tools-off": {
+    "src": "/screenshots/ai-agent/chat-tools-off.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T21:58:18.758Z",
+    "source": "/"
+  },
+  "ai-agent/cr-model-another": {
+    "src": "/screenshots/ai-agent/cr-model-another.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T22:24:39.023Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/cr-model-docs-qwen": {
+    "src": "/screenshots/ai-agent/cr-model-docs-qwen.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T21:30:19.239Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/cr-model-openai": {
+    "src": "/screenshots/ai-agent/cr-model-openai.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T21:30:00.244Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/cr-models": {
+    "src": "/screenshots/ai-agent/cr-models.png",
+    "width": 846,
+    "height": 368,
+    "capturedAt": "2026-11-24T22:24:33.694Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/cr-open": {
+    "src": "/screenshots/ai-agent/cr-open.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T22:24:31.302Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/cr-palette": {
+    "src": "/screenshots/ai-agent/cr-palette.png",
+    "width": 862,
+    "height": 171,
+    "capturedAt": "2026-11-24T22:24:26.076Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/cr-tools": {
+    "src": "/screenshots/ai-agent/cr-tools.png",
+    "width": 837,
+    "height": 438,
+    "capturedAt": "2026-11-24T22:24:41.776Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/cr-tpl-support": {
+    "src": "/screenshots/ai-agent/cr-tpl-support.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T21:29:36.016Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/dp-filled": {
+    "src": "/screenshots/ai-agent/dp-filled.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T21:41:12.643Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/dp-gateway-step": {
+    "src": "/screenshots/ai-agent/dp-gateway-step.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T21:41:33.722Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/dp-webhook": {
+    "src": "/screenshots/ai-agent/dp-webhook.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T21:42:44.818Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
   "ai-agent/ev-check-types": {
     "src": "/screenshots/ai-agent/ev-check-types.png",
     "width": 1440,
@@ -370,6 +482,13 @@
     "capturedAt": "2026-11-24T20:40:43.966Z",
     "source": "/pipeline/github-demo-cw8z/apps"
   },
+  "ai-agent/gw-canvas": {
+    "src": "/screenshots/ai-agent/gw-canvas.png",
+    "width": 1440,
+    "height": 700,
+    "capturedAt": "2026-11-24T22:06:34.619Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
   "ai-agent/in-github": {
     "src": "/screenshots/ai-agent/in-github.png",
     "width": 788,
@@ -388,14 +507,70 @@
     "src": "/screenshots/ai-agent/kn-empty.png",
     "width": 788,
     "height": 79,
-    "capturedAt": "2026-11-24T20:18:54.331Z",
+    "capturedAt": "2026-11-24T21:54:18.377Z",
     "source": "/pipeline/github-demo-cw8z/apps"
   },
   "ai-agent/kn-uploaded": {
     "src": "/screenshots/ai-agent/kn-uploaded.png",
     "width": 788,
     "height": 102,
-    "capturedAt": "2026-11-24T20:19:07.474Z",
+    "capturedAt": "2026-11-24T21:54:31.514Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/lc-del1-delete-commit": {
+    "src": "/screenshots/ai-agent/lc-del1-delete-commit.png",
+    "width": 576,
+    "height": 620,
+    "capturedAt": "2026-11-24T22:32:14.110Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/lc-delgw-delete-commit": {
+    "src": "/screenshots/ai-agent/lc-delgw-delete-commit.png",
+    "width": 576,
+    "height": 640,
+    "capturedAt": "2026-11-24T22:33:28.453Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/lc-paused-card": {
+    "src": "/screenshots/ai-agent/lc-paused-card.png",
+    "width": 310,
+    "height": 200,
+    "capturedAt": "2026-11-24T22:15:34.007Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/p-apps-card": {
+    "src": "/screenshots/ai-agent/p-apps-card.png",
+    "width": 336,
+    "height": 237,
+    "capturedAt": "2026-11-24T22:25:15.671Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/p-card": {
+    "src": "/screenshots/ai-agent/p-card.png",
+    "width": 991,
+    "height": 201,
+    "capturedAt": "2026-11-24T22:25:22.648Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/p-menu": {
+    "src": "/screenshots/ai-agent/p-menu.png",
+    "width": 232,
+    "height": 525,
+    "capturedAt": "2026-11-24T22:25:25.038Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/p-session-1": {
+    "src": "/screenshots/ai-agent/p-session-1.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T22:00:33.763Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/p-tab-agent": {
+    "src": "/screenshots/ai-agent/p-tab-agent.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T22:25:40.223Z",
     "source": "/pipeline/github-demo-cw8z/apps"
   },
   "ai-agent/sk-errors": {
@@ -417,6 +592,27 @@
     "width": 788,
     "height": 86,
     "capturedAt": "2026-11-24T20:21:14.141Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/st-ins-commit": {
+    "src": "/screenshots/ai-agent/st-ins-commit.png",
+    "width": 576,
+    "height": 362,
+    "capturedAt": "2026-11-24T21:48:53.447Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/st-ins-staged": {
+    "src": "/screenshots/ai-agent/st-ins-staged.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T21:48:48.632Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/st-model-models": {
+    "src": "/screenshots/ai-agent/st-model-models.png",
+    "width": 821,
+    "height": 199,
+    "capturedAt": "2026-11-24T22:01:21.713Z",
     "source": "/pipeline/github-demo-cw8z/apps"
   },
   "ai-agent/u-chat-empty": {

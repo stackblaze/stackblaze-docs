@@ -20,6 +20,8 @@ const card = () => page.locator(`[data-id="hub-${AGENT}"], [data-testid="app-car
 const toasts = async () => (await page.locator('[data-sonner-toast]').allInnerTexts()).join(' | ').replace(/\s+/g, ' ');
 async function openAgent(sub) {
   await c.goto(`/pipeline/${PROJECT}/apps?phase=dev`);
+  await page.getByRole('button', { name: 'Designer' }).waitFor({ timeout: 90000 });
+  await page.getByRole('button', { name: 'Designer' }).click();
   await card().waitFor({ timeout: 120000 });
   await page.waitForTimeout(2000);
   await card().click({ position: { x: 40, y: 20 } });

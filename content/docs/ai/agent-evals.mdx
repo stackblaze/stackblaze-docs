@@ -102,6 +102,8 @@ In **Sessions**, open a chat and click **Add to eval**. **Evals** opens with **A
 
 **Optimizations** tries cheaper ways to run the agent (a cheaper model, fewer tools, a tighter prompt) against its own recent sessions. It keeps a change only where quality holds up, and nothing changes until you accept. It builds its eval from the last 10 sessions, so the agent needs that many completed sessions first.
 
+Optimizations price their runs on the agent's [AI Gateway](/ai/agent-gateway). An agent that talks to an AI model directly shows **Optimizations need the agent on its AI Gateway: costs are priced there.** Move it to a gateway model in **General** first: see [Change its model](/ai/agent-settings#change-its-model).
+
 Set a **Budget** from $1 to $500 (it starts at $50). **New optimization** starts a run once the agent has enough sessions. Until then it is greyed out with **The agent needs 10 completed sessions; it has 8.**
 
 <Screenshot id="ai-agent/ev-optimizations" alt="Optimizations: Budget $50, New optimization, and The agent needs 10 completed sessions; it has 8." />
