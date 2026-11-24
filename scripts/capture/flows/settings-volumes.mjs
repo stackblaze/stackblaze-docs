@@ -8,7 +8,9 @@ const c = await open();
 const h = helpers(c);
 const { page } = h;
 const storage = () => h.section('storage');
+let s;
 
+if (!process.env.SKIP_ADD) {
 console.log('1. Settings → Storage');
 await h.openSettings();
 await h.jump('Storage');
@@ -49,10 +51,12 @@ await page.waitForTimeout(300);
 await c.shot('settings/volume-add', { locator: '[data-settings-section="storage"]' });
 await h.commitDeploy('Add a data volume', 'settings/volume-commit');
 await h.waitRunning();
-let s = await h.spec();
+s = await h.spec();
 console.log('   saved:', JSON.stringify(s.extraVolumes));
 c.checkpoint();
+if (process.env.STOP_AFTER_ADD) { await c.done(); process.exit(0); }
 
+}
 console.log('5. In use: name and size are locked');
 await h.openSettings();
 await h.jump('Storage');
@@ -68,8 +72,6 @@ await h.commitDeploy('Remove the data volume', 'settings/volume-remove-commit');
 await h.waitRunning();
 s = await h.spec();
 console.log('   saved:', JSON.stringify(s.extraVolumes));
-await h.openSettings();
-await h.jump('Storage');
-console.log('   after:', (await storage().innerText()).replace(/\s+/g, ' '));
+c.checkpoint();
 
 await c.done();

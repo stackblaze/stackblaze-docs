@@ -2172,8 +2172,43 @@
   "settings/storage": {
     "src": "/screenshots/settings/storage.png",
     "width": 620,
-    "height": 119,
-    "capturedAt": "2026-11-23T14:46:47.284Z",
+    "height": 120,
+    "capturedAt": "2026-11-24T17:35:15.864Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "settings/volume-add": {
+    "src": "/screenshots/settings/volume-add.png",
+    "width": 620,
+    "height": 304,
+    "capturedAt": "2026-11-24T17:37:20.944Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "settings/volume-commit": {
+    "src": "/screenshots/settings/volume-commit.png",
+    "width": 576,
+    "height": 360,
+    "capturedAt": "2026-11-24T17:37:22.136Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "settings/volume-in-use": {
+    "src": "/screenshots/settings/volume-in-use.png",
+    "width": 620,
+    "height": 304,
+    "capturedAt": "2026-11-24T17:37:47.358Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "settings/volume-remove-commit": {
+    "src": "/screenshots/settings/volume-remove-commit.png",
+    "width": 576,
+    "height": 360,
+    "capturedAt": "2026-11-24T17:37:49.116Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "settings/volume-sizes": {
+    "src": "/screenshots/settings/volume-sizes.png",
+    "width": 159,
+    "height": 515,
+    "capturedAt": "2026-11-24T17:35:17.300Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
   "team/1-users": {
