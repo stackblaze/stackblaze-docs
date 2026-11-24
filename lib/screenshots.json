@@ -517,12 +517,40 @@
     "capturedAt": "2026-11-24T05:33:52.789Z",
     "source": "/activate"
   },
+  "deployments/0-commit-message": {
+    "src": "/screenshots/deployments/0-commit-message.png",
+    "width": 576,
+    "height": 360,
+    "capturedAt": "2026-11-24T16:15:21.717Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
   "deployments/1-list": {
     "src": "/screenshots/deployments/1-list.png",
     "width": 816,
     "height": 670,
     "capturedAt": "2026-11-23T14:46:21.041Z",
     "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "deployments/1-tab": {
+    "src": "/screenshots/deployments/1-tab.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T16:22:14.264Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "deployments/10-rollback-review": {
+    "src": "/screenshots/deployments/10-rollback-review.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T16:24:31.546Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "deployments/11-after-rollback": {
+    "src": "/screenshots/deployments/11-after-rollback.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T16:19:49.875Z",
+    "source": "/pipeline/import-demo-brkm/apps"
   },
   "deployments/2-manual-deploy": {
     "src": "/screenshots/deployments/2-manual-deploy.png",
@@ -531,12 +559,40 @@
     "capturedAt": "2026-11-23T14:46:21.959Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "deployments/2-manual-menu": {
+    "src": "/screenshots/deployments/2-manual-menu.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T16:22:17.163Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
   "deployments/3-row-menu": {
     "src": "/screenshots/deployments/3-row-menu.png",
     "width": 816,
     "height": 670,
     "capturedAt": "2026-11-23T14:46:22.860Z",
     "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "deployments/4-inspect": {
+    "src": "/screenshots/deployments/4-inspect.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T16:22:46.984Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "deployments/9-row-menu-0": {
+    "src": "/screenshots/deployments/9-row-menu-0.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T16:18:01.386Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "deployments/9-row-menu-2": {
+    "src": "/screenshots/deployments/9-row-menu-2.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T16:18:07.582Z",
+    "source": "/pipeline/import-demo-brkm/apps"
   },
   "docker/1-open": {
     "src": "/screenshots/docker/1-open.png",
