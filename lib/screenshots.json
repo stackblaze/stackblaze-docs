@@ -1525,6 +1525,20 @@
     "capturedAt": "2026-11-24T06:44:36.693Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "mariadb/console": {
+    "src": "/screenshots/mariadb/console.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T20:38:24.285Z",
+    "source": "SQL console (database link on the card)"
+  },
+  "mariadb/console-query": {
+    "src": "/screenshots/mariadb/console-query.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T20:38:29.224Z",
+    "source": "SQL console editor"
+  },
   "metrics/1-app-metrics": {
     "src": "/screenshots/metrics/1-app-metrics.png",
     "width": 816,

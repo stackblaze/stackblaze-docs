@@ -59,6 +59,16 @@ Connecting also adds `DATABASE_URL`, a `mysql://` URL built from the `MYSQL_*` v
 
 <Screenshot id="mariadb/5-access" alt="Access: Host, Service, Username, Password, Database, Connection URL and Environment snippet" />
 
+## SQL console
+
+The database address on the MariaDB card (`db.…`) opens a SQL console in a new tab. You're signed in, and the database is listed under **Shared**.
+
+<Screenshot id="mariadb/console" alt="The SQL console with the project's MariaDB under Shared" />
+
+Open a SQL editor, type a query and run it with **Ctrl+Enter**. Here `SELECT VERSION() AS version, DATABASE() AS db;` returned the MariaDB version and the database name, `app`.
+
+<Screenshot id="mariadb/console-query" alt="A query in the SQL editor and its result: the MariaDB version and the database app" />
+
 ## Connect from outside StackBlaze
 
 **Public access** opens the database to clients outside the platform, only from the IP addresses you allow, and only over TLS. Enter your addresses in **Allowed IPs** (CIDR ranges work too) and turn the switch on. You get an **Address** and a **Connection string**.
