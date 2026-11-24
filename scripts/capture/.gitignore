@@ -12,3 +12,6 @@ explore.mjs
 .rvwatch.mjs
 .envcheck.mjs
 .installurl.mjs
+.fncode.mjs
+.fnstate.mjs
+.fnjob.mjs

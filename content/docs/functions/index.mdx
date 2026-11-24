@@ -1,0 +1,115 @@
+---
+title: Functions
+description: Run one TypeScript file on Bun, with no build. Serve it on a URL, or run it on a schedule.
+---
+
+A function is a service made of a single TypeScript file. StackBlaze runs it on [Bun](https://bun.sh) with no build step. Without a schedule it serves HTTP on its own URL. With a schedule it runs as a job instead.
+
+<Steps>
+
+<Step>
+
+### Add a function
+
+In your project, click **+ Service** and choose **Function** (**One TypeScript file, no build**).
+
+<Screenshot id="functions/1-menu" alt="The Add to Dev menu with Function: One TypeScript file, no build" />
+
+</Step>
+
+<Step>
+
+### It is created and deployed right away
+
+There is nothing to fill in and nothing to commit. The function is created under the name `function` (then `function-2`, and so on), deployed at once, and its panel opens on the **Code** tab. The header shows its URL and **TypeScript on Bun**.
+
+The **Code** tab has the function's URL with **Copy**, an editor with the file, and **Deploy**. A new function starts from this file:
+
+```ts
+// Runs on Bun. Import any npm package: import { Hono } from "hono@4"
+Bun.serve({
+  port: Number(process.env.PORT ?? 8080),
+  fetch(req) {
+    return new Response("Hello from your function");
+  },
+});
+```
+
+<Screenshot id="functions/2-code" alt="A new function: the Code tab with its URL, Copy, the starter file and Deploy" />
+
+Opening the URL returns `Hello from your function`.
+
+</Step>
+
+<Step>
+
+### Change the code and deploy
+
+Edit the file. **Unsaved changes** appears next to **Deploy**. Click **Deploy**: a **Deployed** notice confirms it. The new code answers on the same URL once the update has rolled out (about half a minute when we tried it).
+
+<Screenshot id="functions/3-edited" alt="The Code tab with edited code and Unsaved changes" />
+
+<Screenshot id="functions/4-deployed" alt="After Deploy: the Deployed notice" />
+
+The file can be up to 96 KB.
+
+</Step>
+
+</Steps>
+
+## Variables
+
+A function reads environment variables like any app, through `process.env`. **Variables** already has `PORT`, which the starter code listens on. To add your own, click **Add variable**, type a **KEY** and a **value**, then **Commit 1 change** → **Deploy 1 change** (see [Environment variables](/configure/environment-variables)).
+
+<Screenshot id="functions/6-variable" alt="Variables: PORT and a new GREETING variable" />
+
+With `GREETING` set to `hello from a variable`, a function that returns `process.env.GREETING` answered `{"path":"/hello","greeting":"hello from a variable"}`. Changing a variable keeps the function's code.
+
+## Run on a schedule
+
+**Settings** → **Schedule** decides how the function runs. "With a schedule the function runs as a job on that schedule and has no URL."
+
+<Screenshot id="functions/7-schedule-options" alt="Schedule: No schedule, Every 5 minutes, Every hour, Every day, Every week, Custom" />
+
+- **No schedule** (the default): the function serves HTTP on its URL.
+- **Every 5 minutes**, **Every hour**.
+- **Every day**: pick a time, in UTC (02:00 by default).
+- **Every week**: pick a day and a time, in UTC (Monday, 02:00 by default).
+- **Custom**: type a cron expression with five fields, in UTC. It starts from the expression of the option you had picked, for example `0 2 * * 1` after **Every week**.
+
+<Screenshot id="functions/7-schedule-daily" alt="Every day, with a time in UTC" />
+
+<Screenshot id="functions/7-schedule-weekly" alt="Every week: Monday, 02:00 AM, UTC" />
+
+<Screenshot id="functions/7-schedule-custom" alt="Custom, with a cron expression" />
+
+Changing the schedule is a staged change: **Commit 1 change**, then **Deploy 1 change**. Once a schedule is set, the URL stops answering.
+
+Each run executes the file once with `bun run`. With the starter's `Bun.serve` code, the runs printed nothing. A scheduled function should do its work, print what it needs to, and exit. For example:
+
+```ts
+console.log(`Ran at ${new Date().toISOString()}: ${process.env.GREETING ?? "hello"}`);
+```
+
+<Screenshot id="functions/3b-job-code" alt="The Code tab with a short file that logs one line" />
+
+Each run's output appears in **Logs**, tagged with the run:
+
+<Screenshot id="functions/10-runs" alt="Logs: Ran at 2026-11-24T12:20:01Z: hello from a variable, from a function-run job" />
+
+To serve HTTP again, set **No schedule**, deploy the change, and deploy code that calls `Bun.serve` again.
+
+<Screenshot id="functions/8-commit-unschedule" alt="1 change to apply: Schedule */5 * * * * removed" />
+
+## Other tabs and settings
+
+- **Deployment** lists each deploy, with what changed (**Updated code**, **First Deploy**), its status and who made it.
+- **Logs** streams the function's output (for a scheduled function, each run's output).
+- **Metrics** shows CPU, memory, response time, throughput and status codes over **2h**, **24h** or **7d**.
+- **Settings** also has **Custom domains** (the default URL includes HTTPS) and **Log retention**.
+
+<Screenshot id="functions/5-deployment" alt="Deployment: deploys with Updated code and First Deploy" />
+
+<Screenshot id="functions/5-metrics" alt="Metrics: CPU, memory and HTTP charts" />
+
+<Screenshot id="functions/5-settings" alt="Settings: Schedule, Custom domains and Log retention" />

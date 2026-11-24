@@ -1,0 +1,67 @@
+pipeline: import-demo-brkm
+services:
+  - name: web-tjlc
+    runtime: image
+    image:
+      url: nginx:1.27
+    port: 80
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_HOST
+        sync: false
+      - key: GREETING
+        sync: false
+      - key: PORT
+        sync: false
+      - key: PGHOST
+        fromDatabase:
+          name: db-qmwu
+          property: host
+      - key: PGPORT
+        sync: false
+      - key: PGHOST_RO
+        fromDatabase:
+          name: db-qmwu
+          property: host
+      - key: PGPORT_RO
+        sync: false
+      - key: PGUSER
+        fromDatabase:
+          name: db-qmwu
+          property: user
+      - key: PGDATABASE
+        fromDatabase:
+          name: db-qmwu
+          property: database
+      - key: PGPASSWORD
+        fromDatabase:
+          name: db-qmwu
+          property: password
+      - key: REDISHOST
+        fromDatabase:
+          name: cache-e03h
+          property: host
+      - key: REDISPORT
+        sync: false
+      - key: REDIS_PORT
+        sync: false
+      - key: REDIS_URL
+        fromDatabase:
+          name: cache-e03h
+          property: connectionString
+databases:
+  - name: db-qmwu
+    type: postgres
+    databaseName: appdb
+  - name: cache-e03h
+    type: valkey
+x-canvas:
+  groups:
+    - name: web-tjlc
+      members:
+        - app:web-tjlc
+        - addon:db-qmwu
+        - addon:cache-e03h
+      x: 24
+      y: 24

@@ -1,0 +1,11 @@
+app = "hello-fly"
+primary_region = "iad"
+
+[build]
+  image = "nginx:1.27"
+
+[env]
+  GREETING = "hello from fly.toml"
+
+[http_service]
+  internal_port = 80

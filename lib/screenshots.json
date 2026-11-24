@@ -132,6 +132,202 @@
     "capturedAt": "2026-11-23T14:46:22.860Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "docker/1-open": {
+    "src": "/screenshots/docker/1-open.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:44:16.519Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "docker/10-running": {
+    "src": "/screenshots/docker/10-running.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:50:50.502Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "docker/2-search": {
+    "src": "/screenshots/docker/2-search.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:44:21.734Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "docker/3-reference": {
+    "src": "/screenshots/docker/3-reference.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:44:26.879Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "docker/4-ready": {
+    "src": "/screenshots/docker/4-ready.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:44:32.146Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "docker/5-review": {
+    "src": "/screenshots/docker/5-review.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:44:37.469Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "docker/6-add-app": {
+    "src": "/screenshots/docker/6-add-app.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:44:41.305Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "docker/7-configure": {
+    "src": "/screenshots/docker/7-configure.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:44:50.504Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "docker/8-removed": {
+    "src": "/screenshots/docker/8-removed.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:44:54.896Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "docker/9-change": {
+    "src": "/screenshots/docker/9-change.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T12:44:57.448Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "functions/1-menu": {
+    "src": "/screenshots/functions/1-menu.png",
+    "width": 768,
+    "height": 720,
+    "capturedAt": "2026-11-24T11:59:59.404Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/10-runs": {
+    "src": "/screenshots/functions/10-runs.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:22:01.293Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/2-code": {
+    "src": "/screenshots/functions/2-code.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:00:17.793Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/3-edited": {
+    "src": "/screenshots/functions/3-edited.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:22:26.884Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/3b-job-code": {
+    "src": "/screenshots/functions/3b-job-code.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:19:15.961Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/4-deployed": {
+    "src": "/screenshots/functions/4-deployed.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:22:29.444Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/5-deployment": {
+    "src": "/screenshots/functions/5-deployment.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:03:03.867Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/5-logs": {
+    "src": "/screenshots/functions/5-logs.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:03:10.382Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/5-metrics": {
+    "src": "/screenshots/functions/5-metrics.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:03:16.785Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/5-settings": {
+    "src": "/screenshots/functions/5-settings.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:03:23.286Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/5-variables": {
+    "src": "/screenshots/functions/5-variables.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:02:57.440Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/6-variable": {
+    "src": "/screenshots/functions/6-variable.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:09:30.153Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/7-schedule-custom": {
+    "src": "/screenshots/functions/7-schedule-custom.png",
+    "width": 821,
+    "height": 82,
+    "capturedAt": "2026-11-24T12:22:43.056Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/7-schedule-daily": {
+    "src": "/screenshots/functions/7-schedule-daily.png",
+    "width": 821,
+    "height": 82,
+    "capturedAt": "2026-11-24T12:22:38.905Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/7-schedule-options": {
+    "src": "/screenshots/functions/7-schedule-options.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T12:22:36.987Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/7-schedule-weekly": {
+    "src": "/screenshots/functions/7-schedule-weekly.png",
+    "width": 821,
+    "height": 100,
+    "capturedAt": "2026-11-24T12:22:41.052Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/8-commit-unschedule": {
+    "src": "/screenshots/functions/8-commit-unschedule.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T12:22:46.019Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
+  "functions/9-scheduled-card": {
+    "src": "/screenshots/functions/9-scheduled-card.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:11:46.423Z",
+    "source": "/pipeline/github-demo-83cy/apps"
+  },
   "github-opts/1-service-menu": {
     "src": "/screenshots/github-opts/1-service-menu.png",
     "width": 768,
@@ -250,6 +446,132 @@
     "height": 640,
     "capturedAt": "2026-11-24T11:05:06.532Z",
     "source": "https://react-vite-starter-4l47.cloud-dev-central-1.stackblaze.app"
+  },
+  "import/1-open": {
+    "src": "/screenshots/import/1-open.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:09:15.467Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/2-preview": {
+    "src": "/screenshots/import/2-preview.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:09:28.189Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/3-answered": {
+    "src": "/screenshots/import/3-answered.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:09:31.469Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/4-staged": {
+    "src": "/screenshots/import/4-staged.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:09:36.819Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/5-commit": {
+    "src": "/screenshots/import/5-commit.png",
+    "width": 576,
+    "height": 512,
+    "capturedAt": "2026-11-24T12:09:38.312Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/6-running": {
+    "src": "/screenshots/import/6-running.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:11:23.392Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/broken-1-open": {
+    "src": "/screenshots/import/broken-1-open.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:40:13.679Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/broken-2-preview": {
+    "src": "/screenshots/import/broken-2-preview.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:40:19.496Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/fly-1-open": {
+    "src": "/screenshots/import/fly-1-open.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:13:49.220Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/fly-2-preview": {
+    "src": "/screenshots/import/fly-2-preview.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:14:12.399Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/override-1-open": {
+    "src": "/screenshots/import/override-1-open.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:39:59.394Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/override-2-preview": {
+    "src": "/screenshots/import/override-2-preview.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:40:02.604Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/render-1-open": {
+    "src": "/screenshots/import/render-1-open.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:13:12.709Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/render-2-preview": {
+    "src": "/screenshots/import/render-2-preview.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:13:35.940Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/render-3-answered": {
+    "src": "/screenshots/import/render-3-answered.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:13:39.063Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/stackblaze-1-open": {
+    "src": "/screenshots/import/stackblaze-1-open.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:15:24.569Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/stackblaze-2-preview": {
+    "src": "/screenshots/import/stackblaze-2-preview.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:15:47.827Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "import/stackblaze-3-answered": {
+    "src": "/screenshots/import/stackblaze-3-answered.png",
+    "width": 768,
+    "height": 722,
+    "capturedAt": "2026-11-24T12:15:50.991Z",
+    "source": "/pipeline/import-demo-brkm/apps"
   },
   "logs/1-app-logs": {
     "src": "/screenshots/logs/1-app-logs.png",

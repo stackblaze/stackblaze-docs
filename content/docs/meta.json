@@ -3,7 +3,10 @@
   "pages": [
     "index",
     "quickstart",
+    "deploy-docker-image",
     "deploy-from-github",
+    "import",
+    "functions",
     "---Templates---",
     "...templates",
     "---AI---",

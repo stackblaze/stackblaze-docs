@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: api
+    runtime: image
+    image:
+      url: docker.io/library/nginx:1.27
+    envVars:
+      - key: PORT
+        value: 80
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: appdb
+          property: connectionString
+databases:
+  - name: appdb
+    databaseName: app
+    user: app

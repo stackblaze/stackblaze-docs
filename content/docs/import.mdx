@@ -1,0 +1,126 @@
+---
+title: Import a stack
+description: Bring services and databases in from a docker-compose file, render.yaml, fly.toml or stackblaze.yaml.
+---
+
+**Import** reads a file that describes your stack and adds its services and databases to the canvas, staged. Nothing is created until you commit. It reads `docker-compose` files, `render.yaml`, `fly.toml` and `stackblaze.yaml`.
+
+<Steps>
+
+<Step>
+
+### Open Import
+
+In your project, click **+ Service** and choose **Import** (**Compose, render.yaml, fly.toml**).
+
+<Screenshot id="import/1-open" alt="The Import dialog: drop a file, or paste below; Choose a file…; Detect automatically" />
+
+</Step>
+
+<Step>
+
+### Add your file
+
+Click **Choose a file…**, or paste its contents into the box. The format is detected for you; **Detect automatically** next to it lets you pick **stackblaze.yaml**, **render.yaml**, **docker-compose** or **fly.toml** yourself.
+
+This guide imports this `docker-compose.yml`:
+
+```yaml title="docker-compose.yml"
+services:
+  web:
+    image: nginx:1.27
+    ports:
+      - "8080:80"
+    environment:
+      DATABASE_URL: postgres://app:app@db:5432/appdb
+      REDIS_HOST: cache
+      GREETING: ${GREETING}
+    depends_on:
+      - db
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: app
+  cache:
+    image: redis:7
+```
+
+</Step>
+
+<Step>
+
+### Check what was found
+
+The dialog lists what it will add: here **Found 1 service · 2 databases** (`web`, `db`, `cache`). The `postgres` and `redis` services become a PostgreSQL and a Valkey database instead of containers.
+
+Below that are notes about what changed on the way in. For this file:
+
+- `DATABASE_URL` "was repointed at the db add-on (compose service DNS does not carry over)".
+- `depends_on` "is ignored — services start independently and retry".
+
+<Screenshot id="import/2-preview" alt="Detected docker-compose; Found 1 service · 2 databases: web, db, cache" />
+
+</Step>
+
+<Step>
+
+### Fill in the values the file asks for
+
+A value the file doesn't contain, such as `${GREETING}` here, is listed under **Values this file asks for**. Type a value for each one; **Add to canvas** stays disabled until you do.
+
+<Screenshot id="import/3-answered" alt="Values this file asks for: GREETING, filled in" />
+
+</Step>
+
+<Step>
+
+### Add to canvas, then commit
+
+Click **Add to canvas**. The service and both databases appear as **Staged**, and **Commit 3 changes** shows in the toolbar.
+
+<Screenshot id="import/4-staged" alt="The canvas: web, db and cache staged; Commit 3 changes" />
+
+Click **Commit 3 changes** to review what will be applied (one service, two add-ons). Add a **Commit message** if you like, then click **Deploy 3 changes**. **Discard all** drops the import instead.
+
+<Screenshot id="import/5-commit" alt="3 changes to apply: web, db, cache; Discard all; Deploy 3 changes" />
+
+</Step>
+
+<Step>
+
+### Running
+
+When everything is **Running**, `web` is on its public URL and connected to both databases. Its `DATABASE_URL` points at the new PostgreSQL database, and `REDIS_HOST` at the Valkey one.
+
+<Screenshot id="import/6-running" alt="web, PostgreSQL db and Valkey cache, all Running" />
+
+</Step>
+
+</Steps>
+
+## Other formats
+
+### render.yaml
+
+Services and `databases` come across. A variable marked `sync: false` is asked for under **Values this file asks for**.
+
+<Screenshot id="import/render-2-preview" alt="Detected render.yaml: Found 1 service · 1 database, and ADMIN_EMAIL asked for" />
+
+### fly.toml
+
+A `fly.toml` describes one app, so you get one service. Region settings are ignored (the cluster decides placement), and a `fly.toml` has no databases.
+
+<Screenshot id="import/fly-2-preview" alt="Detected fly.toml: Found 1 service, with the notes about regions and databases" />
+
+### stackblaze.yaml
+
+A `stackblaze.yaml` is StackBlaze's own format, the one a saved template uses. Importing into an environment that already has services with the same names renames the new ones (here `web-tjlc` → `web-tjlc-2`), and lists the renames.
+
+<Screenshot id="import/stackblaze-2-preview" alt="Detected stackblaze.yaml: renamed to avoid names already in this phase, and the values it asks for" />
+
+## When the file can't be read
+
+If the file has a syntax error, or doesn't match the format you picked, the dialog shows the error and its line, and **Add to canvas** stays disabled.
+
+<Screenshot id="import/override-2-preview" alt="A docker-compose file read as fly.toml: TOML syntax error" />
