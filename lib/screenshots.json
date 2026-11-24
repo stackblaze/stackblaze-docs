@@ -776,6 +776,55 @@
     "capturedAt": "2026-11-24T12:20:28.823Z",
     "source": "/pipeline/github-demo-gv35/apps"
   },
+  "files/2-menu": {
+    "src": "/screenshots/files/2-menu.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:08:48.329Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "files/3-list": {
+    "src": "/screenshots/files/3-list.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:09:33.531Z",
+    "source": "/pipeline/my-first-project-h22a/dev/volume/data/files"
+  },
+  "files/4-new-folder": {
+    "src": "/screenshots/files/4-new-folder.png",
+    "width": 440,
+    "height": 214,
+    "capturedAt": "2026-11-24T18:09:35.513Z",
+    "source": "/pipeline/my-first-project-h22a/dev/volume/data/files"
+  },
+  "files/5-uploaded": {
+    "src": "/screenshots/files/5-uploaded.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:09:47.284Z",
+    "source": "/pipeline/my-first-project-h22a/dev/volume/data/files"
+  },
+  "files/6-actions": {
+    "src": "/screenshots/files/6-actions.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:09:49.399Z",
+    "source": "/pipeline/my-first-project-h22a/dev/volume/data/files"
+  },
+  "files/7-open-file": {
+    "src": "/screenshots/files/7-open-file.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:09:54.149Z",
+    "source": "/pipeline/my-first-project-h22a/dev/volume/data/files"
+  },
+  "files/8-delete-confirm": {
+    "src": "/screenshots/files/8-delete-confirm.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T18:11:28.681Z",
+    "source": "/pipeline/my-first-project-h22a/dev/volume/data/files"
+  },
   "functions/1-menu": {
     "src": "/screenshots/functions/1-menu.png",
     "width": 768,
