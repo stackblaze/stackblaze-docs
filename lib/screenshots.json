@@ -2582,6 +2582,62 @@
     "capturedAt": "2026-11-24T17:35:17.300Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "stacks/1-list": {
+    "src": "/screenshots/stacks/1-list.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T19:14:30.693Z",
+    "source": "/templates"
+  },
+  "stacks/10-running": {
+    "src": "/screenshots/stacks/10-running.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T19:11:38.855Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "stacks/2-group-menu": {
+    "src": "/screenshots/stacks/2-group-menu.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T19:07:52.934Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "stacks/3-save-dialog": {
+    "src": "/screenshots/stacks/3-save-dialog.png",
+    "width": 512,
+    "height": 608,
+    "capturedAt": "2026-11-24T19:07:56.905Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "stacks/4-yaml": {
+    "src": "/screenshots/stacks/4-yaml.png",
+    "width": 512,
+    "height": 706,
+    "capturedAt": "2026-11-24T19:07:59.752Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "stacks/5-saved": {
+    "src": "/screenshots/stacks/5-saved.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T19:08:12.233Z",
+    "source": "/templates"
+  },
+  "stacks/7-deploy-picked": {
+    "src": "/screenshots/stacks/7-deploy-picked.png",
+    "width": 512,
+    "height": 434,
+    "capturedAt": "2026-11-24T19:10:27.291Z",
+    "source": "/templates"
+  },
+  "stacks/9-commit": {
+    "src": "/screenshots/stacks/9-commit.png",
+    "width": 576,
+    "height": 362,
+    "capturedAt": "2026-11-24T19:10:37.435Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
   "team/1-users": {
     "src": "/screenshots/team/1-users.png",
     "width": 994,

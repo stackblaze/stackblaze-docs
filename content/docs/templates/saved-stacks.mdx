@@ -1,0 +1,88 @@
+---
+title: Saved stacks
+description: Save a group of services from a canvas as a reusable stack, and deploy it into any project.
+---
+
+A **saved stack** is a group of services (and their databases) from one of your canvases, saved so you can add the same setup to any project. Find your stacks under **Saved stacks** in the left navigation.
+
+<Screenshot id="stacks/1-list" alt="Saved stacks, empty: Save a stack — right-click a group on a project canvas and choose Save as stack" />
+
+## Save a stack
+
+<Steps>
+
+<Step>
+
+### Open the group's menu
+
+Open a project and switch the canvas to **Designer**. Each group has a **Group actions** button. Its menu has **Rename**, **Hide contents**, **Colour**, **Remove group**, **Save as stack…** and **Delete stack…**. Choose **Save as stack…**.
+
+<Screenshot id="stacks/2-group-menu" alt="A group's menu: Rename, Hide contents, Colour, Remove group, Save as stack and Delete stack" />
+
+</Step>
+
+<Step>
+
+### Name it
+
+**Save as stack** "Saves the … group as a reusable stack. Deploying it later recreates these services and databases in any project." Fill in:
+
+- **Name**, for example `docs-nginx`;
+- **Description** and **Category**, both optional;
+- **Visible to**: **My organisation** or **Just me**.
+
+The dialog lists what the stack saves, here **1 service**.
+
+<Screenshot id="stacks/3-save-dialog" alt="Save as stack: Name docs-nginx, Description, Category Docs, Visible to My organisation, Saves 1 service" />
+
+**View YAML** shows the stack as it will be saved: each service's image, port, health check and variables. Variables that come from a database are saved as references to it, not as their values.
+
+<Screenshot id="stacks/4-yaml" alt="The stack's YAML: the service with its image, port 8080, health check path and variables" />
+
+</Step>
+
+<Step>
+
+### Save
+
+Click **Save**. The canvas confirms "Saved "docs-nginx" — Find it under Saved stacks to deploy into any project." Under **Saved stacks**, the stack shows who can see it, its description, how many services it has and how many times it was deployed.
+
+<Screenshot id="stacks/5-saved" alt="Saved stacks: docs-nginx, Organisation, One nginx service for the docs, 1 service, DEPLOYS 0, Deploy" />
+
+</Step>
+
+</Steps>
+
+## Deploy a stack
+
+<Steps>
+
+<Step>
+
+### Pick the project
+
+Click **Deploy** on the stack. The dialog says it "Adds 1 service to a project. You review and commit on the canvas — nothing deploys yet." Choose the **Project**, then the **Phase** (environment). Click **Deploy**.
+
+<Screenshot id="stacks/7-deploy-picked" alt="Deploy docs-nginx: Project github-demo-cw8z, Phase production, Deploy" />
+
+</Step>
+
+<Step>
+
+### Commit on the canvas
+
+The project's canvas opens with the stack's services staged. Click **Commit 1 change**; the dialog lists the service to deploy. Click **Deploy 1 change**.
+
+<Screenshot id="stacks/9-commit" alt="1 change to apply to Production: Services, deploy nginx-unprivileged-mi0u" />
+
+Our service came up **Running**, with its own address, and answered `200`.
+
+<Screenshot id="stacks/10-running" alt="The canvas with the service from the stack, Running" />
+
+</Step>
+
+</Steps>
+
+## Edit or delete a stack
+
+On **Saved stacks**, a stack's **More** menu has **Edit**, **View YAML** and **Delete**. **Delete** asks first: "Delete "docs-nginx"? Projects already deployed from it are unaffected."
