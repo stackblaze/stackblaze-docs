@@ -1,0 +1,106 @@
+---
+title: Infrastructure as code
+description: Export a project and its apps as YAML manifests, keep them in git, preview a change with plan and make it with apply.
+---
+
+A project and its apps can be written out as YAML **manifests**. You keep them in git, edit them, see what a change would do with `stackblaze plan`, and make it with `stackblaze apply`. You need the [CLI](/cli), signed in to your organization.
+
+## Turn it on for the project
+
+`plan` and `apply` are refused for a project until **Infrastructure as Code** is on. Switch it on in [Project settings](/projects/project-settings#infrastructure-as-code) (**Enable IaC apply**), or with the CLI:
+
+```sh
+stackblaze projects iac on -p github-demo-kpw0
+```
+
+```text
+OK Infrastructure as Code turned on for project github-demo-kpw0
+`stackblaze plan` and `stackblaze apply` can now change project github-demo-kpw0.
+```
+
+`stackblaze projects iac` on its own shows whether it's on. Exporting works either way.
+
+## Export the manifests
+
+```sh
+stackblaze export -p github-demo-kpw0
+```
+
+```text
+  wrote github-demo-kpw0.project.yaml
+  wrote github-demo-kpw0.dev.nginx-unprivileged-mi0u.app.yaml
+OK Exported 1 project(s) and 1 app(s) to stackblaze
+Variable values and credentials are written as ******** (apply keeps the current value); pass --reveal to write them in plaintext.
+```
+
+You get one file for the project (`kind: StackBlazeProject`) and one per app (`kind: StackBlazeApp`) in the `stackblaze` folder. `--out` picks another folder; without `-p`, every project is exported.
+
+Secrets stay out of the files: variable values, Basic Auth passwords and add-on credentials are written as `********`, and `plan` and `apply` read `********` as "keep the current value". An app's variables look like this:
+
+```yaml
+  envVars:
+    - name: PORT
+      value: "********"
+      masked: true
+```
+
+## Change something
+
+Edit the manifest. Here we add a variable to the app:
+
+```yaml
+  envVars:
+    - name: PORT
+      value: "********"
+      masked: true
+    - name: IAC_DEMO
+      value: "from-the-manifest"
+```
+
+## Preview it with plan
+
+```sh
+stackblaze plan stackblaze
+```
+
+`plan` lists what `apply` would create or change, without changing anything. For our edit, it showed the new variable on the app:
+
+```text
+update app github-demo-kpw0/dev/nginx-unprivileged-mi0u
+    + envVars[IAC_DEMO]: ********
+```
+
+It ends with a summary, such as `Plan: 0 to create, 2 to update`.
+
+## Apply it
+
+```sh
+stackblaze apply stackblaze
+```
+
+```text
+OK updated project github-demo-kpw0
+OK updated app github-demo-kpw0/dev/nginx-unprivileged-mi0u
+
+Done: 0 created, 2 updated
+```
+
+The app is deployed with the change. Ours had `IAC_DEMO=from-the-manifest` in its running container. Removing the variable from the manifest and applying again removed it from the app.
+
+## When the app changed since the export
+
+Each app manifest remembers the revision it was exported at. If the app was changed after that, for example in the dashboard, `apply` refuses the app instead of quietly undoing that change. It names the fields it would change back, exits with code `3`, and changes nothing on that app:
+
+```text
+x  apply failed for app github-demo-kpw0/dev/nginx-unprivileged-mi0u: App nginx-unprivileged-mi0u was changed since this manifest was exported (…); applying it would change envVars, image back. Export again, or apply with --force to overwrite. Nothing was changed.
+```
+
+Run `stackblaze export` again to get current manifests and redo your edit, or pass `--force` to overwrite the app anyway.
+
+## Turn it off
+
+```sh
+stackblaze projects iac off -p github-demo-kpw0
+```
+
+While it's off, `plan` and `apply` are refused for the project; `export` still works. Every option of these commands is in the CLI reference: [export](/cli/reference/export), [plan](/cli/reference/plan) and [apply](/cli/reference/apply).

@@ -1,4 +1,10 @@
 {
   "title": "Projects",
-  "pages": ["index", "environments", "project-settings", "organizations"]
+  "pages": [
+    "index",
+    "environments",
+    "project-settings",
+    "organizations",
+    "infrastructure-as-code"
+  ]
 }
