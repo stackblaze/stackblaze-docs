@@ -1,5 +1,5 @@
 # StackBlaze docs on leaseweb-montreal: namespace docs-dev, image tag :dev.
-# Served at docs-dev-origin.stackblaze.cloud; the website (Vercel) forwards www.stackblaze.com/docs/* here.
+# Served at docs-dev-origin.stackblaze.com; the website (Vercel) forwards www.stackblaze.com/docs/* here.
 # Apply: kubectl --context leaseweb-montreal apply -f deploy/docs-dev.yaml
 # Roll out a new image: kubectl --context leaseweb-montreal -n docs-dev rollout restart deploy/docs
 apiVersion: v1
@@ -62,10 +62,10 @@ metadata:
 spec:
   ingressClassName: traefik
   tls:
-    - hosts: [docs-dev-origin.stackblaze.cloud]
+    - hosts: [docs-dev-origin.stackblaze.com]
       secretName: docs-tls
   rules:
-    - host: docs-dev-origin.stackblaze.cloud
+    - host: docs-dev-origin.stackblaze.com
       http:
         paths:
           - path: /
