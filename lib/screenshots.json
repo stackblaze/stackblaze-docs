@@ -1,4 +1,32 @@
 {
+  "backups/1-sheet": {
+    "src": "/screenshots/backups/1-sheet.png",
+    "width": 548,
+    "height": 764,
+    "capturedAt": "2026-11-24T05:38:24.304Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "backups/2-commit": {
+    "src": "/screenshots/backups/2-commit.png",
+    "width": 576,
+    "height": 362,
+    "capturedAt": "2026-11-24T05:38:25.648Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "backups/3-point": {
+    "src": "/screenshots/backups/3-point.png",
+    "width": 548,
+    "height": 764,
+    "capturedAt": "2026-11-24T05:38:46.147Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "backups/4-point-open": {
+    "src": "/screenshots/backups/4-point-open.png",
+    "width": 548,
+    "height": 764,
+    "capturedAt": "2026-11-24T05:38:46.988Z",
+    "source": "/pipeline/my-first-project-h22a/apps"
+  },
   "cli/login-approve": {
     "src": "/screenshots/cli/login-approve.png",
     "width": 444,

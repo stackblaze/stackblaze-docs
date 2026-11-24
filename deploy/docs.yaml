@@ -15,6 +15,10 @@ metadata:
   labels: { app: docs }
 spec:
   replicas: 1
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: { maxUnavailable: 0, maxSurge: 1 }
   selector:
     matchLabels: { app: docs }
   template:
@@ -27,6 +31,10 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
+          lifecycle:
+            # Let the ingress stop sending traffic before the server exits.
+            preStop:
+              exec: { command: ['sleep', '5'] }
           readinessProbe:
             httpGet: { path: /docs, port: 3000 }
             periodSeconds: 10
