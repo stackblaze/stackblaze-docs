@@ -1,0 +1,134 @@
+---
+title: Deploy a folder
+description: Deploy the code in a folder with stackblaze up, open it, change it and deploy again.
+---
+
+`stackblaze up` deploys a folder. If the folder is a git checkout with a remote, StackBlaze builds that repository. If it has no git remote (or you pass `--local`), the CLI uploads the folder itself and StackBlaze builds that.
+
+This guide deploys a two-file Node.js app from a folder with no git remote.
+
+<Steps>
+
+<Step>
+
+### Make the app
+
+In a new folder `hello-stackblaze`:
+
+```json title="package.json"
+{
+  "name": "hello-stackblaze",
+  "version": "1.0.0",
+  "scripts": { "start": "node server.js" }
+}
+```
+
+```js title="server.js"
+const http = require('node:http');
+const port = process.env.PORT || 3000;
+http.createServer((req, res) => {
+  res.end('Hello from StackBlaze\n');
+}).listen(port, () => console.log(`listening on ${port}`));
+```
+
+</Step>
+
+<Step>
+
+### Deploy it
+
+```sh
+cd hello-stackblaze
+stackblaze up -y --wait
+```
+
+- `-y` creates a project named after the folder when the folder is not linked to one yet.
+- `--wait` waits until the app is running.
+
+The CLI packs and uploads the folder, then streams the build log as it runs. StackBlaze detected Node.js and installed it with npm:
+
+```text
+Packing hello-stackblaze: 2 files, 305 B (respects .gitignore and .stackblazeignore)
+Archive: 347 B compressed (sha256 ed1bfd845b83)
+Uploading: 100% (347 B/347 B)
+OK Building hello-stackblaze/production/hello-stackblaze from local upload ed1bfd845b83
+…
+  ↳ Detected Node
+  ↳ Using npm package manager
+…
+OK hello-stackblaze/production/hello-stackblaze-lloy is ready
+url: https://hello-stackblaze-lloy.….stackblaze.app
+```
+
+The app went into a new project `hello-stackblaze`, in an environment named **production**. The CLI also linked the folder to it, in `.stackblaze/project.json`, so later commands in this folder know which app you mean.
+
+</Step>
+
+<Step>
+
+### Open it
+
+```sh
+curl https://hello-stackblaze-lloy.….stackblaze.app
+```
+
+```text
+Hello from StackBlaze
+```
+
+`stackblaze open` opens the app in the dashboard.
+
+</Step>
+
+<Step>
+
+### Change it and deploy again
+
+Edit `server.js` (we changed the message to `Hello again from StackBlaze`) and run `up` again. Because the folder is linked, it updates the same app:
+
+```sh
+stackblaze up --wait
+```
+
+The URL stays the same and now returns the new message.
+
+</Step>
+
+<Step>
+
+### Read the logs
+
+```sh
+stackblaze logs
+```
+
+```text
+2026-11-24T05:31:47.044Z > hello-stackblaze@1.0.0 start
+2026-11-24T05:31:47.044Z > node server.js
+2026-11-24T05:31:47.091Z listening on 3000
+```
+
+Add `--follow` to keep streaming.
+
+</Step>
+
+</Steps>
+
+## What gets uploaded
+
+`up` honours `.gitignore` and `.stackblazeignore`, and always leaves out `.git`, `node_modules` and `.env*` files (it warns when it skips a `.env`). The upload can be up to 200 MB compressed. Rebuilds within 7 days (after a variable change or a redeploy) reuse the same upload.
+
+## Useful options
+
+| Option | What it does |
+|---|---|
+| `--name <name>` | App name (default: the linked app or the folder name) |
+| `--local` | Upload the folder even if it is a git checkout |
+| `--image <ref>` | Run a Docker image instead of building, e.g. `--image nginx:1.27` |
+| `--port <n>` | Container port for a new app (default: the Dockerfile's `EXPOSE` port, else 3000) |
+| `--env KEY=value` | Set a variable (repeatable) |
+| `--worker` | A background worker: no port, no public URL |
+| `-p <project>`, `--phase <env>` | Deploy into a given project and environment |
+| `--ci` | For CI: stream build logs as JSON lines and exit when the build finishes (exit code 1 if it fails) |
+
+Every option: [`stackblaze up`](/cli/reference/up).

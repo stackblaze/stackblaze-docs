@@ -1,0 +1,64 @@
+---
+title: Install and sign in
+description: Install the StackBlaze CLI and sign in with one click in your browser.
+---
+
+<Steps>
+
+<Step>
+
+### Install
+
+```sh
+curl -fsSL https://www.stackblaze.com/install.sh | sh
+```
+
+The script installs the newest release to `~/.local/bin` (or `/usr/local/bin` when run as root) and checks it runs. If that folder is not on your `PATH`, it tells you the line to add. To install somewhere else, set `STACKBLAZE_INSTALL_DIR`; to pin a version, set `STACKBLAZE_VERSION`.
+
+Check it:
+
+```sh
+stackblaze --version
+```
+
+Later, `stackblaze upgrade` installs the newest release.
+
+</Step>
+
+<Step>
+
+### Sign in
+
+```sh
+stackblaze login
+```
+
+The CLI opens a sign-in page in your browser. On a machine without a browser (over SSH, for example), use `stackblaze login --browserless`: it prints the link and a code instead.
+
+```text
+  → Sign in with one click:
+    https://…/activate?user_code=XXXX-XXXX
+
+  → Or go to https://…/activate and enter this code:
+    XXXX-XXXX
+
+Waiting for sign-in...
+```
+
+The page shows the code, the IP address the request came from, the CLI version and when it was requested. Check that the code matches the one in your terminal, then click **Approve**.
+
+<Screenshot id="cli/login-approve" alt="Authorize CLI: the code, IP address, client and time, with Approve and Deny" />
+
+<Screenshot id="cli/login-done" alt="Authorize CLI: This CLI is signed in. CLI authorized." />
+
+Back in the terminal, the CLI confirms and saves its credentials in `~/.config/stackblaze/config.json`. Treat that file as a secret.
+
+```text
+OK Logged in to https://api.stackblaze.cloud
+```
+
+</Step>
+
+</Steps>
+
+`stackblaze whoami` shows who you are signed in as, and `stackblaze logout` removes the saved credentials. For CI, skip `login` and set `STACKBLAZE_TOKEN` to an API token (`stackblaze tokens create <name>` prints a new one once).

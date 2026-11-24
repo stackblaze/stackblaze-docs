@@ -105,12 +105,17 @@ export async function open() {
       pending[id] = { src: rel, width: Math.round(width / dpr), height: Math.round(height / dpr), capturedAt: new Date().toISOString(), source };
       console.log(`  shot ${id} (${pending[id].width}x${pending[id].height})`);
     },
-    /** Write the manifest only after the whole flow succeeded. */
-    async done() {
+    /** Save the shots taken so far (for long flows: a later failure keeps
+     *  the steps that were really performed). */
+    checkpoint() {
       const m = fs.existsSync(MANIFEST) ? JSON.parse(fs.readFileSync(MANIFEST, 'utf8')) : {};
       Object.assign(m, pending);
       const sorted = Object.fromEntries(Object.keys(m).sort().map((k) => [k, m[k]]));
       fs.writeFileSync(MANIFEST, JSON.stringify(sorted, null, 2) + '\n');
+    },
+    /** Write the manifest after the flow succeeded, and disconnect. */
+    async done() {
+      this.checkpoint();
       await context.close();
       await browser.close(); // over CDP this only disconnects
     },

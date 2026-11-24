@@ -1,4 +1,18 @@
 {
+  "cli/login-approve": {
+    "src": "/screenshots/cli/login-approve.png",
+    "width": 444,
+    "height": 485,
+    "capturedAt": "2026-11-24T05:33:51.357Z",
+    "source": "/activate"
+  },
+  "cli/login-done": {
+    "src": "/screenshots/cli/login-done.png",
+    "width": 444,
+    "height": 254,
+    "capturedAt": "2026-11-24T05:33:52.789Z",
+    "source": "/activate"
+  },
   "deployments/1-list": {
     "src": "/screenshots/deployments/1-list.png",
     "width": 816,
