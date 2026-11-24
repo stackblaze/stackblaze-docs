@@ -1,0 +1,153 @@
+---
+title: Billing
+description: Your plan and what it includes, GPU credit, how you pay, billing details, support plans and invoices.
+---
+
+The **Billing** page holds your organization's plan, its prepaid GPU credit, the card you pay with, the details printed on your invoices, your support plan and every invoice. What you have used this period is on [Usage](/billing/usage).
+
+## Open Billing
+
+In the sidebar, under **Administration**, click **Billing**.
+
+<Screenshot id="billing/1-overview" alt="Billing: Credits $3.00, the Current plan card with Business $499/mo, Change plan and Cancel subscription, and the GPU credit card" />
+
+## Credits
+
+When your organization has promotional credit, a **Credits** row at the top shows the balance: "Promotional credit, used before your card is charged." The expiry date follows, for example "Expires February 11, 2027."
+
+## Current plan
+
+The **Current plan** card shows the plan's name and price, for example **Business** **$499/mo**, and when the included usage starts again: "Included usage resets on Dec 11 (17 days left)".
+
+From here you can open **Change plan** or **Cancel subscription**.
+
+### Change plan
+
+Click **Change plan**. The window shows one plan at a time: its name, what it's for, a price picker, **Monthly** and **Annual**, and **What's included:**. On the right it says what changing to that plan does.
+
+<Screenshot id="billing/2-change-plan" alt="Change plan: Pro, $29 / month, Monthly and Annual, What's included, and Downgrade your plan on the right" />
+
+Open the picker to see the plans you can switch to, listed under **Cloud** ("Organizations and shared hosting"). Your current plan isn't listed. Each row shows the price and what the plan is for.
+
+<Screenshot id="billing/3-plan-list" alt="The plan picker open under Cloud: $10 / month Personal projects & MVPs and $29 / month Production apps & startups" />
+
+Click **Annual** to see the yearly price. It's billed once a year, up front, and saves 20%: the picker reads, for example, **$278.40 / year** and "$23.20/mo billed annually · save 20%".
+
+<Screenshot id="billing/4-change-plan-annual" alt="Pro on Annual: $278.40 / year, $23.20/mo billed annually · save 20%, Billed once a year, up front — save 20%" />
+
+### The plans
+
+These are the self-serve plans and what **What's included:** lists for each.
+
+| | Developer | Pro | Business |
+| --- | --- | --- | --- |
+| For | Personal projects & MVPs | Production apps & startups | Growing teams & agencies |
+| Monthly | $10 / month | $29 / month | $499 / month |
+| Annual | $96 / year ($8/mo) | $278.40 / year ($23.20/mo) | $4,790.40 / year ($399.20/mo) |
+| Included usage | $10/month | $29/month | $499/month |
+| Projects | 5 | 25 | 100 |
+| Services per project | 20 | 50 | 200 |
+| Databases (Postgres, MariaDB, Redis) | 2 | 10 | 30 |
+| Backups kept | 7 days | 14 days | 30 days |
+| Size per service | Up to 2 vCPU · 4 GB RAM | Up to 4 vCPU · 16 GB RAM | Up to 8 vCPU · 32 GB RAM |
+| Instances per service | 1 | Up to 3 | Up to 10 |
+| Environments per project | 2 | 5 | 10 |
+| Team members | 1 | 5 | 20 |
+| Regions | 1 | 3 | 3 |
+
+Every plan includes custom domains with automatic SSL and unlimited free build minutes. The plan price comes back as included usage: what your apps use is counted against it first (see [Usage](/billing/usage#usage-breakdown)).
+
+The last three rows are the limits the [Plan limits](/billing/usage#plan-limits) card on Usage counts against.
+
+### Downgrade
+
+Picking a lower plan shows **Downgrade your plan**: "Switch to Pro at the end of your billing period." It takes effect on the date shown, and you keep full access to your current plan until then. There is no refund for the current billing period. The button reads **Schedule downgrade**.
+
+Before a downgrade, the window checks what you run against the lower plan and lists what changes:
+
+- **Reduced at the end of your billing period**: for example, a smaller maximum size per service (larger services are resized and restarted), fewer database connections, or Redis connection limits. Databases restart with the new limits.
+- **Over the new plan: keeps running, but you can't add more**: for example, "Your workspace has 11 databases; Pro includes 10."
+- **Not included in the new plan**: for example, backups kept for fewer days. Existing schedules keep their retention until you save them again.
+
+To leave without changing anything, close the window with **×**.
+
+### Cancel subscription
+
+Click **Cancel subscription** under **Change plan**. The confirmation explains what happens.
+
+<Screenshot id="billing/5-cancel" alt="Cancel your subscription? with Keep my plan and Cancel subscription" />
+
+You keep your plan and everything running until the end of the period you already paid for, and you aren't charged again. After that your services are paused. Their apps and data are kept for 30 days, then deleted unless you choose a plan. Your account stays.
+
+Click **Keep my plan** to close it without cancelling.
+
+## GPU credit
+
+**GPU credit** is prepaid credit for AI model GPU time. Models are paused when it runs out. The card shows the balance and your **Recent top-ups**.
+
+To add credit, pick **$10**, **$25**, **$50** or **$100**, or type an amount in **Other amount**, then click **Add credit**. **Add credit** goes on to checkout, where you pay.
+
+A typed amount is checked as you type:
+
+| You type | You see |
+| --- | --- |
+| Something that isn't an amount | Enter an amount in dollars, such as 25 or 12.50. |
+| Less than $10 | The smallest amount is $10. |
+| More than $2,000 | The largest amount is $2000. |
+
+**Add credit** stays greyed out until the amount is valid.
+
+<Screenshot id="billing/6-gpu-credit-min" alt="GPU credit with 5 typed in Other amount, Add credit greyed out and The smallest amount is $10." />
+
+## Payment method
+
+**Payment method** shows the card on file: its brand, the last four digits and when it expires, with "Charged for renewals."
+
+**Update card** opens the billing portal in the same tab, where you change the card.
+
+<Screenshot id="billing/8-payment-details" alt="Payment method with a Visa card and Update card, and Billing details with Edit" />
+
+## Billing details
+
+**Billing details** is the company, address and tax ID printed on your invoices. Click **Edit** to change them.
+
+<Screenshot id="billing/9-billing-details" alt="The Billing details window: Company name, Country, Street address, Address line 2, City and postal code, Province, GST/HST number and Save" />
+
+| Field | |
+| --- | --- |
+| **Company name** | Optional. |
+| **Country** | Required. |
+| **Street address** | Required. |
+| **Address line 2** | Optional. |
+| **City and postal code** | Required. |
+| **Province** | Required (a list, for Canada). |
+| **GST/HST number** | Optional. The business tax ID printed on invoices, for example 123456789RT0001. |
+
+The tax ID field is named for the country; the window above is for Canada. **Save** stays greyed out until you change something. To leave without saving, close the window with **×**.
+
+## Support plans
+
+The **Support** card says which support plan you're on. Click **Compare support plans** to see them side by side.
+
+<Screenshot id="billing/10-support-plans" alt="Support plans: Community Free, Standard $19/month, Premium $149/month and Enterprise Custom" />
+
+| Plan | Price | Response | Includes |
+| --- | --- | --- | --- |
+| **Community** | Free | Best effort | The community chat, documentation and guides |
+| **Standard** | $19/month | 24-hour first response on business days | Email support, help with deploys, builds and databases |
+| **Premium** | $149/month | 8-hour first response, 1 hour for urgent issues | Free hands-on migration from your current setup, architecture reviews |
+| **Enterprise** | Custom | 24/7 response with an uptime SLA | A dedicated chat channel, free hands-on migration, a named support engineer, custom terms |
+
+Community comes with every plan. Standard and Premium are add-ons you can buy on any plan. Click **Add Standard** or **Add Premium** and the dashboard asks first, for example "Add Standard support? $19/month, billed monthly with your plan. Prices exclude tax." Click **Cancel** to back out.
+
+<Screenshot id="billing/12-support-confirm" alt="Add Standard support? $19/month, billed monthly with your plan. Prices exclude tax. Cancel and Add Standard" />
+
+For Enterprise, **Contact us** opens the StackBlaze contact page. To leave the comparison, close the window with **×**.
+
+## Invoices
+
+**Invoices** lists every invoice for this organization, newest first, 10 to a page (change it with **10 / page**). Each row has the **Date**, the **Invoice** number, the **Amount**, the **Status** (for example **Paid**) and a **PDF** link that opens the invoice. Click a column heading to sort by it, or search with **Search invoices…**.
+
+<Screenshot id="billing/11-invoices" alt="Invoices: Date, Invoice, Amount, Status and PDF for three paid invoices, and Need to cancel your subscription? Manage in Stripe" />
+
+Below the list, **Manage in Stripe** opens the same billing portal as **Update card**, where you can also manage your subscription.

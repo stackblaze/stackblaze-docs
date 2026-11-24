@@ -489,6 +489,104 @@
     "capturedAt": "2026-11-24T06:01:20.359Z",
     "source": "CloudBeaver: postgresql-restored-9u8z"
   },
+  "billing/1-overview": {
+    "src": "/screenshots/billing/1-overview.png",
+    "width": 971,
+    "height": 494,
+    "capturedAt": "2026-11-24T18:32:55.157Z",
+    "source": "/billing"
+  },
+  "billing/10-support-plans": {
+    "src": "/screenshots/billing/10-support-plans.png",
+    "width": 960,
+    "height": 412,
+    "capturedAt": "2026-11-24T18:33:22.491Z",
+    "source": "/billing"
+  },
+  "billing/11-invoices": {
+    "src": "/screenshots/billing/11-invoices.png",
+    "width": 955,
+    "height": 435,
+    "capturedAt": "2026-11-24T18:33:26.222Z",
+    "source": "/billing"
+  },
+  "billing/12-support-confirm": {
+    "src": "/screenshots/billing/12-support-confirm.png",
+    "width": 448,
+    "height": 166,
+    "capturedAt": "2026-11-24T18:33:24.091Z",
+    "source": "/billing"
+  },
+  "billing/2-change-plan": {
+    "src": "/screenshots/billing/2-change-plan.png",
+    "width": 918,
+    "height": 490,
+    "capturedAt": "2026-11-24T18:33:01.167Z",
+    "source": "/billing"
+  },
+  "billing/3-plan-list": {
+    "src": "/screenshots/billing/3-plan-list.png",
+    "width": 442,
+    "height": 245,
+    "capturedAt": "2026-11-24T18:33:02.380Z",
+    "source": "/billing"
+  },
+  "billing/4-change-plan-annual": {
+    "src": "/screenshots/billing/4-change-plan-annual.png",
+    "width": 442,
+    "height": 189,
+    "capturedAt": "2026-11-24T18:33:11.047Z",
+    "source": "/billing"
+  },
+  "billing/5-cancel": {
+    "src": "/screenshots/billing/5-cancel.png",
+    "width": 448,
+    "height": 246,
+    "capturedAt": "2026-11-24T18:33:13.064Z",
+    "source": "/billing"
+  },
+  "billing/6-gpu-credit-min": {
+    "src": "/screenshots/billing/6-gpu-credit-min.png",
+    "width": 476,
+    "height": 334,
+    "capturedAt": "2026-11-24T18:33:14.277Z",
+    "source": "/billing"
+  },
+  "billing/8-payment-details": {
+    "src": "/screenshots/billing/8-payment-details.png",
+    "width": 955,
+    "height": 186,
+    "capturedAt": "2026-11-24T18:33:16.508Z",
+    "source": "/billing"
+  },
+  "billing/9-billing-details": {
+    "src": "/screenshots/billing/9-billing-details.png",
+    "width": 640,
+    "height": 673,
+    "capturedAt": "2026-11-24T18:33:20.116Z",
+    "source": "/billing"
+  },
+  "billing/usage-1-stats": {
+    "src": "/screenshots/billing/usage-1-stats.png",
+    "width": 979,
+    "height": 281,
+    "capturedAt": "2026-11-24T18:28:16.393Z",
+    "source": "/usage"
+  },
+  "billing/usage-2-breakdown": {
+    "src": "/screenshots/billing/usage-2-breakdown.png",
+    "width": 963,
+    "height": 867,
+    "capturedAt": "2026-11-24T18:28:18.100Z",
+    "source": "/usage"
+  },
+  "billing/usage-3-limits": {
+    "src": "/screenshots/billing/usage-3-limits.png",
+    "width": 963,
+    "height": 261,
+    "capturedAt": "2026-11-24T18:28:19.743Z",
+    "source": "/usage"
+  },
   "canvas/1-apps": {
     "src": "/screenshots/canvas/1-apps.png",
     "width": 1440,
