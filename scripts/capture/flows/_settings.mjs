@@ -16,7 +16,11 @@ export function helpers(c, project = PROJECT, service = SERVICE) {
 
   async function openSettings() {
     await c.goto(`/pipeline/${project}/apps?phase=${PHASE}`);
-    const card = page.getByText(service, { exact: true }).first();
+    // The service card's own button; a plain text match can hit a group label.
+    const apps = page.getByRole('button', { name: 'Apps', exact: true }).first();
+    await apps.waitFor({ timeout: 60000 }).catch(() => {});
+    await apps.click().catch(() => {}); await page.waitForTimeout(2000);
+    const card = page.getByRole('button', { name: new RegExp(`^Manage ${service}\\b`) }).first();
     await card.waitFor({ timeout: 90000 });
     await card.click();
     await page.locator('button,[role=tab],a').filter({ hasText: /^Settings/ }).first().click();

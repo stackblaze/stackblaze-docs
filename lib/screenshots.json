@@ -2540,6 +2540,27 @@
     "capturedAt": "2026-11-24T16:09:19.824Z",
     "source": "/pipeline/github-demo-kpw0/apps"
   },
+  "settings/scans": {
+    "src": "/screenshots/settings/scans.png",
+    "width": 620,
+    "height": 91,
+    "capturedAt": "2026-11-24T17:42:30.182Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "settings/scans-commit": {
+    "src": "/screenshots/settings/scans-commit.png",
+    "width": 576,
+    "height": 360,
+    "capturedAt": "2026-11-24T19:36:13.455Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "settings/security-result": {
+    "src": "/screenshots/settings/security-result.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T19:36:35.687Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
   "settings/source-account": {
     "src": "/screenshots/settings/source-account.png",
     "width": 1440,
