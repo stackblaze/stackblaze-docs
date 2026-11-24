@@ -1,0 +1,65 @@
+---
+title: Tracing and log retention
+description: Turn on OpenTelemetry tracing for a service, with automatic instrumentation or your own SDK, and see how long its logs are kept.
+---
+
+Both are near the end of a service's **Settings**.
+
+## Tracing
+
+**Tracing** sends OpenTelemetry traces from the service. It's off by default.
+
+<Screenshot id="settings/tracing" alt="Tracing: Send OpenTelemetry traces from this app to the Traces page, Off" />
+
+Tracing is included in the **Business** plan.
+
+<Steps>
+
+<Step>
+
+### Turn it on and pick the language
+
+Switch **Tracing** on and choose the service's **Language**: **Node.js** (the default), **Python**, **Java** or **.NET**. For these, the card says "Java, Node.js, Python and .NET are instrumented automatically on the next deploy", and that the app restarts once.
+
+<Screenshot id="settings/tracing-on" alt="Tracing On with Language Node.js: Java, Node.js, Python and .NET are instrumented automatically on the next deploy" />
+
+If your code already uses an OpenTelemetry SDK, choose **Other: my own OpenTelemetry SDK**. Nothing is added to your code; the service gets the settings your SDK needs.
+
+<Screenshot id="settings/tracing-sdk" alt="Tracing On with Other: my own OpenTelemetry SDK: Your SDK gets OTEL_EXPORTER_OTLP_ENDPOINT, OTEL_EXPORTER_OTLP_PROTOCOL and OTEL_SERVICE_NAME" />
+
+</Step>
+
+<Step>
+
+### Commit and deploy
+
+Click **Commit 1 change**; the dialog lists **Tracing** with **on**. Click **Deploy 1 change**.
+
+With **Other: my own OpenTelemetry SDK**, the deployed service had these variables, ready for any OpenTelemetry SDK:
+
+| Variable | Value |
+| --- | --- |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | where to send traces |
+| `OTEL_EXPORTER_OTLP_PROTOCOL` | `http/protobuf` |
+| `OTEL_SERVICE_NAME` | the service's name |
+
+</Step>
+
+</Steps>
+
+To stop, switch **Tracing** off and deploy again.
+
+## Log retention
+
+**Log retention** shows how far back the service's logs can be searched in **Logs**. It isn't a setting you change: it comes from your plan.
+
+<Screenshot id="settings/logs" alt="Log retention: How far back this app's logs can be searched, 30 days" />
+
+| Plan | Log retention |
+| --- | --- |
+| Trial | 1 day |
+| Developer | 3 days |
+| Pro | 14 days |
+| Business | 30 days |
+
+To read and search logs, see [Logs](/observe/logs).

@@ -2127,6 +2127,13 @@
     "capturedAt": "2026-11-24T16:11:50.042Z",
     "source": "/pipeline/github-demo-kpw0/apps"
   },
+  "settings/logs": {
+    "src": "/screenshots/settings/logs.png",
+    "width": 620,
+    "height": 73,
+    "capturedAt": "2026-11-24T17:42:33.399Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
   "settings/network": {
     "src": "/screenshots/settings/network.png",
     "width": 620,
@@ -2175,6 +2182,27 @@
     "height": 120,
     "capturedAt": "2026-11-24T17:35:15.864Z",
     "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "settings/tracing": {
+    "src": "/screenshots/settings/tracing.png",
+    "width": 620,
+    "height": 91,
+    "capturedAt": "2026-11-24T17:42:31.827Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "settings/tracing-on": {
+    "src": "/screenshots/settings/tracing-on.png",
+    "width": 620,
+    "height": 186,
+    "capturedAt": "2026-11-24T17:42:36.520Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "settings/tracing-sdk": {
+    "src": "/screenshots/settings/tracing-sdk.png",
+    "width": 620,
+    "height": 186,
+    "capturedAt": "2026-11-24T17:42:37.439Z",
+    "source": "/pipeline/github-demo-gv35/apps"
   },
   "settings/volume-add": {
     "src": "/screenshots/settings/volume-add.png",

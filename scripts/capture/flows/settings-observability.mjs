@@ -11,6 +11,14 @@ const { page } = h;
 const tab = (name) => page.locator('button,[role=tab],a').filter({ hasText: new RegExp(`^${name}`) }).first();
 const sheetText = async () => (await page.locator(SHEET).innerText()).replace(/\s+/g, ' ');
 
+if (process.env.ONLY_OFF) {
+  await h.openSettings();
+  await h.jump('Tracing'); await page.locator('#app-tracing').click();
+  await h.jump('Scans'); if (await page.locator('#app-vuln-scan').getAttribute('aria-checked') === 'true' || await page.locator('#app-vuln-scan').getAttribute('data-state') === 'checked') await page.locator('#app-vuln-scan').click();
+  await h.commitDeploy('Tracing off'); await h.waitRunning();
+  console.log('saved', JSON.stringify((await h.spec()).tracing), JSON.stringify((await h.spec()).vulnerabilityscan));
+  await c.done(); process.exit(0);
+}
 console.log('1. Settings → Scans, Tracing, Logs');
 await h.openSettings();
 console.log('   tabs:', await page.locator('[role=tab]').allInnerTexts());
@@ -41,6 +49,7 @@ let s = await h.spec();
 console.log('   saved:', JSON.stringify(s.vulnerabilityscan), JSON.stringify(s.tracing));
 c.checkpoint();
 
+if (process.env.STOP_AFTER_ON) { await c.done(); process.exit(0); }
 console.log('3. The Security tab');
 await h.openSettings();
 console.log('   tabs:', await page.locator('[role=tab]').allInnerTexts());
