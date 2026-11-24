@@ -2862,6 +2862,34 @@
     "capturedAt": "2026-11-24T17:35:17.300Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "signin/1-login": {
+    "src": "/screenshots/signin/1-login.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T21:40:32.852Z",
+    "source": "Sign in"
+  },
+  "signin/2-password": {
+    "src": "/screenshots/signin/2-password.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T21:40:37.450Z",
+    "source": "Sign in with password"
+  },
+  "signin/4-signup": {
+    "src": "/screenshots/signin/4-signup.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T21:41:14.668Z",
+    "source": "Sign up"
+  },
+  "signin/5-forgot": {
+    "src": "/screenshots/signin/5-forgot.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T21:41:18.374Z",
+    "source": "Forgot password"
+  },
   "stacks/1-list": {
     "src": "/screenshots/stacks/1-list.png",
     "width": 1440,

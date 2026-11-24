@@ -1,6 +1,7 @@
 {
   "title": "Team and account",
   "pages": [
+    "sign-in",
     "members-and-roles",
     "api-tokens",
     "ssh-keys",
