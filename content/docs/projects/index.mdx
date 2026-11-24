@@ -1,0 +1,115 @@
+---
+title: Projects, environments and organizations
+description: How organizations, projects, environments and services fit together, and every field of the Create a New Project dialog.
+---
+
+Everything you run on StackBlaze sits in four levels:
+
+- An **organization** holds your projects, members, teams and billing. Its name is shown at the top left of the dashboard, with the **Organization** badge.
+- A **project** holds your apps, databases and environments in one region.
+- An **environment** is one copy of the project, such as **Dev**, **Stage** or **Production**. Each environment has its own services.
+- A **service** is one thing that runs in an environment: an app, a database, an add-on, a scheduled task or a volume.
+
+## Projects
+
+**Projects** in the sidebar lists the projects of the current organization. Each card shows the project's name, its region (for example **US Central**), its environments, how many there are and who created it.
+
+<Screenshot id="projects/1-list" alt="The Projects page: a search box, the grid and list view buttons, New Project, and a card per project with its region and environments" />
+
+Next to the search box (**Search by project name…**), two buttons switch between **Grid view** and **List view**. The list shows the same projects as a table, with the columns **Name**, **Environments**, **Region** and **Created by**. Below it you can choose **12**, **24** or **48 per page**.
+
+<Screenshot id="projects/2-list-view" alt="List view: Name, Environments, Region and Created by columns" />
+
+## Environments and services
+
+Open a project to see one of its environments. The header shows where you are: the project, then the environment. Each name has its own switcher (see [Environments](/projects/environments)).
+
+The canvas below lists that environment's services: apps, add-ons and volumes at the top, and **Databases** under them. Another environment of the same project has its own services.
+
+<Screenshot id="projects/3-canvas" alt="The Dev environment of a project: nginx, Scheduled tasks, Memcached, a volume, and a PostgreSQL database" />
+
+## Create a project
+
+On **Projects**, click **New Project**. The **Create a New Project** dialog opens: "A project holds your apps, databases and environments in one region."
+
+<Screenshot id="projects/4-new-dialog" alt="Create a New Project: Project Name, Region, Owning team, Advanced Settings, Cancel and Create Project" />
+
+<Steps>
+
+<Step>
+
+### Project Name
+
+Type a name, or leave the field empty: the placeholder says **Leave blank to auto-generate**, and the project then gets a generated name. The name can be up to 60 characters long.
+
+While you type, the dashboard checks the name. A name that is already used shows "A project with this name already exists." and **Create Project** stays disabled.
+
+<Screenshot id="projects/7-new-taken" alt="Project Name: A project with this name already exists." />
+
+The project's name is its ID: it is used in URLs, the CLI and app addresses, and it can't be changed later. You can give it a **Display name** in [Project settings](/projects/project-settings).
+
+</Step>
+
+<Step>
+
+### Region
+
+Pick the region the project runs in. Each region is a button with its flag; the selected one is highlighted. The dialog preselects your organization's **Default region for new projects** (see [Organizations](/projects/organizations#default-region)).
+
+Everything in a project runs in its region. Project settings has no region field: choose it here.
+
+</Step>
+
+<Step>
+
+### Owning team
+
+Choose the team that owns the project. The menu lists your organization's teams. Members of that team get their team role on the project; you can change it later under **Ownership & access**.
+
+<Screenshot id="projects/5-new-team" alt="The Owning team menu: admin and all users" />
+
+</Step>
+
+<Step>
+
+### Environments (Advanced Settings)
+
+Click **Advanced Settings** to choose the project's environments:
+
+- **Review apps (pull requests)**: off by default
+- **Development**: on
+- **Staging**: on
+- **Production**: on
+
+At least one must be ticked; with none, **Create Project** is disabled. You can add and remove environments later.
+
+<Screenshot id="projects/6-new-advanced" alt="Advanced Settings: Environments with Review apps unticked and Development, Staging and Production ticked" />
+
+</Step>
+
+<Step>
+
+### Create Project
+
+Click **Create Project**. The dashboard opens the new project's canvas. **Cancel** or the **×** closes the dialog without creating anything.
+
+</Step>
+
+</Steps>
+
+## Regions
+
+A region is where a project's apps and databases run. On production, the regions are **US Central** (`us-central-1`), **US East** (`us-east-1`) and **US West (SFO)** (`us-west-1`). The screenshots on these pages come from a test system that offers two of them.
+
+- Each project runs in one region, chosen when you create it.
+- The project card shows its region.
+- New projects start in the organization's default region unless you pick another.
+- How many regions your organization can use depends on its plan.
+
+To list the regions from a terminal, run `stackblaze regions`.
+
+## Next
+
+- [Environments](/projects/environments): switch, add and remove them.
+- [Project settings](/projects/project-settings): display name, previews, access, shared variables, delete.
+- [Organizations](/projects/organizations): switch, rename, set the default region, create one.

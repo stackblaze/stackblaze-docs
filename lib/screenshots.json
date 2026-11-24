@@ -1483,6 +1483,258 @@
     "capturedAt": "2026-11-23T17:14:17.128Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "projects/1-list": {
+    "src": "/screenshots/projects/1-list.png",
+    "width": 1440,
+    "height": 540,
+    "capturedAt": "2026-11-24T15:42:31.422Z",
+    "source": "/"
+  },
+  "projects/2-list-view": {
+    "src": "/screenshots/projects/2-list-view.png",
+    "width": 1200,
+    "height": 420,
+    "capturedAt": "2026-11-24T15:42:33.456Z",
+    "source": "/"
+  },
+  "projects/3-canvas": {
+    "src": "/screenshots/projects/3-canvas.png",
+    "width": 1440,
+    "height": 480,
+    "capturedAt": "2026-11-24T15:42:38.456Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "projects/4-new-dialog": {
+    "src": "/screenshots/projects/4-new-dialog.png",
+    "width": 560,
+    "height": 482,
+    "capturedAt": "2026-11-24T15:42:42.145Z",
+    "source": "/"
+  },
+  "projects/5-new-team": {
+    "src": "/screenshots/projects/5-new-team.png",
+    "width": 560,
+    "height": 481,
+    "capturedAt": "2026-11-24T15:42:43.426Z",
+    "source": "/"
+  },
+  "projects/6-new-advanced": {
+    "src": "/screenshots/projects/6-new-advanced.png",
+    "width": 560,
+    "height": 676,
+    "capturedAt": "2026-11-24T15:42:45.036Z",
+    "source": "/"
+  },
+  "projects/7-new-taken": {
+    "src": "/screenshots/projects/7-new-taken.png",
+    "width": 558,
+    "height": 115,
+    "capturedAt": "2026-11-24T15:42:47.977Z",
+    "source": "/"
+  },
+  "projects/env-1-switcher": {
+    "src": "/screenshots/projects/env-1-switcher.png",
+    "width": 408,
+    "height": 321,
+    "capturedAt": "2026-11-24T16:14:27.343Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "projects/env-2-stage": {
+    "src": "/screenshots/projects/env-2-stage.png",
+    "width": 720,
+    "height": 46,
+    "capturedAt": "2026-11-24T16:14:29.468Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "projects/env-3-card": {
+    "src": "/screenshots/projects/env-3-card.png",
+    "width": 1145,
+    "height": 345,
+    "capturedAt": "2026-11-24T16:14:33.041Z",
+    "source": "/pipeline/github-demo-cw8z/settings/general"
+  },
+  "projects/env-4-test-on": {
+    "src": "/screenshots/projects/env-4-test-on.png",
+    "width": 1145,
+    "height": 345,
+    "capturedAt": "2026-11-24T16:14:45.832Z",
+    "source": "/pipeline/github-demo-cw8z/settings/general"
+  },
+  "projects/env-5-saved": {
+    "src": "/screenshots/projects/env-5-saved.png",
+    "width": 1145,
+    "height": 411,
+    "capturedAt": "2026-11-24T16:14:51.449Z",
+    "source": "/pipeline/github-demo-cw8z/settings/general"
+  },
+  "projects/env-6-switcher-test": {
+    "src": "/screenshots/projects/env-6-switcher-test.png",
+    "width": 408,
+    "height": 354,
+    "capturedAt": "2026-11-24T16:14:57.001Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "projects/env-7-other": {
+    "src": "/screenshots/projects/env-7-other.png",
+    "width": 1145,
+    "height": 423,
+    "capturedAt": "2026-11-24T16:15:40.808Z",
+    "source": "/pipeline/github-demo-cw8z/settings/general"
+  },
+  "projects/org-1-switcher": {
+    "src": "/screenshots/projects/org-1-switcher.png",
+    "width": 644,
+    "height": 251,
+    "capturedAt": "2026-11-24T16:23:02.450Z",
+    "source": "/"
+  },
+  "projects/org-2-general": {
+    "src": "/screenshots/projects/org-2-general.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T16:23:06.234Z",
+    "source": "/settings/general"
+  },
+  "projects/org-3-region": {
+    "src": "/screenshots/projects/org-3-region.png",
+    "width": 931,
+    "height": 168,
+    "capturedAt": "2026-11-24T16:23:09.588Z",
+    "source": "/settings/general"
+  },
+  "projects/org-4-new-project-region": {
+    "src": "/screenshots/projects/org-4-new-project-region.png",
+    "width": 560,
+    "height": 482,
+    "capturedAt": "2026-11-24T16:23:13.540Z",
+    "source": "/"
+  },
+  "projects/org-5-danger": {
+    "src": "/screenshots/projects/org-5-danger.png",
+    "width": 963,
+    "height": 376,
+    "capturedAt": "2026-11-24T16:23:20.759Z",
+    "source": "/settings/general"
+  },
+  "projects/org-6-create": {
+    "src": "/screenshots/projects/org-6-create.png",
+    "width": 920,
+    "height": 518,
+    "capturedAt": "2026-11-24T16:23:29.379Z",
+    "source": "/"
+  },
+  "projects/org-7-plans": {
+    "src": "/screenshots/projects/org-7-plans.png",
+    "width": 434,
+    "height": 287,
+    "capturedAt": "2026-11-24T16:23:31.230Z",
+    "source": "/"
+  },
+  "projects/org-8-coupon": {
+    "src": "/screenshots/projects/org-8-coupon.png",
+    "width": 435,
+    "height": 144,
+    "capturedAt": "2026-11-24T16:23:32.163Z",
+    "source": "/"
+  },
+  "projects/set-1-general": {
+    "src": "/screenshots/projects/set-1-general.png",
+    "width": 1440,
+    "height": 650,
+    "capturedAt": "2026-11-24T16:19:40.284Z",
+    "source": "/pipeline/github-demo-cw8z/settings/general"
+  },
+  "projects/set-10-access": {
+    "src": "/screenshots/projects/set-10-access.png",
+    "width": 1440,
+    "height": 560,
+    "capturedAt": "2026-11-24T16:20:29.737Z",
+    "source": "/pipeline/github-demo-cw8z/settings/access"
+  },
+  "projects/set-11-vars-empty": {
+    "src": "/screenshots/projects/set-11-vars-empty.png",
+    "width": 1440,
+    "height": 620,
+    "capturedAt": "2026-11-24T16:20:38.466Z",
+    "source": "/pipeline/github-demo-cw8z/settings/variables"
+  },
+  "projects/set-12-vars-new": {
+    "src": "/screenshots/projects/set-12-vars-new.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T16:21:11.108Z",
+    "source": "/pipeline/github-demo-cw8z/settings/variables"
+  },
+  "projects/set-13-vars-group": {
+    "src": "/screenshots/projects/set-13-vars-group.png",
+    "width": 1175,
+    "height": 211,
+    "capturedAt": "2026-11-24T16:21:24.608Z",
+    "source": "/pipeline/github-demo-cw8z/settings/variables"
+  },
+  "projects/set-14-vars-delete": {
+    "src": "/screenshots/projects/set-14-vars-delete.png",
+    "width": 448,
+    "height": 146,
+    "capturedAt": "2026-11-24T16:21:25.754Z",
+    "source": "/pipeline/github-demo-cw8z/settings/variables"
+  },
+  "projects/set-2-display-name": {
+    "src": "/screenshots/projects/set-2-display-name.png",
+    "width": 1440,
+    "height": 520,
+    "capturedAt": "2026-11-24T16:19:43.928Z",
+    "source": "/pipeline/github-demo-cw8z/settings/general"
+  },
+  "projects/set-3-previews": {
+    "src": "/screenshots/projects/set-3-previews.png",
+    "width": 1145,
+    "height": 641,
+    "capturedAt": "2026-11-24T16:19:48.483Z",
+    "source": "/pipeline/github-demo-cw8z/settings/general"
+  },
+  "projects/set-4-preview-mode": {
+    "src": "/screenshots/projects/set-4-preview-mode.png",
+    "width": 269,
+    "height": 136,
+    "capturedAt": "2026-11-24T16:19:49.211Z",
+    "source": "/pipeline/github-demo-cw8z/settings/general"
+  },
+  "projects/set-5-preview-manual": {
+    "src": "/screenshots/projects/set-5-preview-manual.png",
+    "width": 480,
+    "height": 22,
+    "capturedAt": "2026-11-24T16:19:51.023Z",
+    "source": "/pipeline/github-demo-cw8z/settings/general"
+  },
+  "projects/set-6-preview-advanced": {
+    "src": "/screenshots/projects/set-6-preview-advanced.png",
+    "width": 1145,
+    "height": 633,
+    "capturedAt": "2026-11-24T16:19:52.493Z",
+    "source": "/pipeline/github-demo-cw8z/settings/general"
+  },
+  "projects/set-7-iac": {
+    "src": "/screenshots/projects/set-7-iac.png",
+    "width": 1145,
+    "height": 284,
+    "capturedAt": "2026-11-24T16:20:05.787Z",
+    "source": "/pipeline/github-demo-cw8z/settings/general"
+  },
+  "projects/set-8-danger": {
+    "src": "/screenshots/projects/set-8-danger.png",
+    "width": 1145,
+    "height": 171,
+    "capturedAt": "2026-11-24T16:20:25.416Z",
+    "source": "/pipeline/github-demo-cw8z/settings/general"
+  },
+  "projects/set-9-delete-dialog": {
+    "src": "/screenshots/projects/set-9-delete-dialog.png",
+    "width": 448,
+    "height": 298,
+    "capturedAt": "2026-11-24T16:20:26.579Z",
+    "source": "/pipeline/github-demo-cw8z/settings/general"
+  },
   "quickstart/1-new-project": {
     "src": "/screenshots/quickstart/1-new-project.png",
     "width": 560,

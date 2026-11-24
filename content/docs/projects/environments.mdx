@@ -1,0 +1,81 @@
+---
+title: Environments
+description: Switch between a project's environments, and add or remove Dev, Test, Stage and Production.
+---
+
+An environment is one copy of a project, such as **Dev**, **Stage** or **Production**. Each environment has its own services, variables and addresses. A new project starts with **Dev**, **Stage** and **Production** unless you chose others when you [created it](/projects#create-a-project).
+
+## Switch environments
+
+In a project, the header shows the project and the current environment. Click the environment name to open its menu:
+
+- **Search environments…**: filters the list as you type.
+- **Current Environment**: the one you're in.
+- **Switch Environment**: the project's other environments.
+- **Environment settings**: opens the project's environment settings.
+
+<Screenshot id="projects/env-1-switcher" alt="The environment menu: Current Environment Dev, Switch Environment Stage and Production, Environment settings" />
+
+Click another environment, for example **Stage**. The canvas now shows that environment's services, and the header shows its name.
+
+<Screenshot id="projects/env-2-stage" alt="The header: github-demo-cw8z / Stage" />
+
+The project name in the header has the same kind of menu, to switch to another project. It also has **All projects** and **Project settings**.
+
+## Add an environment
+
+Environments are switched on and off in **Project settings → General → Environments**. Open it with **Environment settings** in the environment menu.
+
+The card lists four environments, each with a switch: **Dev**, **Test**, **Stage** and **Production**. An environment that is on shows where it runs on the right.
+
+<Screenshot id="projects/env-3-card" alt="Environments: Dev, Stage and Production on, Test off, and Save changes" />
+
+<Steps>
+
+<Step>
+
+### Turn it on
+
+Turn on the switch of the environment you want, here **Test**. "A newly enabled environment deploys to the same target as your existing ones."
+
+<Screenshot id="projects/env-4-test-on" alt="The Test switch turned on" />
+
+</Step>
+
+<Step>
+
+### Save changes
+
+Click **Save changes**. The card shows **Saved.**
+
+<Screenshot id="projects/env-5-saved" alt="Environments saved: Test on, with its target" />
+
+</Step>
+
+<Step>
+
+### Open it
+
+The new environment is now in the environment menu. It starts empty.
+
+<Screenshot id="projects/env-6-switcher-test" alt="The environment menu with Test, Stage and Production" />
+
+</Step>
+
+</Steps>
+
+## Remove an environment
+
+Turn off its switch and click **Save changes**. The card shows **Saved.** and the environment is gone from the environment menu. In this example the environment is empty.
+
+## Environments made with the CLI
+
+You can also add an environment with any name from the CLI, with [`stackblaze phases create`](/cli/reference/phases) (for example `stackblaze phases create qa`). The dashboard lists it in the environment menu like the others.
+
+In **Environments** it has no switch. It shows **On** or **Off** instead, with the note "Environments without a switch were created outside this page (CLI, IaC or API) and can't be changed here. Saving here keeps them unchanged." Remove it from the CLI with `stackblaze phases delete`.
+
+<Screenshot id="projects/env-7-other" alt="Environments: the four switches, then qa marked On, and the note about environments created outside this page" />
+
+## Rename an environment
+
+Environments can't be renamed. To use another name, add a new environment and remove the old one.

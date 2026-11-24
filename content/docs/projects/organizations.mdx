@@ -1,0 +1,91 @@
+---
+title: Organizations
+description: Switch organizations, change an organization's name and default region, and create a new organization.
+---
+
+An organization holds your projects, members, teams and billing. Its name is at the top left of the dashboard, next to the **Organization** badge.
+
+## The organization switcher
+
+Click the arrows next to the organization name (**Switch organization**). The menu shows:
+
+- **Search organizations…**: filters the list as you type.
+- **Current Organization**: the one you're in, with a check mark.
+- **Create Organization**: see [below](#create-an-organization).
+- **Log Out**.
+
+<Screenshot id="projects/org-1-switcher" alt="The organization menu: Current Organization, Create Organization and Log Out" />
+
+Click the organization name itself to go back to **Projects**.
+
+## Organization settings: General
+
+Open **Settings** in the sidebar. **General** is the first page: "Your organization's name, ID and defaults for new projects."
+
+<Screenshot id="projects/org-2-general" alt="Settings, General: Organization details with Organization name, Organization ID and Default region for new projects" />
+
+**Organization details** has:
+
+- **Organization name**: change it and click **Save changes**. It can't be empty.
+- **Organization ID**: read-only. The button next to it copies it.
+- **Default region for new projects**: see [Default region](#default-region).
+
+**Save changes** stays disabled until something changed.
+
+### Transfer ownership
+
+"Give this organization to one of its admins. The new owner must pay any unpaid invoices before ownership is transferred." Until the organization has another admin, the card says so and links to **Access control → Users**.
+
+### Delete organization
+
+**Danger zone**: "Deleting the organization removes every project, app and database in it, plus its members, teams and invitations. This can't be undone." When this is your only organization, **Delete organization** is disabled with "Create another organization before deleting this one."
+
+<Screenshot id="projects/org-5-danger" alt="Transfer ownership with no other admin, and the Danger zone with Delete organization disabled" />
+
+## Default region
+
+**Default region for new projects** lists each region as its name and slug, for example **US Central · us-central-1**. "New projects are created in this region unless someone picks another."
+
+<Steps>
+
+<Step>
+
+### Pick a region
+
+Choose another region and click **Save changes**.
+
+<Screenshot id="projects/org-3-region" alt="Default region for new projects set to US West (SFO) · us-west-1" />
+
+</Step>
+
+<Step>
+
+### New projects start there
+
+The **Create a New Project** dialog now preselects that region. You can still pick another one for each project.
+
+<Screenshot id="projects/org-4-new-project-region" alt="Create a New Project with US West (SFO) selected" />
+
+</Step>
+
+</Steps>
+
+## Create an organization
+
+Open the organization switcher and click **Create Organization**. (The address `/workspaces/new` opens the same dialog.) The new organization gets a generated name; you can change it afterwards in **Settings → General**.
+
+<Screenshot id="projects/org-6-create" alt="The Create Organization dialog: the Developer plan with what's included, and the payment form" />
+
+On the left, pick the plan. The menu lists the **Cloud** plans: **$10 / month** (Personal projects & MVPs), **$29 / month** (Production apps & startups) and **$499 / month** (Growing teams & agencies). Below it, **What's included** lists the selected plan's limits.
+
+<Screenshot id="projects/org-7-plans" alt="The plan menu: $10, $29 and $499 per month" />
+
+On the right, **Start using StackBlaze** holds the card details: **Card number**, **Expiration date**, **Security code**, **Country** and **ZIP code**. **+ Have a coupon?** opens a **Promotion code** field with **Apply**. **Subscribe for $10/month** (the price follows the plan) stays disabled until the card details are complete.
+
+<Screenshot id="projects/org-8-coupon" alt="The Promotion code field with Apply and Cancel, and Subscribe for $10/month" />
+
+<Callout type="info">
+The free trial is offered only for your first organization. Once you have one, a new organization needs a paid plan.
+</Callout>
+
+Close the dialog with **×** to leave without creating anything.
