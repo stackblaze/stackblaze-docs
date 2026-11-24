@@ -3,6 +3,7 @@
   "pages": [
     "index",
     "quickstart",
+    "canvas",
     "deploy-docker-image",
     "deploy-from-github",
     "import",
@@ -17,6 +18,10 @@
     "...configure",
     "---Databases---",
     "...databases",
+    "---Add-ons---",
+    "...addons",
+    "---Backups---",
+    "...backups",
     "---Observe---",
     "...observe"
   ]

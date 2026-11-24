@@ -1,0 +1,67 @@
+---
+title: Scheduled tasks
+description: Run a command on a cron schedule, on its own or inside one of your services' image and variables.
+---
+
+**Scheduled tasks** is an add-on that holds your cron jobs. Each task has a name, a cron schedule and a command, and runs either **Standalone** or inside a connected service, with that service's image and environment variables.
+
+<Steps>
+
+<Step>
+
+### Add it
+
+On the canvas, click **+ Service** → **Add-on** → **Scheduled tasks** (**Cron jobs as their own node — connect them to a service afterwards**). Click the **Scheduled tasks** card, then **Deploy**.
+
+<Screenshot id="addons/cron-2-review" alt="Scheduled tasks: Ready to deploy, with Remove from canvas and Deploy" />
+
+</Step>
+
+<Step>
+
+### Add a task
+
+When it is **Running**, click the card and open the **Scheduled tasks** tab. Click **Add task**.
+
+<Screenshot id="addons/cron-tab-scheduled-tasks" alt="The Scheduled tasks tab, empty, with Add task" />
+
+Fill in:
+
+- **Name**, for example `hello`.
+- **Schedule**, in cron syntax (**Minute hour day month weekday**). The editor starts with `0 2 * * *` (every day at 02:00); this guide uses `*/30 * * * *`.
+- **Runs in**: **Standalone** ("Runs on its own — no service needed") or one of your services, here `nginx-9agm`, which runs it with that service's image and env vars.
+- **Command**, for example `/bin/sh -c 'echo hello from nginx; nginx -v'`.
+
+**Add scheduled task** adds another one in the same editor. Click **Stage**.
+
+<Screenshot id="addons/cron-4-editor" alt="The task editor: Name, Schedule, Runs in, Command, Add scheduled task and Stage" />
+
+</Step>
+
+<Step>
+
+### Deploy
+
+Click **Commit 2 changes**. Running the task in a service also connects the two (**nginx ⇄ scheduled-tasks off → on**). Click **Deploy 2 changes**.
+
+The task now shows its schedule, where it runs and when it fires next, for example **hello · \*/30 \* \* \* \* in nginx-9agm · next run in 21m · never ran yet**.
+
+<Screenshot id="addons/cron-7-task" alt="The task list: hello, */30 * * * * in nginx-9agm, next run, Run now" />
+
+</Step>
+
+<Step>
+
+### Run it now and read the output
+
+Click **Run now** ("Triggered hello"). The **Deployment** tab lists the runs — scheduled, manual and after-deploy — with their result, for example **Run succeeded for hello · manual**. **Refresh** reloads the list.
+
+<Screenshot id="addons/cron-8-runs" alt="Runs: Run succeeded for hello, manual" />
+
+The task's menu (next to **Run now**) has **View logs**, **Edit**, **Pause** and **Remove**. **View logs** shows the task's output:
+
+<Screenshot id="addons/cron-11-logs" alt="The hello task's logs: hello from nginx and nginx version" />
+
+</Step>
+
+</Steps>

@@ -1,4 +1,123 @@
 {
+  "addons/1-menu": {
+    "src": "/screenshots/addons/1-menu.png",
+    "width": 768,
+    "height": 720,
+    "capturedAt": "2026-11-24T12:01:43.199Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/cron-11-logs": {
+    "src": "/screenshots/addons/cron-11-logs.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:40:36.607Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/cron-2-review": {
+    "src": "/screenshots/addons/cron-2-review.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:32:54.708Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/cron-4-editor": {
+    "src": "/screenshots/addons/cron-4-editor.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:34:08.834Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/cron-7-task": {
+    "src": "/screenshots/addons/cron-7-task.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:38:46.995Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/cron-8-runs": {
+    "src": "/screenshots/addons/cron-8-runs.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:39:03.584Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/cron-tab-scheduled-tasks": {
+    "src": "/screenshots/addons/cron-tab-scheduled-tasks.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:33:42.860Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/email-2-review": {
+    "src": "/screenshots/addons/email-2-review.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:26:59.218Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/email-4-sheet": {
+    "src": "/screenshots/addons/email-4-sheet.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:31:27.808Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/email-5-credentials": {
+    "src": "/screenshots/addons/email-5-credentials.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:31:31.098Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/email-7-sent": {
+    "src": "/screenshots/addons/email-7-sent.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:31:41.444Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/email-8-provider": {
+    "src": "/screenshots/addons/email-8-provider.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:31:44.301Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/email-9-connections": {
+    "src": "/screenshots/addons/email-9-connections.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:31:47.121Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/memcached-2-review": {
+    "src": "/screenshots/addons/memcached-2-review.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:43:15.083Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/memcached-3-running": {
+    "src": "/screenshots/addons/memcached-3-running.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:49:54.060Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/memcached-tab-metrics": {
+    "src": "/screenshots/addons/memcached-tab-metrics.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:50:08.825Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "addons/memcached-tab-settings": {
+    "src": "/screenshots/addons/memcached-tab-settings.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:50:12.627Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
   "backups/1-sheet": {
     "src": "/screenshots/backups/1-sheet.png",
     "width": 548,
@@ -96,6 +215,76 @@
     "height": 900,
     "capturedAt": "2026-11-24T06:01:20.359Z",
     "source": "CloudBeaver: postgresql-restored-9u8z"
+  },
+  "canvas/1-apps": {
+    "src": "/screenshots/canvas/1-apps.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T13:04:00.788Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "canvas/11-message": {
+    "src": "/screenshots/canvas/11-message.png",
+    "width": 576,
+    "height": 360,
+    "capturedAt": "2026-11-24T13:04:56.948Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "canvas/12-history": {
+    "src": "/screenshots/canvas/12-history.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T13:05:22.819Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "canvas/2-designer": {
+    "src": "/screenshots/canvas/2-designer.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T13:04:06.770Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "canvas/3-group-menu": {
+    "src": "/screenshots/canvas/3-group-menu.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T13:04:09.655Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "canvas/4-volume": {
+    "src": "/screenshots/canvas/4-volume.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T13:04:13.349Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "canvas/5-search": {
+    "src": "/screenshots/canvas/5-search.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T13:04:16.899Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "canvas/6-instances": {
+    "src": "/screenshots/canvas/6-instances.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T13:04:22.997Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "canvas/7-staged": {
+    "src": "/screenshots/canvas/7-staged.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T13:04:39.481Z",
+    "source": "/pipeline/import-demo-brkm/apps"
+  },
+  "canvas/8-commit": {
+    "src": "/screenshots/canvas/8-commit.png",
+    "width": 576,
+    "height": 360,
+    "capturedAt": "2026-11-24T13:04:42.223Z",
+    "source": "/pipeline/import-demo-brkm/apps"
   },
   "cli/login-approve": {
     "src": "/screenshots/cli/login-approve.png",
@@ -201,6 +390,62 @@
     "height": 764,
     "capturedAt": "2026-11-24T12:44:57.448Z",
     "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "env-backups/1-menu": {
+    "src": "/screenshots/env-backups/1-menu.png",
+    "width": 768,
+    "height": 720,
+    "capturedAt": "2026-11-24T12:06:54.518Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "env-backups/11-retention": {
+    "src": "/screenshots/env-backups/11-retention.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:17:37.883Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "env-backups/12-daily-on": {
+    "src": "/screenshots/env-backups/12-daily-on.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:17:39.944Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "env-backups/13-schedule-commit": {
+    "src": "/screenshots/env-backups/13-schedule-commit.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:17:48.242Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "env-backups/14-schedule-on": {
+    "src": "/screenshots/env-backups/14-schedule-on.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:18:01.277Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "env-backups/16-point-open": {
+    "src": "/screenshots/env-backups/16-point-open.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:19:40.666Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "env-backups/18-restore-volume": {
+    "src": "/screenshots/env-backups/18-restore-volume.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:20:20.998Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "env-backups/19-restore-commit": {
+    "src": "/screenshots/env-backups/19-restore-commit.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T12:20:28.823Z",
+    "source": "/pipeline/github-demo-gv35/apps"
   },
   "functions/1-menu": {
     "src": "/screenshots/functions/1-menu.png",

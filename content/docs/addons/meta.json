@@ -1,0 +1,8 @@
+{
+  "title": "Add-ons",
+  "pages": [
+    "email",
+    "scheduled-tasks",
+    "memcached"
+  ]
+}

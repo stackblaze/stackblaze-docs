@@ -1,0 +1,45 @@
+---
+title: Memcached
+description: Add an in-memory cache to an environment and connect it to your services.
+---
+
+**Memcached** is a simple in-memory cache. Add it to an environment, connect it to a service, and the service gets the cache's address in its variables.
+
+<Steps>
+
+<Step>
+
+### Add it
+
+On the canvas, click **+ Service** → **Add-on** → **Memcached** (**Simple in-memory cache to speed up your app.**). Click the **Memcached** card: it deploys with the catalog defaults. Click **Deploy**.
+
+<Screenshot id="addons/memcached-2-review" alt="Memcached: Ready to deploy, with Remove from canvas and Deploy" />
+
+When it is ready, the card shows **Running**.
+
+<Screenshot id="addons/memcached-3-running" alt="The canvas with the Memcached card, Running" />
+
+</Step>
+
+<Step>
+
+### Connect a service
+
+Click the card and open **Settings**. Under **Connections**, turn on the switch next to the service, then commit and deploy the change (**nginx ⇄ memcached off → on**).
+
+<Screenshot id="addons/memcached-tab-settings" alt="Memcached Settings: Connections and Delete add-on" />
+
+The service gets `MEMCACHED_HOST`, `MEMCACHED_PORT` and `MEMCACHED_LOCATION`.
+
+</Step>
+
+</Steps>
+
+## The Memcached panel
+
+- **Deployment** lists the add-on's deploys and restarts, for example **Deploy running for memcached:1.6.39**.
+- **Logs** streams its output, with **Pod**, **Log source** (**App logs**), a search box and **Live tail**. **Open System events** shows the platform's events for it.
+- **Metrics** shows **Memory usage** and **CPU usage** over **2h**, **24h** or **7d**.
+- **Settings** holds **Connections** and **Delete add-on**.
+
+<Screenshot id="addons/memcached-tab-metrics" alt="Memcached Metrics: Memory usage and CPU usage" />
