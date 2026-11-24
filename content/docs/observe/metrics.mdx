@@ -1,13 +1,39 @@
 ---
 title: Metrics
-description: CPU, memory, response time and throughput for a service.
+description: A service's CPU, memory, response time, throughput, errors and traffic over the last 2 hours, 24 hours or 7 days.
 ---
 
-Open a service and click **Metrics**.
+Open a service on the canvas and click **Metrics**.
 
-<Screenshot id="metrics/1-app-metrics" alt="The Metrics tab: average CPU, memory, response time and throughput, with charts" />
+<Screenshot id="metrics/1-tab" alt="The Metrics tab: Avg CPU, Avg Memory, Avg Resp. Time and Avg Throughput, then the Resources and HTTP charts" />
 
-- Pick the time window at the top: **2h**, **24h** or **7d**.
-- The cards show **Avg CPU**, **Avg Memory**, **Avg Resp. Time** and **Avg Throughput** for that window.
-- Below them, **Memory usage** and **CPU usage** charts show the average and the maximum.
-- **Refresh** reloads the numbers.
+## Pick the window
+
+At the top, choose **2h**, **24h** or **7d**. Every number and chart follows that window. **Refresh** reloads them.
+
+The four cards give the average over the window: **Avg CPU**, **Avg Memory**, **Avg Resp. Time** and **Avg Throughput**.
+
+## The charts
+
+Each chart shows its average and maximum over the window.
+
+**Resources** ("CPU and memory over the selected window"):
+
+- **Memory usage**, the memory the service uses;
+- **CPU usage**, in mCPU (thousandths of a CPU).
+
+**HTTP** ("Request rate and latency"):
+
+- **Response time**;
+- **Throughput**, in requests per second;
+- **HTTP status codes**, the share of requests answered with a 4xx or 5xx error, with the split by class (for example **2xx 100%**);
+- **Response traffic**, the data sent back to visitors, in KB/s.
+
+On **24h** the time axis runs across the day; on **7d** it shows dates.
+
+<Screenshot id="metrics/range-7d" alt="The Metrics tab on 7d, with dates on the time axis" />
+
+## Check performance and monitoring
+
+- **Check performance** asks [Ask Agent](/ai/ask-agent) why the service is slow ("Why is @nginx-w29b slow?"). The agent's answer appears in the Ask Agent panel.
+- **Open monitoring** opens the full monitoring view for the service.
