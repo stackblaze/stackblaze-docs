@@ -1,53 +1,40 @@
 ---
 title: Service settings
-description: What each section of a service's Settings tab controls.
+description: What the Settings tab of a service holds, and which sections each kind of service has.
 ---
 
-Open a service (click its name on the canvas card), then **Settings**. Like variables, every change here is staged: it is applied when you click **Commit N changes** → **Deploy N changes** in the canvas toolbar.
+Open a service (click its name on the canvas card), then **Settings**. The settings are one long page; the rail on the right jumps to each section.
 
-<Screenshot id="settings/0-overview" alt="The Settings tab of a service" />
+<Screenshot id="settings/0-overview" alt="The Settings tab of a web service, with the rail: Access, Domains, Deploy, Health, Network, Scale, Storage, Scans, Tracing, Logs" />
 
-## Access & traffic
+Every change here is staged, like a variable: nothing reaches the running service until you click **Commit N changes** in the canvas toolbar and then **Deploy N changes**. **Discard all** in the same dialog drops what you staged.
 
-**Visibility** decides who can reach the service: **Public** ("Public URL using the port on the card header"), **Internal** or **Worker**.
+## Which sections a service has
 
-<Screenshot id="settings/access" alt="Access & traffic: Visibility Public, Internal, Worker" />
+The rail depends on the kind of service:
 
-## Custom domains
+| Section | Public | Internal | Worker |
+| --- | --- | --- | --- |
+| **Access** | Yes | Yes | Yes |
+| **Domains** | Yes | No (no Custom domains card) | No |
+| **Deploy** | Yes | Yes | Yes |
+| **Health** | Yes | Yes | No |
+| **Network** | Yes | Yes | Yes |
+| **Scale** | Yes | Yes | Yes |
+| **Storage** | Yes | Yes | Yes |
+| **Scans** | Yes | Yes | Yes |
+| **Tracing** | Yes | Yes | Yes |
+| **Logs** | Yes | Yes | Yes |
 
-Lists the hostnames that reach the service. The default `*.stackblaze.app` URL already includes HTTPS. **+ Custom Domain** adds your own hostname.
+A [function](/functions) has a much shorter Settings tab: **Schedule**, **Custom domains** (only while it has no schedule) and **Log retention**.
 
-<Screenshot id="settings/domains" alt="Custom domains with the default URL and + Custom Domain" />
+## The sections
 
-## Deploy
-
-- **Pre-deploy**: an optional command that runs before the new version starts. If it fails, the current version stays live.
-- **Start command**: overrides the image's default process. Leave it empty to use the image default.
-
-<Screenshot id="settings/deploy" alt="Deploy: Pre-deploy and Start command" />
-
-## Health checks
-
-An HTTP probe that runs before a new version gets traffic. The new version takes traffic only after `GET <path>` passes. You can set the **Path**, **Startup**, **Timeout** and **Interval**.
-
-<Screenshot id="settings/health" alt="Health checks: path /, Startup 90, Timeout 3, Interval 10" />
-
-## Basic Auth
-
-**Enable Basic Auth** asks for a username and password before anyone can open the site in a browser.
-
-<Screenshot id="settings/network" alt="Basic Auth with the Enable Basic Auth switch" />
-
-## Scale and sleep mode
-
-- **Instances** sets how many copies of the service run. The section shows how many your plan allows.
-- **Autoscale** turns automatic scaling on.
-- **Sleep mode** scales the service to zero after it has been idle for a while.
-
-<Screenshot id="settings/scale" alt="Scale: Instances and Autoscale" />
-
-## Volumes
-
-**+ Add volume** adds a shared (RWX) filesystem. Every instance mounts the same volume.
-
-<Screenshot id="settings/storage" alt="Volumes with + Add volume" />
+- **Access**: Public, Internal or Worker. See [Visibility and access](/configure/visibility).
+- **Domains**: the default `stackblaze.app` URL and your own hostnames. See [Custom domains](/configure/custom-domains).
+- **Deploy**: the pre-deploy command and the start command. See [Start command](/configure/start-and-build).
+- **Health**: the HTTP check a new version must pass before it gets traffic. See [Health checks](/configure/health-checks).
+- **Network**: **Basic Auth** (a username and password in front of the site) and **Advanced networking** (CORS and inbound IP rules).
+- **Scale**: instances, autoscale and sleep mode. Scaling covers instances and autoscale. See [Scaling](/configure/scaling).
+- **Storage**: **Volumes**, a shared (RWX) filesystem that every instance mounts.
+- **Scans**: **Vulnerability scans** with Trivy after every deploy. **Tracing**: OpenTelemetry traces. **Logs**: **Log retention**, how far back the logs can be searched (read-only; it comes from your plan).

@@ -1,0 +1,58 @@
+---
+title: Custom domains
+description: Add your own hostname to a public web service, and the DNS records it asks for.
+---
+
+**Settings** → **Domains** holds **Custom domains**: "Hostnames visitors use to reach this app. The default URL already includes HTTPS." Only **Public** web services have it.
+
+<Screenshot id="settings/domains" alt="Custom domains: the default stackblaze.app URL with HTTPS included, and + Custom Domain" />
+
+The first row is the service's default URL on `stackblaze.app`, marked **HTTPS included**.
+
+<Callout type="info">
+This page shows the dialog with `docs-demo.example.com`, a hostname we have no DNS for. It shows what StackBlaze asks for, but the domain never verifies here, so the steps after DNS (verification and the HTTPS certificate) are not shown.
+</Callout>
+
+## Step 1: the hostname
+
+Click **+ Custom Domain**. **Add Custom Domain** (**Step 1 of 2**) asks for one hostname, such as `app.example.com`. The line next to the buttons tells you whether it can be added:
+
+| What you type | What it says |
+| --- | --- |
+| Nothing | "Enter a hostname", and **Add Domain** is greyed out |
+| Not a hostname (`not a hostname`, `localhost`) | "Enter a valid custom hostname" |
+| A `stackblaze.app` hostname | "Enter a valid custom hostname" |
+| A hostname that is free | **Available** |
+
+<Screenshot id="settings/domain-add-invalid" alt="Add Custom Domain: Enter a valid custom hostname" />
+
+A pasted URL works too: `https://DOCS-DEMO.EXAMPLE.COM/` was read as `docs-demo.example.com` and shown as **Available**.
+
+<Screenshot id="settings/domain-add-available" alt="Add Custom Domain: docs-demo.example.com, Available" />
+
+Click **Add Domain**.
+
+## Step 2: the DNS records
+
+**Configure DNS Records** (**Step 2 of 2**) says "Add both records at **example.com** so this hostname can resolve and verify." Each value has a copy button.
+
+| | Type | Name | Value |
+| --- | --- | --- | --- |
+| 1 | **CNAME** | `docs-demo` | a hostname under `edge.stackblaze.cloud`, unique to the service |
+| 2 | **TXT** | `_stackblaze-verify.docs-demo` | `stackblaze-verify=` and a token |
+
+The CNAME starts as **Pending** and the TXT as **Required**. Below them: "Waiting for DNS. Records are re-checked every few minutes." and "Not verified yet. Until it is, other accounts can claim this domain too: the first claim whose TXT record verifies gets it, and the other claims are released."
+
+<Screenshot id="settings/domain-dns" alt="Configure DNS Records: CNAME docs-demo Pending, TXT _stackblaze-verify.docs-demo Required" />
+
+**Verify now** checks right away. With no records in place, the dialog and a notification said: "TXT _stackblaze-verify.docs-demo.example.com not found; CNAME docs-demo.example.com → … not found".
+
+<Screenshot id="settings/domain-verify" alt="After Verify now: TXT not found; CNAME not found" />
+
+Click **Done**. The domain is listed under the default URL with **Configure DNS**, which opens the same dialog again, and a **−** button. The canvas toolbar now shows **Commit 1 change**.
+
+<Screenshot id="settings/domain-listed" alt="Custom domains with docs-demo.example.com and Configure DNS" />
+
+## Remove a domain
+
+Click **−** next to the domain. It disappears from the list, and the staged change goes with it.

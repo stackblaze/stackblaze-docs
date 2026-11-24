@@ -1912,38 +1912,164 @@
   },
   "settings/0-overview": {
     "src": "/screenshots/settings/0-overview.png",
-    "width": 816,
-    "height": 670,
-    "capturedAt": "2026-11-23T14:46:38.307Z",
-    "source": "/pipeline/my-first-project-h22a/apps"
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T15:40:45.017Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
   },
   "settings/access": {
     "src": "/screenshots/settings/access.png",
     "width": 620,
     "height": 160,
-    "capturedAt": "2026-11-23T14:46:39.594Z",
-    "source": "/pipeline/my-first-project-h22a/apps"
+    "capturedAt": "2026-11-24T15:40:45.728Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/access-commit": {
+    "src": "/screenshots/settings/access-commit.png",
+    "width": 576,
+    "height": 360,
+    "capturedAt": "2026-11-24T15:40:48.878Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/access-internal": {
+    "src": "/screenshots/settings/access-internal.png",
+    "width": 620,
+    "height": 179,
+    "capturedAt": "2026-11-24T15:40:47.418Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/access-internal-live": {
+    "src": "/screenshots/settings/access-internal-live.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T15:41:20.987Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/access-worker-live": {
+    "src": "/screenshots/settings/access-worker-live.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T15:41:53.882Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/autoscale-commit": {
+    "src": "/screenshots/settings/autoscale-commit.png",
+    "width": 576,
+    "height": 406,
+    "capturedAt": "2026-11-24T16:11:06.588Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/autoscale-memory": {
+    "src": "/screenshots/settings/autoscale-memory.png",
+    "width": 620,
+    "height": 394,
+    "capturedAt": "2026-11-24T16:11:01.331Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/autoscale-no-metric": {
+    "src": "/screenshots/settings/autoscale-no-metric.png",
+    "width": 620,
+    "height": 379,
+    "capturedAt": "2026-11-24T16:11:02.753Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/autoscale-on": {
+    "src": "/screenshots/settings/autoscale-on.png",
+    "width": 620,
+    "height": 352,
+    "capturedAt": "2026-11-24T16:10:59.821Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/autoscale-set": {
+    "src": "/screenshots/settings/autoscale-set.png",
+    "width": 620,
+    "height": 352,
+    "capturedAt": "2026-11-24T16:11:04.859Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
   },
   "settings/deploy": {
     "src": "/screenshots/settings/deploy.png",
     "width": 620,
     "height": 246,
-    "capturedAt": "2026-11-23T14:46:42.213Z",
-    "source": "/pipeline/my-first-project-h22a/apps"
+    "capturedAt": "2026-11-24T16:17:15.850Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/domain-add-available": {
+    "src": "/screenshots/settings/domain-add-available.png",
+    "width": 448,
+    "height": 196,
+    "capturedAt": "2026-11-24T16:25:15.340Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/domain-add-invalid": {
+    "src": "/screenshots/settings/domain-add-invalid.png",
+    "width": 448,
+    "height": 196,
+    "capturedAt": "2026-11-24T16:25:11.934Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/domain-dns": {
+    "src": "/screenshots/settings/domain-dns.png",
+    "width": 512,
+    "height": 664,
+    "capturedAt": "2026-11-24T16:25:20.776Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/domain-listed": {
+    "src": "/screenshots/settings/domain-listed.png",
+    "width": 620,
+    "height": 229,
+    "capturedAt": "2026-11-24T16:25:29.259Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/domain-verify": {
+    "src": "/screenshots/settings/domain-verify.png",
+    "width": 512,
+    "height": 680,
+    "capturedAt": "2026-11-24T16:25:27.084Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
   },
   "settings/domains": {
     "src": "/screenshots/settings/domains.png",
     "width": 620,
     "height": 166,
-    "capturedAt": "2026-11-23T14:46:40.893Z",
-    "source": "/pipeline/my-first-project-h22a/apps"
+    "capturedAt": "2026-11-24T16:25:06.512Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
   },
   "settings/health": {
     "src": "/screenshots/settings/health.png",
     "width": 620,
     "height": 214,
-    "capturedAt": "2026-11-23T14:46:43.492Z",
-    "source": "/pipeline/my-first-project-h22a/apps"
+    "capturedAt": "2026-11-24T16:11:48.941Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/health-commit": {
+    "src": "/screenshots/settings/health-commit.png",
+    "width": 576,
+    "height": 360,
+    "capturedAt": "2026-11-24T16:11:51.378Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/health-failing": {
+    "src": "/screenshots/settings/health-failing.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-24T16:14:22.986Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/health-off": {
+    "src": "/screenshots/settings/health-off.png",
+    "width": 620,
+    "height": 151,
+    "capturedAt": "2026-11-24T16:14:25.533Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/health-path": {
+    "src": "/screenshots/settings/health-path.png",
+    "width": 620,
+    "height": 214,
+    "capturedAt": "2026-11-24T16:11:50.042Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
   },
   "settings/network": {
     "src": "/screenshots/settings/network.png",
@@ -1955,9 +2081,37 @@
   "settings/scale": {
     "src": "/screenshots/settings/scale.png",
     "width": 620,
-    "height": 230,
-    "capturedAt": "2026-11-23T14:46:46.008Z",
-    "source": "/pipeline/my-first-project-h22a/apps"
+    "height": 231,
+    "capturedAt": "2026-11-24T16:09:17.324Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/scale-2": {
+    "src": "/screenshots/settings/scale-2.png",
+    "width": 620,
+    "height": 231,
+    "capturedAt": "2026-11-24T16:09:18.616Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/scale-commit": {
+    "src": "/screenshots/settings/scale-commit.png",
+    "width": 576,
+    "height": 360,
+    "capturedAt": "2026-11-24T16:09:19.824Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/start-command": {
+    "src": "/screenshots/settings/start-command.png",
+    "width": 620,
+    "height": 264,
+    "capturedAt": "2026-11-24T16:23:53.833Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "settings/start-command-commit": {
+    "src": "/screenshots/settings/start-command-commit.png",
+    "width": 576,
+    "height": 424,
+    "capturedAt": "2026-11-24T16:23:55.250Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
   },
   "settings/storage": {
     "src": "/screenshots/settings/storage.png",

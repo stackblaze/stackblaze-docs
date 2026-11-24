@@ -1,0 +1,64 @@
+---
+title: Visibility and access
+description: Make a service public, internal to the project, or a background worker.
+---
+
+**Settings** → **Access** decides who can reach a service. Open the service (click its name on the canvas card), then **Settings**. The first card, **Access & traffic** ("Public exposure for this service."), holds **Visibility**.
+
+<Screenshot id="settings/access" alt="Access & traffic: Visibility with Public, Internal and Worker" />
+
+## The three choices
+
+| Visibility | What the card says | What you get |
+| --- | --- | --- |
+| **Public** | "Public URL using the port on the card header." | A URL on `stackblaze.app` with HTTPS, and [custom domains](/configure/custom-domains). |
+| **Internal** | "HTTP service reachable only inside the project — no public URL or domain." | The service keeps running, but has no public URL. |
+| **Worker** | "Background process — no HTTP port, no domain." | A process with no port at all, for queue consumers and other background work. |
+
+Like every setting, a change of visibility is staged. Click **Commit 1 change** in the canvas toolbar, check the change, and click **Deploy 1 change**. See [Environment variables](/configure/environment-variables) for the commit dialog.
+
+## Make a service internal
+
+<Steps>
+
+<Step>
+
+### Choose Internal
+
+Click **Internal**. The text under **Visibility** changes to "HTTP service reachable only inside the project — no public URL or domain."
+
+<Screenshot id="settings/access-internal" alt="Visibility set to Internal" />
+
+</Step>
+
+<Step>
+
+### Commit and deploy
+
+Click **Commit 1 change**. The dialog lists one setting: **Public exposure** `on` → `off`. Click **Deploy 1 change**.
+
+<Screenshot id="settings/access-commit" alt="1 change to apply: Public exposure on → off" />
+
+Once it is live, the public URL stops answering: a request to `https://nginx-unprivileged-mi0u.cloud-dev-central-1.stackblaze.app/` got `404 Not Found`. The service itself keeps running.
+
+<Screenshot id="settings/access-internal-live" alt="Settings of the internal service" />
+
+</Step>
+
+</Steps>
+
+To make it public again, choose **Public** and deploy. The commit dialog lists **Public exposure** `off` → `on`, and the same URL answers again.
+
+## Make a service a worker
+
+Choose **Worker**. A worker has no HTTP port, so its Settings no longer have **Domains** or **Health**: the rail lists **Access**, **Deploy**, **Network**, **Scale**, **Storage**, **Scans**, **Tracing** and **Logs**.
+
+<Screenshot id="settings/access-worker-live" alt="Settings of a worker: Visibility Worker, and no Domains or Health in the rail" />
+
+The commit dialog shows what the switch does to the processes: **Web instances** `1` → `0` and **Worker instances** `0` → `1`. After the deploy, the service runs one worker process and no web process, and its URL answers `404`.
+
+Switching a worker back to **Public** lists three settings: **Public exposure** `off` → `on`, **Web instances** `0` → `1` and **Worker instances** `1` → `0`.
+
+## The port
+
+The port that **Public** sends traffic to is the port set when the service was added: **Runtime** → **Port** on the review panel (see [Deploy a Docker image](/deploy-docker-image)). The service here, `nginx-unprivileged`, listens on `8080`. **Settings** has no port field.

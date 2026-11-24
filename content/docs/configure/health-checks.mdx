@@ -1,0 +1,66 @@
+---
+title: Health checks
+description: The HTTP check a new version of a web service must pass before it gets traffic.
+---
+
+**Settings** → **Health** holds **Health checks**: "HTTP probe we run before sending traffic to a new version." Only web services (**Public** or **Internal**) have it; a worker has no HTTP port.
+
+<Screenshot id="settings/health" alt="Health checks: Using platform default, On, path /, Startup, Timeout and Interval" />
+
+## The settings
+
+| Field | Default | What it is |
+| --- | --- | --- |
+| On / Off switch | **On** | Whether rollouts wait for the check. |
+| **Path** | `/` | The path that is requested. The text above it reads "New version takes traffic only after `GET /` passes." |
+| **Startup** | `90` | Seconds a new instance has to start answering. The commit dialog calls it **Startup grace (s)**. |
+| **Timeout** | `3` | Seconds each request may take. |
+| **Interval** | `10` | Seconds between two checks. |
+
+Next to the switch, **Using platform default** means this service uses the platform's setting. Once you change the switch, a **Reset** link takes its place.
+
+## Change the path
+
+<Steps>
+
+<Step>
+
+### Type the path
+
+Type the new path in **Path**, here `/index.html`. The text above changes to "New version takes traffic only after `GET /index.html` passes."
+
+<Screenshot id="settings/health-path" alt="Health check path set to /index.html" />
+
+</Step>
+
+<Step>
+
+### Commit and deploy
+
+Click **Commit 1 change**. The dialog lists **Health check path** `/` → `/index.html`. Click **Deploy 1 change**.
+
+<Screenshot id="settings/health-commit" alt="1 change to apply: Health check path / → /index.html" />
+
+The new version passes the check on `/index.html` and takes over.
+
+</Step>
+
+</Steps>
+
+## When the check fails
+
+To see what happens, we deployed a path the app doesn't serve, `/does-not-exist`, with **Startup** at `30`. The commit dialog listed **Health check path** `/index.html` → `/does-not-exist` and **Startup grace (s)** `90` → `30`.
+
+- The new instance started but never became ready. After the startup time it was restarted, again and again.
+- The old instance kept serving: the site answered `200` the whole time.
+- On the **Deployment** tab the deploy stayed **rolling out**, with **Cancel** next to it.
+
+<Screenshot id="settings/health-failing" alt="Deployment tab: the deploy with the missing path still rolling out, with Cancel" />
+
+Fixing the path and deploying again replaces the stuck version. Here, the path went back to `/` and **Startup** to `90`, and the new version went live.
+
+## Turn health checks off
+
+Turn the switch off. The card shows "Health checks are off — rollouts are not gated." and **Reset** appears next to the switch. The path and timing fields are hidden while it is off.
+
+<Screenshot id="settings/health-off" alt="Health checks Off: Health checks are off — rollouts are not gated, with Reset" />

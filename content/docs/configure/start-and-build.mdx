@@ -1,0 +1,48 @@
+---
+title: Start command
+description: Override the command a Docker image service starts with, and go back to the image default.
+---
+
+**Settings** → **Deploy** ("How this service starts and goes live.") has a **Start command** field on a Docker image service. It also has a **Pre-deploy** field.
+
+<Screenshot id="settings/deploy" alt="Deploy: Pre-deploy and Start command" />
+
+| Field | What the card says | Placeholder |
+| --- | --- | --- |
+| **Start command** | "Optional override for the image's default process. Leave empty to use the image default." | `e.g. node server.js` |
+
+It is staged like any setting: **Commit 1 change**, then **Deploy 1 change**.
+
+## Set a start command
+
+<Steps>
+
+<Step>
+
+### Type the command
+
+Here, a command that prints a line and then starts nginx the way the image does:
+
+```sh
+sh -c "echo started by the start command; exec nginx -g 'daemon off;'"
+```
+
+<Screenshot id="settings/start-command" alt="Start command filled in" />
+
+</Step>
+
+<Step>
+
+### Commit and deploy
+
+The dialog lists **Start command** with the new value. StackBlaze runs the command through a shell: it was saved as `/bin/sh -c` followed by what you typed, and the dialog shows it that way.
+
+<Screenshot id="settings/start-command-commit" alt="1 change to apply: Start command /bin/sh -c sh -c …" />
+
+After the deploy, the site still answered `200`, and **Logs** showed `started by the start command`.
+
+</Step>
+
+</Steps>
+
+To go back to the image's own command, empty the field and deploy. The dialog lists **Start command** going to `—`.

@@ -1,1 +1,1 @@
-{ "title": "Configure", "pages": ["environment-variables", "service-settings"] }
+{"title": "Configure", "pages": ["environment-variables", "service-settings", "visibility", "custom-domains", "start-and-build", "health-checks", "scaling"]}
