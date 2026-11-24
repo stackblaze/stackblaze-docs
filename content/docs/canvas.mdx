@@ -31,6 +31,26 @@ The disk icon on a database card shows its volume. A database's disk is "managed
 
 <Screenshot id="canvas/5-search" alt="Searching for cache: Valkey under On this environment" />
 
+## Add to the environment
+
+**+ Service**, at the top right, opens **Add to** *environment*. What each item adds:
+
+| Item | Adds | See |
+| --- | --- | --- |
+| **Template** | one-click apps from the catalog | [Templates](/templates) |
+| **GitHub repository** | an app built from a repository | [Deploy from GitHub](/deploy-from-github) |
+| **Docker image** | an app from a public or private image | [Deploy a Docker image](/deploy-docker-image) |
+| **Database or cache** | PostgreSQL, MariaDB, Valkey and more | [Databases](/databases/postgresql) |
+| **Developer sandbox** | an isolated VM with a shell and checkpoints | [Developer sandboxes](/sandboxes) |
+| **AI model (GPU)** | an open model on a GPU | [AI models](/ai/models) |
+| **AI agent** | a chatbot or support agent with your instructions | [AI agents](/ai/agents) |
+| **Function** | one TypeScript file, no build | [Functions](/functions) |
+| **Add-on** | email, scheduled tasks, Memcached, ProxySQL | [Add-ons](/addons/email) |
+| **Import** | services from a Compose file, render.yaml, fly.toml or stackblaze.yaml | [Import](/import) |
+| **Backups** | snapshots and restore for the environment, once it has something in it | [Environment backups](/backups) |
+
+<Screenshot id="env-backups/1-menu" alt="The Add to Dev menu: Template, GitHub repository, Docker image, Database or cache and more" />
+
 ## Staged changes
 
 Most changes you make to a running service, such as a new variable, are not applied straight away. They are staged, and the toolbar shows **Commit N change(s)**.
