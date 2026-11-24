@@ -108,10 +108,24 @@ export async function open() {
     /** Save the shots taken so far (for long flows: a later failure keeps
      *  the steps that were really performed). */
     checkpoint() {
-      const m = fs.existsSync(MANIFEST) ? JSON.parse(fs.readFileSync(MANIFEST, 'utf8')) : {};
-      Object.assign(m, pending);
-      const sorted = Object.fromEntries(Object.keys(m).sort().map((k) => [k, m[k]]));
-      fs.writeFileSync(MANIFEST, JSON.stringify(sorted, null, 2) + '\n');
+      // Several flows may run at once: hold a lock directory around the
+      // read-merge-write so one flow never drops another's entries.
+      const lock = `${MANIFEST}.lock`;
+      for (let i = 0; ; i++) {
+        try { fs.mkdirSync(lock); break; } catch (e) {
+          if (e.code !== 'EEXIST') throw e;
+          if (i > 200) { fs.rmSync(lock, { recursive: true, force: true }); continue; }
+          Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 50);
+        }
+      }
+      try {
+        const m = fs.existsSync(MANIFEST) ? JSON.parse(fs.readFileSync(MANIFEST, 'utf8')) : {};
+        Object.assign(m, pending);
+        const sorted = Object.fromEntries(Object.keys(m).sort().map((k) => [k, m[k]]));
+        const tmp = `${MANIFEST}.${process.pid}.tmp`;
+        fs.writeFileSync(tmp, JSON.stringify(sorted, null, 2) + '\n');
+        fs.renameSync(tmp, MANIFEST);
+      } finally { fs.rmSync(lock, { recursive: true, force: true }); }
     },
     /** Write the manifest after the flow succeeded, and disconnect. */
     async done() {

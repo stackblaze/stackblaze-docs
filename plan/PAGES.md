@@ -22,7 +22,7 @@ Shorthand: **Canvas** = project → `/pipeline/:p/apps?phase=<env>`. **+Service*
 ## B. Deploy
 | slug | dashboard path | needs | status |
 |---|---|---|---|
-| deploy/github | +Service → "GitHub repository" / "Public git repo" | GitHub link (app install for private) | blocked: GitHub link |
+| deploy/github | +Service → "GitHub repository" / "Public git repo" | GitHub link (app install for private) | captured |
 | deploy/docker-image | +Service → "Docker image" → "Container registry" | — | todo |
 | deploy/templates | +Service → "Template"; `/new/template/:slug` "Review what gets created" | plan `maxTemplateTier` | todo |
 | deploy/cli-local-folder | `stackblaze login` → `stackblaze up [path]` | CLI | todo |
