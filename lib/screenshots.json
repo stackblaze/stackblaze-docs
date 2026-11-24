@@ -3079,6 +3079,20 @@
     "capturedAt": "2026-11-23T14:49:41.660Z",
     "source": "/pipeline/templates-demo-tdjh/apps"
   },
+  "templates/10-review": {
+    "src": "/screenshots/templates/10-review.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T20:29:50.258Z",
+    "source": "/new/template/uptime-kuma"
+  },
+  "templates/11-deployed": {
+    "src": "/screenshots/templates/11-deployed.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T20:35:00.129Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
   "templates/2-list": {
     "src": "/screenshots/templates/2-list.png",
     "width": 768,
@@ -3113,6 +3127,13 @@
     "height": 640,
     "capturedAt": "2026-11-23T14:51:20.931Z",
     "source": "https://uptime-kuma-z7mo.cloud-dev-central-1.stackblaze.app"
+  },
+  "templates/9-project-picker": {
+    "src": "/screenshots/templates/9-project-picker.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-24T20:29:46.170Z",
+    "source": "/new/template/uptime-kuma"
   },
   "terminal/1-ready": {
     "src": "/screenshots/terminal/1-ready.png",
