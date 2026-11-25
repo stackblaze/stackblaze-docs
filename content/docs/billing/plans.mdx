@@ -70,6 +70,8 @@ These are the self-serve plans and what **What's included:** lists for each.
 
 Every plan includes custom domains with automatic SSL and unlimited free build minutes. The plan price comes back as included usage: what your apps use is counted against it first (see [Usage](/billing/usage#usage-breakdown)).
 
+Every plan, the Free Trial included, can add any add-on and deploy any template the platform offers. Plans differ only in the limits on this page. A template that needs more than your plan allows, such as more services or databases, or a bigger service than **Size per service**, is refused before anything is created.
+
 The last three rows are the limits the [Plan limits](/billing/usage#plan-limits) card on Usage counts against.
 
 **Size per service** is the most one service can use in total. A service with more than one instance splits it: each instance gets an equal share. A helper container that runs inside an instance, such as the private-network proxy, takes its part from that instance's share, and the app container always keeps at least 60% of it. Each run of a scheduled task gets the size of one instance, and runs of the same task never overlap.
@@ -88,7 +90,8 @@ Each plan also sets these limits:
 | Database backups | No | Yes | Yes | Yes |
 | Highly available databases | No | No | Yes | Yes |
 | Preview environments | No | No | Yes | Yes |
-| AI models | 3 | 3 | 3 | 10 |
+| AI agents | No | Yes | Yes | Yes |
+| AI models | No | 3 | 3 | 10 |
 | Single sign-on, tracing, security scans, advanced networking | No | No | No | Yes |
 
 A build over the limit isn't queued: it's refused, and you can start it again once a build finishes (see [Deploy from CI](/cli/ci#build-limits)).
