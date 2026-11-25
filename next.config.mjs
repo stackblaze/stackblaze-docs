@@ -127,7 +127,7 @@ const config = {
       { source: '/security/env-vars', destination: '/configure/environment-variables', permanent: true },
       { source: '/security/ip-allowlist', destination: '/networking/advanced-networking', permanent: true },
       { source: '/security/secret-files', destination: '/configure/environment-variables', permanent: true },
-      { source: '/security/sso', destination: '/projects/members-and-roles', permanent: true },
+      { source: '/security/sso', destination: '/security/single-sign-on', permanent: true },
       { source: '/security/team-permissions', destination: '/projects/members-and-roles', permanent: true },
       { source: '/security/two-factor-auth', destination: '/security/account-security', permanent: true },
       { source: '/storage/health-checks', destination: '/configure/health-checks', permanent: true },
