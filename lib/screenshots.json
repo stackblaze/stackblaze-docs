@@ -1756,6 +1756,55 @@
     "capturedAt": "2026-11-24T12:15:50.991Z",
     "source": "/pipeline/import-demo-brkm/apps"
   },
+  "log-drains/1-empty": {
+    "src": "/screenshots/log-drains/1-empty.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T00:15:32.436Z",
+    "source": "/settings/log-drains"
+  },
+  "log-drains/2-dialog": {
+    "src": "/screenshots/log-drains/2-dialog.png",
+    "width": 512,
+    "height": 724,
+    "capturedAt": "2026-11-25T00:15:36.175Z",
+    "source": "/settings/log-drains"
+  },
+  "log-drains/3-filled": {
+    "src": "/screenshots/log-drains/3-filled.png",
+    "width": 512,
+    "height": 662,
+    "capturedAt": "2026-11-25T00:15:46.274Z",
+    "source": "/settings/log-drains"
+  },
+  "log-drains/4-listed": {
+    "src": "/screenshots/log-drains/4-listed.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T00:15:52.439Z",
+    "source": "/settings/log-drains"
+  },
+  "log-drains/5-edit": {
+    "src": "/screenshots/log-drains/5-edit.png",
+    "width": 512,
+    "height": 724,
+    "capturedAt": "2026-11-25T00:17:07.571Z",
+    "source": "/settings/log-drains"
+  },
+  "log-drains/5-menu": {
+    "src": "/screenshots/log-drains/5-menu.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T00:16:38.872Z",
+    "source": "/settings/log-drains"
+  },
+  "log-drains/6-remove": {
+    "src": "/screenshots/log-drains/6-remove.png",
+    "width": 448,
+    "height": 146,
+    "capturedAt": "2026-11-25T00:24:04.737Z",
+    "source": "/settings/log-drains"
+  },
   "logs/1-app-logs": {
     "src": "/screenshots/logs/1-app-logs.png",
     "width": 816,
