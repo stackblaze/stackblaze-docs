@@ -59,6 +59,27 @@ The commit dialog shows what the switch does to the processes: **Web instances**
 
 Switching a worker back to **Public** lists three settings: **Public exposure** `off` → `on`, **Web instances** `0` → `1` and **Worker instances** `1` → `0`.
 
+### What workers are for
+
+A worker runs your code without taking requests: a queue consumer, a bot, a job that polls for work. It is built the same way as any other service, from a Docker image or from source, and gets variables and connected databases the same way. Every plan can run workers.
+
+To create one from the CLI, add `--worker`: `stackblaze up --worker` or `stackblaze apps create … --worker` (no port, no public URL). In [`stackblaze.yaml`](/build-deploy/infrastructure-as-code) it is `type: worker`. A web service can also run a worker process next to its web process: see [Scaling](/configure/scaling#a-worker-process-next-to-the-web-process).
+
+### When a worker stops
+
+A worker has no health check, so its process is the only sign of health. If the process exits, it is started again, with a longer wait after each try. We deployed a worker whose start command was `sh -c 'echo worker starting; sleep 5; echo boom; exit 1'`:
+
+- **Logs** showed `worker starting` and `boom` for each try.
+- After six restarts, its status was `failed`, with the reason `CrashLoopBackOff`.
+
+<Screenshot id="net/worker-crash-logs" alt="Logs of the worker: worker starting, then boom" />
+
+So watch a worker's **Logs**, or send them to a [log drain](/observe/log-drains). Make it exit with an error when its configuration is wrong, so the problem shows up right away.
+
+### More than one worker instance
+
+**Settings** → **Scale** sets how many instances run. Each instance runs the same command, so with a queue, every instance takes jobs from the same queue. See [Scaling](/configure/scaling).
+
 ## The port
 
 The port that **Public** sends traffic to is the port set when the service was added: **Runtime** → **Port** on the review panel (see [Deploy a Docker image](/build-deploy/deploy-docker-image)). The service here, `nginx-unprivileged`, listens on `8080`. **Settings** has no port field.

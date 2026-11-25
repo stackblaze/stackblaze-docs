@@ -79,3 +79,54 @@ Each of these is a canvas change: it is staged until you click **Commit** and **
 <Screenshot id="addons/cron-13-paused-menu" alt="The menu of a paused task: View logs, Edit, Resume and Remove" />
 
 <Screenshot id="addons/cron-17-remove-commit" alt="2 changes to apply: Scheduled tasks 0 tasks, and nginx ⇄ scheduled-tasks on → off" />
+
+## How runs behave
+
+- **Schedules are in UTC.** There is no time zone setting. A task set to `53 7 * * *` ran at 07:53 UTC.
+- **Each run is a new container**, with the image and variables of the service it runs in (or of its own for **Standalone**). Nothing it writes to its own disk is kept for the next run: keep state in a database or on a volume.
+- **The exit code decides the result.** `0` is a success. A task with `sh -c 'echo about to fail; exit 3'` was listed as **Run failed**.
+- **Runs of one task never overlap.** While a run is still going, the next one doesn't start. A task on `* * * * *` that sleeps 150 seconds started at 07:50:00. The 07:51 and 07:52 runs didn't start; the next run started at 07:52:33, right after the first one ended.
+- **Each run gets the size of one instance** of the service.
+
+## The run list
+
+Click a run to see its logs. Each run's menu has:
+
+- **View logs**.
+- **Run again**: start the same task now.
+- **Cancel**, while the run is pending or running.
+- **Remove**, once it has finished: deletes the run from the list.
+
+## Cron syntax
+
+The five fields are minute, hour, day of the month, month and day of the week.
+
+| Schedule | Runs |
+| --- | --- |
+| `*/15 * * * *` | Every 15 minutes |
+| `0 * * * *` | At the start of every hour |
+| `0 2 * * *` | Every day at 02:00 UTC |
+| `30 6 * * 1-5` | Monday to Friday at 06:30 UTC |
+| `0 0 1 * *` | On the first of every month at midnight UTC |
+
+The CLI also takes `@hourly` and `@daily`.
+
+## From the CLI and the API
+
+[`stackblaze cron`](/cli/reference/cron) works on a service's tasks:
+
+| Command | What it does |
+| --- | --- |
+| `stackblaze cron list` | The tasks with their schedule, command and last run |
+| `stackblaze cron set report --schedule "0 3 * * *" --command "node report.js"` | Add a task or change one, in one release |
+| `stackblaze cron run report` | Run it now |
+| `stackblaze cron logs report` | The logs of its runs, while their containers still exist |
+| `stackblaze cron delete report` | Remove it |
+
+`--command` doesn't go through a shell: use `sh -c '…'` for pipes and `;`. `--image` runs another image instead of the service's.
+
+To start a run from your own code, call `POST /api/apps/{project}/{environment}/{service}/cronjobs/{task}/trigger` with an [API token](/cli/api). `{service}` is the service's resource name, such as `crondemo-txzo`. The answer names the run:
+
+```json
+{ "status": "ok", "job": "crondemo-txzo-kuberoapp-tzcheck-mmwvu2tjn", "cronjob": "crondemo-txzo-kuberoapp-tzcheck" }
+```

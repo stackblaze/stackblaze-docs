@@ -83,6 +83,55 @@ The dialog lists **Autoscaling** `off` → `on` and **Web autoscale range** `0�
 
 </Steps>
 
+### Limits of the fields
+
+- **CPU** and **Memory** targets go from `10` to `90`, in steps of `5`. Typing `5` or `95` marks the field invalid ("Value must be greater than or equal to 10.", "Value must be less than or equal to 90.").
+- **Min** and **Max** go from `1` to `10`. Your plan's limit per service still applies.
+- At your plan's limit, when a bigger plan allows more, an **Upgrade** tag appears next to **Scale**: "Your plan's instance limit per service is reached." On **Trial** and **Developer**, which allow one instance, there is nothing to scale between.
+
+When autoscale is on, a [worker](/networking/visibility#make-a-service-a-worker) gets its own **Worker process** **Min** and **Max**, with the warning "Scales on CPU/memory, not queue depth. For queue-driven workers, prefer setting instances manually."
+
+## A worker process next to the web process
+
+A web service can also run a worker process: a second set of instances from the same image, with no port and no traffic. There is no switch for this in the dashboard. Add it from the [CLI](/cli):
+
+```sh
+stackblaze scale web=1 worker=1 -a crondemo
+```
+
+The CLI said `web → 1 instance(s)` and `worker → 1 instance(s) (was 0)`. **Scale** then shows a **Worker process** row ("1 instance · background") under **Instances**, with its own **−** and **+**, up to `10`. The worker process ran the service's start command, the same as the web process.
+
+<Screenshot id="net/scale-worker-process" alt="Scale: Instances 1 and Worker process 1 instance · background" />
+
+With autoscale on, it has its own range:
+
+<Screenshot id="net/autoscale-worker-range" alt="Autoscale on: Instances Min 1 Max 3, Worker process Min 1 Max 1, CPU above 70%" />
+
+## From the CLI
+
+`stackblaze scale` changes both processes in one release:
+
+| Command | What it does |
+| --- | --- |
+| `stackblaze scale web=3` | Run 3 web instances |
+| `stackblaze scale web=2 worker=1` | Set both processes at once |
+| `stackblaze scale --autoscale web=2:5` | Autoscale between 2 and 5 web instances |
+| `stackblaze scale --autoscale-off web` | Back to a fixed number |
+
+Counts are checked against your plan's limit per service. See [`stackblaze scale`](/cli/reference/scale).
+
+## In stackblaze.yaml
+
+In [`stackblaze.yaml`](/build-deploy/infrastructure-as-code), a service takes `numInstances` for a fixed number, or a `scaling` block with `minInstances`, `maxInstances`, `targetCPUPercent` and `targetMemoryPercent`.
+
+## Before you add instances
+
+Requests are spread over all instances, so any of them can get the next request from the same visitor. Keep state out of the instance:
+
+- Keep sessions and caches that all instances must see in [Valkey](/data/databases/valkey) or in your database, not in memory.
+- Keep files on a [volume](/data/volumes), which every instance mounts, not on the container's own disk.
+- Every instance opens its own database connections. Size the database's connection limit for **Max** instances, not for one.
+
 ## Instance size
 
 The panel header shows the service's instance size, for example **Small**. **Settings** has no control to change it.

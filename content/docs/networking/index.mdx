@@ -10,5 +10,27 @@ Each service is public, internal or a worker. Public services get a URL with HTT
   <SectionCard icon="Globe" title="Custom domains" href="/networking/custom-domains" description="Add your own hostname to a public web service, and the DNS records it asks for." />
   <SectionCard icon="KeyRound" title="Basic Auth" href="/networking/basic-auth" description="Put a username and password in front of a web service, for example a staging site, and turn it off again." />
   <SectionCard icon="Network" title="Advanced networking" href="/networking/advanced-networking" description="Answer cross-origin requests with CORS, and allow or block visitor IP ranges before they reach a service." />
-  <SectionCard icon="Waypoints" title="Edge network" href="/networking/edge-network" description="How requests reach a public service: DNS, HTTPS, failover and what the edge caches." />
+  <SectionCard icon="Waypoints" title="Edge network" href="/networking/edge-network" description="How requests reach a public service: DNS, HTTPS, failover, the visitor's IP and what the edge caches." />
+  <SectionCard icon="Route" title="Private networking" href="/networking/private-networking" description="How services in one environment call each other, on which address and port." />
+  <SectionCard icon="Plug" title="WebSockets and SSE" href="/networking/websockets" description="Keep connections open through the edge, and how long an idle one lasts." />
 </SectionCards>
+
+## Redirects
+
+StackBlaze has no redirect rules: there is no redirects file and no redirect setting for a service or a domain. The only redirect it makes is from `http://` to `https://`: a request on plain HTTP gets `308 Permanent Redirect` to the same URL on `https://`.
+
+Every other redirect, such as an old path to a new one, `www` to the root domain, or a single-page app that serves `index.html` for every path, belongs in your app or its web server. For example, this nginx configuration, deployed on dev, sent `/old-page` to `/new-page` with `301`, and answered `/some/client/route` with `index.html`:
+
+```nginx
+server {
+  listen 8080;
+  root /usr/share/nginx/html;
+  absolute_redirect off;
+
+  location = /old-page { return 301 /new-page; }
+
+  location / { try_files $uri $uri/ /index.html; }
+}
+```
+
+Without `absolute_redirect off;`, nginx wrote the redirect as `http://<host>:8080/new-page`: with its own port and plain HTTP, which visitors can't open. With it, the `Location` header is just `/new-page`.

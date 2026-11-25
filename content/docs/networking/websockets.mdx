@@ -1,0 +1,58 @@
+---
+title: WebSockets and SSE
+description: Keep connections open through the edge with WebSockets or server-sent events, and how long an idle one lasts.
+---
+
+Public services can hold long-lived connections: WebSockets and server-sent events (SSE) both work through the [edge](/networking/edge-network), with nothing to turn on. Your service gets the connection on its port as plain HTTP, like any other request.
+
+We tested both on dev with a small Node.js service that echoes WebSocket messages and sends SSE events.
+
+## WebSockets
+
+Connect with `wss://` on the service's URL. The edge only answers on HTTPS (`http://` gets a `308` redirect), so use `wss://`, not `ws://`.
+
+```js
+const ws = new WebSocket('wss://wsdemo-zmfb.cloud-dev-central-1.stackblaze.app/chat');
+ws.onopen = () => ws.send('hello');
+ws.onmessage = (e) => console.log(e.data); // echo: hello
+```
+
+The upgrade went through, and the message came back from the service.
+
+## Server-sent events
+
+Answer with `Content-Type: text/event-stream` and write events as they happen:
+
+```js
+res.writeHead(200, {
+  'Content-Type': 'text/event-stream',
+  'Cache-Control': 'no-cache',
+  'X-Accel-Buffering': 'no',
+});
+res.write(`data: ${JSON.stringify({ time: Date.now() })}\n\n`);
+```
+
+With one event every two seconds, each event reached the browser about 0.3 seconds after the service sent it: nothing held them back to send them in batches. That was the same with and without the `X-Accel-Buffering: no` header. Sending it does no harm.
+
+## Idle connections are closed
+
+A connection with no traffic at all is closed after a while:
+
+| Connection | Closed after |
+| --- | --- |
+| WebSocket with no messages either way | 15 minutes (close code `1006`) |
+| SSE stream with no events | 10 minutes |
+
+The limit counts idle time, not the age of the connection. A WebSocket that sent one message every 4 minutes was still open after 1,000 seconds, when we closed it ourselves, and an SSE stream with one event every 4 minutes ran its full 16 minutes.
+
+So send something regularly, for example a ping message every 30 seconds on a WebSocket, or a comment line (`: ping`) on an SSE stream, and have the client reconnect when the connection drops. Browsers' `EventSource` reconnects on its own; a `WebSocket` doesn't.
+
+Connections also end when the instance they are on is replaced, on every deploy and restart. In our tests, an open WebSocket and an SSE stream both dropped when the service was deployed again.
+
+## More than one instance
+
+Each connection stays on the instance it was opened on, and there is no setting to send a visitor back to the same instance. With several [instances](/configure/scaling), a message that must reach every client has to go through something all instances share, for example publish and subscribe in [Valkey](/data/databases/valkey).
+
+## Access rules
+
+[IP rules](/networking/advanced-networking) apply to WebSockets too: from a blocked address, the connection was refused.

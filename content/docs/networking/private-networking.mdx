@@ -1,0 +1,65 @@
+---
+title: Private networking
+description: How services in one environment call each other without going through the internet.
+---
+
+Services in the same environment can call each other directly over a private network. These calls don't go through the [edge](/networking/edge-network) and don't need a public URL, so they also work for [Internal](/networking/visibility) services.
+
+## The private address
+
+Every service has a private hostname. Don't type it by hand: put a reference in a variable, and StackBlaze fills in the hostname when the service starts.
+
+```sh
+API_HOST=${{api.STACKBLAZE_PRIVATE_DOMAIN}}
+```
+
+`api` is the name of the service you want to call, as shown on its canvas card. The value the container gets looks like this:
+
+```sh
+wsdemo-zmfb-kuberoapp.github-demo-cw8z-dev.svc.cluster.local
+```
+
+It is built from the service's resource name (`wsdemo-zmfb`), and from the project and environment (`github-demo-cw8z-dev`). See [Environment variables](/configure/environment-variables#references-to-other-services) for how references work.
+
+## Which port to call
+
+The private address answers on port **80**, whatever port the service listens on, and passes the request on to that port. Leave the port out of the URL:
+
+```sh
+curl http://$API_HOST/
+```
+
+We tested this between two services in one environment. One listened on `8080`, the other on `3000`:
+
+| From the other service | Result |
+| --- | --- |
+| `http://<private address>/` | answered |
+| `http://<private address>:8080/` (the service's own port) | timed out |
+
+## Shorter names
+
+Inside the environment, these names also reached the same service:
+
+- the service's name (`wsdemo`),
+- its resource name (`wsdemo-zmfb`),
+- both with `-kuberoapp` added (`wsdemo-kuberoapp`, `wsdemo-zmfb-kuberoapp`).
+
+They are handy in a `docker-compose.yml` you [imported](/build-deploy/import), where services call each other by name. A short name can be taken by something else in the environment, though, such as a database with the same name. The private address from `STACKBLAZE_PRIVATE_DOMAIN` always belongs to the service.
+
+## Databases and add-ons
+
+When you connect a database or other add-on to a service, its connection details are injected as variables. Use those, not a hostname you copied. For example, a service connected to PostgreSQL, MariaDB and Valkey got:
+
+| Variables | Port |
+| --- | --- |
+| `PGHOST`, `PGPORT` | `5432` |
+| `MYSQL_HOST`, `MYSQL_PORT` | `3306` |
+| `REDISHOST`, `REDISPORT` | `6379` |
+
+The hosts are private addresses in the same environment. See [Databases](/data) for each engine's variables.
+
+## What can't be reached
+
+- **Other environments and other projects.** Each environment of a project is its own private network. A service only accepts private connections from services in the same environment. A reference to a service that isn't in the same environment isn't filled in: the variable keeps the text `${{receiver.STACKBLAZE_PRIVATE_DOMAIN}}` as it is.
+- **Workers.** A [worker](/networking/visibility#make-a-service-a-worker) has no port, so nothing can call it. Workers usually take their work from a queue or a database.
+- **During the build.** The build can't reach other services. A [pre-deploy command](/configure/start-and-build#pre-deploy) runs inside the environment, so it can, for example to run database migrations.

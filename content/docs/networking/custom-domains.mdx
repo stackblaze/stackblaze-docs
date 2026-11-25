@@ -56,3 +56,77 @@ Click **Done**. The domain is listed under the default URL with **Configure DNS*
 ## Remove a domain
 
 Click **−** next to the domain. It disappears from the list, and the staged change goes with it.
+
+## After the records are in place
+
+StackBlaze re-checks waiting domains every few minutes. **Verify now** checks one right away; you can use it once every 10 seconds per domain. A domain goes through these states, and the dialog says which one it is in:
+
+| State | What the dialog says |
+| --- | --- |
+| Waiting for DNS | "Waiting for DNS. Records are re-checked every few minutes." or what is still missing |
+| DNS verified | "DNS verified." |
+| Certificate being issued | "Verified — issuing the HTTPS certificate (usually a few minutes)." |
+| Live | "Verified — HTTPS certificate issued. This domain is live." |
+
+The certificate is issued and renewed for you. You can't upload your own.
+
+### Check the records yourself
+
+```sh
+dig +short CNAME docs-demo.example.com
+dig +short TXT _stackblaze-verify.docs-demo.example.com
+```
+
+The first must print the hostname under `edge.stackblaze.cloud` from the dialog, the second the `stackblaze-verify=` value.
+
+## When verification doesn't go through
+
+| What the dialog or **Verify now** says | What to do |
+| --- | --- |
+| "TXT _stackblaze-verify.… not found" | Add the TXT record with the exact name and value. Copy them with the copy buttons. |
+| "CNAME … → … not found" | Add the CNAME. If your DNS provider can proxy traffic through its own servers, turn that off for this record, so it answers with the CNAME. |
+| "… points to …, expected …" | The CNAME points somewhere else, for example to the service's `stackblaze.app` URL. Change it to the `edge.stackblaze.cloud` hostname from the dialog. |
+
+After you change a record, the old answer can stay in DNS caches until its time-to-live runs out. Then click **Verify now** again.
+
+## Root domains
+
+A root domain such as `example.com` can't have a CNAME record. If your DNS provider offers CNAME flattening, `ALIAS` or `ANAME`, point the root domain at the same `edge.stackblaze.cloud` hostname with it. StackBlaze accepts the domain when it resolves to the same addresses as that hostname. The TXT record is still `_stackblaze-verify` followed by the domain.
+
+## Limits
+
+- **One app per domain.** Once a domain is verified for one app, other accounts can't add it: "… is already in use: another account has verified it. A domain can only be attached to one app once its DNS is verified."
+- **20 new domains a day.** One workspace can add at most 20 new hostnames in any 24 hours. The 21st is refused: "This workspace added 20 custom domains in the last 24 hours. Try again later."
+- **7 days to verify.** A domain that hasn't verified 7 days after it was added is removed, and the hostname is free again for anyone.
+- No redirects. The Domains screen has no setting to send `www` to the root domain or the other way round. Every domain you add serves the app. If you want one address, redirect in your app (see [Redirects](/networking#redirects)).
+
+## Take over a domain
+
+If someone verified your domain on another account and no longer controls its DNS, add it from the CLI with `--takeover`:
+
+```sh
+stackblaze domain add docs-demo.example.com --takeover
+```
+
+StackBlaze then reports: "Takeover requested: another account has verified this domain. It moves to this app once your TXT and CNAME records are live and the other account's TXT record has been gone for 2 checks at least 10 minutes apart."
+
+## From the CLI
+
+| Command | What it does |
+| --- | --- |
+| `stackblaze domain add <host>` | Add the domain and print the TXT and CNAME records |
+| `stackblaze domain add <host> --wait` | Also keep checking until it is live (`--timeout`, default 600 s; `--interval`, default 10 s) |
+| `stackblaze domain verify <host>` | Check DNS now and move the domain on |
+| `stackblaze domain list` | The service's domains with their verification and certificate status |
+| `stackblaze domain status [host]` | The service's hostnames and HTTPS |
+| `stackblaze domain remove <host>` | Remove the domain and its certificate |
+
+See [`stackblaze domain`](/cli/reference/domain).
+
+## HTTPS in your app
+
+HTTPS ends at the [edge](/networking/edge-network), for custom domains and for the default URL. Your service gets plain HTTP on its port, so don't set up certificates or HTTPS in the app. Listen on [`PORT`](/configure/environment-variables#variables-stackblaze-sets) on `0.0.0.0`. To see the certificate a visitor gets:
+
+```sh
+curl -vI https://docs-demo.example.com 2>&1 | grep -iE "subject|issuer|expire"
+```

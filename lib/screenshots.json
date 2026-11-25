@@ -2274,6 +2274,48 @@
     "capturedAt": "2026-11-24T19:51:22.606Z",
     "source": "/pipeline/my-first-project-h22a/apps"
   },
+  "net/autoscale-worker-range": {
+    "src": "/screenshots/net/autoscale-worker-range.png",
+    "width": 620,
+    "height": 413,
+    "capturedAt": "2026-11-25T07:56:44.946Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "net/predeploy-commit": {
+    "src": "/screenshots/net/predeploy-commit.png",
+    "width": 576,
+    "height": 360,
+    "capturedAt": "2026-11-25T07:39:44.414Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "net/predeploy-failed": {
+    "src": "/screenshots/net/predeploy-failed.png",
+    "width": 853,
+    "height": 764,
+    "capturedAt": "2026-11-25T07:42:45.060Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "net/predeploy-image": {
+    "src": "/screenshots/net/predeploy-image.png",
+    "width": 620,
+    "height": 283,
+    "capturedAt": "2026-11-25T07:39:42.802Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "net/scale-worker-process": {
+    "src": "/screenshots/net/scale-worker-process.png",
+    "width": 620,
+    "height": 292,
+    "capturedAt": "2026-11-25T07:56:39.378Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "net/worker-crash-logs": {
+    "src": "/screenshots/net/worker-crash-logs.png",
+    "width": 853,
+    "height": 764,
+    "capturedAt": "2026-11-25T07:50:41.808Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
   "notifications/1-empty": {
     "src": "/screenshots/notifications/1-empty.png",
     "width": 1440,

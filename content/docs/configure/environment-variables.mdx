@@ -124,7 +124,7 @@ If the text doesn't parse, the editor says why and keeps the dialog open:
 
 ## Import a .env file
 
-Drop a `.env` file on **Drop or select a .env file**, or click it to choose one. Its variables are added to the tab as staged changes. Commit and deploy to apply them.
+Drop a `.env` file on **Drop or select a .env file**, or click it to choose one. The picker also takes `.txt` files. Its variables are added to the tab as staged changes. Commit and deploy to apply them.
 
 <Screenshot id="variables/app-8-imported" alt="IMPORTED_FLAG and IMPORTED_NAME added from a .env file" />
 
@@ -134,4 +134,73 @@ Drop a `.env` file on **Drop or select a .env file**, or click it to choose one.
 
 ## References
 
-A value can reference another variable with `$(NAME)`. The panel notes that references are "resolved at start, so add-on credentials stay secret".
+A value can reference another variable of the same service with `$(NAME)`. The panel notes that references are "resolved at start, so add-on credentials stay secret".
+
+## Variables StackBlaze sets
+
+Some variables come from the platform, not from you:
+
+| Variable | Value | When |
+| --- | --- | --- |
+| `PORT` | The service's port, for example `8080` | Always, on a service with a port |
+| `STACKBLAZE_PUBLIC_URL` | `https://` and the service's first public hostname | Only when another variable uses `$(STACKBLAZE_PUBLIC_URL)` or `$(STACKBLAZE_PUBLIC_DOMAIN)` |
+| `STACKBLAZE_PUBLIC_DOMAIN` | The hostname alone | Same as above |
+| `STACKBLAZE_PREVIEW` | `true` | In a [preview environment](/build-deploy/preview-environments) |
+| `STACKBLAZE_PR_BRANCH`, `STACKBLAZE_PR_NUMBER` | The pull request's branch and number | In a preview environment |
+
+On a service created on port `3000` with `SELFURL=$(STACKBLAZE_PUBLIC_URL)`, the container got `PORT=3000`, `SELFURL`, `STACKBLAZE_PUBLIC_URL` and `STACKBLAZE_PUBLIC_DOMAIN`. A service with no such variable got only `PORT`.
+
+Have your app listen on `PORT`, on all addresses (`0.0.0.0`), not on `127.0.0.1`. HTTPS ends at the [edge](/networking/edge-network), so the app serves plain HTTP. See [Custom domains](/networking/custom-domains#https-in-your-app).
+
+## References to other services
+
+A value can also read a variable of another service in the same environment, with `${{service.NAME}}`. `service` is the name on the service's canvas card. Each service also has three variables that always exist for references:
+
+| Reference | Value |
+| --- | --- |
+| `${{api.STACKBLAZE_PRIVATE_DOMAIN}}` | The service's [private address](/networking/private-networking) |
+| `${{api.STACKBLAZE_PUBLIC_URL}}` | `https://` and its first public hostname |
+| `${{api.STACKBLAZE_PUBLIC_DOMAIN}}` | Its first public hostname |
+
+For example, a `crondemo` service had these variables, which refer to a `wsdemo` service in the same environment:
+
+```sh
+PEER=${{wsdemo.STACKBLAZE_PRIVATE_DOMAIN}}
+PEERURL=${{wsdemo.STACKBLAZE_PUBLIC_URL}}
+DEEP=${{wsdemo.PEER}}
+```
+
+Its container got:
+
+```sh
+PEER=wsdemo-zmfb-kuberoapp.github-demo-cw8z-dev.svc.cluster.local
+PEERURL=https://wsdemo-zmfb.cloud-dev-central-1.stackblaze.app
+DEEP=${{receiver.STACKBLAZE_PRIVATE_DOMAIN}}
+```
+
+- References are filled in when the service starts. The stored value stays the reference.
+- They resolve in the environment the service runs in. A copy of the environment, such as a preview, points at its own services.
+- They go one level deep. `wsdemo`'s own `PEER` was itself a reference, and `DEEP` got that text, not what it pointed to.
+- A reference to a service or variable that doesn't exist stays as text: `${{nosuch.STACKBLAZE_PUBLIC_URL}}` reached the container unchanged. So does a reference to a service in another environment or project.
+
+## During the build
+
+A service built from source (Railpack, a Dockerfile or buildpacks) also gets its variables during the build and the [pre-deploy command](/configure/start-and-build#pre-deploy), except names the build tools use themselves, such as `PATH`, `HOME` and names starting with `DOCKER_` or `BUILDAH_`. The build itself can't reach other services; the pre-deploy command can.
+
+## Files from a variable
+
+Some tools want a file, such as a certificate or a key file. Keep the contents in a variable and write the file in the [start command](/configure/start-and-build). For binary files or text with many lines, store it base64-encoded:
+
+```sh
+base64 -w0 key.pem    # on Linux; paste the output as the value of KEY_B64
+```
+
+Then decode it before the app starts:
+
+```sh
+sh -c 'echo "$KEY_B64" | base64 -d > /tmp/key.pem && exec node server.js'
+```
+
+The services on this page start this way: their start command writes a script from a base64 variable to `/tmp` and runs it. `exec` hands the process over to your app, so it gets the stop signal on each deploy (see [Start command](/configure/start-and-build#stopping)).
+
+You could also upload a file to a [volume](/data/volumes/browse-files). It is stored there as it is, while a variable is stored as a secret and hidden in the dashboard, so prefer a variable.

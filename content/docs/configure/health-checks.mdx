@@ -64,3 +64,29 @@ Fixing the path and deploying again replaces the stuck version. Here, the path w
 Turn the switch off. The card shows "Health checks are off — rollouts are not gated." and **Reset** appears next to the switch. The path and timing fields are hidden while it is off.
 
 <Screenshot id="settings/health-off" alt="Health checks Off: Health checks are off — rollouts are not gated, with Reset" />
+
+## What counts as healthy
+
+The check is an HTTP `GET` on **Path**, sent straight to the instance on the service's port. Any status from `200` to `399` passes: a redirect counts as healthy, `404` or `500` doesn't. The request carries the service's first public hostname in its `Host` header.
+
+The same path is used three ways:
+
+| Check | When | What a failure does |
+| --- | --- | --- |
+| Startup | Every second, for up to **Startup** seconds after the instance starts | Past the startup time, the instance is restarted. |
+| Ready | Every **Interval** seconds | Decides when a new instance gets traffic during a deploy. |
+| Alive | Every 3 seconds, once started | After 3 failures in a row the instance is restarted. |
+
+So a check that starts failing on a running instance gets it restarted within about ten seconds.
+
+## A good health path
+
+- Answer fast, within **Timeout**. Don't query the database or call other services on every check: a slow database would get every instance restarted at once.
+- Don't put it behind a login. The check goes to the instance directly, so [Basic Auth](/networking/basic-auth) and [IP rules](/networking/advanced-networking) don't apply to it, but your app's own login does.
+- Return `200` once the app can serve requests, for example from a `/health` route.
+
+## In stackblaze.yaml
+
+A service with `healthCheckPath` in [`stackblaze.yaml`](/build-deploy/infrastructure-as-code) gets health checks turned on with that path, **Startup** `30`, **Timeout** `5` and **Interval** `10`.
+
+See [Start command](/configure/start-and-build#how-a-new-version-goes-live) for how a deploy replaces instances.

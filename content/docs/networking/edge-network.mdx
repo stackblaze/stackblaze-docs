@@ -36,6 +36,20 @@ The edge answers on HTTPS:
 - The edge negotiated TLS 1.3 and TLS 1.2 in our tests, and answered over HTTP/2.
 - The edge doesn't add a `Strict-Transport-Security` (HSTS) header. If you want one, send it from your service.
 
+## The visitor's IP address
+
+Your service sees the edge as the sender of each request, not the visitor. The edge passes the visitor's address and the original request on in headers. A header-echo service on dev received these on a request to its `https://` URL:
+
+| Header | Value |
+| --- | --- |
+| `X-Real-IP` | The visitor's IP address |
+| `X-Forwarded-For` | The visitor's IP address (it can be listed more than once) |
+| `X-Forwarded-Proto` | `https` |
+| `X-Forwarded-Host` | The hostname the visitor asked for |
+| `X-Forwarded-Port` | `443` |
+
+Read the visitor's address from `X-Real-IP`, or from the first entry of `X-Forwarded-For`. The values come from the edge, not from the visitor: when we sent our own `X-Forwarded-For` and `X-Real-IP` with a made-up address, neither reached the service. Most frameworks have a "trust proxy" setting that makes them read these headers.
+
 ## What the edge caches
 
 The edge keeps copies of static files and answers repeat requests for them itself. Pages and API responses always come from your service. Each response carries an `x-ex-status` header that tells you which happened:
@@ -62,6 +76,8 @@ Only files whose path ends in one of these extensions are cached: `js`, `mjs`, `
 - sets no cookie (`Set-Cookie`),
 - isn't marked `Cache-Control: private`, `no-store` or `no-cache`,
 - doesn't vary by cookie (`Vary: Cookie` or `Vary: *`).
+
+Large files aren't cached. On dev, with the same `Cache-Control: public, max-age=31536000, immutable` header, a 0.9 MB `.js` file was a `HIT` from the second request to each edge on, while a 1.6 MB one was `MISS` on all twelve requests: every one went to the service.
 
 Each edge has its own cache, so the first request to each edge is a `MISS`. The host name, path and query string together pick the copy.
 

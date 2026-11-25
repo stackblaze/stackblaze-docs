@@ -2,10 +2,12 @@
   "title": "Networking",
   "pages": [
     "visibility",
+    "private-networking",
     "custom-domains",
     "basic-auth",
     "advanced-networking",
-    "edge-network"
+    "edge-network",
+    "websockets"
   ],
   "icon": "Network"
 }

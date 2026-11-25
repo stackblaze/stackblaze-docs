@@ -42,6 +42,24 @@ To block a single address, add `/32`. The commit dialog lists **Blocked IP range
 
 After the deploy, requests from the blocked address got `403 Forbidden` ("Request forbidden by administrative rules."), while the service kept running.
 
+### What the rules cover
+
+The rules apply to the service's public traffic, on its default URL and on its [custom domains](/networking/custom-domains), which go through the same entry. We blocked our own address with `/32` on a service and then tried from that address:
+
+| Request | Result |
+| --- | --- |
+| `https://` page | `403 Forbidden` |
+| WebSocket (`wss://`) | Refused |
+| `http://` | `308` redirect to `https://`, which is then refused |
+
+They don't cover anything else. From the blocked address we kept using the dashboard, the API and the CLI, and committed the change that removed the rule. Calls between your own services over the [private network](/networking/private-networking) don't go through these rules either.
+
+If your team works through a VPN, put the VPN's outgoing address range in **Allowed IP ranges**, not each person's own address.
+
+### Proxy buffer size
+
+In some regions, **Advanced networking** also has a **Proxy Buffer Size** field, the size of the buffer the proxy in front of your service uses for its responses (new services start at `4k`). In regions that don't offer it, the field isn't shown.
+
 ## Turn it off
 
 Switch off **Enable advanced networking**, then commit and deploy. The dialog lists each setting being removed, here **Blocked IP ranges** and **CORS** going **on** → **off**. Our service answered `200` again from the address we had blocked.
