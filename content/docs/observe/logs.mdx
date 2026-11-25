@@ -26,6 +26,8 @@ The source menu, **App logs** by default, switches to **System events**: what th
 
 **Live tail** follows new lines. Its menu also lists **Last 15 minutes**, **Last 1 hour**, **Last 6 hours**, **Last 24 hours**, **Last 7 days** and **Last 30 days**. How far back logs are kept depends on your plan; see [Log retention](/observe/tracing-and-log-retention#log-retention).
 
+**Live tail** shows what the instances running now print. If it's empty, that doesn't mean there are no logs: the instance may just have been restarted or replaced by a new deploy. Pick a time range, such as **Last 1 hour**, to see the earlier lines.
+
 <Screenshot id="logs/menu-range" alt="The time menu: Live tail, Last 15 minutes up to Last 30 days" />
 
 ## Copy and download
@@ -36,4 +38,15 @@ The **⋯** menu has **Refresh**, **Copy logs** and **Download logs**.
 
 ## From the CLI
 
-`stackblaze logs` prints the same lines in your terminal, and `-f` follows them live. See [logs](/cli/reference/logs).
+`stackblaze logs` prints the service's recent lines in your terminal:
+
+```text
+2026-11-25T07:50:53.240Z > node server.js
+2026-11-25T07:50:53.303Z listening on 127.0.0.1:3000
+```
+
+- `-n <count>` keeps only the newest lines; `-f` follows new lines live until you stop it.
+- `--search` reads the stored logs instead, with `--minutes` for how far back, `-q <text>` to match text and `--level` to filter by level.
+- `--container worker` reads a service's worker instead of its web process.
+
+See [logs](/cli/reference/logs).

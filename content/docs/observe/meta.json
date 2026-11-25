@@ -5,7 +5,8 @@
     "log-drains",
     "metrics",
     "tracing-and-log-retention",
-    "notifications"
+    "notifications",
+    "troubleshooting"
   ],
   "icon": "Activity"
 }

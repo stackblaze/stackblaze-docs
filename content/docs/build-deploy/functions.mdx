@@ -101,6 +101,49 @@ To serve HTTP again, set **No schedule**, deploy the change, and deploy code tha
 
 <Screenshot id="functions/8-commit-unschedule" alt="1 change to apply: Schedule */5 * * * * removed" />
 
+## From the CLI
+
+`stackblaze functions` (or `fn`) does the same from the terminal. Every command takes `-p <project>` and `-e <environment>` (default `production`).
+
+Create a function and wait until it answers:
+
+```sh
+stackblaze functions deploy hello --wait
+```
+
+```text
+!  No --file given: the function starts with a "Hello" example. Deploy your code with --file.
+Waiting for function hello-bn2k…
+OK Function hello is ready
+url: https://hello-bn2k.….stackblaze.app
+```
+
+Without `--file` it starts from the same starter file as the dashboard. To deploy your own code, or to update it later, pass the file (up to 96 KB):
+
+```sh
+stackblaze functions deploy hello --file index.ts --wait
+```
+
+`deploy` both creates and updates. It also takes `--port` (default 8080) and:
+
+- `--schedule '<cron>'` to run on a schedule (five fields, UTC) instead of on request;
+- `--no-schedule` to serve on request again. Deploy code that calls `Bun.serve` with it, as in the dashboard.
+
+The other commands:
+
+| Command | What it does |
+|---|---|
+| `functions list` | Each function, how it runs (**on request** or **on schedule** with the expression) and its URL |
+| `functions get hello` | How it runs, its URL, its status and the size of its code. `--code` prints the file. |
+| `functions invoke hello` | Calls the URL and prints the answer: `OK Invoked hello (HTTP 200)` then `Hello from your function`. `--method` (default `POST`), `--path` and `--body` shape the request. |
+| `functions delete hello` | Deletes it. Without a terminal, add `-y`. |
+
+`invoke` refuses a scheduled function, which has no URL: "Function hello runs on a schedule (*/5 * * * *) and has no URL to call." (exit code 1).
+
+A function is also an app, so app commands work on it with `-a <name>`: `stackblaze variables list -a hello` lists its variables, and `stackblaze events -a hello` shows each scheduled run's job being created and completed.
+
+Every option: [`stackblaze functions`](/cli/reference/functions).
+
 ## Other tabs and settings
 
 - **Deployment** lists each deploy, with what changed (**Updated code**, **First Deploy**), its status and who made it.

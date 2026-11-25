@@ -61,4 +61,58 @@ OK Logged in to https://api.stackblaze.cloud
 
 </Steps>
 
-`stackblaze whoami` shows who you are signed in as, and `stackblaze logout` removes the saved credentials. For CI, skip `login` and set `STACKBLAZE_TOKEN` to an API token (`stackblaze tokens create <name>` prints a new one once).
+`stackblaze whoami` shows who you are signed in as.
+
+## Other ways to install
+
+The CLI is a single program; it doesn't need Node.js.
+
+### Homebrew
+
+On macOS or Linux:
+
+```sh
+brew install stackblaze/tap/stackblaze
+```
+
+If Homebrew stops with `Refusing to load formula ... from untrusted tap`, trust the tap once and install again:
+
+```sh
+brew tap stackblaze/tap && brew trust --tap stackblaze/tap
+```
+
+Upgrade with `brew upgrade stackblaze`. `stackblaze upgrade` refuses to replace a Homebrew install and tells you to use brew.
+
+### Windows
+
+In PowerShell:
+
+```powershell
+irm https://www.stackblaze.com/install.ps1 | iex
+```
+
+It installs `stackblaze.exe` to `%LOCALAPPDATA%\StackBlaze\bin` and adds that folder to your user `PATH`, with no administrator rights. Open a new terminal to pick up the `PATH`. It reads the same `STACKBLAZE_VERSION`, `STACKBLAZE_CHANNEL` and `STACKBLAZE_INSTALL_DIR` as the shell script. On Windows on ARM it installs the x64 build.
+
+## Upgrade
+
+`stackblaze upgrade` replaces the running binary with the newest release. `--version <version>` installs a given one, and `--channel dev` installs prereleases. On macOS and Linux it keeps the old binary next to the new one as `stackblaze.bak`. On Windows it renames the running `stackblaze.exe` to `stackblaze.old.exe`, moves the new one in, and removes the old file the next time the CLI starts.
+
+## Other ways to sign in
+
+- **A token.** `stackblaze login --token sb_pat_…` saves an [API token](/security/api-tokens) as your login. To use a token for a single shell or job without saving it, set `STACKBLAZE_TOKEN` instead; it wins over the saved login. `stackblaze tokens create <name>` makes a token and prints it once; `--expires` sets its lifetime (`30d` by default; `12h`, `2w`, `1y` or a date). See [Deploy from CI](/cli/ci#make-a-token).
+- **Email and password.** `stackblaze login --password` asks for your email and password, then your two-factor code if you use one. It needs a terminal.
+
+## Organizations
+
+The CLI acts in one organization at a time. `stackblaze orgs list` lists yours, with `*` on the current one. `stackblaze orgs switch <slug>` moves your saved login to another organization. To run one command in another organization without switching, add `--org <slug>`.
+
+## Where the login is saved
+
+| System | File |
+|---|---|
+| macOS and Linux | `~/.config/stackblaze/config.json` (or `$XDG_CONFIG_HOME/stackblaze/config.json`) |
+| Windows | `%APPDATA%\StackBlaze\config.json` |
+
+`STACKBLAZE_CONFIG` points the CLI at another file.
+
+`stackblaze logout` deletes that file. It doesn't revoke the token on the server: to end a CLI login everywhere, sign it out in **Personal settings** → **General** → **Sessions** (see [Account security](/security/account-security#profile-and-sessions)), or revoke the token under **API tokens**.

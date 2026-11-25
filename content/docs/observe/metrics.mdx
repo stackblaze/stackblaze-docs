@@ -39,3 +39,26 @@ On **24h** the time axis runs across the day; on **7d** it shows dates.
 - **Open monitoring** opens the full monitoring view for the service.
 
 **Observability**, in the dashboard's sidebar, opens the same monitoring view for all the apps in your organization, in a new tab.
+
+## From the CLI
+
+`stackblaze metrics` shows each instance's CPU and memory right now:
+
+```text
+OK my-project/dev/ci-demo-0p8g
+  ci-demo-0p8g-web-6447bc84f8-tqzpx  cpu: 1m  mem: 29Mi
+```
+
+With `--since` it shows the history over a window (`30m`, `1h`, `24h` or `7d`, up to 7 days), all instances together, as a small chart with the value now, the average and the maximum:
+
+```text
+OK my-project/dev/ci-demo-0p8g — last 1h
+  cpu       ▁▃▃▅▇██▆▆      now 1m  avg 1m  max 1m
+  memory    ▁▁██████▅      now 30.9MB  avg 34.9MB  max 43.4MB
+  requests  ▁▂▃▄▅▇▇▇█      now 0.40/s  avg 0.25/s  max 0.40/s
+  latency   █▆▆▄▃▃▂▁▁      now 0.2ms  avg 1.0ms  max 2.2ms
+```
+
+`--watch` refreshes it every 30 seconds (`--interval` changes that) until you press Ctrl-C. `--json` prints the raw series, with timestamps in milliseconds. See [metrics](/cli/reference/metrics).
+
+`stackblaze diagnose` checks a service's settings, metrics, logs and add-ons together and says what looks wrong, or "No obvious platform-level issues detected." See [diagnose](/cli/reference/diagnose).

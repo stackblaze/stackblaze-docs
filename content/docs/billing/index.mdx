@@ -59,6 +59,49 @@ Every plan includes custom domains with automatic SSL and unlimited free build m
 
 The last three rows are the limits the [Plan limits](/billing/usage#plan-limits) card on Usage counts against.
 
+**Size per service** is the most one service can use in total. A service with more than one instance splits it: each instance gets an equal share. A helper container that runs inside an instance, such as the private-network proxy, takes its part from that instance's share, and the app container always keeps at least 60% of it. Each run of a scheduled task gets the size of one instance, and runs of the same task never overlap.
+
+### Other limits
+
+Each plan also sets these limits:
+
+| | Free Trial | Developer | Pro | Business |
+| --- | --- | --- | --- | --- |
+| Builds at the same time | 1 | 2 | 5 | 10 |
+| Build timeout | 10 minutes | 30 minutes | 60 minutes | 90 minutes |
+| Log retention | 1 day | 3 days | 14 days | 30 days |
+| Connections per database | 100 | 200 | 400 | 500 |
+| Connections per Valkey database | 50 | 200 | 1,000 | 2,000 |
+| Database backups | No | Yes | Yes | Yes |
+| Highly available databases | No | No | Yes | Yes |
+| Preview environments | No | No | Yes | Yes |
+| AI models | 3 | 3 | 3 | 10 |
+| Single sign-on, tracing, security scans, advanced networking | No | No | No | Yes |
+
+A build over the limit isn't queued: it's refused, and you can start it again once a build finishes (see [Deploy from CI](/cli/ci#build-limits)).
+
+### The Free Trial
+
+A new account's first organization can start on the **Free trial**: "7 days or $3 of usage · no credit card". The trial is once per account; another organization needs a paid plan from the start.
+
+During the trial, the organization has:
+
+| | Free Trial |
+| --- | --- |
+| Size per service | Up to 0.5 vCPU · 1 GB RAM |
+| Projects | 1 |
+| Services per project | 3 |
+| Environments per project | 1 |
+| Instances per service | 1 |
+| Databases | 2, each with a fixed 1 GiB of storage |
+| Valkey memory | 25 MiB |
+| Emails | 100 a day |
+| Outbound data included | 5 GB |
+| Team members | 1 |
+| Regions | 1 |
+
+The **Current plan** card shows **Free trial** and "Pick a plan before" the end date "to keep services online", with **Upgrade**. When the 7 days are over or the $3 is used up, whichever comes first, the services are stopped and new deploys are refused. The card then shows **Trial expired** and **Choose a plan**. Apps and data are kept for 30 days, then deleted unless you choose a plan; choosing one brings the services back.
+
 ### Downgrade
 
 Picking a lower plan shows **Downgrade your plan**: "Switch to Pro at the end of your billing period." It takes effect on the date shown, and you keep full access to your current plan until then. There is no refund for the current billing period. The button reads **Schedule downgrade**.

@@ -8,7 +8,25 @@ import path from 'node:path';
 const BIN = process.argv[2] ?? 'stackblaze';
 const OUT = path.resolve(import.meta.dirname, '../content/docs/cli/reference');
 // Help text never depends on the account; run it signed out and offline-safe.
-const env = { ...process.env, NO_COLOR: '1', STACKBLAZE_TOKEN: '', HOME: fs.mkdtempSync('/tmp/sbhelp-') };
+const HOME = fs.mkdtempSync('/tmp/sbhelp-');
+// The CLI hides the `functions` and `sandboxes` groups from `--help` until it has
+// fetched the platform's feature flags (GET /api/features) and cached them. Both
+// are on in production, so seed that cache for the public API (the URL a signed-out
+// CLI uses) instead of signing in. Drop a key here if production switches it off.
+const LISTED_FEATURES = { functions: true, sandboxes: true };
+const FEATURES_CACHE = path.join(HOME, 'features.json');
+fs.writeFileSync(
+  FEATURES_CACHE,
+  JSON.stringify({ 'https://api.stackblaze.cloud': { ...LISTED_FEATURES, fetchedAt: Date.now() } }),
+);
+const env = {
+  ...process.env,
+  NO_COLOR: '1',
+  STACKBLAZE_TOKEN: '',
+  STACKBLAZE_API_URL: '',
+  STACKBLAZE_FEATURES_CACHE: FEATURES_CACHE,
+  HOME,
+};
 
 function help(args) {
   try {

@@ -3947,6 +3947,20 @@
     "capturedAt": "2026-11-24T15:43:13.473Z",
     "source": "/pipeline/github-demo-kpw0/apps"
   },
+  "troubleshooting/1-failed-row": {
+    "src": "/screenshots/troubleshooting/1-failed-row.png",
+    "width": 851,
+    "height": 763,
+    "capturedAt": "2026-11-25T07:48:46.893Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "troubleshooting/2-diagnose": {
+    "src": "/screenshots/troubleshooting/2-diagnose.png",
+    "width": 851,
+    "height": 763,
+    "capturedAt": "2026-11-25T07:49:03.212Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
   "valkey/1-ready": {
     "src": "/screenshots/valkey/1-ready.png",
     "width": 1440,

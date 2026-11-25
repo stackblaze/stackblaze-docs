@@ -17,6 +17,19 @@ It has three rows.
 
 Shows **On** when a TOTP authenticator app is paired, with **Reset**. Without one it shows **None** and **Set up**. **Set up** opens the pairing page.
 
+Any authenticator app that makes standard time-based codes works: it shows a new 6-digit code every 30 seconds. The pairing page, **Set up two-factor authentication**, has two steps:
+
+1. **Scan with your authenticator app**: a QR code. If you can't scan it, **Can't scan? Show the key** shows the key to type in instead, with **Copy key**.
+2. **Enter the 6-digit code** the app now shows, then click **Enable 2FA**.
+
+Next comes **Save your recovery codes**: ten one-time codes, "We won't show them again." **Copy** or **Download** them, then click **I've saved my codes**. A new pairing (after **Reset**) also makes a new set, and the old codes stop working.
+
+A started pairing expires after 30 minutes. If you enter a code after that, the page asks you to remove the old StackBlaze entry from your app and scan the new QR code.
+
+#### Required for email accounts
+
+An account that signs in with email and password must set up two-factor authentication ("Required for email accounts."). Right after such an account signs in without a second factor, the dashboard opens the pairing page; its only other choice is **Log out**. Until it's set up, the account can't create an organization or an API token, or approve a CLI sign-in: the API answers "Set up two-factor authentication first." A passkey counts as the second factor too. Accounts that sign in with GitHub, Google or SSO aren't asked.
+
 **Reset** pairs a new authenticator. It first asks you to prove it's you: a code from your current app (or your passkey, if you have one). Then **Reset & set up new** takes you to pair the new app. Your current authenticator keeps working until you confirm the new one. If you've lost your authenticator, ask an administrator to reset 2FA for you.
 
 <Screenshot id="team/security-3-reset" alt="Reset two-factor authentication: a code from your current authenticator, and Reset & set up new" />

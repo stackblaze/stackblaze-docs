@@ -3,6 +3,8 @@
   "pages": [
     "install",
     "deploy-a-folder",
+    "ci",
+    "scripting",
     "api",
     "reference"
   ],

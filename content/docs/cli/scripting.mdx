@@ -1,0 +1,94 @@
+---
+title: Scripting and CI
+description: How the CLI picks the project and app, never prompts without a terminal, splits stdout and stderr, prints JSON, and which exit codes and environment variables it uses.
+---
+
+The CLI works the same in a script, a CI job or an agent as in your terminal. This page is what to rely on when nobody is there to answer a question. For a deploy workflow, see [Deploy from CI](/cli/ci).
+
+## Which project, environment and app
+
+Each command takes the project, environment and app from the first of these that has one:
+
+1. the flags: `-p`/`--project`, `-e`/`--env` (on `up`, `--phase`), `-a`/`--app`;
+2. the variables `STACKBLAZE_PIPELINE`, `STACKBLAZE_PHASE` and `STACKBLAZE_APP`;
+3. the nearest `.stackblaze/project.json`, looking in the current folder and then each parent folder, like git does.
+
+Without an environment, it's `production`. `stackblaze context` shows what a command would use and where it came from. In a folder linked to an app in the `dev` environment:
+
+```text
+Context
+  api:         https://api.stackblaze.cloud
+  project:     my-project
+  environment: dev
+  app:         ci-demo-0p8g
+  file:        .stackblaze/project.json
+```
+
+With `STACKBLAZE_APP=other` set in the same folder, `app:` reads `other`: the variable wins over the link file.
+
+On `up`, `apps create`, `apps update` and `templates deploy`, `--env KEY=value` sets a variable, so the environment is `--phase` on those commands.
+
+## No prompts without a terminal
+
+When stdin isn't a terminal (CI, a pipe, `</dev/null`), the CLI never asks anything. A command that would ask stops, changes nothing and exits with `1`:
+
+```text
+!  This will DELETE permanently from my-project/dev (https://api.stackblaze.cloud), with any data they hold:
+     - app ci-demo
+x  Aborted — nothing was changed. Pass -y / --yes to confirm, or the value as a flag. Not asking "Type the app name to confirm": stdin is not a terminal (non-interactive mode; STACKBLAZE_INTERACTIVE=1 reads answers from stdin).
+```
+
+Pass `-y` (`--yes`) to confirm, and give every value as a flag. `STACKBLAZE_INTERACTIVE=1` makes the CLI read the answers from stdin instead, for tools that drive it like a person would.
+
+## stdout and stderr
+
+The command's result (tables, lists, the line that says what happened) goes to **stdout**. Progress, warnings, errors and questions go to **stderr**. So `stackblaze apps list > apps.txt` writes only the list.
+
+## JSON output
+
+`--json` (or `-o json`) prints the result as one JSON document on stdout. With `up --wait --json`, the document also has a `build` part (the build it followed) and a `wait` part (how the wait ended); the build log goes to stderr.
+
+A few commands stream instead, one JSON object per line, as things happen:
+
+- `stackblaze up --ci` (see [What `--ci` prints](/cli/ci#what---ci-prints));
+- `--ci` on `builds logs`, `cron run`, `backups create`, `backups restore`, `addons backups create` and `addons backups restore`;
+- `metrics --watch --json`, one document per refresh.
+
+When a command fails with `--json`, the error is JSON too, on stderr:
+
+```json
+{"error":{"message":"App 'nope' not found in my-project/dev","code":null,"status":404}}
+```
+
+`message` is the error, `code` the API's machine-readable code when it sent one, and `status` the HTTP status (`null` for an error that isn't from the API). A wrong token gives `{"error":{"message":"Unauthorized","code":null,"status":401}}`.
+
+## Exit codes
+
+| Code | Means |
+|---|---|
+| `0` | It worked |
+| `1` | A usage or validation error, a failed build or deploy, a wait that ended badly, or a question that couldn't be asked |
+| `2` | No token, or a wrong or expired one (401) |
+| `3` | The API refused or couldn't be reached: no permission or a blocked account (403), a plan limit (402), any other API error, a network error or a timeout |
+| `127` | `stackblaze run`: the program you asked it to run couldn't be started |
+
+The app-not-found error above exits with `3`; the wrong token with `2`; the refused delete with `1`.
+
+## Waiting
+
+`--wait` waits until the change is live. On `up` and `wait` the limit is 600 seconds unless you pass `--timeout <seconds>`; when the time is up, the command exits with `1`.
+
+## Environment variables
+
+| Variable | What it does |
+|---|---|
+| `STACKBLAZE_TOKEN` | The API token, instead of a saved login |
+| `STACKBLAZE_API_URL` | The API's address (default `https://api.stackblaze.cloud`) |
+| `STACKBLAZE_PIPELINE`, `STACKBLAZE_PHASE`, `STACKBLAZE_APP` | The project, environment and app (see above) |
+| `STACKBLAZE_HTTP_TIMEOUT` | Seconds before one API request gives up (default 60; `0` turns it off) |
+| `STACKBLAZE_HTTP_RETRIES` | Extra tries for a failed read-only request (default 2) |
+| `STACKBLAZE_BUILD_STREAM` | `poll` follows build logs by polling instead of the live stream |
+| `STACKBLAZE_INTERACTIVE` | `1` reads answers to questions from stdin |
+| `STACKBLAZE_CONFIG` | The file the login is saved in (see [Install and sign in](/cli/install#where-the-login-is-saved)) |
+| `STACKBLAZE_DASHBOARD_URL` | The dashboard address for links the CLI prints or opens |
+| `NO_COLOR` | Any value turns colour off (it's also off with `TERM=dumb`) |
