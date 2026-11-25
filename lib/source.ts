@@ -34,9 +34,11 @@ export const source = loader({
       // The home page keeps its "StackBlaze Docs" heading; the sidebar calls it Home.
       transformPageTree: {
         file(node, filePath) {
-          return filePath === 'index.mdx' ? { ...node, name: 'Home' } : node;
+          if (filePath === 'index.mdx') return { ...node, name: 'Home' };
+          if (filePath === 'projects/index.mdx') return { ...node, name: 'Projects' };
+          return node;
         },
-        // The loose top-level pages, Projects & teams and Billing sit together in one Platform section (URLs unchanged).
+        // The loose top-level pages and the pages of Projects & teams and Billing sit together in one Platform section (URLs unchanged).
         root(root) {
           const isPlatform = (n: Node) => PLATFORM_URLS.includes(nodeUrl(n) ?? '');
           const platform: Folder = {
@@ -44,7 +46,12 @@ export const source = loader({
             type: 'folder',
             name: 'Platform',
             icon: createElement(LayoutDashboard),
-            children: PLATFORM_URLS.flatMap((u) => root.children.filter((n) => nodeUrl(n) === u)),
+            // Sections are flattened: their overview page and pages are listed directly under Platform.
+            children: PLATFORM_URLS.flatMap((u) =>
+              root.children
+                .filter((n) => nodeUrl(n) === u)
+                .flatMap((n): Node[] => (n.type === 'folder' ? [...(n.index ? [n.index] : []), ...n.children] : [n])),
+            ),
           };
           return { ...root, children: [platform, ...root.children.filter((n) => !isPlatform(n))] };
         },
