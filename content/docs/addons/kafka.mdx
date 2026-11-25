@@ -147,7 +147,7 @@ There is no way back to a single broker in place. Each broker has its own `10 Gi
 
 Click the Kafka card, open **Settings** and stay on **Manage** ("Topics, consumer groups, and Connect."). The console connects to Kafka when the section opens (**Connecting to Kafka…**).
 
-**Resource overview** counts **Brokers** (ours: `1`, **Single node**), **Topics**, **Connectors**, **Consumer groups**, **Consumer lag** and **Connect**. Its refresh button reloads the counts.
+**Resource overview** counts **Brokers** (ours: `1`, **Single node**), **Topics**, **Connectors**, **Consumer groups**, **Consumer lag** and **Connect**. Its refresh button reloads the counts. They also reload after you create or delete a topic. For us that took up to half a minute.
 
 <Screenshot id="kafka/manage-overview" alt="Manage: Resource overview with Brokers 1 Single node, Topics 1, Connectors 0, Consumer groups 0, Consumer lag 0, Connect Off; Read-only and Allow writes; the Topics tab with the orders topic" />
 
@@ -159,7 +159,7 @@ The console starts **Read-only**. To create or delete topics, send messages or a
 
 With **Allow writes** on, **Create topic** appears above the list. Type a **Name** (placeholder `my-topic`). Set **Partitions** and **Repl. factor**, which both default to `1`. Click **Create**. We created `orders` with `3` partitions. After about five seconds, "Topic "orders" created" appeared and the topic was in the list.
 
-<Screenshot id="kafka/topic-created" alt="Write mode: Create topic with Name, Partitions and Repl. factor; the Topics list shows orders, 3 partitions, Repl. 1, and Delete" />
+<Screenshot id="kafka/topic-created" alt="Write mode: Resource overview with Topics 1; Create topic with Name, Partitions and Repl. factor; the Topics list shows orders, 3 partitions, Repl. 1, and Delete" />
 
 Click a topic's name to open it (see [Browse messages](#browse-messages)). In write mode each row also has **Delete**. Ours showed "Topic "orders" deleted" after about ten seconds, and the topic was gone from the list.
 
@@ -169,19 +169,21 @@ Click a topic's name to open it (see [Browse messages](#browse-messages)). In wr
 
 ### Send a message
 
-Open **Messages** and turn on **Allow writes**. **Produce message** has a **Topic** menu ("Select topic…"), a **Key** field ("(optional)") and a **Value** box ("message body"). Pick `orders`, type `order 1001 placed` as the value, and click **Produce**. After a few seconds, "Message produced to "orders"" appears. We sent it a few times.
+Open **Messages** and turn on **Allow writes**. **Produce message** has a **Topic** menu ("Select topic…"), a **Key** field ("(optional)") and a **Value** box ("message body"). Pick `orders`, type `1001` as the key and `order 1001 placed` as the value, and click **Produce**. After a few seconds, "Message produced to "orders"" appears. The key is saved with the message and shows in **Key** when you browse. A key can't contain a tab or a line break.
 
-<Screenshot id="kafka/produce" alt="Messages: Browse messages with Select topic…, and Produce message with Topic orders, Key, Value order 1001 placed, and Produce" />
+<Screenshot id="kafka/produce" alt="Messages: Browse messages with Select topic…, and Produce message with Topic orders, Key 1001, Value order 1001 placed, and Produce" />
 
 ### Browse messages
 
-Under **Messages** → **Browse messages**, pick a topic. Clicking a topic's name in **Topics** opens the same view below the list. Its header shows the topic, its partition count and **RF**, plus **Retention** (ours: **Cluster default**) and **Fetched**, the number of messages loaded. The arrow goes back to the list. It has three tabs:
+Under **Messages** → **Browse messages**, pick a topic. Clicking a topic's name in **Topics** opens the same view below the list. Its header shows the topic, its partition count and **RF**, plus **Total messages** in the topic, **Retention** (ours: **Cluster default**) and **Fetched**, the number of messages loaded. Ours showed `1` and `1`. The arrow goes back to the list. It has three tabs:
 
 - **Messages**: pick **All partitions** or one partition. Choose **From beginning** or **Latest**. Set how many to fetch: **100**, **500** (the default), **1,000**, **5,000** or **10,000**. **Search key or value…** filters the rows you've fetched. **Refresh** fetches again. **JSON** and **CSV** download the fetched messages, for example `orders-messages.csv`. A bar chart shows when the fetched messages arrived. The table lists each message's **Timestamp**, **Partition**, **Offset**, **Key** and **Value**. The play button streams new messages. While it runs, the view switches to **Latest** and the button pauses the stream.
-- **Partitions**: each partition's **Leader**, **Replicas** and **ISR**.
+- **Partitions**: each partition's **Log end offset** (the offset the next message gets), **Leader**, **Replicas** and **ISR**. Our message went to partition `0`, so its log end offset was `1` and the other two were `0`.
 - **Configuration**: the topic's own settings, for example `min.insync.replicas` `1`.
 
-<Screenshot id="kafka/messages" alt="The orders topic, Messages tab: All partitions, From beginning, 500, search 'order', Refresh, JSON, CSV, a message-volume chart and the messages with the value order 1001 placed" />
+<Screenshot id="kafka/messages" alt="The orders topic: Total messages 1, Retention Cluster default, Fetched 1; Messages tab with All partitions, From beginning, 500, search 'order', Refresh, JSON, CSV, a message-volume chart and the message on partition 0, offset 0, key 1001, value order 1001 placed" />
+
+<Screenshot id="kafka/topic-partitions" alt="The Partitions tab: partitions 0, 1 and 2 with Log end offset 1, 0 and 0, Leader, Replicas and ISR 0" />
 
 ### Consumer groups
 

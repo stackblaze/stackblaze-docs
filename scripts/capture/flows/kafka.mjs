@@ -306,6 +306,8 @@ if (STEP === 'console') {
     await m().getByRole('button', { name: 'Create', exact: true }).click();
     for (let i = 0; i < 60; i++) { const tt = await page.locator('[data-sonner-toast]').allInnerTexts(); if (tt.length) { console.log('   toast after', Math.round((Date.now() - t0) / 1000), 's:', JSON.stringify(tt)); break; } await page.waitForTimeout(500); }
     await m().locator('tr', { hasText: process.env.TOPIC ?? 'orders' }).first().waitFor({ timeout: 30000 }).catch(() => console.log('   row not shown'));
+    // Resource overview reloads its counts after a create (dashboard #1421).
+    for (let i = 0; i < 120 && /Topics 0 /.test(await text(m())); i++) await page.waitForTimeout(500);
     await page.waitForTimeout(1500);
     console.log('after create:', await text(m()));
     await c.shot('kafka/topic-created', { locator: `${SHEET} [data-settings-section="manage"]` });
@@ -353,13 +355,12 @@ if (STEP === 'console') {
     await viewer.getByPlaceholder('Search key or value…').fill('order'); await page.waitForTimeout(1500);
     await page.mouse.move(5, 5); await page.waitForTimeout(800);
     console.log('   searched:', (await text(viewer.locator('table'))).slice(0, 600));
-    await c.shot('kafka/messages', { around: [viewer.locator('select').first(), viewer.locator('table')] });
+    await c.shot('kafka/messages', { around: [viewer.getByText('Total messages').first(), viewer.locator('select').first(), viewer.locator('table')] });
     for (const t of ['Partitions', 'Configuration']) {
       await viewer.getByRole('button', { name: t, exact: true }).click(); await page.waitForTimeout(2500);
       console.log(`-- ${t}:`, (await text(viewer)).slice(0, 1200));
-      // Partitions: Log end offset shows — (reported bug), so no shot of it.
       if (t === 'Configuration') await c.shot('kafka/topic-configuration', { around: [viewer.getByRole('button', { name: t, exact: true }), viewer.getByText('min.insync.replicas').first()] });
-      else await dbg('con-partitions');
+      else await c.shot('kafka/topic-partitions', { around: [viewer.getByRole('button', { name: t, exact: true }), viewer.locator('table')], pad: 8 });
     }
     if (process.env.EXPORT) {
       // JSON and CSV download the fetched rows.
@@ -549,7 +550,12 @@ if (STEP === 'delete') {
   await appsView();
   const card = page.getByRole('button', { name: /^Manage Kafka/ }).first();
   await c.shot('kafka/15-removes-on-commit', { around: card, extraBottom: 76 });
-  await page.getByRole('button', { name: /^Commit \d+ change/ }).click(); await page.waitForTimeout(1500);
+  // Commit sends every staged change on this canvas: only go on when the
+  // Kafka removal is the one change staged.
+  const commitBtn = page.getByRole('button', { name: /^Commit \d+ change/ });
+  const commitLabel = await commitBtn.first().innerText();
+  if (!/^Commit 1 change/.test(commitLabel.trim())) throw new Error(`other staged changes on the canvas: ${commitLabel}`);
+  await commitBtn.click(); await page.waitForTimeout(1500);
   const cd = page.locator('[role=dialog]').last();
   console.log('   commit:', await text(cd));
   await cd.getByPlaceholder('sudo delete kafka').fill('sudo delete kafka'); await page.waitForTimeout(600);
