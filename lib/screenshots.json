@@ -4773,6 +4773,83 @@
     "capturedAt": "2026-11-24T15:43:13.473Z",
     "source": "/pipeline/github-demo-kpw0/apps"
   },
+  "timescaledb/1-menu": {
+    "src": "/screenshots/timescaledb/1-menu.png",
+    "width": 754,
+    "height": 115,
+    "capturedAt": "2026-11-25T18:10:09.750Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "timescaledb/10-storage": {
+    "src": "/screenshots/timescaledb/10-storage.png",
+    "width": 730,
+    "height": 185,
+    "capturedAt": "2026-11-25T18:21:10.900Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "timescaledb/11-connect": {
+    "src": "/screenshots/timescaledb/11-connect.png",
+    "width": 730,
+    "height": 159,
+    "capturedAt": "2026-11-25T18:22:24.570Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "timescaledb/12-commit": {
+    "src": "/screenshots/timescaledb/12-commit.png",
+    "width": 576,
+    "height": 362,
+    "capturedAt": "2026-11-25T18:22:26.013Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "timescaledb/13-variables": {
+    "src": "/screenshots/timescaledb/13-variables.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T18:25:19.164Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "timescaledb/2-ready": {
+    "src": "/screenshots/timescaledb/2-ready.png",
+    "width": 277,
+    "height": 325,
+    "capturedAt": "2026-11-25T18:10:11.705Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "timescaledb/3-review": {
+    "src": "/screenshots/timescaledb/3-review.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-25T18:10:12.800Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "timescaledb/5-deployment": {
+    "src": "/screenshots/timescaledb/5-deployment.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T18:21:00.268Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "timescaledb/6-limits": {
+    "src": "/screenshots/timescaledb/6-limits.png",
+    "width": 730,
+    "height": 167,
+    "capturedAt": "2026-11-25T18:21:05.122Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "timescaledb/8-extensions": {
+    "src": "/screenshots/timescaledb/8-extensions.png",
+    "width": 730,
+    "height": 392,
+    "capturedAt": "2026-11-25T18:21:09.290Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "timescaledb/9-ha": {
+    "src": "/screenshots/timescaledb/9-ha.png",
+    "width": 730,
+    "height": 186,
+    "capturedAt": "2026-11-25T18:21:10.097Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
   "troubleshooting/1-failed-row": {
     "src": "/screenshots/troubleshooting/1-failed-row.png",
     "width": 851,
