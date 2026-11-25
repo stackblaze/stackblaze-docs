@@ -1,7 +1,6 @@
 {
   "title": "Docs",
   "pages": [
-    "---Get started---",
     "index",
     "quickstart",
     "canvas",
