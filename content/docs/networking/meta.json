@@ -4,7 +4,8 @@
     "visibility",
     "custom-domains",
     "basic-auth",
-    "advanced-networking"
+    "advanced-networking",
+    "edge-network"
   ],
   "icon": "Network"
 }

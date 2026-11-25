@@ -1,0 +1,74 @@
+---
+title: Edge network
+description: How a visitor's request reaches a public service, which address answers it, and what the edge caches.
+---
+
+Visitors never connect to your service directly. A request to a public service's URL goes to a StackBlaze edge first, and the edge passes it on to the region your service runs in. [Internal services and workers](/networking/visibility) have no public URL, so they are not on the edge.
+
+## Which address answers
+
+A service's default URL, such as `my-app-ab12.cloud-central-1.stackblaze.app`, is a DNS alias (CNAME) for a hostname under `edge.stackblaze.cloud` that belongs to that service alone. That hostname resolves to the edges.
+
+We looked up the default URLs of services in three production regions and one dev region:
+
+- Each URL had its own `edge.stackblaze.cloud` hostname.
+- Each lookup returned **two** IPv4 addresses (A records) and no IPv6 (AAAA) records.
+- The addresses are kept in DNS caches for 30 seconds. The CNAME is kept for 5 minutes.
+
+The answer depends on where the visitor is. When we asked for the same hostname on behalf of visitors in different parts of the world, we got five different pairs of addresses. Visitors in nearby countries got the same pair. Always point to the hostname, never to an address you looked up: the addresses can change.
+
+## When an edge stops answering
+
+Every edge is checked continuously. An edge that stops answering is left out of the DNS answers, and the other edge in the answer keeps serving. Because the addresses expire from DNS caches after 30 seconds, visitors move to the working edge soon after, without you changing anything.
+
+## HTTPS
+
+The edge answers on HTTPS:
+
+- A request on plain `http://` gets `308 Permanent Redirect` to the same URL on `https://`.
+- The default URL uses a publicly trusted wildcard certificate for its region, for example `*.cloud-central-1.stackblaze.app`.
+- The edge negotiated TLS 1.3 and TLS 1.2 in our tests, and answered over HTTP/2.
+- The edge doesn't add a `Strict-Transport-Security` (HSTS) header. If you want one, send it from your service.
+
+## What the edge caches
+
+The edge keeps copies of static files and answers repeat requests for them itself. Pages and API responses always come from your service. Each response carries an `x-ex-status` header that tells you which happened:
+
+| `x-ex-status` | Meaning |
+| --- | --- |
+| `BYPASS` | Not cacheable here: the request went to your service. |
+| `MISS` | Cacheable kind of file, but it wasn't served from the cache this time. |
+| `HIT` | Answered by the edge from its cache. An `age` header says how many seconds the copy has been kept. |
+
+What we saw on a production web app:
+
+| Request | Result |
+| --- | --- |
+| The page `/`, `/robots.txt`, a `.json` file | `BYPASS` every time |
+| A `.js` file sent with `Cache-Control: public, max-age=31536000, immutable` | `MISS` on the first request to each edge, then `HIT` |
+| `.css`, `.svg`, `.png` and `.woff2` files sent with `Cache-Control: no-cache` | `MISS` every time: never kept |
+| The cached `.js` file with an `Authorization` header | `BYPASS`: not answered from the cache |
+| The cached `.js` file with a new query string (`?v=…`) | `MISS`, then `HIT`: a separate copy |
+
+Only files whose path ends in one of these extensions are cached: `js`, `mjs`, `css`, `map`, `wasm`, `png`, `jpg`, `jpeg`, `gif`, `svg`, `webp`, `avif`, `ico`, `mp4`, `webm`, `woff`, `woff2`, `ttf`, `eot` and `otf`. Even then, the edge keeps a response only when it:
+
+- has status `200`,
+- sets no cookie (`Set-Cookie`),
+- isn't marked `Cache-Control: private`, `no-store` or `no-cache`,
+- doesn't vary by cookie (`Vary: Cookie` or `Vary: *`).
+
+Each edge has its own cache, so the first request to each edge is a `MISS`. The host name, path and query string together pick the copy.
+
+The same rules apply to [custom domains](/networking/custom-domains).
+
+<Callout type="warn">
+You can't clear the edge cache. When you change a static file, give it a new name or a new query string. Most build tools already put a hash of the content in file names (like `index-Bu7P2Z01.js`). Send `Cache-Control: no-cache` for a cacheable file that must always come fresh from your service.
+</Callout>
+
+## Rules in front of your service
+
+These settings are applied before a request reaches your service, so a refused visitor never gets to it:
+
+- [Basic Auth](/networking/basic-auth) asks for a username and password.
+- [Advanced networking](/networking/advanced-networking) answers CORS preflights and allows or blocks visitor IP ranges.
+- [Custom domains](/networking/custom-domains) point your own hostname at the edge with a CNAME to a hostname under `edge.stackblaze.cloud`.
