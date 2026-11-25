@@ -2,7 +2,6 @@
   "title": "Build & deploy",
   "defaultOpen": true,
   "pages": [
-    "index",
     "deploy-docker-image",
     "deploy-from-github",
     "import",

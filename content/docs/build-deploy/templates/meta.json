@@ -1,7 +1,6 @@
 {
   "title": "Templates",
   "pages": [
-    "index",
     "deploy",
     "saved-stacks"
   ]

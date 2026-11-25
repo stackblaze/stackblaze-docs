@@ -1,7 +1,6 @@
 {
   "title": "CLI & API",
   "pages": [
-    "index",
     "install",
     "deploy-a-folder",
     "api",

@@ -1,7 +1,6 @@
 {
   "title": "Billing",
   "pages": [
-    "index",
     "usage"
   ],
   "defaultOpen": true
