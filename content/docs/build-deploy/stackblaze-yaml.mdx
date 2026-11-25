@@ -1,0 +1,206 @@
+---
+title: stackblaze.yaml
+description: The file format that describes a stack, service by service, and the API that checks, previews and applies it.
+---
+
+A `stackblaze.yaml` describes the services and databases of a project's **production** environment in one file. You can:
+
+- [import](/build-deploy/import) it onto any environment's canvas, staged until you commit;
+- keep it in your repository and have every push to the production branch [apply it](#apply-it-on-every-push);
+- check, preview and apply it with the [blueprint API](#the-blueprint-api).
+
+It isn't the same as the manifests `stackblaze export` writes. Those are one file per project and per app, applied with `stackblaze plan` and `stackblaze apply` (see [Infrastructure as code](/build-deploy/infrastructure-as-code)).
+
+## An example
+
+We applied this file to the test project `github-demo-kpw0`. It created the service `docs-bp` in **Production**, running `nginx:1.27`, with the three variables:
+
+```yaml title="stackblaze.yaml"
+pipeline: github-demo-kpw0
+services:
+  - name: docs-bp
+    runtime: image
+    image:
+      url: nginx
+      tag: "1.27"
+    port: 80
+    envVars:
+      - key: GREETING
+        value: hello
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: API_KEY
+        sync: false
+```
+
+`SESSION_SECRET` got a random value, and `API_KEY` the value we gave when we applied it.
+
+## Editor support
+
+The JSON Schema is public, with no sign-in:
+
+```text
+https://api.stackblaze.cloud/api/iac/blueprint/schema
+```
+
+Point your editor's YAML extension at it for completion and checks while you type.
+
+## Top level
+
+| Key | Required | What it is |
+| --- | --- | --- |
+| `pipeline` | yes | The project this file manages: lowercase letters, digits and `-`, up to 53 characters. A new name creates the project when you apply it. |
+| `services` | yes | The services, at least one. See [below](#services). |
+| `databases` | | The databases. See [below](#databases). |
+| `envVarGroups` | | Named sets of variables that services include with `fromGroup`. Each has a `name` and `envVars` (`key` and `value`). |
+| `previews` | | `generation`: `automatic` or `manual` turns [preview environments](/build-deploy/preview-environments) on for the project, `off` (the default) leaves them off. `expireAfterDays` is accepted but not used yet: previews expire 7 days after their last push. |
+| `domain` | | The project's domain. |
+| `x-canvas` | | The layout of the [canvas](/canvas) groups (`groups` with `name`, `members`, `x`, `y`, `color`, `collapsed`). It only changes how the canvas looks, and is ignored when the file is applied. An export writes it for you. |
+
+Any other key is ignored, with a warning.
+
+## Services
+
+Each entry needs a `name` (lowercase letters, digits and `-`, up to 53 characters).
+
+| Key | What it does |
+| --- | --- |
+| `type` | `web` (the default), `worker`, `cron`, `job` or `function`. |
+| `internal` | `true` makes a web service [Internal](/networking/visibility): no public URL. |
+| `runtime` | How it's built. `docker` builds the repository's Dockerfile. `image` runs a prebuilt image (set `image`). `node`, `python`, `go`, `ruby`, `rust` or `elixir`, or no `runtime` at all, build with Railpack. |
+| `image` | `url` and optional `tag` of the image, for `runtime: image` (and for a `cron` or `job` that runs its own image). |
+| `rootDir` | The folder to build from in a monorepo: the service's **Build path**. |
+| `dockerfilePath` | The Dockerfile, for `runtime: docker`. |
+| `startCommand` | The start command. For `cron` and `job`, the command each run executes. |
+| `preDeployCommand` | Runs in the new image before each deploy goes live, up to 4,000 characters. A failure stops the deploy and the current version keeps running. |
+| `port` | The port the service listens on. Default `8080`. |
+| `healthCheckPath` | The HTTP path of the [health check](/configure/health-checks), starting with `/`. |
+| `domain`, `domains` | [Custom domains](/networking/custom-domains) for a web service. |
+| `numInstances` | How many instances. Default `1`. |
+| `scaling` | Autoscaling: `minInstances`, `maxInstances`, `targetCPUPercent`, `targetMemoryPercent`. See [Scaling](/configure/scaling). |
+| `disk` | A volume: `name`, `mountPath`, and `sizeGB` (default 1). |
+| `plan` | The name of an instance size. An unknown name falls back to the default size, with a warning. |
+| `autoDeploy` | `false` turns **Autodeploy** off. It's on by default. |
+| `autoDeployTrigger` | `commit` (deploy on push) or `off`. `checksPass` is read as `commit`, with a warning. |
+| `buildFilter` | Which changed files rebuild the service on a push: `includedPaths` and `ignoredPaths`, up to 50 patterns each, in gitignore style. `ignoredPaths` wins. Without it, a service rebuilds when files under its `rootDir` change. |
+| `schedule` | A cron expression: required for `cron`, optional for `function`. |
+| `maintenanceMode` | `enabled: true` answers every request with `503` and a maintenance page, while the service keeps running. `customHtml` sets your own page (up to 100 KB). Web services only. |
+| `code` | For `type: function` only, and required there: the TypeScript source, inline, up to 96 KB. See [Functions](/build-deploy/functions). |
+| `envVars` | The service's variables. See [below](#variables). |
+
+`buildCommand` and a per-service `previews` key are accepted so that files from elsewhere still load, but they're ignored, with a warning.
+
+### Service types
+
+- **`web`** serves HTTP on `port`, with a public URL unless `internal: true`.
+- **`worker`** runs with no port and no URL.
+- **`cron`** runs `startCommand` on `schedule`, from `image` or, without one, from the image built from the repository.
+- **`job`** runs once after every successful deploy, for example to seed data.
+- **`function`** is one TypeScript file in `code`. With a `schedule` it runs on that schedule and has no URL; without one it's a web service.
+
+## Databases
+
+| Key | What it does |
+| --- | --- |
+| `name` | Required: lowercase letters, digits and `-`, up to 30 characters. |
+| `type` | `postgres` (the default; also `postgresql`), `valkey` (also `redis`, `keyvalue`), `mariadb` (also `mysql`) or `kafka`. |
+| `databaseName` | The database to create. |
+| `user` | The user to create. |
+
+## Variables
+
+Each entry of `envVars` has a `key` and one of these:
+
+| Form | What it does |
+| --- | --- |
+| `value: …` | A fixed value: a string, number or boolean. |
+| `generateValue: true` | A random value, made when the file is applied. |
+| `sync: false` | Never read from the file. You give the value when you apply it (in the Import dialog it's listed under **Values this file asks for**). |
+| `fromDatabase: { name, property }` | A value from one of the file's databases. `property` is `connectionString`, `host`, `port`, `user`, `password` or `database`. The service is connected to that database. |
+| `fromService: { name, envVarKey }` | The fixed value of a variable another service in the file sets. |
+| `fromGroup: <name>` | Every variable of that `envVarGroups` entry (an entry with only `fromGroup`, no `key`). |
+
+`previewValue` is accepted, with a warning: previews use the main value for now.
+
+```yaml
+databases:
+  - name: db
+services:
+  - name: web
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: db
+          property: connectionString
+      - fromGroup: shared
+envVarGroups:
+  - name: shared
+    envVars:
+      - key: LOG_LEVEL
+        value: info
+```
+
+## The blueprint API
+
+Every call takes a JSON body with the file's text in `yaml`, and needs an [API token](/security/api-tokens) of someone allowed to change the project. Add `"answers": {"API_KEY": "…"}` for the `sync: false` variables.
+
+| Call | What it does |
+| --- | --- |
+| `GET /api/iac/blueprint/schema` | The JSON Schema. No sign-in. |
+| `POST /api/iac/blueprint/validate` | Reads the file and checks it, without changing anything. Returns the services it would make, `warnings`, and `missingAnswers` (the `sync: false` keys you haven't answered). |
+| `POST /api/iac/blueprint/plan` | Compares the file with the project as it is now: each resource with `create` or `update`, and the current and wanted settings. |
+| `POST /api/iac/blueprint/apply` | Creates and updates the project, services and databases. |
+| `GET /api/iac/blueprint/export?pipeline=…&phase=…` | Writes an environment out as a `stackblaze.yaml`. |
+
+`validate`, `plan` and `apply` need **Infrastructure as Code** on for the project (see [Project settings](/projects/project-settings#infrastructure-as-code)). Without it they answer `403` with "Infrastructure as Code is not enabled for project …". Export works either way.
+
+With the CLI, send the body from a file:
+
+```sh
+stackblaze api POST /api/iac/blueprint/plan --data @body.json
+```
+
+### What apply does
+
+- It **never deletes**. A service or database missing from the file is left as it is, and so are environments the file doesn't list.
+- With a `sync: false` variable unanswered, it refuses: `Missing values for sync:false env vars: API_KEY`, and changes nothing.
+- It answers with each resource and what happened to it, for example `"action": "created"` for a new service.
+
+### What export writes
+
+Exporting our **Production** environment after the apply above gave this:
+
+```yaml
+pipeline: github-demo-kpw0
+services:
+  - name: docs-bp-cjwz
+    runtime: image
+    image:
+      url: nginx:1.27
+    port: 80
+    envVars:
+      - key: GREETING
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: API_KEY
+        sync: false
+      - key: PORT
+        sync: false
+x-canvas:
+  groups:
+    - name: docs-bp-cjwz
+      members:
+        - app:docs-bp-cjwz
+```
+
+Values are never written out: each variable is exported as `sync: false`, so whoever applies the file gives them again. The response also lists them in `prompts`. Services are named by their full name (here `docs-bp-cjwz`).
+
+## Apply it on every push
+
+When **Infrastructure as Code** is on for a project that is linked to a repository, a push to the branch its production services deploy reads the `stackblaze.yaml` at that commit and applies it before the services rebuild. If the repository has no `stackblaze.yaml`, a `render.yaml` or `fly.toml` is used instead.
+
+- Only that branch counts: a push to another branch, or a pull request from a fork, never changes production.
+- A file with `sync: false` variables is skipped, because a push can't answer them. The push still deploys as usual.
+- A push never creates a project. Apply the file once yourself first.
+- Each result is a notification: "stackblaze.yaml applied for pipeline …", or "… skipped" with the reason.

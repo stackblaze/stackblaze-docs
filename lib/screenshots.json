@@ -1105,6 +1105,27 @@
     "capturedAt": "2026-11-24T13:04:42.223Z",
     "source": "/pipeline/import-demo-brkm/apps"
   },
+  "canvas/d-3-collapsed": {
+    "src": "/screenshots/canvas/d-3-collapsed.png",
+    "width": 995,
+    "height": 763,
+    "capturedAt": "2026-11-25T07:51:28.134Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "canvas/d-4-ghost-menu": {
+    "src": "/screenshots/canvas/d-4-ghost-menu.png",
+    "width": 317,
+    "height": 169,
+    "capturedAt": "2026-11-25T07:55:03.334Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "canvas/d-menu-1": {
+    "src": "/screenshots/canvas/d-menu-1.png",
+    "width": 301,
+    "height": 562,
+    "capturedAt": "2026-11-25T07:50:06.795Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
   "cli/login-approve": {
     "src": "/screenshots/cli/login-approve.png",
     "width": 444,
@@ -1209,6 +1230,27 @@
     "height": 900,
     "capturedAt": "2026-11-24T18:33:44.977Z",
     "source": "/pipeline/github-demo-587h/apps"
+  },
+  "deployments/ir-2-menu": {
+    "src": "/screenshots/deployments/ir-2-menu.png",
+    "width": 851,
+    "height": 763,
+    "capturedAt": "2026-11-25T07:47:11.702Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "deployments/ir-3-confirm": {
+    "src": "/screenshots/deployments/ir-3-confirm.png",
+    "width": 480,
+    "height": 258,
+    "capturedAt": "2026-11-25T07:41:54.308Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "deployments/ir-4-after": {
+    "src": "/screenshots/deployments/ir-4-after.png",
+    "width": 851,
+    "height": 763,
+    "capturedAt": "2026-11-25T07:44:39.920Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
   },
   "docker/1-open": {
     "src": "/screenshots/docker/1-open.png",

@@ -63,3 +63,41 @@ Click **Deploy**. When the card shows **Running**, it shows the app's public URL
 
 </Steps>
 
+
+## From the CLI
+
+`stackblaze up --image` deploys an image without the dashboard. We deployed `nginx:1.26` into a project's **Production** environment:
+
+```sh
+stackblaze up --image nginx:1.26 --name docs-img -p github-demo-cw8z --phase production --port 80 --wait
+```
+
+```text
+OK Created github-demo-cw8z/production/docs-img (docker nginx:1.26)
+Waiting for github-demo-cw8z/production/docs-img-ne7i to be ready (up to 10m00s)…
+…
+OK github-demo-cw8z/production/docs-img-ne7i is ready
+url: https://docs-img-ne7i.us-central-1.stackblaze.app
+```
+
+- `--image` takes a full reference, with a registry, a tag or a digest: `nginx:1.27`, `ghcr.io/org/app:2.0`, `ghcr.io/org/app@sha256:…`. Without a tag, `latest` is used.
+- `--tag` sets the tag of an image given without one: `--image nginx --tag 1.27` is the same as `--image nginx:1.27`. When both give a tag, they must agree. `--image nginx:1.27 --tag 1.26` is refused: "--image nginx:1.27 already names tag "1.27" but --tag is "1.26". Drop --tag, or pass the image without a tag."
+- `--port` is the port the image listens on. Without it, the CLI reads the image's `EXPOSE` port, or uses 3000 and warns.
+- `--worker` deploys it as a [Worker](/networking/visibility) instead, with no port.
+- `--wait` waits until the new version is running.
+
+Run the same command with another tag to update the service. Ours went from `nginx:1.26` to `nginx:1.27`, and the release was titled **Updated image nginx:1.26 → nginx:1.27**. Every option is in the [`up` reference](/cli/reference/up).
+
+## In stackblaze.yaml
+
+In a [stackblaze.yaml](/build-deploy/stackblaze-yaml), an image service has `runtime: image` and an `image`:
+
+```yaml
+services:
+  - name: web
+    runtime: image
+    image:
+      url: nginx
+      tag: "1.27"
+    port: 80
+```

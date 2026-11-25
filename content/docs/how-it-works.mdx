@@ -1,0 +1,129 @@
+---
+title: How StackBlaze works
+description: What StackBlaze is, the parts every project is made of, and what happens between a push and a running service.
+---
+
+StackBlaze runs your apps, databases and AI services for you. You bring a GitHub repository, a folder, a container image or a file that describes your stack. StackBlaze builds it, stores the image in a private registry, starts it in the region you picked, and gives it a public URL with HTTPS. It then keeps it running, restarts it when it crashes and deploys every new version.
+
+You can do all of it from the [dashboard](https://dashboard.stackblaze.com), the [CLI](/cli), the [REST API](/cli/api), a [`stackblaze.yaml`](/build-deploy/stackblaze-yaml) file, or your AI coding tool through [MCP](/ai/coding-tools).
+
+## The parts of a project
+
+| Part | What it is |
+| --- | --- |
+| **Organization** | Your workspace: members, billing, registry logins and API tokens. See [Organizations](/projects/organizations). |
+| **Project** | One product or system. It lives in one region and has one or more environments. See [Projects](/projects). |
+| **Environment** | A full, separate copy of the project's services, such as **Dev**, **Stage** and **Production**. Each one has its own [canvas](/canvas) and its own private network. See [Environments](/projects/environments). |
+| **Service** | One thing that runs: an app built from git, an image, a function, a sandbox or an AI model. |
+| **Database or add-on** | PostgreSQL, MariaDB, Valkey, Kafka, Memcached, email, scheduled tasks and others, connected to the services that use them. See [Data & storage](/data) and [Add-ons](/addons). |
+| **Preview environment** | A temporary copy of an environment for one pull request, named `pr-<number>`. See [Preview environments](/build-deploy/preview-environments). |
+
+Services in one environment reach each other on a private network, with no setup. Other environments and other projects can't reach them that way. See [Private networking](/networking/private-networking).
+
+## Kinds of service
+
+An app's **Visibility** decides what kind of service it is (see [Visibility and access](/networking/visibility)):
+
+- **Public**: a web service with a URL on `stackblaze.app` and HTTPS, plus any [custom domains](/networking/custom-domains).
+- **Internal**: a web service that only other services in the environment can reach.
+- **Worker**: a background process with no port and no URL, for queue consumers and similar work.
+
+A few more shapes:
+
+- A **static site** is a Public service that serves files. There is no separate static product. See [Static sites](/build-deploy/static-sites).
+- A **schedule-only app** runs no always-on instance, only its [scheduled tasks](/addons/scheduled-tasks).
+- A **database or add-on** has no public URL of its own. Apps reach it on the private network.
+
+## From source to a running service
+
+For a service built from a repository, a deploy goes through these steps:
+
+<Steps>
+
+<Step>
+
+### Detect
+
+When you pick a repository, StackBlaze looks at its files and fills in the build settings. A Dockerfile wins: the shallowest one becomes the build, and its `EXPOSE` port and `HEALTHCHECK` path are used when it has them. Without a Dockerfile, the build method is Railpack, which works out the language and framework itself; the port is guessed from the language (3000 for Node.js and Ruby, 8000 for most Python apps, 8080 for Go and Rust). You can change all of this before you deploy. See [Source and build](/configure/source-and-build).
+
+</Step>
+
+<Step>
+
+### Build
+
+The build runs in a short-lived build container in your project's region. It clones the commit, builds an image with the build method you chose, and pushes it to your organization's private registry. `stackblaze builds logs` prints the build log.
+
+</Step>
+
+<Step>
+
+### Pre-deploy
+
+If the service has a **Pre-deploy** command (for example a database migration), it runs in the new image before it goes live. If it fails, the deploy stops and the current version keeps running. See [Start and build](/configure/start-and-build).
+
+</Step>
+
+<Step>
+
+### Roll out
+
+The new version starts next to the old one. The old one keeps serving until the new one is ready, then it's stopped. While this happens the release reads **rolling out** on the **Deployment** tab, and the card reads **Updating**.
+
+</Step>
+
+<Step>
+
+### Live
+
+The release reads **running**, and the one before it **superseded**. A Public service answers on its `stackblaze.app` URL with HTTPS.
+
+</Step>
+
+</Steps>
+
+A Docker image service skips the detect and build steps: StackBlaze pulls the image and rolls it out.
+
+## What starts a deploy
+
+- **A push** to the branch a service deploys, while **Autodeploy** is on. It's on by default.
+- **A commit on the canvas**: staged changes are applied with **Deploy N change(s)**. See [The canvas](/canvas#staged-changes).
+- **Manual Deploy**, **Redeploy** or a rollback on the [Deployment tab](/build-deploy/deployments).
+- **`stackblaze up`** or **`stackblaze redeploy`** from the CLI. See [Deploy a folder](/cli/deploy-a-folder) and [Deploy from CI](/cli/ci).
+- **The build API**, `POST /api/deployments/build/{project}/{environment}/{service}`, with an API token.
+- **A `stackblaze.yaml` in the repository**, when Infrastructure as Code is on for the project. See [stackblaze.yaml](/build-deploy/stackblaze-yaml#apply-it-on-every-push).
+
+There are no deploy-hook URLs: to deploy from somewhere else, use the CLI or the build API with a token.
+
+## Which pushes build
+
+A push to the branch builds every service that deploys that branch, except when:
+
+- the service's **Autodeploy** is off. The push is listed on the **Deployment** tab as skipped. (An Instant Rollback turns Autodeploy off.)
+- the commit message contains `[skip deploy]`, `[deploy skip]`, `[skip cd]` or `[cd skip]`. The push is listed as skipped. `[skip ci]` does **not** skip a deploy.
+- the push changed no file the service watches. A service whose **Build path** is a folder only rebuilds when files in that folder change. When GitHub doesn't say which files changed, it rebuilds.
+- the workspace is already running as many builds as its plan allows. See [below](#builds-at-the-same-time).
+
+Pushes that arrive close together are built once, from the newest commit. A new deploy of a service replaces one that is still building.
+
+## Builds at the same time
+
+Each plan runs a set number of builds at once across the whole organization: 1 on the Free Trial, 2 on Developer, 5 on Pro and 10 on Business. A build that would go over it is not queued. It's refused, and nothing is built:
+
+- A push that hits the limit is listed on the service's **Deployment** tab as **Skipped: build limit**, with an **Upgrade** button, and the bell gets "Build skipped for *service*: …". The running version keeps serving.
+- A build you start yourself (from the dashboard, the CLI or the API) fails with "Your plan runs *N* builds at a time and … running. Try again when it finishes, or upgrade to build more at once." The API answers `402` with the code `CONCURRENT_BUILD_LIMIT`.
+
+Start it again once a build finishes. A new build of a service that is already building doesn't count twice: it replaces the old one.
+
+## Names in the API and the CLI
+
+The API and the CLI use older names for some parts:
+
+| In the dashboard | In the API and the CLI |
+| --- | --- |
+| Organization | tenant (`/api/tenants`) |
+| Project | pipeline (`/api/pipelines`, `STACKBLAZE_PIPELINE`) |
+| Environment | phase (`STACKBLAZE_PHASE`) |
+| Service | app (`STACKBLAZE_APP`) |
+
+A service is addressed by all three names: `/api/apps/{pipeline}/{phase}/{app}`, for example `/api/apps/my-shop/production/web`. See [Call the API](/cli/api).

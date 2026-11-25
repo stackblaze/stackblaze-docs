@@ -82,3 +82,24 @@ Click the URL on the card. The nginx welcome page opens.
 </Step>
 
 </Steps>
+
+## Other ways to start
+
+- **From a GitHub repository**: StackBlaze builds your code. See [Deploy from GitHub](/build-deploy/deploy-from-github).
+- **From your terminal**: install the CLI and deploy the folder you're in.
+
+  ```sh
+  curl -fsSL https://www.stackblaze.com/install.sh | sh
+  stackblaze login
+  stackblaze up
+  ```
+
+  See [Install the CLI](/cli/install) and [Deploy a folder](/cli/deploy-a-folder).
+- **By asking**: **Ask Agent**, in the dashboard header, operates StackBlaze for you. See [Ask Agent](/ai/ask-agent).
+- **From a file**: bring a `docker-compose.yml` or `stackblaze.yaml` in with [Import](/build-deploy/import).
+
+What happens behind each of these is in [How StackBlaze works](/how-it-works).
+
+## When a build fails
+
+`stackblaze builds logs` prints a service's build log in your terminal (`stackblaze builds list` lists the builds). Read the whole log: the line that explains the failure is often well above the last one.

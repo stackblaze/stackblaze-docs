@@ -144,6 +144,45 @@ The bell in the header gets an entry when a preview is ready, when it's updated 
 
 <Screenshot id="projects/prev-14-notifications" alt="Notifications: Preview environment pr-2 removed (PR closed), Preview pr-2 updated, Preview pr-2 ready · 1 app" />
 
+## How a preview is made
+
+### Which environment it copies
+
+The preview copies the environment whose services build from the pull request's repository **and** deploy its target branch. If several environments match, **Production** wins. If none deploys that branch, but some environment has a service on the repository, **Production** is copied when there is one.
+
+### What gets built
+
+- Services that build from the pull request's repository follow its branch: they're built from the pull request and rebuilt on every push to it.
+- A service whose watched files the pull request doesn't touch (for example a monorepo service whose **Build path** the pull request leaves alone) starts on the image it already runs, instead of building. Later pushes that do touch it rebuild it.
+- Services that run an image, and services from other repositories, are plain copies.
+
+### Variables a preview adds
+
+Each service copied into a preview gets these variables, so your code can tell it's running in one (for example to skip sending real email):
+
+| Variable | Value |
+| --- | --- |
+| `STACKBLAZE_PREVIEW` | `true` |
+| `STACKBLAZE_PR_NUMBER` | The pull request number, such as `2` |
+| `STACKBLAZE_PR_BRANCH` | The pull request's branch |
+| `STACKBLAZE_PREVIEW_SOURCE` | The service it was copied from, as `project/environment/service` |
+
+Every other variable is copied as it is, unless a variable rule in [Project settings](/projects/project-settings#preview-environments) says otherwise.
+
+### Pull requests that get no preview
+
+- Pull requests from a **fork** never get one: their code would run with your project's variables and databases.
+- Pull requests opened by a bot, unless **Bot pull requests** is on.
+- Pull requests with the `no-preview` label or `[skip preview]` in the title (or, with **Only when asked for**, without the `preview` label or `[preview]`).
+
+### Plans
+
+Preview environments are part of the **Pro** and **Business** plans. See [Billing](/billing).
+
+## Promote a preview
+
+When the change looks right, you can put it live from the preview itself: on the service's **Deployment** tab, the release's **⋯** menu has **Promote**. It rebuilds the service the preview was copied from, in its own environment, from the preview's commit. See [Deployments](/build-deploy/deployments#promote-a-preview).
+
 ## Good to know
 
 - Previews are never backed up. Back up the environment they're copied from instead.

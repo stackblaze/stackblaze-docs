@@ -99,6 +99,35 @@ When everything is **Running**, `web` is on its public URL and connected to both
 
 </Steps>
 
+## How a Compose file is read
+
+We imported a `docker-compose.yml` that uses each of these fields into an empty environment and checked what the import made of it:
+
+| Compose field | Becomes |
+| --- | --- |
+| `image: postgres`, `postgis` | a PostgreSQL database. `POSTGRES_DB` and `POSTGRES_USER` name its database and user; the password is generated, not taken from the file. |
+| `image: mariadb`, `mysql` | a MariaDB database |
+| `image: redis`, `valkey` | a Valkey database |
+| `image: kafka` | a Kafka add-on |
+| any other `image` | a service that runs that image, with its tag |
+| `build` | a service built with **Docker**: `context` becomes the **Build path** and `dockerfile` the Dockerfile |
+| `ports` | the service's port: the container side, so `"8080:3000"` gives `3000`. Only the first port is used. |
+| no `ports` | a **Worker** (no port, no URL) |
+| `environment` | variables. A value that names another Compose service, such as `db` or `cache`, is pointed at that database's private address. `${NAME}` is asked for under **Values this file asks for**. |
+| `command` | the start command |
+| `volumes` (a named volume) | a 1 GiB volume at that path. Bind mounts such as `./src:/app` are dropped. |
+| `deploy.replicas` | the number of instances |
+
+Other datastore images that have no StackBlaze equivalent are skipped, with a note saying so. A service with neither `image` nor `build` is skipped too.
+
+These fields are left out, each with a note in the dialog:
+
+- `version`: "is obsolete and was ignored".
+- `build.args`: "are ignored — bake them into the Dockerfile or use env vars".
+- `healthcheck`: "is a shell command; set an HTTP health check path on the service afterwards" (see [Health checks](/configure/health-checks)).
+- `depends_on`: "is ignored — services start independently and retry".
+- A second port: "only 3000 is routed (a service has one container port)".
+
 ## Other formats
 
 ### render.yaml
@@ -115,7 +144,7 @@ A `fly.toml` describes one app, so you get one service. Region settings are igno
 
 ### stackblaze.yaml
 
-A `stackblaze.yaml` is StackBlaze's own format, the one a saved template uses. Importing into an environment that already has services with the same names renames the new ones (here `web-tjlc` → `web-tjlc-2`), and lists the renames.
+A `stackblaze.yaml` is StackBlaze's own format, the one a saved template uses; every field is in the [stackblaze.yaml reference](/build-deploy/stackblaze-yaml). Importing into an environment that already has services with the same names renames the new ones (here `web-tjlc` → `web-tjlc-2`), and lists the renames.
 
 <Screenshot id="import/stackblaze-2-preview" alt="Detected stackblaze.yaml: renamed to avoid names already in this phase, and the values it asks for" />
 

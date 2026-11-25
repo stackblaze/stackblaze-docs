@@ -9,7 +9,7 @@ Each time a service's configuration changes, or it is restarted or deployed agai
 
 Each row shows:
 
-- the status: **rolling out** while the new version starts, **running** for the one serving now, **superseded** for older ones;
+- the status (see [below](#release-states)), for example **rolling out** while the new version starts, **running** for the one serving now, **superseded** for older ones;
 - the image (for example `nginx:1.27`), with its digest when one was recorded;
 - when it started, how long the rollout took, and who made it;
 - on the right, its title.
@@ -50,7 +50,9 @@ For a service built from a [git repository](/build-deploy/deploy-from-github), e
 
 Every row has a **⋯** menu:
 
-- **Redeploy** runs the service again. For a Docker image service, it restarts the service with its current configuration, adding a release titled **Restarted**; it doesn't bring back that release's settings. To do that, use **Rollback Config**.
+- **Redeploy** runs the service again. For a Docker image service, it restarts the service with its current configuration, adding a release titled **Restarted**; it doesn't bring back that release's settings. To do that, use **Rollback Config**. For a service built from git, it asks "Redeploy *commit*?" and rebuilds **that release's commit**, not the newest one: "Rebuild and deploy commit … with the exact same configuration."
+- **Instant Rollback**, on earlier releases of a service in **Production**. See [below](#instant-rollback).
+- **Promote**, on the releases of a preview environment. See [below](#promote-a-preview).
 - **Inspect Deployment** opens the service's logs.
 - **Copy URL** and **Visit**.
 - **Cancel**, only while a release is rolling out. The row also has a **Cancel** button then.
@@ -96,3 +98,97 @@ Click **Rollback**. The service redeploys, and a new release appears at the top.
 </Steps>
 
 Rolling back never deletes releases. The ones in between stay in the history, so you can roll forward again the same way.
+
+## Instant Rollback
+
+In the **Production** environment, the **⋯** menu of an earlier release that went live can also have **Instant Rollback**. It puts back that release's image (or code) **and** the variables and settings it ran with, in one step, with no new build. Which of the two an earlier release offers depends on how it was made: on our test service, the first deploy offered **Instant Rollback** and the later image updates offered **Rollback Config**. The release that is running now has neither.
+
+We deployed `nginx:1.26`, then `nginx:1.27`, in **Production**, and rolled back to the first release:
+
+<Steps>
+
+<Step>
+
+### Pick the release
+
+Open the **⋯** menu of the release to go back to and choose **Instant Rollback**.
+
+<Screenshot id="deployments/ir-2-menu" alt="The menu of the First Deploy release: Instant Rollback, Redeploy, Inspect Deployment, Copy URL, Visit" />
+
+</Step>
+
+<Step>
+
+### Confirm
+
+The dialog, here **Roll back to 1.26?**, says what is restored: "Restores this deploy's code and the environment variables and settings it ran with. Add-ons, volumes, domains and your plan stay as they are now." It also warns that **Autodeploy** is turned off, "so new pushes don't undo the rollback". Click **Rollback**, or **Cancel**.
+
+<Screenshot id="deployments/ir-3-confirm" alt="Roll back to 1.26? with Cancel and Rollback" />
+
+</Step>
+
+<Step>
+
+### Check the result
+
+A new release titled **Rollback** rolls out with `nginx:1.26`, and then it's **running**. The releases before it stay in the history.
+
+<Screenshot id="deployments/ir-4-after" alt="The history: Deploy running nginx:1.26 titled Rollback, above the nginx:1.27 release and the First Deploy" />
+
+</Step>
+
+</Steps>
+
+After the rollback our service had **Autodeploy** off. For a service built from git, turn it back on in **Settings** → **Deploy** once the fix is pushed; until then, pushes are listed as skipped and nothing deploys.
+
+<Callout type="warn">
+No rollback touches your data. A database migration that ran with a newer release stays in place when you roll the code back. Write migrations so the release before them still works with the new schema (add columns and tables; drop them in a later release).
+</Callout>
+
+## Promote a preview
+
+In a [preview environment](/build-deploy/preview-environments), a release's **⋯** menu has **Promote**. It asks "Promote to production?" and rebuilds the service the preview was copied from (in the environment it came from) from the preview's commit. The service's address stays the same. For a Docker image service, the source service is rolled onto the preview's image tag instead.
+
+## Release states
+
+A release's status reads, from start to finish:
+
+| Status | Meaning |
+| --- | --- |
+| **queued** | Accepted, waiting to start. |
+| **building** | The image is being built. |
+| **running pre-deploy** | The [pre-deploy command](/configure/start-and-build#pre-deploy) runs in the new image. |
+| **rolling out** | The new version is starting; the old one still serves. |
+| **running** | This release is serving now. |
+| **superseded** | It went live, then a newer release took over. |
+| **failed** | The build, the pre-deploy command or the rollout failed. The release before it keeps serving. |
+| **canceled** | Canceled, or replaced by a newer deploy before it went live. |
+
+Events that aren't deploys are listed too, such as **Skipped** (a push that didn't deploy, see [Which pushes build](/how-it-works#which-pushes-build)), **Crashed**, **Out of memory**, **Paused** and **Resumed**.
+
+## From the CLI
+
+```sh
+stackblaze deployments list -p my-shop -e production -a web
+```
+
+lists the releases with their ID, status (`live`, `superseded`, `rolling_out` …), trigger, image or commit, and message.
+
+```sh
+stackblaze deployments rollback <id> -p my-shop -e production -a web --wait
+```
+
+rolls back to a release in full, like **Instant Rollback**: image and configuration, with auto-deploy turned off. Without an ID it picks the previous successful release. `--image-only` puts back only the image and keeps today's configuration and auto-deploy; `-y` skips the question.
+
+## From the API
+
+All of these need an [API token](/security/api-tokens) allowed to change the service:
+
+| Call | What it does |
+| --- | --- |
+| `GET /api/deployments/{project}/{environment}/{service}` | The release history. |
+| `POST /api/deployments/build/{project}/{environment}/{service}` | Build and deploy, optionally a given `commitSha`. |
+| `POST /api/deployments/rollback-deploy/{project}/{environment}/{service}/{id}` | Instant Rollback to a release. |
+| `GET /api/deployments/rollback/{project}/{environment}/{service}/{revision}` | Preview a Rollback Config: the current and earlier configuration. |
+| `POST /api/deployments/rollback/{project}/{environment}/{service}/{revision}` | Apply the Rollback Config, with an optional `message`. |
+| `POST /api/deployments/promote/{project}/{environment}/{service}` | Promote a preview's service. |

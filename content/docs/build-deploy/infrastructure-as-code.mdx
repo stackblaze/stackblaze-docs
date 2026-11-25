@@ -5,6 +5,18 @@ description: Export a project and its apps as YAML manifests, keep them in git, 
 
 A project and its apps can be written out as YAML **manifests**. You keep them in git, edit them, see what a change would do with `stackblaze plan`, and make it with `stackblaze apply`. You need the [CLI](/cli), signed in to your organization.
 
+## Manifests or stackblaze.yaml
+
+StackBlaze reads two kinds of files:
+
+| | Manifests | `stackblaze.yaml` |
+| --- | --- | --- |
+| What it holds | One file per project and per app, written by `stackblaze export` | A whole stack in one file, written by hand or by an export |
+| How you apply it | `stackblaze plan` and `stackblaze apply` | [Import](/build-deploy/import) onto a canvas, the blueprint API, or a push to the production branch |
+| Reference | This page | [stackblaze.yaml](/build-deploy/stackblaze-yaml) |
+
+`stackblaze plan` and `stackblaze apply` read manifests only, not a `stackblaze.yaml`. Both need **Infrastructure as Code** on for the project, except Import, which stages the file on the canvas like any other change.
+
 ## Turn it on for the project
 
 `plan` and `apply` are refused for a project until **Infrastructure as Code** is on. Switch it on in [Project settings](/projects/project-settings#infrastructure-as-code) (**Enable IaC apply**), or with the CLI:

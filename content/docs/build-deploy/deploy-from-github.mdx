@@ -95,3 +95,17 @@ You don't need the GitHub App for a public repository. In the account menu, choo
 The app is added to the canvas as **Ready to deploy**. Click it to open the same review panel, titled **Public git repo**, and deploy it the same way.
 
 <Screenshot id="github-opts/6-review-public" alt="The Public git repo review panel" />
+
+## After the first deploy
+
+The service follows its branch. Every push to it builds and deploys the new commit while **Autodeploy** is on (the default). The rules for which pushes build, and how to skip one with `[skip deploy]` in the commit message, are in [How StackBlaze works](/how-it-works#which-pushes-build). Build settings and what detection filled in are in [Source and build](/configure/source-and-build).
+
+### The check on each commit
+
+For a repository connected through the GitHub App, StackBlaze adds a check to each commit it builds. It's named **Stackblaze /** and the build method, for example `Stackblaze / railpack`, and its title names the service and where it runs, for example `react-vite-starter-4l47 (github-demo-587h/dev)`. It shows as in progress while the build runs, then as successful, failed or timed out. You can require it in GitHub's branch protection rules.
+
+### How StackBlaze sees your repository
+
+Access goes through the StackBlaze GitHub App installation, not a personal token. The App receives the push and pull request events of the repositories you installed it on, so there's no webhook to add to each repository. To stop StackBlaze reading a repository, remove it from the App's repositories on GitHub, or uninstall the App (**Add org / repositories** opens that page). See [Integrations](/projects/integrations).
+
+[Preview environments](/build-deploy/preview-environments) need the App too, because it's how StackBlaze sees pull requests.

@@ -23,6 +23,47 @@ A group's **…** menu has **Rename**, **Hide contents**, **Colour**, **Remove g
 
 <Screenshot id="canvas/3-group-menu" alt="A group's menu: Rename, Hide contents, Colour, Remove group, Save as stack…, Delete stack…" />
 
+### Groups
+
+Cards sit in groups. Here the **NGINX** group holds the nginx service and its Email (SMTP) add-on, and PostgreSQL, Memcached, Kafka and the scheduled tasks each have a group of their own.
+
+**Hide contents** in a group's **…** menu folds it into one card that counts what's inside, here "1 service · 1 add-on · 3 connections", with **contents hidden**. Its lines stay, drawn from the folded card. **Show contents** in the same menu opens it again.
+
+<Screenshot id="canvas/d-3-collapsed" alt="The NGINX group folded: one card reading 1 service · 1 add-on · 3 connections, contents hidden" />
+
+### Lines
+
+A line joins a service to each database and add-on it's connected to. A line from a Kafka add-on is labelled with what it does, such as **publish**.
+
+### Card menus
+
+Right-click a card for its menu. The first line names the card and its kind. A service's menu has **Open app**, **Settings**, **Logs**, **Metrics**, **Files**, **Terminal**, **Rename**, **Backups**, **Develop**, **Restart**, **Pause**, **Delete** and **Group**, which opens a submenu.
+
+<Screenshot id="canvas/d-menu-1" alt="The nginx service's right-click menu: Open app, Settings, Logs, Metrics, Files, Terminal, Rename, Backups, Develop, Restart, Pause, Delete, Group" />
+
+Other cards have fewer items:
+
+| Card | Menu |
+| --- | --- |
+| PostgreSQL | **Open SQL console**, **Open dashboard**, **Settings**, **Logs**, **Metrics**, **Rename**, **Backups**, **Group**, **Delete** |
+| Memcached, Kafka | **Open dashboard**, **Settings**, **Logs**, **Metrics**, **Rename**, **Group**, **Delete** |
+| Email (SMTP), Scheduled tasks | **Open dashboard**, **Rename**, **Group**, **Delete** |
+| A volume | **Browse files**, **Rename**, **Delete** |
+
+### New cards before they deploy
+
+Something you add with **+ Service** first appears as a dashed card marked **ready to deploy**: it's on the canvas only, and nothing runs yet. Its right-click menu has **Deploy** and **Remove from canvas**. **Remove from canvas** drops it, and nothing was created.
+
+<Screenshot id="canvas/d-4-ghost-menu" alt="A new nginx-2 card, ready to deploy, with its menu: Deploy and Remove from canvas" />
+
+### Tidy up
+
+**Tidy up** lays the groups out again in three columns, left to right: apps that only call other services, then services that other apps call, then AI models and what serves them. The columns come from the lines, not from names. Tall columns wrap into a new column.
+
+### Card status
+
+A card's last line shows its status, for example **Running**, **Updating** (a new version is rolling out), **Ready** for an add-on that has nothing to run, **ready to deploy** for a new card, or **Staged** for a change waiting to be committed.
+
 The disk icon on a database card shows its volume. A database's disk is "managed by the database": to look at its data, use the database tools (see [PostgreSQL](/data/databases/postgresql)).
 
 <Screenshot id="canvas/4-volume" alt="A database's volume: This disk is managed by the database" />

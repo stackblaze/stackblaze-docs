@@ -3,13 +3,15 @@
   "pages": [
     "deploy-docker-image",
     "deploy-from-github",
+    "static-sites",
     "import",
     "templates",
     "functions",
     "developer-sandbox",
     "deployments",
     "preview-environments",
-    "infrastructure-as-code"
+    "infrastructure-as-code",
+    "stackblaze-yaml"
   ],
   "icon": "Package"
 }
