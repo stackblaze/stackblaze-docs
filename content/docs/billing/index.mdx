@@ -1,6 +1,6 @@
 ---
 title: Billing
-description: Your plan and what it includes, GPU credit, how you pay, billing details, support plans and invoices.
+description: Your current plan, GPU credit, how you pay, billing details, support plans and invoices.
 ---
 
 The **Billing** page holds your organization's plan, its prepaid GPU credit, the card you pay with, the details printed on your invoices, your support plan and every invoice. What you have used this period is on [Usage](/billing/usage).
@@ -17,112 +17,7 @@ When your organization has promotional credit, a **Credits** row at the top show
 
 ## Current plan
 
-The **Current plan** card shows the plan's name and price, for example **Business** **$499/mo**, and when the included usage starts again: "Included usage resets on Dec 11 (17 days left)".
-
-From here you can open **Change plan** or **Cancel subscription**.
-
-### Change plan
-
-Click **Change plan**. The window shows one plan at a time: its name, what it's for, a price picker, **Monthly** and **Annual**, and **What's included:**. On the right it says what changing to that plan does.
-
-<Screenshot id="billing/2-change-plan" alt="Change plan: Pro, $29 / month, Monthly and Annual, What's included, and Downgrade your plan on the right" />
-
-Open the picker to see the plans you can switch to, listed under **Cloud** ("Organizations and shared hosting"). Your current plan isn't listed. Each row shows the price and what the plan is for.
-
-<Screenshot id="billing/3-plan-list" alt="The plan picker open under Cloud: $10 / month Personal projects & MVPs and $29 / month Production apps & startups" />
-
-Click **Annual** to see the yearly price. It's billed once a year, up front, and saves 20%: the picker reads, for example, **$278.40 / year** and "$23.20/mo billed annually · save 20%".
-
-<Screenshot id="billing/4-change-plan-annual" alt="Pro on Annual: $278.40 / year, $23.20/mo billed annually · save 20%, Billed once a year, up front — save 20%" />
-
-### The plans
-
-These are the self-serve plans and what **What's included:** lists for each.
-
-| | Developer | Pro | Business |
-| --- | --- | --- | --- |
-| For | Personal projects & MVPs | Production apps & startups | Growing teams & agencies |
-| Monthly | $10 / month | $29 / month | $499 / month |
-| Annual | $96 / year ($8/mo) | $278.40 / year ($23.20/mo) | $4,790.40 / year ($399.20/mo) |
-| Included usage | $10/month | $29/month | $499/month |
-| Projects | 5 | 25 | 100 |
-| Services per project | 20 | 50 | 200 |
-| Databases (Postgres, MariaDB, Redis) | 2 | 10 | 30 |
-| Backups kept | 7 days | 14 days | 30 days |
-| Size per service | Up to 2 vCPU · 4 GB RAM | Up to 4 vCPU · 16 GB RAM | Up to 8 vCPU · 32 GB RAM |
-| Instances per service | 1 | Up to 3 | Up to 10 |
-| Environments per project | 2 | 5 | 10 |
-| Team members | 1 | 5 | 20 |
-| Regions | 1 | 3 | 3 |
-
-Every plan includes custom domains with automatic SSL and unlimited free build minutes. The plan price comes back as included usage: what your apps use is counted against it first (see [Usage](/billing/usage#usage-breakdown)).
-
-The last three rows are the limits the [Plan limits](/billing/usage#plan-limits) card on Usage counts against.
-
-**Size per service** is the most one service can use in total. A service with more than one instance splits it: each instance gets an equal share. A helper container that runs inside an instance, such as the private-network proxy, takes its part from that instance's share, and the app container always keeps at least 60% of it. Each run of a scheduled task gets the size of one instance, and runs of the same task never overlap.
-
-### Other limits
-
-Each plan also sets these limits:
-
-| | Free Trial | Developer | Pro | Business |
-| --- | --- | --- | --- | --- |
-| Builds at the same time | 1 | 2 | 5 | 10 |
-| Build timeout | 10 minutes | 30 minutes | 60 minutes | 90 minutes |
-| Log retention | 1 day | 3 days | 14 days | 30 days |
-| Connections per database | 100 | 200 | 400 | 500 |
-| Connections per Valkey database | 50 | 200 | 1,000 | 2,000 |
-| Database backups | No | Yes | Yes | Yes |
-| Highly available databases | No | No | Yes | Yes |
-| Preview environments | No | No | Yes | Yes |
-| AI models | 3 | 3 | 3 | 10 |
-| Single sign-on, tracing, security scans, advanced networking | No | No | No | Yes |
-
-A build over the limit isn't queued: it's refused, and you can start it again once a build finishes (see [Deploy from CI](/cli/ci#build-limits)).
-
-### The Free Trial
-
-A new account's first organization can start on the **Free trial**: "7 days or $3 of usage · no credit card". The trial is once per account; another organization needs a paid plan from the start.
-
-During the trial, the organization has:
-
-| | Free Trial |
-| --- | --- |
-| Size per service | Up to 0.5 vCPU · 1 GB RAM |
-| Projects | 1 |
-| Services per project | 3 |
-| Environments per project | 1 |
-| Instances per service | 1 |
-| Databases | 2, each with a fixed 1 GiB of storage |
-| Valkey memory | 25 MiB |
-| Emails | 100 a day |
-| Outbound data included | 5 GB |
-| Team members | 1 |
-| Regions | 1 |
-
-The **Current plan** card shows **Free trial** and "Pick a plan before" the end date "to keep services online", with **Upgrade**. When the 7 days are over or the $3 is used up, whichever comes first, the services are stopped and new deploys are refused. The card then shows **Trial expired** and **Choose a plan**. Apps and data are kept for 30 days, then deleted unless you choose a plan; choosing one brings the services back.
-
-### Downgrade
-
-Picking a lower plan shows **Downgrade your plan**: "Switch to Pro at the end of your billing period." It takes effect on the date shown, and you keep full access to your current plan until then. There is no refund for the current billing period. The button reads **Schedule downgrade**.
-
-Before a downgrade, the window checks what you run against the lower plan and lists what changes:
-
-- **Reduced at the end of your billing period**: for example, a smaller maximum size per service (larger services are resized and restarted), fewer database connections, or Redis connection limits. Databases restart with the new limits.
-- **Over the new plan: keeps running, but you can't add more**: for example, "Your workspace has 11 databases; Pro includes 10."
-- **Not included in the new plan**: for example, backups kept for fewer days. Existing schedules keep their retention until you save them again.
-
-To leave without changing anything, close the window with **×**.
-
-### Cancel subscription
-
-Click **Cancel subscription** under **Change plan**. The confirmation explains what happens.
-
-<Screenshot id="billing/5-cancel" alt="Cancel your subscription? with Keep my plan and Cancel subscription" />
-
-You keep your plan and everything running until the end of the period you already paid for, and you aren't charged again. After that your services are paused. Their apps and data are kept for 30 days, then deleted unless you choose a plan. Your account stays.
-
-Click **Keep my plan** to close it without cancelling.
+The **Current plan** card shows the plan's name and price, for example **Business** **$499/mo**, and when the included usage starts again: "Included usage resets on Dec 11 (17 days left)". From it you can change plan, upgrade, downgrade or cancel: see [Plans](/billing/plans).
 
 ## GPU credit
 
