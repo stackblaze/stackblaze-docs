@@ -1,0 +1,254 @@
+---
+title: Telemetry examples
+description: What Coroot collects by itself, what Tracing adds, and code you can copy to add your own spans, attributes, events and errors with OpenTelemetry, run for real and seen in Coroot.
+---
+
+## What Coroot collects by itself
+
+Without any change to your code, Coroot watches every service from the outside:
+
+- its requests, their latency and errors, and who calls whom: the [SLO tab](/coroot/applications#slo), the [Service Map](/coroot/service-map), and the traces on an application's [Tracing tab](/coroot/applications#tracing) ("Using data gathered by the eBPF tracer");
+- CPU, memory, instances, restarts and deployments;
+- what the service prints: its container logs.
+
+## What Tracing adds
+
+[Tracing](/observe/tracing-and-log-retention#tracing), in a service's **Settings**, sends OpenTelemetry traces from inside your code to Coroot's [Traces](/coroot/logs-and-traces#traces) page. Tracing is included in the Business plan. Turning it on and choosing the language is described on [Tracing and log retention](/observe/tracing-and-log-retention#tracing).
+
+- With **Node.js**, **Python**, **Java** or **.NET**, the service is instrumented automatically on its next deploy: incoming and outgoing HTTP requests become spans, and the trace is passed on to the services it calls. We saw this with Node.js and Python below.
+- With **Other: my own OpenTelemetry SDK**, nothing is added to your code. The service gets `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_EXPORTER_OTLP_PROTOCOL` (`http/protobuf`) and `OTEL_SERVICE_NAME`, which every OpenTelemetry SDK reads.
+- In both cases `OTEL_SERVICE_NAME` is the service's resource name, such as `orders-8i8t`. That's the name you see in Coroot.
+
+In both modes you can add spans of your own, with attributes, events and errors, using the OpenTelemetry API. That's what the examples below do.
+
+<Callout type="info">
+Only traces are taken. From a service with Tracing on, the platform's collector accepted traces (`/v1/traces` answered `200`) but answered `404` for metrics (`/v1/metrics`) and logs (`/v1/logs`). Custom OpenTelemetry metrics and logs don't reach Coroot; your logs are the container logs.
+</Callout>
+
+## The example services
+
+We ran three small services in one environment and sent them requests for about half an hour:
+
+- **orders** (Node.js, Tracing **Node.js**): `GET /checkout?item=…&qty=…` looks up a price, then asks **inventory** to reserve the item.
+- **inventory** (Python, Tracing **Python**): `GET /reserve?item=…&qty=…` checks the stock. There are 3 books and no pens, so a pen fails with HTTP 409.
+- **reports** (Python, Tracing **Other: my own OpenTelemetry SDK**): `GET /daily` sets up the SDK itself and asks **inventory** about both items.
+
+**orders** and **reports** find **inventory** through a [reference](/networking/private-networking) in a variable:
+
+```sh
+INVENTORY_HOST=${{inventory.STACKBLAZE_PRIVATE_DOMAIN}}
+```
+
+Each ran as an image service (`node:22-slim` or `python:3.12-slim`) whose start command installed the packages listed with it and started the file.
+
+### orders: automatic instrumentation plus your own spans (Node.js)
+
+Packages: `@opentelemetry/api` (we used 1.9.0). The automatic instrumentation brings the SDK; your code only needs the API.
+
+```js title="app.js"
+// orders: a Node.js service with Tracing on (Node.js). The automatic
+// instrumentation traces every request in and out; the spans below add
+// detail of our own.
+const http = require('node:http');
+const { trace, SpanStatusCode } = require('@opentelemetry/api');
+
+const tracer = trace.getTracer('orders');
+const INVENTORY = `http://${process.env.INVENTORY_HOST}`;
+
+async function lookUpPrice(item) {
+  // A child span: it nests under whatever span is active.
+  return tracer.startActiveSpan('price.lookup', async (span) => {
+    span.setAttribute('order.item', item);
+    span.addEvent('cache.miss', { 'cache.key': `price:${item}` });
+    await new Promise((r) => setTimeout(r, 30)); // pretend to ask a database
+    span.end();
+    return 12.5;
+  });
+}
+
+http.createServer(async (req, res) => {
+  const url = new URL(req.url, 'http://localhost');
+  if (url.pathname !== '/checkout') {
+    res.end('ok\n');
+    return;
+  }
+  const item = url.searchParams.get('item') ?? 'book';
+  const qty = Number(url.searchParams.get('qty') ?? 1);
+
+  await tracer.startActiveSpan('checkout', async (span) => {
+    span.setAttributes({ 'order.item': item, 'order.qty': qty });
+    try {
+      const price = await lookUpPrice(item);
+      // fetch() is traced too, and carries the trace on to inventory.
+      const r = await fetch(`${INVENTORY}/reserve?item=${item}&qty=${qty}`);
+      if (!r.ok) throw new Error(`inventory answered ${r.status}`);
+      span.addEvent('reserved', { 'order.total': price * qty });
+      res.end(JSON.stringify({ item, qty, total: price * qty }) + '\n');
+    } catch (err) {
+      span.recordException(err);
+      span.setStatus({ code: SpanStatusCode.ERROR, message: err.message });
+      res.statusCode = 502;
+      res.end(JSON.stringify({ error: err.message }) + '\n');
+    } finally {
+      span.end();
+    }
+  });
+}).listen(process.env.PORT ?? 8080);
+```
+
+- `tracer.startActiveSpan()` starts a span and makes it the current one, so spans started inside it (`price.lookup`, and the HTTP call to inventory) nest under it.
+- `setAttribute()` and `setAttributes()` add attributes, `addEvent()` an event with its own attributes.
+- `recordException()` and `setStatus({ code: SpanStatusCode.ERROR })` mark the span as failed.
+
+### inventory: automatic instrumentation plus your own spans (Python)
+
+Packages: `flask` and `opentelemetry-api` (we used 3.1.0 and 1.29.0). Install `opentelemetry-api` yourself: before Tracing was on, the service failed to start without it, with `ModuleNotFoundError: No module named 'opentelemetry'`.
+
+```python title="app.py"
+# inventory: a Python service with Tracing on (Python). The automatic
+# instrumentation traces Flask; the spans below add detail of our own.
+import time
+
+from flask import Flask, jsonify, request
+from opentelemetry import trace
+from opentelemetry.trace import Status, StatusCode
+
+app = Flask(__name__)
+tracer = trace.get_tracer("inventory")
+STOCK = {"book": 3, "pen": 0}
+
+
+@app.get("/reserve")
+def reserve():
+    item = request.args.get("item", "book")
+    qty = int(request.args.get("qty", "1"))
+    # A child of the request's span, which continues orders' trace.
+    with tracer.start_as_current_span("stock.check") as span:
+        span.set_attribute("inventory.item", item)
+        span.set_attribute("inventory.qty", qty)
+        time.sleep(0.02)  # pretend to read the stock table
+        left = STOCK.get(item, 0)
+        span.add_event("stock.read", {"inventory.left": left})
+        if left < qty:
+            err = ValueError(f"only {left} {item} left")
+            span.record_exception(err)
+            span.set_status(Status(StatusCode.ERROR, str(err)))
+            return jsonify(error=str(err)), 409
+    return jsonify(item=item, reserved=qty)
+
+
+@app.get("/")
+def health():
+    return "ok\n"
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)
+```
+
+The request from orders carries the trace (the `traceparent` header), so Flask's automatic span, and `stock.check` inside it, join orders' trace.
+
+### reports: your own SDK, passing the trace on by hand (Python)
+
+Packages: `opentelemetry-sdk` and `opentelemetry-exporter-otlp-proto-http` (we used 1.29.0 of both).
+
+```python title="app.py"
+# reports: a Python service with Tracing set to "Other: my own
+# OpenTelemetry SDK". It sets up the SDK itself, starts its spans by hand,
+# and passes the trace on to inventory in the request headers.
+import json
+import os
+import urllib.request
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+from opentelemetry import propagate, trace
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.trace import SpanKind, Status, StatusCode
+
+# OTEL_EXPORTER_OTLP_ENDPOINT, OTEL_EXPORTER_OTLP_PROTOCOL and
+# OTEL_SERVICE_NAME are set for you, so neither needs any arguments.
+provider = TracerProvider()
+provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
+trace.set_tracer_provider(provider)
+tracer = trace.get_tracer("reports")
+
+INVENTORY = "http://" + os.environ["INVENTORY_HOST"]
+
+
+class Handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if not self.path.startswith("/daily"):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"ok\n")
+            return
+        # Continue the caller's trace, if it sent one.
+        ctx = propagate.extract(dict(self.headers))
+        with tracer.start_as_current_span("GET /daily", context=ctx, kind=SpanKind.SERVER) as span:
+            span.set_attribute("http.request.method", "GET")
+            span.set_attribute("url.path", self.path)
+            items = ["book", "pen"]
+            report = {}
+            for item in items:
+                with tracer.start_as_current_span("inventory.reserve", kind=SpanKind.CLIENT) as call:
+                    call.set_attribute("inventory.item", item)
+                    headers = {}
+                    propagate.inject(headers)  # traceparent for inventory
+                    req = urllib.request.Request(f"{INVENTORY}/reserve?item={item}&qty=1", headers=headers)
+                    try:
+                        with urllib.request.urlopen(req, timeout=5) as r:
+                            report[item] = json.load(r)
+                    except urllib.error.HTTPError as err:
+                        call.record_exception(err)
+                        call.set_status(Status(StatusCode.ERROR, f"inventory answered {err.code}"))
+                        report[item] = {"error": err.code}
+            span.add_event("report.built", {"report.items": len(items)})
+            body = json.dumps(report).encode() + b"\n"
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.end_headers()
+        self.wfile.write(body)
+
+
+HTTPServer(("0.0.0.0", 8080), Handler).serve_forever()
+```
+
+- `OTLPSpanExporter()` needs no endpoint: it reads the variables the platform sets.
+- `propagate.extract()` picks up a trace the caller sent; `propagate.inject()` adds `traceparent` to the outgoing request so inventory continues the same trace.
+
+## What Coroot showed
+
+**Service Map** drew the calls, orders → inventory and reports → inventory:
+
+<Screenshot id="coroot/service-map-calls" alt="Service Map: orders and reports with arrows to inventory" />
+
+On **Traces**, **overview** listed the traces by the service they start in: **orders-8i8t** `GET`, with **50%** errors (the pens), and **reports-y21p** `GET /daily`. (**otlpcheck** is a single test span we sent by hand to check the collector.)
+
+<Screenshot id="coroot/telemetry-traces-page" alt="Traces overview: orders-8i8t GET with 50% errors and reports-y21p GET /daily" />
+
+Clicking **orders-8i8t** filters on it (**Root Service Name = orders-8i8t**). **traces** lists its requests, the failed pens as **HTTP-502**:
+
+<Screenshot id="coroot/telemetry-orders-traces" alt="The traces tab: orders-8i8t GET requests alternating HTTP-502 and HTTP-200" />
+
+**latency explorer** shows one trace across both services. orders' `GET` holds `checkout`, which holds `price.lookup` and the call to inventory; inventory's `GET /reserve` holds `stock.check`. Your own spans sit right among the automatic ones:
+
+<Screenshot id="coroot/telemetry-orders-flamegraph" alt="FlameGraph: orders-8i8t GET, checkout, price.lookup and the GET to inventory, then inventory-s5ll GET /reserve and stock.check" />
+
+For **reports-y21p**, the trace passed on by hand reaches inventory the same way: `GET /daily`, `inventory.reserve`, then inventory's `GET /reserve` and `stock.check`.
+
+<Screenshot id="coroot/telemetry-reports-flamegraph" alt="FlameGraph: reports-y21p GET /daily, inventory.reserve, inventory-s5ll GET /reserve and stock.check" />
+
+**error causes** finds where the errors start: in **inventory-s5ll**, span **stock.check**, with the message from `record_exception()`, "only 0 pen left", behind **100%** of orders' failed requests.
+
+<Screenshot id="coroot/telemetry-error-causes" alt="error causes: inventory-s5ll, stock.check, only 0 pen left, 100%" />
+
+**compare attributes** lists every attribute with its values, your own next to the automatic ones: `order.qty` (1, 2), `order.item` and `inventory.item` (pen, book), `inventory.qty`, and `http.status_code` (200, 409, 502).
+
+<Screenshot id="coroot/telemetry-orders-attributes" alt="compare attributes: inventory.qty 1 and 2, order.qty 1 and 2, http.status_code 200, 409 and 502, among the automatic attributes" />
+
+## Find the trace of a failed or slow request
+
+- **From an incident.** When failures open an [incident](/coroot/incidents), click **View in monitoring** on the banner, then the incident's **traces** tab: it lists the requests of the incident with their status.
+- **From a service.** On the service's **Metrics** tab, click **Open monitoring**, then **Traces** in Coroot's sidebar. In **overview**, click the service, then use **error causes** for failures and **latency explorer** for where the time goes. To look at only some requests, select an area of the heatmap.

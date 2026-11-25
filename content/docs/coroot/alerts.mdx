@@ -1,0 +1,47 @@
+---
+title: Alerts
+description: What Coroot has flagged on your services, and your own alerting rules.
+---
+
+**Alerts** lists what Coroot noticed on your services: failed health checks, new errors in the logs, a database that's falling behind. It has two tabs, **Alerts** and **Alerting Rules**.
+
+## Alerts
+
+<Screenshot id="coroot/alerts-list" alt="Alerts: the alerts of github-demo-kpw0-dev with their application, summary, when they opened and the rule" />
+
+The counters show the open **Critical** and **Warning** alerts. Each row has the **Application**, a **Summary** (here "no connectivity with 1 upstream service", and "BackOff (3 events in the last 1h)" with the event's message), **Notifications**, **Opened at**, **Resolved at**, **Duration** and the **Rule** that raised it, such as **Network connectivity** and **Kubernetes events** here. Across all our projects we also saw **Log errors** ("new error in the logs") and **Postgres checkpoints** ("too long since the last checkpoint").
+
+**Show resolved** adds the alerts that have cleared. **search** filters the list. With nothing to report, it says "No alerts found".
+
+<Screenshot id="coroot/alerts" alt="Alerts: 0 Critical, 0 Warning, No alerts found" />
+
+## Alerting rules
+
+**Alerting Rules** lists alerting rules with their **Name**, **Data source** and **Application selector**. For our environments it said "No alerting rules found".
+
+<Screenshot id="coroot/alerting-rules" alt="Alerting Rules: Name, Data source, Application selector, No alerting rules found" />
+
+**Add rule** opens **Create Alerting Rule**:
+
+<Screenshot id="coroot/add-rule" alt="Create Alerting Rule: Name, Data source Built-in inspection, Inspection, Application selector By application patterns, Application patterns github-demo-gv35-dev:*:*, Severity Warning or Critical, For and Keep firing for" />
+
+| Field | What it is |
+| --- | --- |
+| **Name** | The rule's name. |
+| **Data source** | **Built-in inspection**, **Log patterns**, **PromQL expression** or **Kubernetes events**. |
+| **Inspection** | For a built-in inspection: "The inspection that will trigger alerts when its condition is met." |
+| **Application selector** | "Which applications this rule applies to": **By application patterns**. |
+| **Application patterns** | "Comma-separated patterns confined to your namespace(s)". It starts as `<namespace>:*:*`, every application of your environment; `github-demo-gv35-dev:Deployment:my-app` would be one. |
+| **Severity** | **Warning** (the default) or **Critical**. |
+| **For** | "How long the condition must be true before firing (e.g., 5m, 1h)." |
+| **Keep firing for** | "How long to keep the alert active after condition clears (e.g., 5m, 1h)." |
+| **Description template** | "Optional detailed description of the alert and suggested actions." |
+| **Enabled** | "Disabling the rule will resolve all its firing alerts." |
+
+**Create** stays greyed out until the rule is complete. **Cancel** closes the form.
+
+With **Kubernetes events** as the data source, **Inspection** is replaced by three settings: **Min event count** ("Minimum number of events for a group to trigger an alert"), **Max alerts per app** ("Maximum number of concurrent alerts per application") and **Evaluate with AI**, which "Requires a local LLM under Configuration → AI", a part of Coroot that isn't open to you.
+
+<Screenshot id="coroot/add-rule-events" alt="Create Alerting Rule with Data source Kubernetes events: Min event count, Max alerts per app, Evaluate with AI" />
+
+A rule only ever covers your own namespaces: the patterns are confined to them.

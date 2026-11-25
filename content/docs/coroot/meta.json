@@ -1,0 +1,14 @@
+{
+  "title": "Coroot",
+  "pages": [
+    "open",
+    "applications",
+    "service-map",
+    "incidents",
+    "alerts",
+    "logs-and-traces",
+    "risks-and-dashboards",
+    "telemetry"
+  ],
+  "icon": "Radar"
+}

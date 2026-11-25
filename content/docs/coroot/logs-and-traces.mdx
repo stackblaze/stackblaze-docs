@@ -1,0 +1,53 @@
+---
+title: Logs and traces
+description: Search the logs of all your services in one place, and follow requests through your services on the Traces page.
+---
+
+## Logs
+
+**Logs** searches the logs of every application you can see, together. (For one service, its [Logs tab](/coroot/applications#logs) in Coroot, or [Logs](/observe/logs) in the dashboard.)
+
+<Screenshot id="coroot/logs" alt="Logs: Query, Show logs, Container logs and OpenTelemetry ticked, the chart of log levels, and the lines with their date, cluster and application" />
+
+- Type a **Query** and click **Show logs**. The arrow next to it picks the time range, like the [time range](/coroot/open#the-time-range) menu.
+- **Container logs** are what your services print. **OpenTelemetry** is for logs sent over OpenTelemetry. The platform's collector only takes traces, so on StackBlaze your logs are the container logs.
+- The chart counts the lines by level (**unknown**, **info**, and so on).
+- Each line shows its **Date**, **Cluster**, **Application** and **Message**. Click the application to open it.
+
+## Traces
+
+**Traces** shows the requests your services handle, followed from one service to the next. It needs [Tracing](/observe/tracing-and-log-retention#tracing) turned on for the services, which is included in the Business plan.
+
+### Before any traces come in
+
+The page explains how to start: "Start tracing your apps". **Examples** has a starter for **Node.js**, **Python**, **Java**, **.NET**, **Go**, **PHP**, **Ruby** and **Rust**, each with the packages to install, the code and the start command, with a copy button. **Turn it on** sums up the two ways: **Automatic** (**Recommended**, no code changes, for Node.js, Python, Java and .NET) and **Your own SDK** (any language, or custom spans). **Set for you** lists the variables every service with Tracing on gets:
+
+```sh
+OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector.otel.svc:4318
+OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+OTEL_SERVICE_NAME=<your app name>
+```
+
+"No API key needed. Traces are accepted only from apps with Tracing on and stay in your workspace."
+
+<Screenshot id="coroot/traces" alt="Start tracing your apps: Examples for Node.js to Rust, and Turn it on with Automatic and Your own SDK" />
+
+### With traces
+
+Once traces arrive, the page shows the **Latency & Errors heatmap, requests per second** of all of them, and five tabs. The **Send traces from your apps** button sits above it.
+
+<Screenshot id="coroot/telemetry-traces-page" alt="Traces: the heatmap, and the overview with orders-8i8t GET and reports-y21p GET /daily, their requests, errors and p50, p95 and p99 latency" />
+
+- **overview** lists each **Root Service Name** and **Root Span Name** (the service and request a trace starts with) with **Requests**, **Errors** and the **p50**, **p95** and **p99** latency. Click a service to filter on it.
+- **traces** lists single traces: **Trace ID**, **Root Service**, **Name**, **Status** (for example **HTTP-502**) and **Duration**.
+- **error causes** names the span where the errors started, with its error message, a **Sample Trace** and the share of failed traces it explains.
+- **latency explorer** draws a **FlameGraph** of where the time goes: a wider frame means more time spent in that span. **Diff** is the other view.
+- **compare attributes** shows each span attribute and its values, to compare a selection with the rest.
+
+Above the tabs:
+
+- **Filters** show what the traces are narrowed to, for example **Root Service Name = orders-8i8t** after clicking that service in **overview**.
+- **Selection**: drag over an area of the heatmap to look only at that time, duration or status. **Baseline** is everything else in the time range.
+- **Exclude auxiliary requests (from monitoring, control plane, etc)** is ticked by default.
+
+[Telemetry examples](/coroot/telemetry) shows these tabs with example services of our own.

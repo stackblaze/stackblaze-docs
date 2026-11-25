@@ -1,0 +1,28 @@
+---
+title: Coroot
+description: The monitoring that comes with every service, its service map, incidents, alerts, logs and traces, and how to open it from the dashboard.
+---
+
+Every service you run on StackBlaze is watched by Coroot, with nothing to install. Coroot sees each service's requests, errors, latency, CPU, memory and logs, works out which services call which, and opens an incident when a service stops meeting its targets.
+
+You open Coroot from the dashboard. It opens in a new tab, already signed in, and shows only the projects of your organization that you can see. It's read-only, with one exception: you can add your own alerting rules.
+
+<Screenshot id="coroot/app-slo" alt="Coroot showing a service's SLO tab: Availability OK, Latency no data, its clients and the latency and errors heatmap" />
+
+## Where Coroot shows up in the dashboard
+
+- **Open monitoring**, on a service's **Metrics** tab, opens that service in Coroot.
+- **Observability**, in the sidebar of the projects list, opens Coroot for all your projects.
+- When a service has an open incident, the dashboard flags it: an **Issue** badge on the project, a banner above the canvas with **View in monitoring**, and an **Incident** badge on the service's card. See [Incidents](/coroot/incidents).
+- The charts on a service's [Metrics](/observe/metrics) tab come from the same monitoring.
+
+<SectionCards>
+  <SectionCard icon="MousePointerClick" title="Open Coroot" href="/coroot/open" description="Open a service or all your projects in Coroot, and find your way around: the sidebar, Go to…, the time range and your account menu." />
+  <SectionCard icon="Gauge" title="Applications" href="/coroot/applications" description="The list of your services and databases with their health, and each one's SLO, Instances, CPU, Memory, Logs, Deployments, Profiling and Tracing tabs." />
+  <SectionCard icon="Network" title="Service Map" href="/coroot/service-map" description="Which of your services call which, drawn from the traffic Coroot sees." />
+  <SectionCard icon="HeartPulse" title="Incidents" href="/coroot/incidents" description="When a service misses its availability or latency target: the badges and banner in the dashboard, and the incident in Coroot." />
+  <SectionCard icon="Bell" title="Alerts" href="/coroot/alerts" description="What Coroot has flagged on your services, and your own alerting rules." />
+  <SectionCard icon="ScrollText" title="Logs and traces" href="/coroot/logs-and-traces" description="Search the logs of all your services in one place, and the Traces page for OpenTelemetry tracing." />
+  <SectionCard icon="ShieldCheck" title="Risks and dashboards" href="/coroot/risks-and-dashboards" description="Single points of failure Coroot finds in your setup, and what the Dashboards page offers." />
+  <SectionCard icon="Code" title="Telemetry examples" href="/coroot/telemetry" description="What Coroot collects by itself, and code you can copy to add your own spans, attributes, events and errors with OpenTelemetry." />
+</SectionCards>

@@ -1343,6 +1343,314 @@
     "capturedAt": "2026-11-25T15:39:54.742Z",
     "source": "Explain execution plan"
   },
+  "coroot/add-rule": {
+    "src": "/screenshots/coroot/add-rule.png",
+    "width": 900,
+    "height": 810,
+    "capturedAt": "2026-11-25T15:11:58.589Z",
+    "source": "/p/4sk04ct9/alerts/rules"
+  },
+  "coroot/add-rule-events": {
+    "src": "/screenshots/coroot/add-rule-events.png",
+    "width": 900,
+    "height": 810,
+    "capturedAt": "2026-11-25T15:58:36.877Z",
+    "source": "/p/4sk04ct9/alerts/rules"
+  },
+  "coroot/alerting-rules": {
+    "src": "/screenshots/coroot/alerting-rules.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:11:53.222Z",
+    "source": "/p/4sk04ct9/alerts/rules"
+  },
+  "coroot/alerts": {
+    "src": "/screenshots/coroot/alerts.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:11:48.355Z",
+    "source": "/p/4sk04ct9/alerts"
+  },
+  "coroot/alerts-list": {
+    "src": "/screenshots/coroot/alerts-list.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:38:00.613Z",
+    "source": "/p/4sk04ct9/alerts"
+  },
+  "coroot/app-cpu": {
+    "src": "/screenshots/coroot/app-cpu.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:10:34.005Z",
+    "source": "/p/4sk04ct9/applications/4sk04ct9:github-demo-gv35-dev:Deployment:nginx-9agm-kuberoapp-web/CPU"
+  },
+  "coroot/app-deployments": {
+    "src": "/screenshots/coroot/app-deployments.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:10:55.835Z",
+    "source": "/p/4sk04ct9/applications/4sk04ct9:github-demo-gv35-dev:Deployment:nginx-9agm-kuberoapp-web/Deployments"
+  },
+  "coroot/app-instances": {
+    "src": "/screenshots/coroot/app-instances.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:10:26.963Z",
+    "source": "/p/4sk04ct9/applications/4sk04ct9:github-demo-gv35-dev:Deployment:nginx-9agm-kuberoapp-web/Instances"
+  },
+  "coroot/app-logs": {
+    "src": "/screenshots/coroot/app-logs.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:10:47.877Z",
+    "source": "/p/4sk04ct9/applications/4sk04ct9:github-demo-gv35-dev:Deployment:nginx-9agm-kuberoapp-web/Logs"
+  },
+  "coroot/app-memory": {
+    "src": "/screenshots/coroot/app-memory.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:10:40.987Z",
+    "source": "/p/4sk04ct9/applications/4sk04ct9:github-demo-gv35-dev:Deployment:nginx-9agm-kuberoapp-web/Memory"
+  },
+  "coroot/app-menu": {
+    "src": "/screenshots/coroot/app-menu.png",
+    "width": 273,
+    "height": 269,
+    "capturedAt": "2026-11-25T15:23:14.361Z",
+    "source": "/p/4sk04ct9/applications/4sk04ct9:github-demo-gv35-dev:Deployment:nginx-9agm-kuberoapp-web/SLO"
+  },
+  "coroot/app-profiling": {
+    "src": "/screenshots/coroot/app-profiling.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:11:02.619Z",
+    "source": "/p/4sk04ct9/applications/4sk04ct9:github-demo-gv35-dev:Deployment:nginx-9agm-kuberoapp-web/Profiling"
+  },
+  "coroot/app-slo": {
+    "src": "/screenshots/coroot/app-slo.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:10:20.040Z",
+    "source": "/p/4sk04ct9/applications/4sk04ct9:github-demo-gv35-dev:Deployment:nginx-9agm-kuberoapp-web/SLO"
+  },
+  "coroot/app-tracing": {
+    "src": "/screenshots/coroot/app-tracing.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:11:09.416Z",
+    "source": "/p/4sk04ct9/applications/4sk04ct9:github-demo-gv35-dev:Deployment:nginx-9agm-kuberoapp-web/Tracing"
+  },
+  "coroot/applications": {
+    "src": "/screenshots/coroot/applications.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:11:24.923Z",
+    "source": "/p/4sk04ct9/applications"
+  },
+  "coroot/collapsed": {
+    "src": "/screenshots/coroot/collapsed.png",
+    "width": 520,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:23:22.416Z",
+    "source": "/p/4sk04ct9/applications/4sk04ct9:github-demo-gv35-dev:Deployment:nginx-9agm-kuberoapp-web/SLO"
+  },
+  "coroot/dashboards": {
+    "src": "/screenshots/coroot/dashboards.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:12:25.246Z",
+    "source": "/p/4sk04ct9/dashboards"
+  },
+  "coroot/go-to": {
+    "src": "/screenshots/coroot/go-to.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:12:29.620Z",
+    "source": "/p/4sk04ct9/dashboards"
+  },
+  "coroot/help-menu": {
+    "src": "/screenshots/coroot/help-menu.png",
+    "width": 652,
+    "height": 233,
+    "capturedAt": "2026-11-25T15:23:17.170Z",
+    "source": "/p/4sk04ct9/applications/4sk04ct9:github-demo-gv35-dev:Deployment:nginx-9agm-kuberoapp-web/SLO"
+  },
+  "coroot/incident-banner": {
+    "src": "/screenshots/coroot/incident-banner.png",
+    "width": 1418,
+    "height": 77,
+    "capturedAt": "2026-11-25T15:14:30.120Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "coroot/incident-canvas-badge": {
+    "src": "/screenshots/coroot/incident-canvas-badge.png",
+    "width": 268,
+    "height": 162,
+    "capturedAt": "2026-11-25T15:14:30.784Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "coroot/incident-detail": {
+    "src": "/screenshots/coroot/incident-detail.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:14:59.035Z",
+    "source": "/p/4sk04ct9/incidents"
+  },
+  "coroot/incident-project-badge": {
+    "src": "/screenshots/coroot/incident-project-badge.png",
+    "width": 395,
+    "height": 190,
+    "capturedAt": "2026-11-25T15:14:23.347Z",
+    "source": "/"
+  },
+  "coroot/incident-traces": {
+    "src": "/screenshots/coroot/incident-traces.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:15:48.205Z",
+    "source": "/p/4sk04ct9/incidents"
+  },
+  "coroot/incidents": {
+    "src": "/screenshots/coroot/incidents.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:15:06.255Z",
+    "source": "/p/4sk04ct9/incidents"
+  },
+  "coroot/incidents-empty": {
+    "src": "/screenshots/coroot/incidents-empty.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:11:42.319Z",
+    "source": "/p/4sk04ct9/incidents"
+  },
+  "coroot/logs": {
+    "src": "/screenshots/coroot/logs.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:12:07.876Z",
+    "source": "/p/4sk04ct9/logs"
+  },
+  "coroot/namespaces": {
+    "src": "/screenshots/coroot/namespaces.png",
+    "width": 263,
+    "height": 137,
+    "capturedAt": "2026-11-25T15:11:27.140Z",
+    "source": "/p/4sk04ct9/applications"
+  },
+  "coroot/open-monitoring": {
+    "src": "/screenshots/coroot/open-monitoring.png",
+    "width": 428,
+    "height": 78,
+    "capturedAt": "2026-11-25T15:09:52.120Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "coroot/risk-menu": {
+    "src": "/screenshots/coroot/risk-menu.png",
+    "width": 333,
+    "height": 109,
+    "capturedAt": "2026-11-25T15:24:48.932Z",
+    "source": "/p/4sk04ct9/risks"
+  },
+  "coroot/risks": {
+    "src": "/screenshots/coroot/risks.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:12:20.163Z",
+    "source": "/p/4sk04ct9/risks"
+  },
+  "coroot/service-map": {
+    "src": "/screenshots/coroot/service-map.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:11:36.231Z",
+    "source": "/p/4sk04ct9/map"
+  },
+  "coroot/service-map-calls": {
+    "src": "/screenshots/coroot/service-map-calls.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:37:52.563Z",
+    "source": "/p/4sk04ct9/map"
+  },
+  "coroot/sidebar-observability": {
+    "src": "/screenshots/coroot/sidebar-observability.png",
+    "width": 241,
+    "height": 259,
+    "capturedAt": "2026-11-25T15:12:37.751Z",
+    "source": "/"
+  },
+  "coroot/slo-edit": {
+    "src": "/screenshots/coroot/slo-edit.png",
+    "width": 800,
+    "height": 368,
+    "capturedAt": "2026-11-25T15:17:06.286Z",
+    "source": "/p/4sk04ct9/incidents"
+  },
+  "coroot/telemetry-error-causes": {
+    "src": "/screenshots/coroot/telemetry-error-causes.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:54:58.906Z",
+    "source": "/p/4sk04ct9/traces"
+  },
+  "coroot/telemetry-orders-attributes": {
+    "src": "/screenshots/coroot/telemetry-orders-attributes.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:55:18.261Z",
+    "source": "/p/4sk04ct9/traces"
+  },
+  "coroot/telemetry-orders-flamegraph": {
+    "src": "/screenshots/coroot/telemetry-orders-flamegraph.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:55:08.577Z",
+    "source": "/p/4sk04ct9/traces"
+  },
+  "coroot/telemetry-orders-traces": {
+    "src": "/screenshots/coroot/telemetry-orders-traces.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:54:51.223Z",
+    "source": "/p/4sk04ct9/traces"
+  },
+  "coroot/telemetry-reports-flamegraph": {
+    "src": "/screenshots/coroot/telemetry-reports-flamegraph.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:55:42.348Z",
+    "source": "/p/4sk04ct9/traces"
+  },
+  "coroot/telemetry-traces-page": {
+    "src": "/screenshots/coroot/telemetry-traces-page.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:54:37.407Z",
+    "source": "/p/4sk04ct9/traces"
+  },
+  "coroot/time-range": {
+    "src": "/screenshots/coroot/time-range.png",
+    "width": 336,
+    "height": 619,
+    "capturedAt": "2026-11-25T15:11:17.157Z",
+    "source": "/p/4sk04ct9/applications/4sk04ct9:github-demo-gv35-dev:Deployment:nginx-9agm-kuberoapp-web/SLO"
+  },
+  "coroot/traces": {
+    "src": "/screenshots/coroot/traces.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:12:14.073Z",
+    "source": "/p/4sk04ct9/traces"
+  },
+  "coroot/user-menu": {
+    "src": "/screenshots/coroot/user-menu.png",
+    "width": 386,
+    "height": 219,
+    "capturedAt": "2026-11-25T15:23:19.762Z",
+    "source": "/p/4sk04ct9/applications/4sk04ct9:github-demo-gv35-dev:Deployment:nginx-9agm-kuberoapp-web/SLO"
+  },
   "data/addons-menu": {
     "src": "/screenshots/data/addons-menu.png",
     "width": 768,

@@ -1,0 +1,27 @@
+---
+title: Risks and dashboards
+description: Single points of failure Coroot finds in your setup, and what the Dashboards page offers.
+---
+
+## Risks
+
+**Risks** lists what could take a service down or lose data, even while everything works.
+
+<Screenshot id="coroot/risks" alt="Risks: 1 Critical, 4 Warning, with postgresql-7ytg Postgres isn't replicated - data loss possible, and several Single instance - not resilient to node failure" />
+
+The counters show **Critical**, **Warning** and **Dismissed** risks. Each row has the **Application**, its **Application type**, the **Risk category** (here **Availability**) and a **Description**. In this environment:
+
+- "Postgres isn't replicated - data loss possible" (critical) for a single-instance PostgreSQL. [High availability](/data#standard-or-high-availability) adds replicas.
+- "Single instance - not resilient to node failure" (warning) for services and databases that run one instance. More [instances](/configure/scaling) spread a service over several.
+
+The menu at the end of a row has one item: **Dismiss: tolerable for this project**. **Show dismissed** adds the dismissed ones to the list. **search** and **namespaces** narrow the list.
+
+<Screenshot id="coroot/risk-menu" alt="A risk's menu: Dismiss: tolerable for this project" />
+
+## Dashboards
+
+**Dashboards** is empty ("No dashboards found"). Custom dashboards aren't available to you on StackBlaze: **Add dashboard** opens **Create dashboard** with a **Name** and **Description**, but **Save** is refused with "You are not allowed to configure dashboards."
+
+<Screenshot id="coroot/dashboards" alt="Dashboards: Name, Description, Actions, No dashboards found, and Add dashboard" />
+
+Use the [Metrics](/observe/metrics) tab in the dashboard and the application tabs in Coroot instead.

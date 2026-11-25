@@ -1,0 +1,20 @@
+---
+title: Service Map
+description: Which of your services call which, drawn from the traffic Coroot sees.
+---
+
+**Service Map** draws your applications and the calls between them. Coroot builds it from the network traffic it sees, so it needs no setup and no code.
+
+Here, an environment where **orders** and **reports** both call **inventory**:
+
+<Screenshot id="coroot/service-map-calls" alt="Service Map: orders and reports with arrows to inventory, in github-demo-kpw0-dev" />
+
+Each box is an application, with its namespace and an icon for its type (nginx, postgres, Node.js…). The dot is its health. An arrow goes from the caller to the service it calls.
+
+Applications that neither call nor are called by anything are listed on their own, without arrows:
+
+<Screenshot id="coroot/service-map" alt="Service Map of github-demo-gv35-dev: nginx and postgresql boxes with no arrows between them" />
+
+- **search** and **namespaces** narrow the map, as on [Applications](/coroot/applications#narrow-the-list).
+- **application** on the right is the category of applications shown.
+- Click a box's name to open the application.

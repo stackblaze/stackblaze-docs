@@ -1,0 +1,60 @@
+---
+title: Incidents
+description: When a service misses its availability or latency target, the dashboard flags it, and Coroot shows what happened.
+---
+
+Coroot opens an incident when a service misses one of its [SLO](/coroot/applications#slo) targets: too many failed requests (**Availability**), or too many slow ones (**Latency**). The incident stays open until the service is back on target.
+
+To write this page we deployed a test service, **echo**, and sent it requests it answered with HTTP 500. About 2 minutes after the errors started, Coroot opened a critical incident, "High latency and errors".
+
+## In the dashboard
+
+The dashboard checks for open incidents every 30 seconds and shows them in three places.
+
+**The projects list.** The project gets an **Issue** badge, or **2 issues** and so on when there are more. Hover it to read the incident's summary.
+
+<Screenshot id="coroot/incident-project-badge" alt="The github-demo-kpw0 project card with a red Issue badge" />
+
+**Above the canvas.** The environment shows a banner for each open incident: the service, then the summary. A critical incident is red, a warning amber.
+
+<Screenshot id="coroot/incident-banner" alt="Banner: echo-pyky — High latency and errors, with View in monitoring and a close button" />
+
+- **View in monitoring** opens the incident in Coroot, in a new tab.
+- **×** (**Dismiss**) hides the banner. It stays hidden in this browser, after a reload too, until the incident is resolved. If the service has a new incident later, its banner shows again.
+
+**On the service's card.** The card turns red with an **Incident** badge in its corner. Click the badge to open the incident in Coroot.
+
+<Screenshot id="coroot/incident-canvas-badge" alt="The echo service card in red with an Incident badge" />
+
+The dashboard leaves out an incident for its first 2 minutes, because Coroot opens and closes incidents around its thresholds. It also leaves out incidents that open within 10 minutes of a service being created or deployed, while it's starting up; they stay hidden until they resolve.
+
+## In Coroot
+
+**View in monitoring** and the card's badge open the incident itself.
+
+<Screenshot id="coroot/incident-detail" alt="Incident nw17s1ws: High latency and errors, still open, Availability compliance 0%, burn rate 100 against a threshold of 14, and the Latency and Errors charts" />
+
+The top says when it **Started**, whether it's **Resolved** ("still open"), its **Duration**, the **Application**, and **Root Cause Analysis** ("AI disabled": there's no automatic analysis).
+
+The table lists each **Service Level Objective (SLO)** with its **Objective** (for example "99% of requests should not fail"), its **Compliance** over the incident (here **0%**: every request failed) and its **Error budget burn rate**, over 1 hour and over 5 minutes, against the **threshold** that opens an incident (**14**).
+
+Below, two tabs:
+
+- **overview**: the **Service Level Indicators (SLIs)**, the latency percentiles (p25 to p99) and the errors per second.
+- **traces**: the requests of the incident, from the [Tracing](/coroot/applications#tracing) data. The incident's time is highlighted on the heatmap, and the list shows the failed requests, here **HTTP-500** answers to `GET /api/orders`.
+
+<Screenshot id="coroot/incident-traces" alt="The incident's traces tab: the heatmap with the incident highlighted and its HTTP-500 requests" />
+
+The pencil next to an objective opens **Configure the "Availability" inspection**, with the objective and alerting. We didn't change it.
+
+<Screenshot id="coroot/slo-edit" alt="Configure the Availability inspection: Metrics inbound requests (built-in), Objective, Alerting: No notification integrations configured" />
+
+## The Incidents page
+
+**Incidents** in the sidebar lists the incidents of the time range, with counters for **Critical**, **Warning** and **Resolved**. Each row has the **Incident**, the **Application**, the **Description**, the **Root Cause**, the **Impacted requests** (here **100 %**), when it was **Opened at** and its **Duration**. **Show resolved** adds the resolved ones; **search** and **namespaces** narrow the list.
+
+<Screenshot id="coroot/incidents" alt="Incidents: 1 Critical, the open incident on echo-pyky-kuberoapp-web, High latency and errors, 100% impacted requests" />
+
+With nothing open, it reads "No incidents found".
+
+<Screenshot id="coroot/incidents-empty" alt="Incidents: 0 Critical, 0 Warning, 0 Resolved, No incidents found" />

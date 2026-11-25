@@ -1,0 +1,62 @@
+---
+title: Open Coroot
+description: Open a service or all your projects in Coroot, and find your way around its sidebar, Go to…, the time range and your account menu.
+---
+
+Coroot always opens in a new tab, signed in for you. There is no separate account or password.
+
+## Open one service
+
+Open a service on the canvas and click **Metrics**. Next to **Refresh** and **Check performance**, click **Open monitoring**.
+
+<Screenshot id="coroot/open-monitoring" alt="Open monitoring, Refresh and Check performance at the top of the Metrics tab" />
+
+The dashboard says "Opening monitoring", and Coroot opens on that service's page. Coroot names the service after its resource: here the **nginx** service is `nginx-9agm-kuberoapp-web`, in the namespace `github-demo-gv35-dev` (the project and environment).
+
+<Screenshot id="coroot/app-slo" alt="Coroot on nginx-9agm-kuberoapp-web, ns:github-demo-gv35-dev, on the SLO tab" />
+
+Opened from a service, Coroot covers that service's environment: the other services and databases of the same environment, and nothing else.
+
+## Open all your projects
+
+On the projects list, click **Observability** in the sidebar, under **General**.
+
+<Screenshot id="coroot/sidebar-observability" alt="The sidebar: Projects, Saved stacks and Observability under General" />
+
+Coroot opens on **Applications** with every environment of every project you can see in the organization. Each environment is its own namespace, named `<project>-<environment>`.
+
+## Find your way around
+
+The sidebar lists the pages: **Applications**, **Incidents**, **Alerts**, **Service Map**, **Traces**, **Logs**, **Risks** and **Dashboards**. **Incidents** and **Alerts** carry a count while some are open.
+
+### Go to…
+
+**Go to...** (or Ctrl+K) searches your apps by name ("Search for apps and nodes"). Each result shows its namespace.
+
+<Screenshot id="coroot/go-to" alt="Search for apps and nodes: nginx typed, with the matching applications and their namespace" />
+
+### The time range
+
+Every page shows **last hour** by default. Click it to choose **last 5 minutes**, **last 15 minutes**, **last 30 minutes**, **last hour**, **last 3 hours**, **last 12 hours**, **last day**, **last 3 days** or **last week**, or set a **Custom range** with **From** and **To** and click **Apply**.
+
+<Screenshot id="coroot/time-range" alt="The time range menu: last 5 minutes to last week, and Custom range with From, To and Apply" />
+
+### Your account, Help and Collapse
+
+At the bottom of the sidebar:
+
+- Your account opens a menu with your email, the name Coroot gave your session, **Theme** (**Light**, **Dark** or **Auto**) and **Sign out**. Coroot starts in the dashboard's own theme. To get back in after **Sign out**, open Coroot from the dashboard again.
+
+  <Screenshot id="coroot/user-menu" alt="The account menu: email, Theme Light, Dark and Auto, and Sign out" />
+
+- **Help** links to Coroot's own **Documentation**, **GitHub** and **Slack chat**, and shows the edition (**Community**) and version.
+
+  <Screenshot id="coroot/help-menu" alt="The Help menu: Documentation, GitHub, Slack chat, Coroot Edition Community and the version" />
+
+- **Collapse** shrinks the sidebar to its icons.
+
+  <Screenshot id="coroot/collapsed" alt="The Coroot sidebar collapsed to icons" />
+
+## What you can and can't do
+
+Coroot shows you your own services only. You can look at everything on the pages above and add [alerting rules](/coroot/alerts#alerting-rules) for your services. Changing Coroot's settings isn't open to you: creating a dashboard, for example, is refused with "You are not allowed to configure dashboards." See [Risks and dashboards](/coroot/risks-and-dashboards#dashboards).

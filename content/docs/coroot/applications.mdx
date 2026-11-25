@@ -1,0 +1,90 @@
+---
+title: Applications
+description: The list of your services and databases with their health, and each one's SLO, Instances, CPU, Memory, Logs, Deployments, Profiling and Tracing tabs.
+---
+
+**Applications** lists every service and database Coroot sees in your environments, with one row each.
+
+## The list
+
+<Screenshot id="coroot/applications" alt="Applications: 0 SLO violation, 0 Warning, 0 Errors in logs, 1 Integration required, 10 OK, and the services of github-demo-gv35-dev" />
+
+Coroot names each row after the workload behind it: a service's web process is `<service>-kuberoapp-web` (for example `nginx-9agm-kuberoapp-web`), and a database keeps its own name (`postgresql-7ytg`, `memcached-o440`).
+
+The counters above the table sort the rows by health: **SLO violation**, **Warning**, **Errors in logs**, **Integration required** and **OK**. The colored bar at the start of each row matches.
+
+The columns are **Application**, **Type** (the technology Coroot recognized, such as nginx, postgres or memcached), **Errors**, **Latency**, **Upstreams**, **Instances** (running out of desired, for example **1/1**), **Restarts**, **CPU**, **Mem**, **I/O load**, **Disk**, **Net**, **DNS** and **Logs** (for example **2 unique errors**). A dash means no value. Click an application's name to open it.
+
+### Narrow the list
+
+- **search** filters by name.
+- **namespaces** lists the environments you can see, each with its number of applications, for example **github-demo-gv35-dev (11)**. Pick some to show only those.
+
+  <Screenshot id="coroot/namespaces" alt="The namespaces menu: github-demo-gv35-dev (11)" />
+
+- The **application** and **platform-jobs** checkboxes on the right are categories. **application** is ticked by default.
+
+## An application
+
+The top of the page shows the application's name, its namespace (**ns:github-demo-gv35-dev**) and a menu with its instances. The **⋮** next to the name offers **Move the app to a category**: **a new category**, **control-plane**, **monitoring** or **platform-jobs**.
+
+<Screenshot id="coroot/app-menu" alt="The application menu: Move the app to a category, with a new category, control-plane, monitoring and platform-jobs" />
+
+Below are the tabs. A green dot on a tab means its checks pass. Each tab starts with its checks, each with the condition that would make it fail.
+
+### SLO
+
+The service's two targets:
+
+- **Availability**: fails when "the successful request percentage < 99%".
+- **Latency**: fails when "the percentage of requests served faster than 500ms < 99%". It says **no data** until requests come in.
+
+Below them, the **Client** table lists who calls the service, with **Requests**, **Latency** and **Errors**. Here the ingress (`haproxy-kubernetes-ingress`) and the platform's health checks (`k3s-agent`). The **Latency & Errors heatmap, requests per second** and **Errors, per second** follow.
+
+<Screenshot id="coroot/app-slo" alt="The SLO tab: Availability OK, Latency no data, the Client table and the heatmap" />
+
+### Instances
+
+Checks **Instance availability** (fails below 75% of the desired instances) and **Restarts** (more than 1 restart). The table lists each instance with its **Status** (for example **up (running)**), **Restarts**, **IP** and **Node**, then the **Instances** (up and desired) and **Restarts** charts.
+
+<Screenshot id="coroot/app-instances" alt="The Instances tab: Instance availability ok, Restarts ok, one instance up (running), and the Instances and Restarts charts" />
+
+### CPU
+
+Checks **Node CPU utilization** (the node above 80%) and **Container CPU utilization** (above 80% of the service's CPU limit). The charts show **CPU usage**, **CPU delay**, **Throttled time**, the node's CPU, and the **CPU consumers** on that node.
+
+<Screenshot id="coroot/app-cpu" alt="The CPU tab: Node CPU utilization ok, Container CPU utilization ok, and the CPU usage charts" />
+
+### Memory
+
+Checks **Out of Memory** (any container stopped for running out of memory), **Memory pressure** (memory stall time above 20ms per second) and **Memory leak** (memory growing by more than 10% per hour). The charts show **Memory usage** with the limit, **Memory stall time**, the node's memory and its **Memory consumers**.
+
+<Screenshot id="coroot/app-memory" alt="The Memory tab: Out of Memory ok, Memory pressure ok, Memory leak ok, and the memory charts" />
+
+### Logs
+
+Checks **Errors**: any message at the ERROR or CRITICAL level. The tab reads the service's container logs. Type a **Query** and click **Show logs**. **Messages** lists the lines, with a chart of their levels; **Patterns** groups similar lines ("No patterns found" when there's nothing to group).
+
+<Screenshot id="coroot/app-logs" alt="The Logs tab: Errors ok, Container logs, Query, Show logs, and the nginx access log lines" />
+
+### Deployments
+
+Checks **Deployment status**: a rollout taking more than 3 minutes. The table lists each version (**Deployment**, with its image, for example `nginx:latest`), when it was **Deployed**, and a **Summary** comparing it with the version before: latency, CPU and memory, and errors in the logs. A version that ran less than 30 minutes says "Not enough data due to the lifetime < 30 minutes".
+
+<Screenshot id="coroot/app-deployments" alt="The Deployments tab: Deployment status ok and the list of versions with their summaries" />
+
+### Profiling
+
+CPU and memory profiles, when there are any. For this nginx service it said "No profiles found in ClickHouse".
+
+<Screenshot id="coroot/app-profiling" alt="The Profiling tab: No profiles found in ClickHouse" />
+
+### Tracing
+
+The requests the service handled, as traces, without any change to your code: Coroot records them from the network ("Using data gathered by the eBPF tracer"). The menu switches between **OpenTelemetry (eBPF)** and **OpenTelemetry**, the traces your app sends itself when [Tracing](/observe/tracing-and-log-retention#tracing) is on.
+
+**Show error traces** and **Show latency SLO violations** narrow the list. Select an area of the heatmap to see the traces of that time, duration or status. Each row has a **Trace ID**, the **Client**, the **Status** (for example **HTTP-200**), the **Duration**, the **Name** (for example **GET**) and **Details** (the URL).
+
+<Screenshot id="coroot/app-tracing" alt="The Tracing tab: OpenTelemetry (eBPF), Show error traces, Show latency SLO violations, the heatmap and the traces of the health checks" />
+
+Some services get more tabs. A Node.js service also had **Net**, **DNS** and **Node.js**.
