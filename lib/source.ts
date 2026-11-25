@@ -20,7 +20,9 @@ const docs = defineDocs({
   },
 });
 
-const PLATFORM_URLS = ['/', '/quickstart', '/canvas', '/how-it-works', '/sign-in', '/support'];
+// Pages and sections grouped under Platform, in this order. A section matches by its overview page's URL.
+const PLATFORM_URLS = ['/', '/quickstart', '/canvas', '/how-it-works', '/sign-in', '/projects', '/billing', '/support'];
+const nodeUrl = (n: Node) => (n.type === 'page' ? n.url : n.type === 'folder' ? n.index?.url : undefined);
 
 // See https://fumadocs.dev/docs/headless/source-api for more info
 export const source = loader({
@@ -34,15 +36,15 @@ export const source = loader({
         file(node, filePath) {
           return filePath === 'index.mdx' ? { ...node, name: 'Home' } : node;
         },
-        // The loose top-level pages sit together in one Platform section (URLs unchanged).
+        // The loose top-level pages, Projects & teams and Billing sit together in one Platform section (URLs unchanged).
         root(root) {
-          const isPlatform = (n: Node) => n.type === 'page' && PLATFORM_URLS.includes(n.url);
+          const isPlatform = (n: Node) => PLATFORM_URLS.includes(nodeUrl(n) ?? '');
           const platform: Folder = {
             $id: 'platform',
             type: 'folder',
             name: 'Platform',
             icon: createElement(LayoutDashboard),
-            children: PLATFORM_URLS.flatMap((u) => root.children.filter((n) => n.type === 'page' && n.url === u)),
+            children: PLATFORM_URLS.flatMap((u) => root.children.filter((n) => nodeUrl(n) === u)),
           };
           return { ...root, children: [platform, ...root.children.filter((n) => !isPlatform(n))] };
         },
