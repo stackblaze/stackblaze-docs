@@ -3688,6 +3688,146 @@
     "capturedAt": "2026-11-24T21:41:18.374Z",
     "source": "Forgot password"
   },
+  "sso/1-page": {
+    "src": "/screenshots/sso/1-page.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T11:17:05.057Z",
+    "source": "/settings/sso"
+  },
+  "sso/10-saved": {
+    "src": "/screenshots/sso/10-saved.png",
+    "width": 579,
+    "height": 629,
+    "capturedAt": "2026-11-25T11:19:32.431Z",
+    "source": "/settings/sso"
+  },
+  "sso/11-saml-form": {
+    "src": "/screenshots/sso/11-saml-form.png",
+    "width": 579,
+    "height": 649,
+    "capturedAt": "2026-11-25T11:25:04.213Z",
+    "source": "/settings/sso"
+  },
+  "sso/11-saml-register": {
+    "src": "/screenshots/sso/11-saml-register.png",
+    "width": 579,
+    "height": 403,
+    "capturedAt": "2026-11-25T11:25:03.466Z",
+    "source": "/settings/sso"
+  },
+  "sso/12-domain-invalid": {
+    "src": "/screenshots/sso/12-domain-invalid.png",
+    "width": 631,
+    "height": 234,
+    "capturedAt": "2026-11-25T11:20:06.772Z",
+    "source": "/settings/sso"
+  },
+  "sso/13-domain-added": {
+    "src": "/screenshots/sso/13-domain-added.png",
+    "width": 627,
+    "height": 567,
+    "capturedAt": "2026-11-25T11:20:10.325Z",
+    "source": "/settings/sso"
+  },
+  "sso/14-domain-verify": {
+    "src": "/screenshots/sso/14-domain-verify.png",
+    "width": 627,
+    "height": 686,
+    "capturedAt": "2026-11-25T11:20:16.280Z",
+    "source": "/settings/sso"
+  },
+  "sso/15-enable-blocked": {
+    "src": "/screenshots/sso/15-enable-blocked.png",
+    "width": 579,
+    "height": 202,
+    "capturedAt": "2026-11-25T11:20:18.009Z",
+    "source": "/settings/sso"
+  },
+  "sso/16-enforcement": {
+    "src": "/screenshots/sso/16-enforcement.png",
+    "width": 304,
+    "height": 525,
+    "capturedAt": "2026-11-25T11:20:37.610Z",
+    "source": "/settings/sso"
+  },
+  "sso/17-default-role": {
+    "src": "/screenshots/sso/17-default-role.png",
+    "width": 1002,
+    "height": 348,
+    "capturedAt": "2026-11-25T11:21:01.813Z",
+    "source": "/settings/sso"
+  },
+  "sso/18-role-saved": {
+    "src": "/screenshots/sso/18-role-saved.png",
+    "width": 956,
+    "height": 274,
+    "capturedAt": "2026-11-25T11:21:05.968Z",
+    "source": "/settings/sso"
+  },
+  "sso/19-after-delete": {
+    "src": "/screenshots/sso/19-after-delete.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T11:25:57.155Z",
+    "source": "/settings/sso"
+  },
+  "sso/2-step1": {
+    "src": "/screenshots/sso/2-step1.png",
+    "width": 579,
+    "height": 296,
+    "capturedAt": "2026-11-25T11:17:07.046Z",
+    "source": "/settings/sso"
+  },
+  "sso/3-protocol": {
+    "src": "/screenshots/sso/3-protocol.png",
+    "width": 307,
+    "height": 160,
+    "capturedAt": "2026-11-25T11:17:09.149Z",
+    "source": "/settings/sso"
+  },
+  "sso/4-oidc-register": {
+    "src": "/screenshots/sso/4-oidc-register.png",
+    "width": 579,
+    "height": 366,
+    "capturedAt": "2026-11-25T11:17:10.840Z",
+    "source": "/settings/sso"
+  },
+  "sso/5-draft-row": {
+    "src": "/screenshots/sso/5-draft-row.png",
+    "width": 609,
+    "height": 127,
+    "capturedAt": "2026-11-25T11:17:15.271Z",
+    "source": "/settings/sso"
+  },
+  "sso/5-redirect-uri": {
+    "src": "/screenshots/sso/5-redirect-uri.png",
+    "width": 579,
+    "height": 381,
+    "capturedAt": "2026-11-25T11:17:14.696Z",
+    "source": "/settings/sso"
+  },
+  "sso/6-idp-empty": {
+    "src": "/screenshots/sso/6-idp-empty.png",
+    "width": 579,
+    "height": 340,
+    "capturedAt": "2026-11-25T11:19:09.092Z",
+    "source": "/settings/sso"
+  },
+  "sso/8-test-fail": {
+    "src": "/screenshots/sso/8-test-fail.png",
+    "width": 579,
+    "height": 624,
+    "capturedAt": "2026-11-25T11:19:19.618Z",
+    "source": "/settings/sso"
+  },
+  "sso/9-test-pass": {
+    "src": "/screenshots/sso/9-test-pass.png",
+    "width": 579,
+    "height": 603,
+    "capturedAt": "2026-11-25T11:19:28.573Z",
+    "source": "/settings/sso"
+  },
   "stacks/1-list": {
     "src": "/screenshots/stacks/1-list.png",
     "width": 1440,

@@ -6,6 +6,7 @@
     "ssh-keys",
     "api-tokens",
     "account-security",
+    "single-sign-on",
     "audit-log"
   ],
   "icon": "ShieldCheck"

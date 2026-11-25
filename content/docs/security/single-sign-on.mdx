@@ -1,0 +1,175 @@
+---
+title: Single sign-on
+description: Connect your identity provider with OpenID Connect or SAML 2.0, claim your email domain, choose the role new members get, and see what Require SSO does.
+---
+
+Single sign-on lets your team sign in to StackBlaze with their work accounts from your identity provider (IdP). You set it up in **Settings → SSO & provisioning**. It's included on the **Business** plan. On other plans the page is locked (see [Members and roles](/projects/members-and-roles#single-sign-on)).
+
+Setting it up takes four steps: create a connection, register StackBlaze at your IdP, enter the IdP's details, then turn sign-in on. Sign-in can only be turned on once you've verified an email domain by DNS. Until then, nothing changes for anyone signing in.
+
+## Open SSO & provisioning
+
+Click **Settings** in the sidebar, then **SSO & provisioning**. The page has two tabs: **SSO** and **Provisioning**.
+
+With nothing set up, **Connect an identity provider** says **No identity providers connected**, **Login domains** says "No domains added yet." and **Enforcement** has **Require SSO** off.
+
+<Screenshot id="sso/1-page" alt="SSO & provisioning: Connect an identity provider with No identity providers connected and Add provider, Login domains with No domains added yet, and Enforcement with Require SSO off" />
+
+## Connect an identity provider
+
+We connected a test identity provider over OpenID Connect (OIDC). It had one app registered, with a client ID and secret.
+
+<Steps>
+
+<Step>
+
+### Create the connection
+
+Click **Add provider**. The four setup steps open below. **Close** hides them again.
+
+Step 1, **Create the connection**, has **Protocol** and **Display name** (placeholder "Okta, Entra ID, ..."). The connection is created switched off. You turn it on in step 4.
+
+<Screenshot id="sso/2-step1" alt="Step 1, Create the connection: Protocol SAML 2.0, Display name, and Create connection" />
+
+**Protocol** offers **SAML 2.0** (the default) and **OpenID Connect (OIDC)**.
+
+<Screenshot id="sso/3-protocol" alt="The Protocol list: SAML 2.0 and OpenID Connect (OIDC)" />
+
+Until you save step 1, step 2 tells you what your IdP needs for the protocol you picked. For **OpenID Connect (OIDC)**: "Grant type: authorization code with PKCE. Scopes: `openid email profile`. The ID token (or UserInfo) must include the user's email."
+
+<Screenshot id="sso/4-oidc-register" alt="Step 2 for OIDC before saving: Save step 1 to get your callback URL, grant type authorization code with PKCE, scopes openid email profile" />
+
+We picked **OpenID Connect (OIDC)**, named it `Dex test IdP` and clicked **Create connection**. "SSO connection created" appeared.
+
+The connection now has a row at the top of the card: its name, protocol and status. Ours read **Draft**: "Saved but switched off. Enable sign-in through this provider to go live." The button on the row reads **Edit** when the steps are hidden and **Close** when they're open.
+
+<Screenshot id="sso/5-draft-row" alt="The connection row: Dex test IdP, OpenID Connect (OIDC), Draft, and Saved but switched off" />
+
+</Step>
+
+<Step>
+
+### Register StackBlaze at your identity provider
+
+Step 2 now shows the value to enter at your IdP, with a copy button. For OIDC it's the **Redirect URI**, a URL ending in `/api/auth/sso/<connection id>/callback`. Create a web app at your IdP and add this redirect URI to it. The IdP gives you the client ID and client secret for step 3.
+
+<Screenshot id="sso/5-redirect-uri" alt="Step 2, Register StackBlaze at your identity provider: Ready, with the Redirect URI and a copy button" />
+
+For **SAML 2.0**, step 2 shows two values instead: **ACS / Reply URL** (the same callback URL) and **SP Entity ID / Audience**, which is `urn:stackblaze:sso`. Your IdP must send the user's email as the NameID or as an email attribute, and sign its assertions.
+
+<Screenshot id="sso/11-saml-register" alt="Step 2 for SAML: ACS / Reply URL, SP Entity ID / Audience urn:stackblaze:sso, and the NameID and signing requirements" />
+
+</Step>
+
+<Step>
+
+### Enter your identity provider's details
+
+For OIDC, step 3 has **Issuer URL** (placeholder `https://your-idp/oauth2/default`), **Client ID** and **Client secret**. StackBlaze finds your IdP's endpoints from the issuer's `/.well-known/openid-configuration`.
+
+<Screenshot id="sso/6-idp-empty" alt="Step 3, Identity provider details: Issuer URL, Client ID, Client secret, Test connection and Save details" />
+
+**Test connection** checks what you've typed, without saving it. It lists each check as passed, failed, a warning or skipped:
+
+- **Callback URL**: the redirect URI is configured.
+- **Required fields**: all the fields are filled in.
+- **HTTPS endpoints**: the endpoints use https.
+- **Verified login domain**: a warning until you verify a domain (see [Claim a login domain](#claim-a-login-domain)).
+- **OpenID discovery**: the issuer serves OpenID discovery.
+- **Client ID and secret**: skipped. Only your IdP checks them, during a real sign-in.
+
+We first tested with an issuer URL that isn't an identity provider. The summary read "1 check failed. Fix it before enabling sign-in.", and **OpenID discovery** said "OIDC discovery failed: the issuer URL must be a public https:// URL serving /.well-known/openid-configuration".
+
+<Screenshot id="sso/8-test-fail" alt="Test connection with a wrong issuer: 1 check failed, OpenID discovery failed" />
+
+With our IdP's issuer URL, the summary read "No check failed, 1 warning." The warning was the missing verified domain.
+
+<Screenshot id="sso/9-test-pass" alt="Test connection with the right issuer: No check failed, 1 warning; OpenID discovery passes" />
+
+Click **Save details**. "SSO connection saved" appears and step 3 shows **Done**. The secret is stored: **Client secret** shows **on file** and "Leave blank to keep the stored secret." Type a new secret only to replace it.
+
+<Screenshot id="sso/10-saved" alt="Step 3 saved: Done, Client secret on file, Leave blank to keep the stored secret" />
+
+**Save details** also saves with fields left empty. Step 4 then lists the missing ones, for example "missing: issuer URL, client ID, client secret".
+
+For **SAML 2.0**, step 3 has **IdP metadata URL** (placeholder `https://your-idp/app/metadata`). Paste it and StackBlaze fills in the sign-on URL, issuer and signing certificate when you save. Under **Manual configuration** you can enter them yourself: **Sign-on URL (entryPoint)**, **IdP issuer / entity ID** and **Signing certificate (X.509)**.
+
+<Screenshot id="sso/11-saml-form" alt="Step 3 for SAML: IdP metadata URL, and under Manual configuration Sign-on URL (entryPoint), IdP issuer / entity ID and Signing certificate (X.509)" />
+
+</Step>
+
+<Step>
+
+### Turn sign-in on
+
+Step 4, **Enable sign-in**, routes members on your verified domains to this provider when they sign in. The switch **Enable sign-in through this provider** stays off and greyed out until everything it needs is in place. Underneath, "You can turn this on once:" lists what's missing. With our connection saved, one thing was left: "Verify at least one login domain (Login domains)."
+
+<Screenshot id="sso/15-enable-blocked" alt="Step 4, Enable sign-in: Off, the switch greyed out, and You can turn this on once: Verify at least one login domain" />
+
+</Step>
+
+</Steps>
+
+### Change the protocol
+
+You can switch **Protocol** on an existing connection. A warning appears: switching re-points the connection at a different IdP. Saving it switches sign-in off, so you have to add the new IdP's details in step 3 and turn sign-in on again. Members must sign in through it again before **Require SSO** counts them. We switched to **SAML 2.0** to see the SAML form, then reloaded the page without saving. The connection was still OIDC.
+
+## Claim a login domain
+
+**Login domains** sends members whose email is on a verified domain to your IdP at sign-in. A domain only takes effect once you've verified it by DNS.
+
+Type the domain, like `acme.com`, and click **Add domain**. Text that isn't a domain shows "Enter a domain like acme.com".
+
+<Screenshot id="sso/12-domain-invalid" alt="Login domains: not a domain typed, and the error Enter a domain like acme.com" />
+
+We added `example.com`. It appeared as **Pending**, with **Verify** and **Remove**, and the card showed **Not verified**. Under it is the DNS record to add, with a copy button for each part:
+
+- **Type**: `TXT`
+- **Host**: `_stackblaze-sso-challenge`. If your DNS provider asks for the full name, use `_stackblaze-sso-challenge.example.com`.
+- **Value**: `stackblaze-sso-verification=` followed by a token for your organization.
+
+You have 7 days to verify. Ours read "Verify within 6 days 23 hours. After that, another organization that adds this domain can take over the claim." A domain can only belong to one organization.
+
+<Screenshot id="sso/13-domain-added" alt="example.com Pending, with Verify and Remove, the TXT record's Type, Host and Value, and Verify within 6 days 23 hours" />
+
+Add the record at your DNS provider, then click **Verify**. We didn't add one, so **Verify** said "The TXT record was not found yet", with the name and value it looked for: "Check it at your DNS provider, then retry; DNS changes can take a few minutes to show up."
+
+<Screenshot id="sso/14-domain-verify" alt="Verify without the record: The TXT record was not found yet, with the record name and value" />
+
+<Callout type="info">
+We couldn't verify a domain for this guide, because that needs a DNS record on a domain you own. So we didn't turn sign-in on, sign in through the IdP or see a member provisioned. Those parts aren't described here.
+</Callout>
+
+**Remove** takes the domain off the list straight away, without asking first.
+
+## Require SSO
+
+The **Enforcement** card has **Require SSO**. As the card explains, it applies to members of this organization on its verified domains. They can still sign in to StackBlaze another way, but they can't open this organization without signing in through your IdP. Guests on other domains aren't affected. API tokens those members created before you switch it on, or not from an SSO sign-in, stop working for this organization.
+
+The switch needs an enabled connection, so it was off and greyed out for us. StackBlaze platform administrators can always open your organization, so support can help if your IdP is down.
+
+<Screenshot id="sso/16-enforcement" alt="Enforcement: Require SSO, its explanation, the switch off, and the note that platform administrators can always open the organization" />
+
+<Callout type="warn">
+**Require SSO** decides who can open the organization. Turn it on only once sign-in through your IdP works for your members.
+</Callout>
+
+## Choose the role for new members
+
+Open the **Provisioning** tab. **Just-in-time provisioning** gives people on your verified domains an account in this organization the first time they sign in through your IdP.
+
+**Default role for new members** decides the role they get. It offers **Member (default)** and your organization's roles. Ours had **admin**, **member** and **guest**. It's "Applied when someone from a verified domain signs in for the first time. Existing members keep their role."
+
+<Screenshot id="sso/17-default-role" alt="Just-in-time provisioning: Default role for new members, with Member (default), admin, member and guest" />
+
+Pick a role and click **Save changes**. "SSO connection saved" appears. Until there's a connection, the card says "Connect an identity provider first." and **Save changes** is greyed out. **Save changes** also stays greyed out until you change the role. We chose **guest** and saved it, then set it back to **Member (default)**.
+
+<Screenshot id="sso/18-role-saved" alt="Default role for new members set to guest, after Save changes" />
+
+## Delete the connection
+
+Click **Edit**, then **Delete** in step 1. Your browser asks "Delete this SSO connection? Members will fall back to password / social login. Login domains are kept." Confirm, and "SSO connection deleted" appears. Domains stay on the list until you remove them.
+
+After we removed `example.com` and deleted the connection, the page was back to **No identity providers connected**.
+
+<Screenshot id="sso/19-after-delete" alt="SSO & provisioning after deleting: No identity providers connected and No domains added yet" />
