@@ -1,6 +1,6 @@
 ---
 title: Volumes
-description: Give a service a disk that keeps its files across restarts and deploys, choose its size and where it's mounted, and remove it.
+description: Give a service a disk that keeps its files across restarts and deploys, choose its size and where it's mounted, grow it, and remove it.
 ---
 
 A service's own filesystem starts fresh on every restart and deploy. A **volume** is a disk that keeps its files. Open a service, click **Settings**, then **Storage**:
@@ -49,11 +49,72 @@ Once the new version is running, the volume is mounted at its path. We wrote a f
 
 ## Once it's in use
 
-After it's deployed, the volume is marked **In use**. Its **Name** and **Size** can't be changed any more; the **Mount Path** can.
+After it's deployed, the volume is marked **In use**. Its **Name** can't be changed any more. The **Mount Path** can, and the **Size** can only grow: see [Increase the size](#increase-the-size).
 
-<Screenshot id="settings/volume-in-use" alt="The data volume marked In use, with Name and Size greyed out" />
+<Screenshot id="settings/volume-in-use" alt="The data volume marked In use" />
 
 Volumes are included in the environment's recovery points when backups are on. See [Environment backups](/data/environment-backups).
+
+## Increase the size
+
+A volume in use can be made bigger while the service keeps running. It can't be made smaller.
+
+<Steps>
+
+<Step>
+
+### Pick a larger size
+
+Open **Settings**, then **Storage**. The **Size** menu of a volume in use lists its size, marked **(current)**, and the larger sizes only. Under it:
+
+> Volumes can only grow. Expansion depends on the storage class.
+
+Pick the new size, for example **10 GB** for a 5 GB volume.
+
+</Step>
+
+<Step>
+
+### Commit and deploy
+
+Click **Commit 1 change**, then **Deploy 1 change**. A **Growing volume** message names the volume and both sizes, for example **data 5Gi → 10Gi**.
+
+</Step>
+
+<Step>
+
+### Watch it grow
+
+The service isn't restarted. While the volume grows, the line under the **Size** menu shows how far it has got:
+
+- **Growing to 10Gi (now 5Gi)…** while the disk is being made bigger;
+- **Disk grown to 10Gi; the filesystem grows next (no restart needed).** while the service's filesystem catches up.
+
+The line goes away when the volume is at its new size. The page checks every few seconds, so you don't need to reload it.
+
+</Step>
+
+</Steps>
+
+### If it can't grow
+
+- If the volume's storage class can't grow volumes in place, the **Size** menu is greyed out and says why, for example **Storage class "…" cannot grow volumes in place.**
+- If the new size is saved but the disk couldn't be grown straight away, a **Volume not grown yet** message gives the reason. The new size is applied the next time the platform updates the service.
+- If growing fails, the line under the menu turns red: **Resize to 10Gi failed:** followed by the reason.
+
+A bigger volume is billed at its new size from then on. See [Billing](#billing).
+
+### From the CLI
+
+```sh
+stackblaze volume resize data --size 10Gi -p shop -e dev -a web
+```
+
+```text
+OK Growing volume data 5Gi → 10Gi on shop/dev/web (no restart)
+```
+
+`stackblaze volume grow` does the same. The CLI refuses a smaller size (`volumes can only grow, not shrink to 2Gi`). If the volume is already that size, it says so and changes nothing.
 
 ## Snapshots from the CLI
 

@@ -64,6 +64,45 @@ console.log('   ', (await storage().innerText()).replace(/\s+/g, ' '));
 console.log('   name disabled', await page.locator('#vol-name-0').isDisabled(), '| size disabled', await page.locator('#vol-size-0').isDisabled(), '| mount disabled', await page.locator('#vol-mp-0').isDisabled());
 await c.shot('settings/volume-in-use', { locator: '[data-settings-section="storage"]' });
 
+
+console.log('5b. Grow it: 5 GB → 10 GB');
+await page.locator('#vol-size-0').click();
+await page.getByRole('option').first().waitFor();
+console.log('   grow sizes:', await page.getByRole('option').allInnerTexts());
+await c.shot('settings/volume-grow-sizes', { around: [storage().locator('#vol-size-0'), page.getByRole('option').first(), page.getByRole('option').nth(4)], pad: 12 });
+await page.getByRole('option', { name: '10 GB', exact: true }).click();
+await page.waitForTimeout(400);
+await c.shot('settings/volume-grow', { locator: '[data-settings-section="storage"]' });
+{
+  const commit = page.getByRole('button', { name: /^Commit \d+ changes?/ });
+  await commit.click();
+  await page.getByText(/change(s)? to apply/).first().waitFor();
+  await page.getByPlaceholder('How these releases appear in the history').fill('Grow the data volume to 10 GB');
+  console.log('   commit dialog:', (await h.dialog().innerText()).replace(/\s+/g, ' ').slice(0, 400));
+  await c.shot('settings/volume-grow-commit', { locator: '[data-slot=dialog-content]' });
+  await h.dialog().getByRole('button', { name: /^Deploy \d+ changes?/ }).click();
+  const toast = page.locator('[data-sonner-toast]').filter({ hasText: /Growing volume|not grown yet/ }).first();
+  await toast.waitFor({ timeout: 60000 });
+  console.log('   toast:', (await toast.innerText()).replace(/\s+/g, ' '));
+  await c.shot('settings/volume-grow-toast', { locator: toast });
+  await page.getByText(/change(s)? to apply/).first().waitFor({ state: 'hidden', timeout: 120000 });
+}
+const line = page.locator('[data-volume-size-note="data"]');
+for (let i = 0; i < 40; i++) {
+  const t = (await line.innerText().catch(() => '')).replace(/\s+/g, ' ');
+  console.log('   note:', t);
+  if (/Growing to|filesystem grows next/.test(t)) { await c.shot('settings/volume-growing', { locator: '[data-settings-section="storage"]' }).catch(() => {}); }
+  if (!/Growing to|filesystem grows next/.test(t) && i > 2) break;
+  await page.waitForTimeout(5000);
+}
+s = await h.spec();
+console.log('   saved:', JSON.stringify(s.extraVolumes));
+await h.openSettings();
+await h.jump('Storage');
+console.log('   after:', (await storage().innerText()).replace(/\s+/g, ' '));
+await c.shot('settings/volume-grown', { locator: '[data-settings-section="storage"]' });
+c.checkpoint();
+
 console.log('6. Remove → confirm → deploy');
 page.once('dialog', async (d) => { console.log('   confirm:', d.message()); await d.accept(); });
 await storage().getByRole('button', { name: /Remove/ }).first().click();
