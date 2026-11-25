@@ -1,6 +1,5 @@
 {
   "title": "Configure services",
-  "defaultOpen": true,
   "pages": [
     "environment-variables",
     "shared-variables",
@@ -10,5 +9,6 @@
     "scaling",
     "service-actions",
     "terminal-and-ssh"
-  ]
+  ],
+  "icon": "SlidersHorizontal"
 }

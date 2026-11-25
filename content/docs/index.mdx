@@ -3,26 +3,28 @@ title: StackBlaze Docs
 description: Deploy apps, databases and AI services on StackBlaze.
 ---
 
-<Cards>
-  <Card title="Quick start" href="/quickstart" description="Create a project and get your first app running in a few minutes." />
-  <Card title="The canvas" href="/canvas" description="Your environment's services on one page, and how changes are staged and deployed." />
-  <Card title="Deploy from GitHub" href="/build-deploy/deploy-from-github" description="Build and deploy an app from a repository." />
-  <Card title="Deploy a Docker image" href="/build-deploy/deploy-docker-image" description="Run any public image, from Docker Hub or another registry." />
-</Cards>
+<FeatureCards>
+  <FeatureCard tint="amber" icon="Rocket" title="Quick Start" href="/quickstart" description="Create a project and put a public Docker image on the internet, from the dashboard, in a few clicks." />
+  <FeatureCard tint="indigo" icon="Sparkles" title="AI" href="/ai" description="Ask the built-in agent, run open models on GPUs, build AI agents, and use StackBlaze from your AI coding tool." />
+  <FeatureCard tint="rose" icon="SquareTerminal" title="CLI" href="/cli" description="Deploy a folder, manage apps, databases and environments, and read logs from your terminal." />
+  <FeatureCard tint="emerald" icon="LayoutTemplate" title="Templates" href="/build-deploy/templates" description="One-click apps from the StackBlaze catalog, deployed together with the databases and add-ons they need." />
+</FeatureCards>
 
-## Everything else
+## Explore the docs
 
-<Cards>
-  <Card title="Projects and environments" href="/projects" description="Organizations, projects, environments, settings and infrastructure as code." />
-  <Card title="Configure a service" href="/configure" description="Variables, visibility, domains, health checks, scaling, volumes and networking." />
-  <Card title="Databases" href="/data/databases/postgresql" description="PostgreSQL, MariaDB and Valkey, connected to your apps, with backups." />
-  <Card title="Add-ons" href="/addons/email" description="Email, scheduled tasks, Memcached and ProxySQL." />
-  <Card title="AI" href="/ai/coding-tools" description="Ask Agent, AI models on GPUs, AI agents, and the MCP server for your coding tool." />
-  <Card title="Functions and sandboxes" href="/build-deploy/functions" description="One-file functions and isolated developer sandboxes." />
-  <Card title="Observe" href="/build-deploy/deployments" description="Deployments, logs, metrics and notifications." />
-  <Card title="Team and billing" href="/projects/members-and-roles" description="Members and roles, API tokens, SSH keys, plans and usage." />
-  <Card title="CLI" href="/cli" description="Deploy a folder and manage everything from the terminal." />
-</Cards>
+<SectionCards>
+  <SectionCard icon="Package" title="Build & deploy" href="/build-deploy" description="Every way to get code or an image running, plus releases, previews and infrastructure as code." />
+  <SectionCard icon="SlidersHorizontal" title="Configure services" href="/configure" description="What a service's Settings tab holds: variables, start command, builds, health checks and scaling." />
+  <SectionCard icon="Database" title="Data & storage" href="/data" description="Databases, volumes and backups for the services in an environment." />
+  <SectionCard icon="Puzzle" title="Add-ons" href="/addons/email" description="Email, scheduled tasks, Memcached, ProxySQL and Kafka." />
+  <SectionCard icon="Network" title="Networking" href="/networking" description="Who can reach a service, on which address, and with which rules." />
+  <SectionCard icon="Activity" title="Observability" href="/observe" description="Logs, metrics, traces and notifications for your services." />
+  <SectionCard icon="ShieldCheck" title="Security" href="/security" description="Private images, image scans, keys and tokens, account protection and the audit log." />
+  <SectionCard icon="FolderKanban" title="Projects & teams" href="/projects" description="How organizations, projects, environments and members fit together." />
+  <SectionCard icon="CreditCard" title="Billing" href="/billing" description="Your plan and what it includes, how you pay, support plans and invoices." />
+  <SectionCard icon="LayoutDashboard" title="The canvas" href="/canvas" description="Your environment's services on one page, and how changes are staged, committed and deployed." />
+  <SectionCard icon="LifeBuoy" title="Support" href="/support" description="Ask the StackBlaze team for help with billing, your account or an app, and follow your requests." />
+</SectionCards>
 
 ## Deploy an app in minutes
 

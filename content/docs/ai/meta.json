@@ -1,11 +1,11 @@
 {
   "title": "AI",
-  "defaultOpen": true,
   "pages": [
     "ask-agent",
     "models",
     "agents",
     "agent-gateway",
     "coding-tools"
-  ]
+  ],
+  "icon": "Sparkles"
 }

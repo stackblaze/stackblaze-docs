@@ -1,10 +1,10 @@
 {
   "title": "Networking",
-  "defaultOpen": true,
   "pages": [
     "visibility",
     "custom-domains",
     "basic-auth",
     "advanced-networking"
-  ]
+  ],
+  "icon": "Network"
 }

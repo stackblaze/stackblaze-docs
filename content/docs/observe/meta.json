@@ -1,11 +1,11 @@
 {
   "title": "Observability",
-  "defaultOpen": true,
   "pages": [
     "logs",
     "log-drains",
     "metrics",
     "tracing-and-log-retention",
     "notifications"
-  ]
+  ],
+  "icon": "Activity"
 }

@@ -1,6 +1,5 @@
 {
   "title": "Security",
-  "defaultOpen": true,
   "pages": [
     "vulnerability-scans",
     "private-registry",
@@ -8,5 +7,6 @@
     "api-tokens",
     "account-security",
     "audit-log"
-  ]
+  ],
+  "icon": "ShieldCheck"
 }

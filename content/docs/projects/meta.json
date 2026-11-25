@@ -1,11 +1,11 @@
 {
   "title": "Projects & teams",
-  "defaultOpen": true,
   "pages": [
     "environments",
     "project-settings",
     "organizations",
     "members-and-roles",
     "integrations"
-  ]
+  ],
+  "icon": "FolderKanban"
 }

@@ -1,6 +1,5 @@
 {
   "title": "Build & deploy",
-  "defaultOpen": true,
   "pages": [
     "deploy-docker-image",
     "deploy-from-github",
@@ -11,5 +10,6 @@
     "deployments",
     "preview-environments",
     "infrastructure-as-code"
-  ]
+  ],
+  "icon": "Package"
 }
