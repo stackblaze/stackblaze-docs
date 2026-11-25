@@ -8,7 +8,7 @@ Besides the team chat page, an [AI agent](/ai/agents) can be reached four ways: 
 Click the agent's card on the canvas to open its sheet.
 
 <Callout>
-API keys and webhooks are saved as soon as you create or revoke them, and the agent restarts to pick them up. This takes about a minute. Until it has restarted, a new key is refused and a revoked key or webhook still works. Schedules and the widget are staged: click **Stage changes**, then deploy them from the canvas like any other change.
+API keys and webhooks take effect as soon as you create or revoke them. When we tried it, a new key and a new webhook worked on the first call, and after revoking them both were refused within a second. An agent created before this change, or one that can't be reached at that moment, picks the change up when it restarts instead, which takes about a minute. Schedules and the widget are staged: click **Stage changes**, then deploy them from the canvas like any other change.
 </Callout>
 
 ## Call it from your code
