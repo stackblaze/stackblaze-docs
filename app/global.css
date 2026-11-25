@@ -12,9 +12,7 @@ html > body[data-scroll-locked] {
 }
 
 /* StackBlaze accent on the neutral theme (website: violet-600 / --primary 263 70% 50%). */
-/* Sidebar from the left edge; a 900px text column with the outline right beside it. */
 :root {
-  --fd-layout-width: 1500px;
   --color-fd-primary: hsl(263 70% 50%);
   --color-fd-primary-foreground: hsl(0 0% 100%);
   --color-fd-ring: hsl(263 70% 50%);
@@ -22,4 +20,15 @@ html > body[data-scroll-locked] {
 .dark {
   --color-fd-primary: hsl(263 70% 72%);
   --color-fd-primary-foreground: hsl(258 30% 6%);
+}
+
+/* Full-width layout: the sidebar against the left edge, the header across the
+   whole window, and a 900px text column (plus its padding) with the outline
+   right beside it, centered in the space that is left. */
+#nd-notebook-layout {
+  grid-template:
+    'sidebar header header header header'
+    'sidebar toc-popover toc-popover toc-popover toc-popover'
+    'sidebar . main toc .' 1fr
+    / var(--fd-sidebar-col) minmax(0, 1fr) minmax(0, 964px) var(--fd-toc-col) minmax(0, 1fr) !important;
 }
