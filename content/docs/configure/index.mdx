@@ -40,3 +40,16 @@ A [function](/build-deploy/functions) has a much shorter Settings tab: **Schedul
 - **Scale**: instances, autoscale and sleep mode. Scaling covers instances and autoscale. See [Scaling](/configure/scaling).
 - **Storage**: **Volumes**, a shared (RWX) filesystem that every instance mounts. See [Volumes](/data/volumes) and [Browse volume files](/data/volumes/browse-files).
 - **Scans**: **Vulnerability scans** of the service's image after every deploy; see [Vulnerability scans](/security/vulnerability-scans). **Tracing**: OpenTelemetry traces. **Logs**: **Log retention**, how far back the logs can be searched (read-only; it comes from your plan). See [Tracing and log retention](/observe/tracing-and-log-retention).
+
+## In this section
+
+<SectionCards>
+  <SectionCard icon="Variable" title="Environment variables" href="/configure/environment-variables" description="Add a variable to a service, commit the change and deploy it." />
+  <SectionCard icon="Link" title="Shared variables" href="/configure/shared-variables" description="Keep variables that several services need in one group, and link the group to each service." />
+  <SectionCard icon="Play" title="Start command" href="/configure/start-and-build" description="Override the command a Docker image service starts with, and go back to the image default." />
+  <SectionCard icon="Hammer" title="Source and build" href="/configure/source-and-build" description="For a service built from a git repository, pick its repository and branch, how it's built, and a custom build command." />
+  <SectionCard icon="HeartPulse" title="Health checks" href="/configure/health-checks" description="The HTTP check a new version of a web service must pass before it gets traffic." />
+  <SectionCard icon="Gauge" title="Scaling" href="/configure/scaling" description="Set how many instances of a service run, let it autoscale on CPU or memory." />
+  <SectionCard icon="MousePointerClick" title="Service actions" href="/configure/service-actions" description="Restart, pause, resume, rename or delete a running service from its card menu." />
+  <SectionCard icon="SquareTerminal" title="Terminal and SSH" href="/configure/terminal-and-ssh" description="Open a shell in a running service from the dashboard, the CLI, or your own ssh client." />
+</SectionCards>
