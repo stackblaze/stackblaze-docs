@@ -322,10 +322,6 @@ $ stackblaze addons backups list timescaledb-ufmk -p <project> -e dev -a <app>
 
 `stackblaze addons backups status <instance>` shows whether the environment's scheduled backups cover the database.
 
-<Callout type="warn">
-Restoring a TimescaleDB dump as a new database (`stackblaze addons backups restore`) doesn't bring the data back yet. When we tried it, the new database was created on the TimescaleDB image, but the restore job failed and `conditions` came back as an empty table that wasn't a hypertable. Check a restored copy before you move apps onto it.
-</Callout>
-
 ## Delete
 
 **Delete add-on**, at the bottom of **Settings**, deletes the database and its data. While apps are connected it says "Disconnect all apps first.": turn their switches off in **Connections** and deploy the change, then click **Delete**.
