@@ -357,40 +357,7 @@ Examples:
   $ stackblaze addons import dump.sql --local -a web
 ```
 
-## addons export
-
-```text
-Usage: stackblaze addons export [options] [addon]
-
-pg_dump -Fc a PostgreSQL add-on to a Storage bucket add-on of the environment,
-inside the cluster
-
-Options:
-  --api-url <url>        StackBlaze API base URL (env STACKBLAZE_API_URL)
-  --token <token>        API token, sb_pat_... (env STACKBLAZE_TOKEN)
-  -p, --project <name>   Project name
-  -e, --env <name>       Environment name (default: production)
-  -a, --app <name>       App name
-  --json                 Output JSON (same as -o json) (default: false)
-  --to <s3-uri>          Where the dump goes: s3://<bucket>/<key>, <bucket> a
-                         Storage bucket add-on of the environment
-  --addon <name>         Database add-on (instance or name); same as the
-                         [addon] argument
-  --instance <name>      Addon instance when multiple match
-  --wait                 Follow the export to its end (default: false)
-  --timeout <seconds>    Max --wait time; the export carries on after it (0 =
-                         no limit) (default: "21600")
-  -o, --output <format>  Output format: text or json (choices: "text", "json")
-  -h, --help             Print help
-
-<bucket> is the name of a Storage bucket add-on of the same environment;
-other S3 buckets are not supported. The dump is a pg_dump custom-format
-archive of the add-on's database, checked (pg_restore -l) before it is
-uploaded; `addons import s3://…` loads it into another add-on. Counts as a database dump for your plan.
-
-Examples:
-  $ stackblaze addons export postgres -p shop --to s3://files/dumps/shop.dump --wait
-```
+Importing from an `s3://` source needs a Storage bucket add-on, which isn't available yet.
 
 ## addons expose
 
