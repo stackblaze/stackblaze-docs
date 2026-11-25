@@ -3,6 +3,7 @@
   "pages": [
     "index",
     "environments",
+    "preview-environments",
     "project-settings",
     "organizations",
     "infrastructure-as-code"

@@ -1,0 +1,150 @@
+---
+title: Preview environments
+description: Every pull request gets its own temporary copy of your app, with its own address, rebuilt on every push and removed when the pull request is closed.
+---
+
+A preview environment is a temporary environment for one pull request. It's named `pr-<number>` and copied from the environment that deploys the pull request's target branch. You can try the change at its own address before you merge it.
+
+This guide uses a project whose **Dev** environment deploys a repository's `main` branch. A pull request into `main` changes the page's heading.
+
+<Callout type="info">
+Previews need the StackBlaze GitHub App, because it's how StackBlaze sees pull requests. Connect it from an app's **Build** settings.
+</Callout>
+
+<Steps>
+
+<Step>
+
+### Turn on previews for the project
+
+Open **Project settings → General**. In **Preview environments**, previews start turned off.
+
+<Screenshot id="projects/prev-1-off" alt="Preview environments with Create previews for pull requests switched off" />
+
+Turn on **Create previews for pull requests** and click **Save changes**. The card shows **Saved.**
+
+<Screenshot id="projects/prev-2-on" alt="Preview environments switched on: Every pull request, Bot pull requests off, Delete after 7 days without a push, Data starts empty" />
+
+The defaults are:
+
+- **Pull requests**: **Every pull request**. Skip one with the `no-preview` label or `[skip preview]` in its title.
+- **Bot pull requests**: off.
+- **Delete after**: **7** days without a push.
+
+Every option, including **Only when asked for**, seed commands and variable rules, is described in [Project settings → Preview environments](/projects/project-settings#preview-environments).
+
+The project here has only **Dev**, **Stage** and **Production**: previews don't need an environment of their own. Each one is made when its pull request is opened.
+
+</Step>
+
+<Step>
+
+### Open a pull request
+
+Push a branch and open a pull request into the branch your environment deploys, here `main`.
+
+Within about half a minute, the preview is in the environment menu, under **Previews**. It shows the pull request number, its title, and how long ago it was made.
+
+<Screenshot id="projects/prev-3-switcher" alt="The environment menu: Dev, Stage, Production, and under Previews #2 docs: preview environment test, just now" />
+
+</Step>
+
+<Step>
+
+### Open the preview
+
+Click the preview in the menu. The header shows **PR #2** with a **Preview** tag, and a bar at the bottom of the canvas reads **Preview of PR #2 · from Dev · expires in 7 days · not backed up**.
+
+The canvas has a copy of the app from **Dev**, building the pull request's branch. The copy has its own address, different from the app in **Dev**.
+
+<Screenshot id="projects/prev-5-ready" alt="The PR #2 preview: react-vite-starter running at its own address, with the preview bar at the bottom" />
+
+In this example the build took about two minutes. Then the preview's address served the new heading, and the app in **Dev** still served the old one.
+
+</Step>
+
+<Step>
+
+### Check the pull request
+
+StackBlaze posts one comment on the pull request, titled **StackBlaze Preview**, and keeps it up to date. It has a table with a row for each app: **App**, **Status**, **Preview** (a **Visit** link to the address) and **Updated (UTC)**. Below it, a link opens the preview in StackBlaze.
+
+The **Status** goes from **🔄 Building** to **✅ Ready**.
+
+Each commit also gets a check named **Stackblaze /** and the build type, for example `Stackblaze / railpack`.
+
+</Step>
+
+<Step>
+
+### Push more commits
+
+Push another commit to the pull request's branch. The preview rebuilds: the app shows **Building**, and then the new commit is live at the same address. Here it took just over a minute.
+
+<Screenshot id="projects/prev-7-rebuild" alt="The PR #2 preview rebuilding after a second push: the app shows Building" />
+
+Every push restarts the expiry, so the bar shows **expires in 7 days** again. The comment's row goes back to **✅ Ready** with a new time.
+
+</Step>
+
+<Step>
+
+### Close the pull request
+
+When you merge or close the pull request, its preview is deleted. Here it was gone 17 seconds after the pull request was closed. The preview's address stopped answering.
+
+The preview is no longer in the environment menu.
+
+<Screenshot id="projects/prev-13-switcher-after" alt="The environment menu after the pull request was closed: Dev, Stage and Production, no Previews" />
+
+The comment's rows change to **🗑️ Removed**, and the comment ends with "Preview removed."
+
+If you reload a page of the deleted preview, it opens the **Dev** environment instead.
+
+<Screenshot id="projects/prev-12-removed" alt="Loading the deleted preview's page opens Dev" />
+
+</Step>
+
+</Steps>
+
+## The preview bar
+
+Inside a preview, the bar at the bottom of the canvas shows which pull request it's for, the environment it was copied from, when it expires, and that previews aren't backed up. It has three buttons.
+
+<Screenshot id="projects/prev-8-bar" alt="Preview of PR #2 · from Dev · expires in 7 days · not backed up, with Sync from Dev, Open PR and Delete" />
+
+- **Sync from Dev** (named after the environment the preview came from) brings the preview up to date with it. See below.
+- **Open PR ↗** opens the pull request.
+- **Delete** deletes the preview.
+
+### Sync from the base environment
+
+Click **Sync from Dev**. The dialog reads "Bring this preview up to date with Dev." Choose what to copy:
+
+- **Configuration** (ticked): "Variables, settings and apps; the preview's data stays." The dialog compares the preview with **Dev**; here it says "The configuration already matches Dev." The button is **Sync configuration**.
+- **Data**: databases and volumes.
+
+<Screenshot id="projects/prev-9-sync" alt="Sync from Dev with Configuration ticked: the configuration already matches Dev, Cancel and Sync configuration" />
+
+With **Data** ticked too, the dialog checks what can be copied; here it says "Dev has no databases or volumes to copy." It warns: "This preview's data will be replaced with a copy of Dev. Apps in the preview stop while it copies." The button becomes **Sync and replace data**.
+
+<Screenshot id="projects/prev-10-sync-data" alt="Sync from Dev with Configuration and Data ticked: the replace-data warning and Sync and replace data" />
+
+**Cancel** closes the dialog without syncing.
+
+### Delete a preview
+
+Click **Delete**. The dialog asks "Delete the preview of PR #2?" and warns: "Deletes this preview's apps, databases and volumes. The pull request is not changed; a new push to it creates the preview again." Type the pull request number (**Type 2 to confirm**) and click **Delete preview**. **Cancel** keeps the preview. In this guide the preview was removed by closing the pull request instead.
+
+<Screenshot id="projects/prev-11-delete" alt="Delete the preview of PR #2? with Type 2 to confirm, Cancel and Delete preview" />
+
+## Notifications
+
+The bell in the header gets an entry when a preview is ready, when it's updated by a push, and when it's removed. For example: **Preview pr-2 ready · 1 app**, **Preview pr-2 updated: react-vite-starter-4l47 ready** and **Preview environment pr-2 removed (PR closed)**.
+
+<Screenshot id="projects/prev-14-notifications" alt="Notifications: Preview environment pr-2 removed (PR closed), Preview pr-2 updated, Preview pr-2 ready · 1 app" />
+
+## Good to know
+
+- Previews are never backed up. Back up the environment they're copied from instead.
+- A preview's data starts empty. Use **Sync from Dev** with **Data** to copy it.

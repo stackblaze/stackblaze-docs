@@ -2449,6 +2449,90 @@
     "capturedAt": "2026-11-24T16:23:32.163Z",
     "source": "/"
   },
+  "projects/prev-1-off": {
+    "src": "/screenshots/projects/prev-1-off.png",
+    "width": 1145,
+    "height": 217,
+    "capturedAt": "2026-11-25T01:00:50.243Z",
+    "source": "/pipeline/github-demo-587h/settings/general"
+  },
+  "projects/prev-10-sync-data": {
+    "src": "/screenshots/projects/prev-10-sync-data.png",
+    "width": 576,
+    "height": 378,
+    "capturedAt": "2026-11-25T01:17:46.759Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "projects/prev-11-delete": {
+    "src": "/screenshots/projects/prev-11-delete.png",
+    "width": 448,
+    "height": 320,
+    "capturedAt": "2026-11-25T01:17:50.275Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "projects/prev-12-removed": {
+    "src": "/screenshots/projects/prev-12-removed.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T01:18:50.020Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "projects/prev-13-switcher-after": {
+    "src": "/screenshots/projects/prev-13-switcher-after.png",
+    "width": 408,
+    "height": 321,
+    "capturedAt": "2026-11-25T01:18:54.187Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "projects/prev-14-notifications": {
+    "src": "/screenshots/projects/prev-14-notifications.png",
+    "width": 404,
+    "height": 614,
+    "capturedAt": "2026-11-25T01:18:55.959Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "projects/prev-2-on": {
+    "src": "/screenshots/projects/prev-2-on.png",
+    "width": 1145,
+    "height": 711,
+    "capturedAt": "2026-11-25T01:01:05.546Z",
+    "source": "/pipeline/github-demo-587h/settings/general"
+  },
+  "projects/prev-3-switcher": {
+    "src": "/screenshots/projects/prev-3-switcher.png",
+    "width": 408,
+    "height": 388,
+    "capturedAt": "2026-11-25T01:11:14.347Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "projects/prev-5-ready": {
+    "src": "/screenshots/projects/prev-5-ready.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T01:15:41.622Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "projects/prev-7-rebuild": {
+    "src": "/screenshots/projects/prev-7-rebuild.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T01:16:17.693Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "projects/prev-8-bar": {
+    "src": "/screenshots/projects/prev-8-bar.png",
+    "width": 680,
+    "height": 41,
+    "capturedAt": "2026-11-25T01:17:34.638Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
+  "projects/prev-9-sync": {
+    "src": "/screenshots/projects/prev-9-sync.png",
+    "width": 576,
+    "height": 258,
+    "capturedAt": "2026-11-25T01:17:40.821Z",
+    "source": "/pipeline/github-demo-587h/apps"
+  },
   "projects/set-1-general": {
     "src": "/screenshots/projects/set-1-general.png",
     "width": 1440,
