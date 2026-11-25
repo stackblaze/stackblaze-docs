@@ -52,6 +52,7 @@
     "proxy",
     "redeploy",
     "regions",
+    "registry",
     "restart",
     "resume",
     "run",
