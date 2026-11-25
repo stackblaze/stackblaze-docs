@@ -5,14 +5,14 @@ description: Every way to get code or an image running on StackBlaze, and how re
 
 Pick how your service starts: from an image, from a repository, from a file that describes your stack, from a template, or as a single function or a developer sandbox.
 
-<Cards>
-  <Card title="Deploy a Docker image" href="/build-deploy/deploy-docker-image" description="Run any public container image from Docker Hub, GitHub Container Registry or another registry." />
-  <Card title="Deploy from GitHub" href="/build-deploy/deploy-from-github" description="Build and deploy an app from a GitHub repository, through the StackBlaze GitHub App or from any public repository URL." />
-  <Card title="Import a stack" href="/build-deploy/import" description="Bring services and databases in from a docker-compose file, render.yaml, fly.toml or stackblaze.yaml." />
-  <Card title="Templates" href="/build-deploy/templates" description="One-click apps from the StackBlaze catalog. A template deploys an app together with the databases and add-ons it needs." />
-  <Card title="Functions" href="/build-deploy/functions" description="Run one TypeScript file on Bun, with no build. Serve it on a URL, or run it on a schedule." />
-  <Card title="Developer sandbox" href="/build-deploy/developer-sandbox" description="An isolated Debian VM with VS Code in the browser, a shell, coding agents and a persistent /workspace disk you can checkpoint and fork." />
-  <Card title="Deployments" href="/build-deploy/deployments" description="Every release of a service, what it changed and who made it. Redeploy, restart, cancel a rollout, or roll the configuration back to an earlier release." />
-  <Card title="Preview environments" href="/build-deploy/preview-environments" description="Every pull request gets its own temporary copy of your app, with its own address, rebuilt on every push and removed when the pull request is closed." />
-  <Card title="Infrastructure as code" href="/build-deploy/infrastructure-as-code" description="Export a project and its apps as YAML manifests, keep them in git, preview a change with plan and make it with apply." />
-</Cards>
+<SectionCards>
+  <SectionCard icon="Container" title="Deploy a Docker image" href="/build-deploy/deploy-docker-image" description="Run any public container image from Docker Hub, GitHub Container Registry or another registry." />
+  <SectionCard icon="GitBranch" title="Deploy from GitHub" href="/build-deploy/deploy-from-github" description="Build and deploy an app from a GitHub repository, through the StackBlaze GitHub App or from any public repository URL." />
+  <SectionCard icon="FileInput" title="Import a stack" href="/build-deploy/import" description="Bring services and databases in from a docker-compose file, render.yaml, fly.toml or stackblaze.yaml." />
+  <SectionCard icon="LayoutTemplate" title="Templates" href="/build-deploy/templates" description="One-click apps from the StackBlaze catalog. A template deploys an app together with the databases and add-ons it needs." />
+  <SectionCard icon="Braces" title="Functions" href="/build-deploy/functions" description="Run one TypeScript file on Bun, with no build. Serve it on a URL, or run it on a schedule." />
+  <SectionCard icon="Box" title="Developer sandbox" href="/build-deploy/developer-sandbox" description="An isolated Debian VM with VS Code in the browser, a shell, coding agents and a persistent /workspace disk you can checkpoint and fork." />
+  <SectionCard icon="RotateCcw" title="Deployments" href="/build-deploy/deployments" description="Every release of a service, what it changed and who made it. Redeploy, restart, cancel a rollout, or roll the configuration back to an earlier release." />
+  <SectionCard icon="GitPullRequest" title="Preview environments" href="/build-deploy/preview-environments" description="Every pull request gets its own temporary copy of your app, with its own address, rebuilt on every push and removed when the pull request is closed." />
+  <SectionCard icon="FileCode" title="Infrastructure as code" href="/build-deploy/infrastructure-as-code" description="Export a project and its apps as YAML manifests, keep them in git, preview a change with plan and make it with apply." />
+</SectionCards>

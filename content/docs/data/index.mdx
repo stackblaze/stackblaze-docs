@@ -5,12 +5,12 @@ description: Databases, volumes and backups for the services in an environment.
 
 Databases run next to your services in the same environment. Volumes give a service a disk that survives restarts, and backups cover both.
 
-<Cards>
-  <Card title="PostgreSQL" href="/data/databases/postgresql" description="Add a PostgreSQL database to an environment, find its connection details, and connect an app to it." />
-  <Card title="MariaDB" href="/data/databases/mariadb" description="Add MariaDB (MySQL-compatible) to an environment, connect an app, open it to the internet from allowed IPs, install plugins and turn on high availability." />
-  <Card title="Valkey" href="/data/databases/valkey" description="Add Valkey (a Redis-compatible key/value store) to an environment, connect an app, and manage its storage and high availability." />
-  <Card title="Backups and restore" href="/data/databases/backups" description="Back up an environment's databases, restore a recovery point as a copy, check the copy and point your apps at it." />
-  <Card title="Volumes" href="/data/volumes" description="Give a service a disk that keeps its files across restarts and deploys, choose its size and where it's mounted, and remove it." />
-  <Card title="Browse volume files" href="/data/volumes/browse-files" description="Open a volume in the file browser to see, upload, edit, download and delete its files without a terminal." />
-  <Card title="Environment backups" href="/data/environment-backups" description="Back up a whole environment — its app volumes and databases — on a schedule or on demand, and restore any of it as a copy." />
-</Cards>
+<SectionCards>
+  <SectionCard icon="Database" title="PostgreSQL" href="/data/databases/postgresql" description="Add a PostgreSQL database to an environment, find its connection details, and connect an app to it." />
+  <SectionCard icon="Database" title="MariaDB" href="/data/databases/mariadb" description="Add MariaDB (MySQL-compatible) to an environment, connect an app, open it to the internet from allowed IPs, install plugins and turn on high availability." />
+  <SectionCard icon="Zap" title="Valkey" href="/data/databases/valkey" description="Add Valkey (a Redis-compatible key/value store) to an environment, connect an app, and manage its storage and high availability." />
+  <SectionCard icon="DatabaseBackup" title="Backups and restore" href="/data/databases/backups" description="Back up an environment's databases, restore a recovery point as a copy, check the copy and point your apps at it." />
+  <SectionCard icon="HardDrive" title="Volumes" href="/data/volumes" description="Give a service a disk that keeps its files across restarts and deploys, choose its size and where it's mounted, and remove it." />
+  <SectionCard icon="FolderOpen" title="Browse volume files" href="/data/volumes/browse-files" description="Open a volume in the file browser to see, upload, edit, download and delete its files without a terminal." />
+  <SectionCard icon="Archive" title="Environment backups" href="/data/environment-backups" description="Back up a whole environment — its app volumes and databases — on a schedule or on demand, and restore any of it as a copy." />
+</SectionCards>
