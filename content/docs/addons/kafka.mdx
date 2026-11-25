@@ -164,7 +164,7 @@ With **Allow writes** on, **Create topic** appears above the list. Type a **Name
 Click a topic's name to open it (see [Browse messages](#browse-messages)). In write mode each row also has **Delete**. Ours showed "Topic "orders" deleted" after about ten seconds, and the topic was gone from the list.
 
 <Callout type="warn">
-**Delete** removes the topic and its messages at once. There is no confirmation step.
+**Delete** asks first: **Delete topic &lt;name&gt;?** warns that the topic and every message in it are deleted permanently, and that consumers and connectors that use it stop receiving data. Click **Delete topic** to remove it.
 </Callout>
 
 ### Send a message
@@ -191,7 +191,7 @@ Under **Messages** → **Browse messages**, pick a topic. Clicking a topic's nam
 
 <Screenshot id="kafka/groups" alt="Consumer groups: Refresh, No consumer groups." />
 
-Each time you browse messages, a group named `console-consumer-` plus a number appears here. Ours were gone again a few minutes later.
+Browsing messages in the console doesn't add a group here: it reads without committing offsets and removes its temporary group afterwards.
 
 ## Kafka Connect
 
