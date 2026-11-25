@@ -1760,7 +1760,7 @@
     "src": "/screenshots/kafka/1-menu.png",
     "width": 768,
     "height": 720,
-    "capturedAt": "2026-11-25T00:59:06.106Z",
+    "capturedAt": "2026-11-25T06:47:25.024Z",
     "source": "/pipeline/github-demo-gv35/apps"
   },
   "kafka/10-ha-on": {
@@ -1781,14 +1781,14 @@
     "src": "/screenshots/kafka/14-delete-confirm.png",
     "width": 448,
     "height": 166,
-    "capturedAt": "2026-11-25T01:59:42.627Z",
+    "capturedAt": "2026-11-25T07:58:04.145Z",
     "source": "/pipeline/github-demo-gv35/apps"
   },
   "kafka/2-review": {
     "src": "/screenshots/kafka/2-review.png",
-    "width": 852,
+    "width": 853,
     "height": 764,
-    "capturedAt": "2026-11-25T00:59:16.021Z",
+    "capturedAt": "2026-11-25T06:47:35.811Z",
     "source": "/pipeline/github-demo-gv35/apps"
   },
   "kafka/4-running": {
@@ -1802,14 +1802,14 @@
     "src": "/screenshots/kafka/6-connect.png",
     "width": 761,
     "height": 190,
-    "capturedAt": "2026-11-25T01:12:24.388Z",
+    "capturedAt": "2026-11-25T06:50:05.280Z",
     "source": "/pipeline/github-demo-gv35/apps"
   },
   "kafka/6b-commit": {
     "src": "/screenshots/kafka/6b-commit.png",
     "width": 576,
     "height": 362,
-    "capturedAt": "2026-11-25T01:12:29.366Z",
+    "capturedAt": "2026-11-25T06:50:09.677Z",
     "source": "/pipeline/github-demo-gv35/apps"
   },
   "kafka/7-topic": {
@@ -1833,6 +1833,62 @@
     "capturedAt": "2026-11-25T01:42:33.150Z",
     "source": "/pipeline/github-demo-gv35/apps"
   },
+  "kafka/access": {
+    "src": "/screenshots/kafka/access.png",
+    "width": 730,
+    "height": 493,
+    "capturedAt": "2026-11-25T07:43:45.017Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "kafka/connector-catalog": {
+    "src": "/screenshots/kafka/connector-catalog.png",
+    "width": 959,
+    "height": 572,
+    "capturedAt": "2026-11-25T07:36:14.121Z",
+    "source": "/pipeline/github-demo-gv35/dev/nginx-9agm/addon/kafka-u39w/kafka/connectors/new"
+  },
+  "kafka/connectors": {
+    "src": "/screenshots/kafka/connectors.png",
+    "width": 730,
+    "height": 551,
+    "capturedAt": "2026-11-25T07:35:59.050Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "kafka/groups": {
+    "src": "/screenshots/kafka/groups.png",
+    "width": 728,
+    "height": 156,
+    "capturedAt": "2026-11-25T07:30:40.260Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "kafka/manage-overview": {
+    "src": "/screenshots/kafka/manage-overview.png",
+    "width": 730,
+    "height": 454,
+    "capturedAt": "2026-11-25T07:43:42.429Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "kafka/messages": {
+    "src": "/screenshots/kafka/messages.png",
+    "width": 726,
+    "height": 376,
+    "capturedAt": "2026-11-25T07:50:50.198Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "kafka/metrics-host": {
+    "src": "/screenshots/kafka/metrics-host.png",
+    "width": 926,
+    "height": 587,
+    "capturedAt": "2026-11-25T07:42:23.220Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "kafka/produce": {
+    "src": "/screenshots/kafka/produce.png",
+    "width": 728,
+    "height": 476,
+    "capturedAt": "2026-11-25T07:48:50.258Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
   "kafka/settings-ha": {
     "src": "/screenshots/kafka/settings-ha.png",
     "width": 730,
@@ -1845,6 +1901,13 @@
     "width": 974,
     "height": 764,
     "capturedAt": "2026-11-25T01:38:31.825Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "kafka/topic-created": {
+    "src": "/screenshots/kafka/topic-created.png",
+    "width": 730,
+    "height": 598,
+    "capturedAt": "2026-11-25T07:00:50.860Z",
     "source": "/pipeline/github-demo-gv35/apps"
   },
   "log-drains/1-empty": {

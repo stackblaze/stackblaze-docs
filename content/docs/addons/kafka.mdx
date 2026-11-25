@@ -1,6 +1,6 @@
 ---
 title: Kafka
-description: Add a Kafka event-streaming cluster to an environment, connect your services to it, produce and consume messages, and scale it to three brokers.
+description: Add a Kafka event-streaming cluster to an environment, connect your services to it, manage topics and messages in the console, see Kafka Connect, and scale it to three brokers.
 ---
 
 **Kafka (Strimzi)** runs an Apache Kafka cluster in your environment, in KRaft mode (no separate coordination service). Services you connect to it get the broker address in their variables and talk to it inside the environment.
@@ -143,14 +143,98 @@ Topic: orders   TopicId: EDUMVnmgSY2G4fjL1q8w-w PartitionCount: 3   ReplicationF
 There is no way back to a single broker in place. Each broker has its own `10 GiB` volume.
 </Callout>
 
+## Manage topics and messages
+
+Click the Kafka card, open **Settings** and stay on **Manage** ("Topics, consumer groups, and Connect."). The console connects to Kafka when the section opens (**Connecting to Kafka…**).
+
+**Resource overview** counts **Brokers** (ours: `1`, **Single node**), **Topics**, **Connectors**, **Consumer groups**, **Consumer lag** and **Connect**. Its refresh button reloads the counts.
+
+<Screenshot id="kafka/manage-overview" alt="Manage: Resource overview with Brokers 1 Single node, Topics 1, Connectors 0, Consumer groups 0, Consumer lag 0, Connect Off; Read-only and Allow writes; the Topics tab with the orders topic" />
+
+The console opens **Read-only** each time. To create or delete topics, send messages or add connectors, turn on **Allow writes**. The label changes to **Write mode**. The button next to it (**Refresh connection**) reconnects.
+
+### Topics
+
+**Topics** lists each topic with its **Partitions** and **Repl.** (replication factor). **Refresh** reloads the list. **Show internal** also lists Kafka's internal topics. Ours had none yet. A new Kafka shows **No topics found.**
+
+With **Allow writes** on, **Create topic** appears above the list. Type a **Name** (placeholder `my-topic`). Set **Partitions** and **Repl. factor**, which both default to `1`. Click **Create**. We created `orders` with `3` partitions. After about five seconds, "Topic "orders" created" appeared and the topic was in the list.
+
+<Screenshot id="kafka/topic-created" alt="Write mode: Create topic with Name, Partitions and Repl. factor; the Topics list shows orders, 3 partitions, Repl. 1, and Delete" />
+
+Click a topic's name to open it (see [Browse messages](#browse-messages)). In write mode each row also has **Delete**. Ours showed "Topic "orders" deleted" after about ten seconds, and the topic was gone from the list.
+
+<Callout type="warn">
+**Delete** removes the topic and its messages at once. There is no confirmation step.
+</Callout>
+
+### Send a message
+
+Open **Messages** and turn on **Allow writes**. **Produce message** has a **Topic** menu ("Select topic…"), a **Key** field ("(optional)") and a **Value** box ("message body"). Pick `orders`, type `order 1001 placed` as the value, and click **Produce**. After a few seconds, "Message produced to "orders"" appears. We sent it a few times.
+
+<Screenshot id="kafka/produce" alt="Messages: Browse messages with Select topic…, and Produce message with Topic orders, Key, Value order 1001 placed, and Produce" />
+
+### Browse messages
+
+Under **Messages** → **Browse messages**, pick a topic. Clicking a topic's name in **Topics** opens the same view below the list. Its header shows the topic, its partition count and **RF**, plus **Retention** (ours: **Cluster default**) and **Fetched**, the number of messages loaded. The arrow goes back to the list. It has three tabs:
+
+- **Messages**: pick **All partitions** or one partition. Choose **From beginning** or **Latest**. Set how many to fetch: **100**, **500** (the default), **1,000**, **5,000** or **10,000**. **Search key or value…** filters the rows you've fetched. **Refresh** fetches again. **JSON** and **CSV** download the fetched messages, for example `orders-messages.csv`. A bar chart shows when the fetched messages arrived. The table lists each message's **Timestamp**, **Partition**, **Offset**, **Key** and **Value**. The play button streams new messages. While it runs, the view switches to **Latest** and the button pauses the stream.
+- **Partitions**: each partition's **Leader**, **Replicas** and **ISR**.
+- **Configuration**: the topic's own settings, for example `min.insync.replicas` `1`.
+
+<Screenshot id="kafka/messages" alt="The orders topic, Messages tab: All partitions, From beginning, 500, search 'order', Refresh, JSON, CSV, a message-volume chart and the messages with the value order 1001 placed" />
+
+### Consumer groups
+
+**Groups** lists the consumer groups. **Refresh** reloads it. A new Kafka shows **No consumer groups.**
+
+<Screenshot id="kafka/groups" alt="Consumer groups: Refresh, No consumer groups." />
+
+Each time you browse messages, a group named `console-consumer-` plus a number appears here. Ours were gone again a few minutes later.
+
+## Kafka Connect
+
+**Connectors** lists Kafka Connect connectors, with **Refresh**. A new Kafka shows **No connectors yet**: "Add a source or sink to stream data in or out of Kafka." On the overview, **Connect** reads **Off**. No Connect cluster runs until you create the first connector.
+
+<Screenshot id="kafka/connectors" alt="Connectors in write mode: Refresh, Add connector, No connectors yet" />
+
+In write mode, **Add connector** opens the catalog, **Add connector** ("Stream data in or out of" plus the Kafka's name):
+
+- **Sources** ("Capture changes into Kafka topics"): **Postgres CDC (Debezium)** and **MySQL/MariaDB CDC (Debezium)**.
+- **Sinks** ("Sync topics to a database or object store"): **JDBC Sink**, **S3 Sink (RustFS)**, **MongoDB Sink** and **ClickHouse Sink**.
+
+**1 Shared** on an entry means a matching add-on already runs in the environment. Ours was the PostgreSQL add-on.
+
+<Screenshot id="kafka/connector-catalog" alt="Add connector: Sources — Postgres CDC (Debezium) with 1 Shared, MySQL/MariaDB CDC (Debezium); Sinks — JDBC Sink with 1 Shared, S3 Sink (RustFS), MongoDB Sink, ClickHouse Sink" />
+
+Click an entry to open its form. **Postgres CDC (Debezium)** has three parts:
+
+- **Connection**: **Connector name** (placeholder `my-connector`), **Max tasks** (`1`), **Source app** (**Shared (project)**) and **Source add-on** (ours: **postgresql (PostgreSQL)**). "Host and credentials filled from shared / postgresql-…" means you don't type them.
+- **Data scope**: **Tables to capture**, with **All**, **Clear** and **Filter tables…**, and a checkbox for each table. "Leave tables empty to capture every table in the database. Each table becomes a topic: &lt;prefix&gt;.&lt;schema&gt;.&lt;table&gt;."
+- **Options**: **Topic prefix** (required, placeholder `pg`) and **Replication slot** (default `kubero_debezium`), "must be unique per connector".
+
+At the bottom are **Test connection**, **Cancel** and **Create connector**. **Create connector** stays off until you enter a name: "Enter a connector name." **Cancel** goes back. We didn't create a connector.
+
+## Access
+
+**Settings** → **Access** ("Connection details and the admin console.") shows **Bootstrap**: "In-cluster listeners for apps in this phase · plain :9092 · TLS :9093".
+
+- **Plain** (**No TLS**): the broker address on port `9092`, the same address connected services get.
+- **TLS** (**In-cluster TLS**): the same host on port `9093`.
+
+Each address has a copy button. Below them are **Brokers**, **Topics**, **Mode** and **Host**. **Environment snippet** ("Paste into an app's variables for this phase") has a `KAFKA_BOOTSTRAP_SERVERS=` line and the TLS address as a comment, with a copy button. The section holds no user or password.
+
+<Screenshot id="kafka/access" alt="Access: Bootstrap, plain :9092 and TLS :9093 addresses with copy buttons, Brokers 1, Topics 1, and the Environment snippet with KAFKA_BOOTSTRAP_SERVERS" />
+
 ## The Kafka panel
 
 - **Deployment** lists the add-on's deploys, for example **Deploy running for strimzi/operator:1.3.1** and the Kafka image. Each row's **⋯** menu has **Redeploy** and **Inspect Deployment**.
 - **Logs** streams the output of every Kafka pod. **Pod** picks **All pods** or one pod: the brokers (`…-dual-role-0`, `-1`, `-2`), the entity operator and the Kafka exporter. **Log source** is **App logs** or **System events**. The time menu has **Live tail**, **Last 15 minutes**, **Last 1 hour**, **Last 6 hours**, **Last 24 hours** and **All loaded**, next to a search box.
-- **Metrics** has **2h**, **24h** and **7d** and **Refresh**. **Host resources** has **Memory usage** and **CPU usage**. **Kafka** has **Consumer lag**, **Messages in / s**, **Partitions**, **Brokers online**, **Under-replicated parts** and **Consumer group members**, each **Overall** or **Per-pod**.
-- **Settings** holds **HA**, **Connections**, **Storage** and **Delete add-on**. **Storage** lists each broker's volume with its use, for example **1.0 MiB / 10 GiB · 0%** ("Volumes can only grow. Expansion depends on the storage class.").
+- **Metrics** has **2h**, **24h** and **7d** and **Refresh**. Under **Host resources**, **Memory usage** ("Container RAM used by this add-on's pods.") and **CPU usage** ("CPU time used by this add-on's pods (millicores).") each show a line over time, with the **avg** and **max** for the range. Ours, a single broker in its first hour, averaged about 1.1k MiB and 400 mCPU.
+- **Settings** has a side menu: **Manage**, **Access**, **HA**, **Connection**, **Storage** and **Delete**. Manage and Access are described above. **Storage** lists each broker's volume with its use, for example **1.0 MiB / 10 GiB · 0%** ("Volumes can only grow. Expansion depends on the storage class.").
 
 <Screenshot id="kafka/tab-logs" alt="Kafka Logs: All pods, App logs, Search logs, Live tail" />
+
+<Screenshot id="kafka/metrics-host" alt="Metrics, Host resources: Memory usage, avg 1.1k MiB, max 1.8k MiB, and CPU usage, avg 401 mCPU, max 693 mCPU, over two hours" />
 
 ## Delete Kafka
 

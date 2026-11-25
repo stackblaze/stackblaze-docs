@@ -13,10 +13,13 @@ const top = () => page.locator('[role=menu], [role=dialog], [role=listbox]').las
 if (process.env.NETLOG) page.on('response', async (r) => { const u = r.url(); if (u.includes('/api/') && (r.status() >= 400 || /kafka|db-browser/.test(u))) console.log('   NET', r.request().method(), r.status(), u.replace(/^https:\/\/[^/]+/, ''), r.status() >= 400 ? (await r.text().catch(() => '')).slice(0, 200) : ''); });
 const dbg = (n) => page.screenshot({ path: `${SP}/${n}.png` });
 await c.goto(`/pipeline/${PROJECT}/apps?phase=dev`); await page.waitForTimeout(4000);
+await page.getByRole('button', { name: /^Apps$/ }).first().waitFor({ timeout: 45000 });
 await page.evaluate(() => { window.confirm = () => true; });
-const appsView = async () => { const b = page.getByRole('button', { name: /^Apps$/ }); if (await b.count()) { await b.first().click(); await page.waitForTimeout(1500); } };
+const appsView = async () => { const b = page.getByRole('button', { name: /^Apps$/ }); if (await b.count()) { await b.first().click(); await page.waitForTimeout(1500); } await page.getByRole('button', { name: /^Manage / }).first().waitFor({ timeout: 30000 }).catch(() => {}); };
 
 if (STEP === 'add') {
+  // RESUME=1: the card is already on the canvas (Ready to deploy).
+  if (!process.env.RESUME) {
   await page.getByTestId('canvas-new-service').click(); await page.waitForTimeout(1500);
   await top().getByText('Kafka, email').first().click(); await page.waitForTimeout(1500);
   console.log('1.', await text(top()));
@@ -25,6 +28,8 @@ if (STEP === 'add') {
   await dbg('after-pick');
   console.log('2.', (await text(page.locator('main').first())).slice(0, 1500));
   console.log('   dialogs', await page.locator('[role=dialog]').count());
+  }
+  await appsView();
   await page.getByRole('button', { name: /^Manage Kafka/ }).click(); await page.waitForTimeout(3000);
   const sh = page.locator('[role=dialog]').last();
   console.log('3.', await text(sh));
@@ -42,10 +47,11 @@ if (STEP === 'add') {
       const t = ((await text(page.locator('main').first())).match(/Kafka \(Strimzi\) kafka Add-on [A-Za-z ]+/) ?? [''])[0];
       if (t !== last) { console.log(`   ${Math.round((Date.now() - t0) / 1000)}s:`, t.slice(0, 160)); last = t; }
       if (/Running/.test(t)) break;
-      if (i === 5) await c.shot('kafka/3-deploying', { around: page.getByRole('button', { name: /^Manage Kafka/ }).locator('xpath=..') });
+      if (i === 5 && process.env.SHOT_RUNNING) await c.shot('kafka/3-deploying', { around: page.getByRole('button', { name: /^Manage Kafka/ }).locator('xpath=..') });
     }
     await page.keyboard.press('Escape').catch(() => {});
-    await c.shot('kafka/4-running', { around: page.getByRole('button', { name: /^Manage Kafka/ }).locator('xpath=..') });
+    // kafka/4-running is the 3-broker card (taken by STEP=card after HA).
+    if (process.env.SHOT_RUNNING) await c.shot('kafka/4-running', { around: page.getByRole('button', { name: /^Manage Kafka/ }).locator('xpath=..') });
   }
 }
 const openKafka = async (tab) => {
@@ -212,7 +218,23 @@ if (STEP === 'tabs') {
 }
 if (STEP === 'metrics') {
   page.on('response', async (r) => { const u = r.url(); if (/\/api\/.*metric/i.test(u)) console.log('   M', r.status(), u.replace(/^https:\/\/[^/]+/, ''), (await r.text().catch(() => '')).slice(0, 300)); });
-  const sh = await openKafka('Metrics'); await page.waitForTimeout(10000);
+  const sh = await openKafka('Metrics'); await page.waitForTimeout(15000);
+  console.log('metrics:', (await text(sh)).slice(0, 2500));
+  console.log('   controls', JSON.stringify((await controls(sh)).slice(0, 60)));
+  await dbg('metrics');
+  for (const r of (process.env.RANGES ?? '').split(',').filter(Boolean)) {
+    await sh.getByRole('button', { name: r, exact: true }).first().click(); await page.waitForTimeout(8000);
+    console.log(`-- ${r}:`, (await text(sh)).slice(0, 600));
+  }
+  // Host resources (CPU and memory) have data; crop to that section.
+  if (process.env.SHOT) {
+    const host = sh.getByText('Host resources', { exact: true }).first();
+    await host.scrollIntoViewIfNeeded();
+    const cpu = sh.getByText('CPU usage', { exact: true }).first().locator('xpath=ancestor::div[contains(@class,"rounded")][1]');
+    const mem = sh.getByText('Memory usage', { exact: true }).first().locator('xpath=ancestor::div[contains(@class,"rounded")][1]');
+    await page.mouse.move(5, 5);
+    await c.shot('kafka/metrics-host', { around: [host, cpu, mem] });
+  }
 }
 if (STEP === 'ha') {
   const sh = await openKafka('Settings'); await page.waitForTimeout(5000);
@@ -238,6 +260,211 @@ if (STEP === 'ha') {
   }
   await ha().scrollIntoViewIfNeeded();
   await c.shot('kafka/10-ha-on', { locator: '[data-slot=sheet-content] [data-settings-section="ha"]' });
+}
+if (STEP === 'console') {
+  // Settings → Manage: the console (overview, Topics, Connectors, Groups,
+  // Messages) and Settings → Access. SUB picks a part; each is run once.
+  const SUB = process.env.SUB ?? 'look';
+  const SHEET = '[data-slot=sheet-content]';
+  const sh = await openKafka('Settings'); await page.waitForTimeout(8000);
+  const m = () => sh.locator('[data-settings-section="manage"]').first();
+  const acc = () => sh.locator('[data-settings-section="access"]').first();
+  const ktab = async (n) => { await m().getByRole('button', { name: n, exact: true }).click(); await page.waitForTimeout(3000); };
+  const writes = async (on) => { const sw = m().getByRole('switch').first(); if ((((await sw.getAttribute('aria-checked')) === 'true') || (await sw.getAttribute('data-state')) === 'checked') !== on) { await sw.click(); await page.waitForTimeout(1000); } };
+  const waitToast = async (t0) => { for (let i = 0; i < 90; i++) { const tt = await page.locator('[data-sonner-toast]').allInnerTexts(); if (tt.length) { console.log('   toast after', Math.round((Date.now() - t0) / 1000), 's:', JSON.stringify(tt)); return; } await page.waitForTimeout(500); } console.log('   no toast'); };
+  const toasts = async () => console.log('   toasts:', JSON.stringify(await page.locator('[data-sonner-toast]').allInnerTexts()));
+  await m().scrollIntoViewIfNeeded();
+  await m().getByText('Connecting to Kafka…').waitFor({ state: 'detached', timeout: 90000 }).catch(() => console.log('   still connecting'));
+  await sh.getByText('Loading access configuration…').waitFor({ state: 'detached', timeout: 60000 }).catch(() => console.log('   access still loading'));
+  await page.waitForTimeout(2000);
+  if (SUB === 'look') {
+    console.log('manage:', await text(m()));
+    console.log('   controls', JSON.stringify(await controls(m())));
+    await dbg('con-manage');
+    await acc().scrollIntoViewIfNeeded(); await page.waitForTimeout(1500);
+    console.log('access:', await text(acc()));
+    console.log('   controls', JSON.stringify(await controls(acc())));
+    await dbg('con-access');
+  }
+  if (SUB === 'shots') {
+    await writes(false);
+    await c.shot('kafka/manage-overview', { locator: `${SHEET} [data-settings-section="manage"]` });
+    await acc().scrollIntoViewIfNeeded(); await page.waitForTimeout(1500);
+    await c.shot('kafka/access', { locator: `${SHEET} [data-settings-section="access"]` });
+  }
+  if (SUB === 'topic') {
+    await writes(true);
+    console.log('write mode:', await text(m()));
+    await c.shot('kafka/manage-write', { locator: `${SHEET} [data-settings-section="manage"]` });
+    const form = m().locator('div', { has: page.getByText('Create topic', { exact: true }) }).last();
+    const ins = m().locator('input');
+    console.log('   inputs', JSON.stringify(await ins.evaluateAll((e) => e.map((x) => `${x.placeholder}|${x.type}|${x.value}`))));
+    await m().getByPlaceholder('my-topic').fill(process.env.TOPIC ?? 'orders');
+    const nums = m().locator('input[type=number]');
+    await nums.nth(0).fill('3'); await nums.nth(1).fill('1');
+    const t0 = Date.now();
+    await m().getByRole('button', { name: 'Create', exact: true }).click();
+    for (let i = 0; i < 60; i++) { const tt = await page.locator('[data-sonner-toast]').allInnerTexts(); if (tt.length) { console.log('   toast after', Math.round((Date.now() - t0) / 1000), 's:', JSON.stringify(tt)); break; } await page.waitForTimeout(500); }
+    await m().locator('tr', { hasText: process.env.TOPIC ?? 'orders' }).first().waitFor({ timeout: 30000 }).catch(() => console.log('   row not shown'));
+    await page.waitForTimeout(1500);
+    console.log('after create:', await text(m()));
+    await c.shot('kafka/topic-created', { locator: `${SHEET} [data-settings-section="manage"]` });
+    const si = m().getByRole('switch').nth(1);
+    await si.click(); await page.waitForTimeout(3000);
+    console.log('show internal:', await text(m()));
+    await dbg('con-internal');
+    await si.click(); await page.waitForTimeout(1500);
+  }
+  if (SUB === 'produce') {
+    await writes(true);
+    await ktab('Messages');
+    console.log('messages:', await text(m()));
+    console.log('   controls', JSON.stringify(await controls(m())));
+    const sel = m().locator('select');
+    console.log('   selects', await sel.count());
+    await sel.last().selectOption(process.env.TOPIC ?? 'orders');
+    if (process.env.KEY) await m().getByPlaceholder('(optional)').fill(process.env.KEY);
+    await m().getByPlaceholder('message body').fill('order 1001 placed');
+    const card = (t) => m().locator('h3', { hasText: t }).locator('xpath=ancestor::div[contains(@class,"rounded")][1]');
+    await card('Produce message').evaluate((e) => e.scrollIntoView({ block: 'end' })); await page.waitForTimeout(600);
+    await page.mouse.move(5, 5);
+    await c.shot('kafka/produce', { around: [card('Browse messages'), card('Produce message')] });
+    const t0 = Date.now();
+    await m().getByRole('button', { name: 'Produce', exact: true }).click();
+    await waitToast(t0); await page.waitForTimeout(1500);
+    console.log('after produce:', await text(m()));
+    await dbg('con-produced');
+  }
+  if (SUB === 'browse') {
+    await ktab('Messages');
+    const sel = m().locator('select').first();
+    await sel.selectOption(process.env.TOPIC ?? 'orders'); await page.waitForTimeout(2000);
+    await m().getByText('Loading topic…').waitFor({ state: 'detached', timeout: 90000 }).catch(() => console.log('   still loading'));
+    await m().getByText('Loading messages…').waitFor({ state: 'detached', timeout: 90000 }).catch(() => console.log('   messages still loading'));
+    await page.waitForTimeout(3000);
+    const viewer = m().locator('div').filter({ has: page.getByText('Total messages') }).filter({ has: page.getByRole('button', { name: 'Configuration' }) }).last();
+    console.log('browse:', await text(viewer));
+    console.log('   controls', JSON.stringify(await controls(viewer)));
+    console.log('   box', JSON.stringify(await viewer.boundingBox()));
+    await viewer.scrollIntoViewIfNeeded(); await page.evaluate(() => 0);
+    await viewer.evaluate((e) => e.scrollIntoView({ block: 'start' })); await page.waitForTimeout(800);
+    await dbg('con-browse');
+    // Search filters the fetched rows by key or value.
+    await viewer.getByPlaceholder('Search key or value…').fill('order'); await page.waitForTimeout(1500);
+    await page.mouse.move(5, 5); await page.waitForTimeout(800);
+    console.log('   searched:', (await text(viewer.locator('table'))).slice(0, 600));
+    await c.shot('kafka/messages', { around: [viewer.locator('select').first(), viewer.locator('table')] });
+    for (const t of ['Partitions', 'Configuration']) {
+      await viewer.getByRole('button', { name: t, exact: true }).click(); await page.waitForTimeout(2500);
+      console.log(`-- ${t}:`, (await text(viewer)).slice(0, 1200));
+      // Partitions: Log end offset shows — (reported bug), so no shot of it.
+      if (t === 'Configuration') await c.shot('kafka/topic-configuration', { around: [viewer.getByRole('button', { name: t, exact: true }), viewer.getByText('min.insync.replicas').first()] });
+      else await dbg('con-partitions');
+    }
+    if (process.env.EXPORT) {
+      // JSON and CSV download the fetched rows.
+      await viewer.getByRole('button', { name: 'Messages', exact: true }).click(); await page.waitForTimeout(1500);
+      for (const b of ['JSON', 'CSV']) {
+        const dl = page.waitForEvent('download', { timeout: 15000 }).catch(() => null);
+        await viewer.getByRole('button', { name: b, exact: true }).click();
+        const d = await dl;
+        console.log(`   ${b} download:`, d ? d.suggestedFilename() : 'none');
+        if (d) { const f = `${SP}/export-${b}`; await d.saveAs(f); console.log('   first bytes:', (await import('node:fs')).readFileSync(f, 'utf8').slice(0, 160).replace(/\s+/g, ' ')); }
+      }
+    }
+    // The live-stream button next to the search box.
+    await viewer.getByRole('button', { name: 'Messages', exact: true }).click(); await page.waitForTimeout(2000);
+    const live = viewer.locator('button[title="Stream latest messages"]');
+    console.log('   live btn', await live.count());
+    if (await live.count()) { await live.click(); await page.waitForTimeout(8000); console.log('   streaming:', (await text(viewer)).slice(0, 800)); await dbg('con-stream'); await viewer.locator('button[title="Pause live stream"]').click().catch(() => {}); }
+  }
+  if (SUB === 'viewer') {
+    await ktab('Topics');
+    // Clicking a topic opens the same viewer as Messages → Browse messages.
+    await m().getByRole('button', { name: process.env.TOPIC ?? 'orders' }).first().click(); await page.waitForTimeout(2000);
+    await m().getByText('Loading topic…').waitFor({ state: 'detached', timeout: 90000 }).catch(() => console.log('   still loading'));
+    await m().getByText('Loading messages…').waitFor({ state: 'detached', timeout: 90000 }).catch(() => console.log('   messages still loading'));
+    await page.waitForTimeout(3000);
+    console.log('viewer:', await text(m()));
+    console.log('   controls', JSON.stringify(await controls(m())));
+    await dbg('con-viewer');
+    for (const t of (process.env.VTABS ?? '').split(',').filter(Boolean)) {
+      await m().getByRole('button', { name: t, exact: true }).first().click(); await page.waitForTimeout(3000);
+      console.log(`-- ${t}:`, (await text(m())).slice(0, 1500));
+      await dbg(`con-viewer-${t.replace(/\W+/g, '')}`);
+    }
+  }
+  if (SUB === 'groups') {
+    await ktab('Groups');
+    await m().getByText('Loading…').first().waitFor({ state: 'detached', timeout: 120000 }).catch(() => console.log('   still loading'));
+    await page.waitForTimeout(2000);
+    console.log('groups:', await text(m()));
+    console.log('   controls', JSON.stringify(await controls(m())));
+    const g = m().getByRole('button', { name: /^console-consumer-/ }).first();
+    if (await g.count()) {
+      await g.click(); await page.waitForTimeout(3000);
+      await m().getByText('Loading group…').first().waitFor({ state: 'detached', timeout: 90000 }).catch(() => console.log('   group still loading'));
+      await page.waitForTimeout(1500);
+      const list = m().locator('h3', { hasText: /^Consumer groups$/ }).locator('xpath=ancestor::div[contains(@class,"rounded")][1]');
+      const detail = m().locator('h3', { hasText: /^console-consumer-/ }).locator('xpath=ancestor::div[contains(@class,"rounded")][1]');
+      console.log('group detail:', await text(detail));
+      await detail.evaluate((e) => e.scrollIntoView({ block: 'end' })); await page.waitForTimeout(800);
+      await page.mouse.move(5, 5);
+      await dbg('con-group-detail');
+    } else {
+      // No groups (the console's own browse groups expire after a while).
+      const list = m().locator('h3', { hasText: /^Consumer groups$/ }).locator('xpath=ancestor::div[contains(@class,"rounded")][1]');
+      await page.mouse.move(5, 5);
+      await c.shot('kafka/groups', { around: list });
+    }
+  }
+  if (SUB === 'connectors') {
+    await writes(true);
+    await ktab('Connectors');
+    console.log('connectors:', await text(m()));
+    console.log('   controls', JSON.stringify(await controls(m())));
+    await c.shot('kafka/connectors', { locator: `${SHEET} [data-settings-section="manage"]` });
+    await m().getByRole('link', { name: /Add connector/ }).first().click(); await page.waitForTimeout(8000);
+    console.log('URL', page.url().replace(/^https:\/\/[^/]+/, ''));
+    console.log('catalog:', (await text(page.locator('body'))).slice(0, 3000));
+    await page.getByText('Sources', { exact: true }).first().waitFor({ timeout: 60000 });
+    await page.waitForTimeout(2000); await page.mouse.move(5, 5);
+    await dbg('con-catalog');
+    await c.shot('kafka/connector-catalog', { around: [page.getByRole('heading', { name: 'Add connector' }).last(), page.getByText('ClickHouse Sink', { exact: true }).locator('xpath=ancestor::*[self::a or self::button][1]')] });
+    // Open one entry and read its form; nothing is submitted (the first
+    // connector provisions a Connect cluster).
+    await page.getByText('Postgres CDC (Debezium)', { exact: true }).first().click(); await page.waitForTimeout(8000);
+    console.log('URL', page.url().replace(/^https:\/\/[^/]+/, ''));
+    const form = page.locator('main').first();
+    await page.getByText('Loading connector…').waitFor({ state: 'detached', timeout: 120000 }).catch(() => console.log('   form still loading'));
+    await page.waitForTimeout(2000); await page.mouse.move(5, 5);
+    console.log('form:', (await text(form)).slice(0, 2500));
+    console.log('   controls', JSON.stringify((await controls(form)).slice(0, 60)));
+    await dbg('con-form');
+    // Test connection is a read-only reachability probe of the paired add-on.
+    const t0 = Date.now();
+    await form.getByRole('button', { name: 'Test connection' }).click();
+    await waitToast(t0); await page.waitForTimeout(1500);
+    console.log('after test:', (await text(form)).split('Test connection')[0].slice(-400));
+    await dbg('con-form-tested');
+    await form.getByRole('button', { name: 'Cancel' }).click(); await page.waitForTimeout(3000);
+    console.log('after cancel URL', page.url().replace(/^https:\/\/[^/]+/, ''));
+  }
+  if (SUB === 'deltopic') {
+    await writes(true);
+    await ktab('Topics');
+    const row = m().locator('tr', { hasText: process.env.TOPIC ?? 'orders' });
+    // Delete has no confirmation: one click deletes the topic.
+    const t0 = Date.now();
+    await row.getByRole('button', { name: 'Delete' }).click();
+    for (let i = 0; i < 90; i++) { const tt = await page.locator('[data-sonner-toast]').allInnerTexts(); if (tt.length) { console.log('   toast after', Math.round((Date.now() - t0) / 1000), 's:', JSON.stringify(tt)); break; } await page.waitForTimeout(500); }
+    await row.first().waitFor({ state: 'detached', timeout: 60000 }).catch(() => console.log('   row still there'));
+    console.log('   gone after', Math.round((Date.now() - t0) / 1000), 's');
+    console.log('   dialogs open:', await page.locator('[role=alertdialog]').count());
+    await toasts();
+    console.log('after:', await text(m()));
+    await c.shot('kafka/topic-deleted', { locator: `${SHEET} [data-settings-section="manage"]` });
+  }
 }
 if (STEP === 'connect-ui') {
   // Kafka Connect: the Manage card's Connect / Connectors tiles, and the
@@ -287,6 +514,7 @@ if (STEP === 'disconnect') {
   await conn.scrollIntoViewIfNeeded();
   for (const a of ['kafka-client', 'nginx']) {
     const sw = conn.locator(`[aria-label="Connect kafka to ${a}"]`);
+    if (!(await sw.count())) continue;
     if ((await sw.getAttribute('aria-checked')) === 'true') { await sw.click(); await page.waitForTimeout(1200); }
   }
   console.log('   staged:', await text(conn));
@@ -294,7 +522,8 @@ if (STEP === 'disconnect') {
   await page.getByRole('button', { name: /^Commit \d+ change/ }).click(); await page.waitForTimeout(1500);
   const dl = page.locator('[role=dialog]').last();
   console.log('   commit:', await text(dl));
-  await c.shot('kafka/12-disconnect', { locator: '[role=dialog]' });
+  // kafka/12-disconnect shows both kafka-client and nginx (the page's run).
+  if (process.env.SHOT_DISCONNECT) await c.shot('kafka/12-disconnect', { locator: '[role=dialog]' });
   await dl.getByRole('button', { name: /^Deploy \d+ change/ }).click(); await page.waitForTimeout(60000);
 }
 if (STEP === 'delete') {
