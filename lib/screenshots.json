@@ -2799,6 +2799,104 @@
     "capturedAt": "2026-11-23T14:40:48.066Z",
     "source": "https://nginx-w29b.cloud-dev-central-1.stackblaze.app"
   },
+  "registry/1-empty": {
+    "src": "/screenshots/registry/1-empty.png",
+    "width": 1002,
+    "height": 334,
+    "capturedAt": "2026-11-25T05:11:53.621Z",
+    "source": "/settings/registry"
+  },
+  "registry/10-manual-deploy": {
+    "src": "/screenshots/registry/10-manual-deploy.png",
+    "width": 288,
+    "height": 160,
+    "capturedAt": "2026-11-25T05:15:16.213Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "registry/11-running": {
+    "src": "/screenshots/registry/11-running.png",
+    "width": 241,
+    "height": 135,
+    "capturedAt": "2026-11-25T05:16:24.089Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "registry/12-deployed": {
+    "src": "/screenshots/registry/12-deployed.png",
+    "width": 730,
+    "height": 152,
+    "capturedAt": "2026-11-25T05:16:32.400Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "registry/13-remove-confirm": {
+    "src": "/screenshots/registry/13-remove-confirm.png",
+    "width": 448,
+    "height": 206,
+    "capturedAt": "2026-11-25T05:25:19.505Z",
+    "source": "/settings/registry"
+  },
+  "registry/14-after-remove": {
+    "src": "/screenshots/registry/14-after-remove.png",
+    "width": 241,
+    "height": 135,
+    "capturedAt": "2026-11-25T05:19:56.232Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "registry/2-review-hint": {
+    "src": "/screenshots/registry/2-review-hint.png",
+    "width": 852,
+    "height": 764,
+    "capturedAt": "2026-11-25T05:12:09.032Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "registry/3-pull-failed": {
+    "src": "/screenshots/registry/3-pull-failed.png",
+    "width": 759,
+    "height": 215,
+    "capturedAt": "2026-11-25T05:13:55.419Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "registry/4-form": {
+    "src": "/screenshots/registry/4-form.png",
+    "width": 1002,
+    "height": 596,
+    "capturedAt": "2026-11-25T05:20:30.763Z",
+    "source": "/settings/registry"
+  },
+  "registry/5-form-errors": {
+    "src": "/screenshots/registry/5-form-errors.png",
+    "width": 956,
+    "height": 485,
+    "capturedAt": "2026-11-25T05:20:32.457Z",
+    "source": "/settings/registry"
+  },
+  "registry/6-form-filled": {
+    "src": "/screenshots/registry/6-form-filled.png",
+    "width": 956,
+    "height": 448,
+    "capturedAt": "2026-11-25T05:20:33.872Z",
+    "source": "/settings/registry"
+  },
+  "registry/7-saved": {
+    "src": "/screenshots/registry/7-saved.png",
+    "width": 1002,
+    "height": 361,
+    "capturedAt": "2026-11-25T05:20:35.106Z",
+    "source": "/settings/registry"
+  },
+  "registry/8-edit": {
+    "src": "/screenshots/registry/8-edit.png",
+    "width": 956,
+    "height": 448,
+    "capturedAt": "2026-11-25T05:20:36.036Z",
+    "source": "/settings/registry"
+  },
+  "registry/9-host-changed": {
+    "src": "/screenshots/registry/9-host-changed.png",
+    "width": 956,
+    "height": 454,
+    "capturedAt": "2026-11-25T05:20:38.118Z",
+    "source": "/settings/registry"
+  },
   "sandbox/1-menu": {
     "src": "/screenshots/sandbox/1-menu.png",
     "width": 768,

@@ -3,6 +3,7 @@
   "defaultOpen": true,
   "pages": [
     "vulnerability-scans",
+    "private-registry",
     "ssh-keys",
     "api-tokens",
     "account-security",
