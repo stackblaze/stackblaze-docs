@@ -4,6 +4,7 @@
     "postgresql",
     "mariadb",
     "valkey",
+    "import-dump",
     "backups"
   ]
 }

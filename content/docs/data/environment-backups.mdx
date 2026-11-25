@@ -27,9 +27,17 @@ Under **Schedule**, a new environment says **Off — back up on demand**. Click 
 
 There are three cadences: **Daily**, **Weekly** and **Monthly**. Tick the ones you want and choose how long each keeps its recovery points.
 
+| Cadence | Runs |
+|---|---|
+| **Daily** | Every day at 02:00 |
+| **Weekly** | Sundays at 03:00 |
+| **Monthly** | On the 1st at 04:00 |
+
 <Screenshot id="env-backups/12-daily-on" alt="The schedule editor: Daily ticked with Keep 6 days, Weekly and Monthly unticked" />
 
-The retention choices are **Keep 3 days**, **6 days**, **7 days**, **14 days**, **1 month**, **3 months**, **6 months** and **1 year**. The defaults are **Keep 6 days** for Daily and **Keep 1 month** for Weekly and Monthly.
+The retention choices are **Keep 3 days**, **6 days**, **7 days**, **14 days**, **1 month**, **3 months**, **6 months** and **1 year**. The defaults are **Keep 6 days** for Daily, **Keep 1 month** for Weekly and **Keep 3 months** for Monthly, capped by your plan: we saw **Keep 1 month** for Monthly on a Business plan.
+
+Your plan caps how long recovery points are kept: 7 days on Developer, 14 on Pro and 30 on Business. The menu lists every choice, but a longer one is saved as your plan's maximum. The Free Trial has no backups. See [Billing](/billing#the-plans).
 
 <Screenshot id="env-backups/11-retention" alt="The retention menu: Keep 3 days to Keep 1 year" />
 
@@ -51,11 +59,23 @@ The schedule now reads, for example, **Daily · keep 6 days**.
 
 </Steps>
 
+If the environment still has a separate database dump schedule, the editor adds: "Every backup already saves this environment's databases, so saving also turns off the separate database dump schedule."
+
+Nothing is backed up until you turn on a schedule or click **Back up now**: StackBlaze never turns backups on for you.
+
+### When you reach the disk cap
+
+While your workspace is at its plan's disk cap, scheduled backups pause. The sheet says "Scheduled … backups are paused — disk cap reached. They resume automatically once usage drops below the cap." You don't need to turn them back on.
+
+### Turn it off
+
 To turn the schedule off, click **Edit**, untick every cadence and click **Save**. The commit dialog lists **Save backup schedule — turns volume backups off**; deploy it and the schedule reads **Off — back up on demand** again. Existing recovery points stay.
 
 ## Back up now
 
 Click **Back up now**. It is staged too: click **Commit 1 change**, check **Create a recovery point — backs up volumes and databases**, and click **Deploy 1 change**. The new point shows **Backing up…** ("usually a minute or two") until it is done.
+
+A point taken with **Back up now** is kept for 7 days, or less if your plan keeps backups for less. To back up only some services or databases, select their cards and use **Backup** in the selection bar (see [Other ways to back up](/data/databases/backups#other-ways-to-back-up)).
 
 Each recovery point lists what it holds and how it was taken, for example **1 database · 1 volume · on demand**. Click a point to open it: it lists its **Databases** and **Volumes** (with the app each volume belongs to), and **Delete recovery point**.
 
@@ -92,3 +112,21 @@ The copy, `data-restored`, appears on the canvas as its own card, next to the ap
 </Steps>
 
 Restoring a database works the same way; [Database backups and restore](/data/databases/backups) shows it end to end, including **Switch instance** to move your apps onto the copy and how to delete a recovery point.
+
+Restoring from the dashboard or the CLI always creates a copy; it never writes over a running volume or database.
+
+## From the CLI
+
+[`stackblaze backups`](/cli/reference/backups) does the same for an environment:
+
+```sh
+stackblaze backups create --wait -p shop -e dev
+stackblaze backups list -p shop -e dev
+stackblaze backups restore <id> --volume data --wait -p shop -e dev
+stackblaze backups schedule -p shop -e dev
+```
+
+```text
+OK github-demo-gv35/dev scheduled backups: off
+Set the schedule in the dashboard (environment → Backups). The CLI never creates a schedule.
+```

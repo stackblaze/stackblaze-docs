@@ -70,11 +70,37 @@ GET docs        → "hello"
 
 Valkey has no **Public access** setting.
 
+There is no password and no TLS inside the environment: use `REDIS_URL` as it is (`redis://…:6379`), and don't add a password or switch it to `rediss://`.
+
+## Connect from your machine
+
+`stackblaze connect redis` opens `redis-cli` through a connected app. `--local` runs your own `redis-cli` through a private tunnel, and `--tunnel` keeps a local port open for GUI tools:
+
+```sh
+stackblaze connect redis --local -p shop -e dev -a web
+```
+
+```text
+Tunnel 127.0.0.1:41761 → redis addon "redis-5c6s". Running local redis-cli…
+```
+
 ## Plan limits
 
-The top of **Settings** shows what your plan allows: **Redis memory** (how much data it can hold; "when it's full, the oldest keys are dropped") and **Redis connections** (how many clients can connect at once).
+The top of **Settings** shows what your plan allows: **Redis memory** (how much data it can hold) and **Redis connections** (how many clients can connect at once).
 
 <Screenshot id="valkey/4-limits" alt="Plan limits: Redis memory and Redis connections" />
+
+## When memory is full
+
+Valkey runs with the eviction policy `noeviction`. We checked two databases:
+
+```text
+> CONFIG GET maxmemory-policy
+maxmemory-policy
+noeviction
+```
+
+So when Valkey reaches its memory limit, it **refuses writes** with an out-of-memory error; it doesn't drop keys to make room. Keys you set with an expiry (`EX`, `EXPIRE`) still expire. Give cache keys a time to live, and keep queues and sessions well under the limit.
 
 ## Storage
 
@@ -95,6 +121,10 @@ A new Valkey runs as a **Single primary**. **Settings** → **HA** → **Enable 
 Ours came up **Healthy** with **2/2** ready: one primary and one replica.
 
 <Screenshot id="valkey/15-ha-on" alt="High availability: Master + 1 replica, Healthy, 2/2 ready" />
+
+## Backups
+
+Valkey has no dumps: a recovery point doesn't list it under **Databases**, and `stackblaze addons backups` answers "Per-database dumps are not available for Valkey add-ons". It has no point-in-time recovery.
 
 ## Deployments, logs and metrics
 

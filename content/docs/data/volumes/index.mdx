@@ -9,6 +9,8 @@ A service's own filesystem starts fresh on every restart and deploy. A **volume*
 
 A volume is a shared filesystem: if the service runs more than one instance, every instance mounts the same volume and sees the same files.
 
+Only write to the same files from several instances if your app is built for it. A file database such as SQLite on a volume should run with one instance.
+
 ## Add a volume
 
 <Steps>
@@ -52,6 +54,28 @@ After it's deployed, the volume is marked **In use**. Its **Name** and **Size** 
 <Screenshot id="settings/volume-in-use" alt="The data volume marked In use, with Name and Size greyed out" />
 
 Volumes are included in the environment's recovery points when backups are on. See [Environment backups](/data/environment-backups).
+
+## Snapshots from the CLI
+
+`stackblaze snapshots create` takes a snapshot of all of a service's volumes at once, as one group. `stackblaze snapshots list` lists each volume and its snapshots:
+
+```sh
+stackblaze snapshots create -p shop -e dev -a web
+stackblaze snapshots list -p shop -e dev -a web
+```
+
+```text
+OK Snapshot group snap-nginx-9agm-1795593648799
+1 volume(s) snapshotted
+data  5Gi
+  nginx-9agm-data-1795593649382  group=snap-nginx-9agm-1795593648799  ready=false
+```
+
+A snapshot is ready after a few seconds (`ready=true`). Snapshots are kept on the cluster, separate from recovery points. To get files back as a copy of a volume, restore a [recovery point](/data/environment-backups#restore-a-volume-as-a-copy).
+
+## Billing
+
+A volume is billed on its size, not on what it holds: see **Storage (provisioned)** in [Usage](/billing/usage).
 
 ## Remove a volume
 

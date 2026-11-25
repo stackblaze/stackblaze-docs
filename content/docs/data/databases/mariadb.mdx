@@ -21,7 +21,7 @@ On the project canvas, click **+ Service**, then **Database or cache**, and pick
 
 ### Deploy it
 
-Click the card, then **Deploy** (or **Remove from canvas** to drop it). It deploys with the catalog defaults.
+Click the card, then **Deploy** (or **Remove from canvas** to drop it). It deploys with the catalog defaults: MariaDB 11.4, a 1 GiB volume and the database `app`.
 
 <Screenshot id="mariadb/2-review" alt="MariaDB review: Ready to deploy, with Remove from canvas and Deploy" />
 
@@ -65,6 +65,37 @@ $ MYSQL_PWD="$MYSQL_PASSWORD" mariadb -h "$MYSQL_HOST" -P "$MYSQL_PORT" -u "$MYS
 **Settings** → **Access** → **Connect from apps** shows the **Host**, the short **Service** name, **Username**, **Password** and **Database**. **Connection URL** gives a `mysql://` URL and a JDBC URL; **Environment snippet** gives `DATABASE_URL` and the `MYSQL_*` lines. These work from apps in the same environment and are "not reachable from the public internet".
 
 <Screenshot id="mariadb/5-access" alt="Access: Host, Service, Username, Password, Database, Connection URL and Environment snippet" />
+
+## Connect from your machine
+
+`stackblaze connect mysql` opens a MariaDB shell through a connected app, without opening the database to the internet. `--local` runs your own `mysql` client through a private tunnel; `--tunnel` keeps a local port open for GUI tools. They work like [PostgreSQL's](/data/databases/postgresql#connect-from-your-machine).
+
+```sh
+stackblaze connect mysql --local -p shop -e dev -a web
+```
+
+## Server settings
+
+On our database:
+
+```text
+> SHOW VARIABLES WHERE Variable_name IN ('character_set_server','collation_server','binlog_format','log_bin');
+binlog_format         ROW
+character_set_server  latin1
+collation_server      latin1_swedish_ci
+log_bin               ON
+```
+
+- The server's default character set is `latin1`. For full Unicode (including emoji), create your databases and tables with `CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`, or set it in your app's connection.
+- Binary logging is on, in `ROW` format with full row images. A change-data-capture connector, such as the [Kafka](/addons/kafka) MySQL / MariaDB connector, works without extra setup.
+
+## Connection pooling
+
+To pool connections or split reads and writes in front of MariaDB, add [ProxySQL](/addons/proxysql).
+
+## Import a dump
+
+MariaDB dumps load from your machine with `stackblaze addons import dump.sql --local`. See [Import a database dump](/data/databases/import-dump#import-a-mariadb-dump).
 
 ## SQL console
 
@@ -135,6 +166,10 @@ The canvas then shows two MariaDB cards. The original says it was "Promoted to �
 **Metrics** shows the last **2h**, **24h** or **7d**, with **Refresh**. At the top: **Connections** (open sessions), **Cache hit** (buffer pool hits), **Threads** (actively running) and **Queries** (statement rate). Below that are charts for **Host resources** (Memory usage, CPU usage), **Workload** (Threads running, Queries / s, Commits / s, Rollbacks / s), **Health** (Buffer pool hit, Slow queries / s) and **Network** (Bytes sent / s, Bytes received / s).
 
 <Screenshot id="mariadb/10-metrics" alt="MariaDB: the Metrics tab" />
+
+## Backups
+
+A recovery point holds a dump of each MariaDB database. Restore it as a copy like any database: see [Backups and restore](/data/databases/backups). MariaDB has no point-in-time recovery.
 
 ## Delete
 

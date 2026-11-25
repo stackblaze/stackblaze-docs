@@ -45,6 +45,28 @@ The new point appears under **Recovery points**, with its time and what it holds
 
 </Steps>
 
+### Other ways to back up
+
+- **Right-click a database card** and pick **Backups**. The sheet opens for that database: the button reads **Back up** and the database's name, and **Recovery points** lists only the points that hold it (**Show all** lists every point).
+
+<Screenshot id="backups/x-node-menu" alt="The database card's right-click menu, with Backups" />
+
+<Screenshot id="backups/x-focus-sheet" alt="Backup and restore opened from a database: Back up postgresql-7ytg and Recovery points with postgresql-7ytg" />
+
+- **Select cards on the canvas** (Shift-click) and click **Backup** in the selection bar. It backs up only the selected services and databases: the toast says "Backup of … staged. Commit to start it.", and the commit dialog lists **Create a recovery point**. The point is marked **Partial** and holds only what you selected.
+
+<Screenshot id="backups/x-cmdbar-commit" alt="1 change to apply: Create a recovery point, after Backup in the selection bar" />
+
+### What a recovery point holds
+
+| | In a recovery point |
+|---|---|
+| PostgreSQL, MariaDB | A dump of each database, listed under **Databases** |
+| App volumes | A copy of each volume, listed under **Volumes** with its app |
+| Valkey, Memcached | Not listed under **Databases**: they have no dumps |
+
+A point you take with **Back up now** is kept for 7 days, or less if your plan keeps backups for less.
+
 ## Restore as a copy
 
 <Steps>
@@ -110,8 +132,117 @@ The dashboard confirms with "Pointed 1 app(s) from … to …", and the app now 
 
 <Screenshot id="backups/11-switched" alt="Switch instance on the copy, with the app now connected to it" />
 
+## Restore a deleted database [#deleted-databases]
+
+When you delete a database, its dumps are kept. On the **Restore** tab, **Deleted databases (n)** lists them: "Dumps kept after a database was deleted." Each row shows the database, its engine, how many dumps are kept and the latest.
+
+<Screenshot id="backups/x-orphans" alt="Restore tab: a recovery point holding a database deleted since, and Deleted databases (1) with Restore as new database" />
+
+A recovery point taken before the deletion also still offers the database, marked **deleted since this point**.
+
+<Steps>
+
+<Step>
+
+### Restore as new database
+
+Click **Restore as new database** and pick the **Dump to start from**. Click **Stage restore**. The toast names the new database ("Restore staged. Commit to create postgresql-2-1apc-restored.").
+
+<Screenshot id="backups/x-orphan-restore" alt="Restore postgresql-2-1apc as a new database: pick the dump to start from, then Stage restore" />
+
+</Step>
+
+<Step>
+
+### Commit and deploy
+
+Click **Commit 1 change**. The row reads **Restore … as a new database** ("creates … from the dump of …; nothing running changes"). Type **copy** to confirm and click **Deploy 1 change**.
+
+<Screenshot id="backups/x-orphan-commit" alt="1 change to apply: Restore postgresql-2-1apc as a new database, type copy to confirm" />
+
+In our test the new database appeared with a short suffix after the name shown in the toast (`postgresql-2-1apc-restored-ta46`), and it held the deleted database's tables.
+
+</Step>
+
+</Steps>
+
+The bin icon on the row deletes all the kept dumps of that database. They count toward your backup storage until you delete them.
+
 ## Delete a recovery point
 
 Open the point and click **Delete recovery point**. The deletion is staged: **Commit 1 change** shows **Delete backup** with the point's time, and warns that "This removes 1 recovery point from the backup store. This cannot be undone." Type the environment's name (for example **dev**) to confirm and click **Deploy 1 change**.
 
 <Screenshot id="backups/13-delete-commit" alt="Delete backup: cannot be undone, type dev to confirm" />
+
+## Plan limits
+
+- **Your plan caps how long backups are kept**: 7 days on Developer, 14 on Pro and 30 on Business (see [Billing](/billing#the-plans)). A longer retention you choose is saved as your plan's maximum.
+- **The Free Trial has no backups.** Turning a schedule on, or **Back up now**, is refused with "Database backups are not included in the … plan. Upgrade to turn backups on."
+- Backups are never turned on for you. Nothing is backed up until you turn on a [schedule](/data/environment-backups#turn-on-a-schedule) or click **Back up now**.
+
+Restores from the dashboard and the CLI always create a copy. They never write over a running database.
+
+## From the CLI
+
+The whole environment ([`stackblaze backups`](/cli/reference/backups)):
+
+```sh
+stackblaze backups create --wait -p shop -e dev                 # back up now
+stackblaze backups create --only postgresql-2-1apc --wait -p shop -e dev   # a partial point
+stackblaze backups list -p shop -e dev
+stackblaze backups show <id> -p shop -e dev                     # what a point holds
+stackblaze backups restore <id> --database <name> --wait -p shop -e dev
+stackblaze backups delete <id> -p shop -e dev
+stackblaze backups schedule -p shop -e dev                      # read only
+```
+
+```text
+Backup manual-github-demo-gv35-dev-1795593018023 started — waiting for it to finish…
+backup manual-github-demo-gv35-dev-1795593018023 → InProgress
+backup manual-github-demo-gv35-dev-1795593018023 → saving databases
+backup manual-github-demo-gv35-dev-1795593018023 → Completed
+OK Backup manual-github-demo-gv35-dev-1795593018023 completed (partial: postgresql-2-1apc)
+```
+
+One PostgreSQL or MariaDB database ([`stackblaze addons backups`](/cli/reference/addons)), through an app connected to it:
+
+```sh
+stackblaze addons backups status postgresql-u0kr -p shop -e dev -a web
+stackblaze addons backups list postgresql-u0kr -p shop -e dev -a web
+stackblaze addons backups restore postgresql-u0kr --backup <name> --wait -p shop -e dev -a web
+```
+
+`status` says whether scheduled backups are on, the last dump and how many are kept. `list` shows each dump with the recovery point it belongs to. `restore` creates a new database named `<database>-restored`. For Valkey, these commands answer "Per-database dumps are not available for Valkey add-ons". The CLI never turns on a schedule; set it in the dashboard.
+
+## Point-in-time recovery (PostgreSQL, API only) [#point-in-time-recovery]
+
+Point-in-time recovery restores one PostgreSQL database as it was at a moment you choose, into a **new** database. It is turned on per database, and today only through the API, with [`stackblaze api`](/cli/api) or an [API token](/security/api-tokens). There is no dashboard control. It needs a plan with backups, and it isn't available in preview environments or for MariaDB and Valkey.
+
+Once it is on, the database's changes are archived continuously, with a full base backup every day at 02:00 UTC. You choose how long the archive is kept: 7, 14 or 28 days, capped by your plan (Developer offers 7, Pro 7 or 14).
+
+Read the state of a database (a read; it changes nothing). The answer below is trimmed:
+
+```sh
+stackblaze api GET /api/pipelines/<project>/<env>/backups/db/<database>/pitr
+```
+
+```json
+{
+  "instance": "postgresql-7ytg",
+  "available": true,
+  "unavailableReason": null,
+  "enabled": false,
+  "retentionDays": null,
+  "retentionChoices": [7, 14, 28],
+  "maxRetentionDays": 30,
+  "firstRecoverableTime": null,
+  "lastRecoverableTime": null,
+  "lastBaseBackupTime": null,
+  "restores": []
+}
+```
+
+- Turn it on: `PUT` the same path with `{"enabled": true, "retentionDays": 7}`. Turn it off with `{"enabled": false}`: the archive is then kept for its retention (`archiveKeptUntil`).
+- Restore: `POST …/backups/db/<database>/restore-pitr` with `{"targetTime": "2026-11-25T08:00:00Z"}`, a UTC time between `firstRecoverableTime` and now. The new database is named after the original with `-pitr`. Until the first base backup has finished there is nothing to restore from.
+
+Then move your apps onto the new database with [Switch instance](#point-your-apps-at-the-copy).

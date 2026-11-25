@@ -937,6 +937,48 @@
     "capturedAt": "2026-11-24T06:01:20.359Z",
     "source": "CloudBeaver: postgresql-restored-9u8z"
   },
+  "backups/x-cmdbar-commit": {
+    "src": "/screenshots/backups/x-cmdbar-commit.png",
+    "width": 576,
+    "height": 362,
+    "capturedAt": "2026-11-25T07:49:52.509Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "backups/x-focus-sheet": {
+    "src": "/screenshots/backups/x-focus-sheet.png",
+    "width": 549,
+    "height": 764,
+    "capturedAt": "2026-11-25T07:45:19.406Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "backups/x-node-menu": {
+    "src": "/screenshots/backups/x-node-menu.png",
+    "width": 208,
+    "height": 361,
+    "capturedAt": "2026-11-25T07:45:15.020Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "backups/x-orphan-commit": {
+    "src": "/screenshots/backups/x-orphan-commit.png",
+    "width": 576,
+    "height": 560,
+    "capturedAt": "2026-11-25T07:54:17.976Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "backups/x-orphan-restore": {
+    "src": "/screenshots/backups/x-orphan-restore.png",
+    "width": 512,
+    "height": 306,
+    "capturedAt": "2026-11-25T07:54:09.725Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
+  "backups/x-orphans": {
+    "src": "/screenshots/backups/x-orphans.png",
+    "width": 549,
+    "height": 764,
+    "capturedAt": "2026-11-25T07:54:05.707Z",
+    "source": "/pipeline/github-demo-gv35/apps"
+  },
   "billing/1-overview": {
     "src": "/screenshots/billing/1-overview.png",
     "width": 971,
@@ -1139,6 +1181,20 @@
     "height": 254,
     "capturedAt": "2026-11-24T05:33:52.789Z",
     "source": "/activate"
+  },
+  "data/addons-menu": {
+    "src": "/screenshots/data/addons-menu.png",
+    "width": 768,
+    "height": 720,
+    "capturedAt": "2026-11-25T08:07:24.788Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "data/databases-menu": {
+    "src": "/screenshots/data/databases-menu.png",
+    "width": 754,
+    "height": 167,
+    "capturedAt": "2026-11-25T08:07:17.796Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
   },
   "deployments/0-commit-message": {
     "src": "/screenshots/deployments/0-commit-message.png",
@@ -1671,6 +1727,13 @@
     "height": 640,
     "capturedAt": "2026-11-24T11:05:06.532Z",
     "source": "https://react-vite-starter-4l47.cloud-dev-central-1.stackblaze.app"
+  },
+  "import-dump/console-counts": {
+    "src": "/screenshots/import-dump/console-counts.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T08:03:56.658Z",
+    "source": "/sql-console"
   },
   "import/1-open": {
     "src": "/screenshots/import/1-open.png",

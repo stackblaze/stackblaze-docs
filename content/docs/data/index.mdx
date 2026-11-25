@@ -5,10 +5,35 @@ description: Databases, volumes and backups for the services in an environment.
 
 Databases run next to your services in the same environment. Volumes give a service a disk that survives restarts, and backups cover both.
 
+## The engines
+
+Add a database with **+ Service** → **Database or cache**, and the caches and other add-ons with **+ Service** → **Add-on**.
+
+| Engine | Use it for | New databases run | High availability | Public access | In recovery points |
+|---|---|---|---|---|---|
+| [PostgreSQL](/data/databases/postgresql) | Relational data | PostgreSQL 17 | 3 instances | Yes | Dump, plus [point-in-time recovery](/data/databases/backups#point-in-time-recovery) (API) |
+| TimescaleDB | Time-series data on PostgreSQL | PostgreSQL 17 with TimescaleDB | 3 instances | Yes | Dump |
+| [MariaDB](/data/databases/mariadb) | Relational data, MySQL-compatible | MariaDB 11.4 | A new 3-node cluster | Yes | Dump |
+| [Valkey](/data/databases/valkey) | Key/value data, Redis-compatible | Valkey 8.0 | A primary and 1 replica | No | No dump |
+| [Memcached](/addons/memcached) (add-on) | A simple cache | Memcached 1.6.39 | No | No | No |
+
+[Kafka](/addons/kafka) (beta) and [ProxySQL](/addons/proxysql) are under **Add-on** too.
+
+<Screenshot id="data/addons-menu" alt="The Add-ons list: Kafka (Strimzi), Memcached, ProxySQL, Email (SMTP) and Scheduled tasks" />
+
+### Standard or high availability
+
+A new database is a single instance: if it goes down, it's unavailable until it restarts. **Enable HA** in its **Settings** adds instances that take over automatically. High availability is included on the Pro and Business plans.
+
+Turning it on is one-way. To go back to a single instance, restore a backup as a new database and move your apps onto it with **Switch instance** ([Backups and restore](/data/databases/backups)).
+
+To load an existing database, see [Import a database dump](/data/databases/import-dump).
+
 <SectionCards>
   <SectionCard icon="Database" title="PostgreSQL" href="/data/databases/postgresql" description="Add a PostgreSQL database to an environment, find its connection details, and connect an app to it." />
   <SectionCard icon="Database" title="MariaDB" href="/data/databases/mariadb" description="Add MariaDB (MySQL-compatible) to an environment, connect an app, open it to the internet from allowed IPs, install plugins and turn on high availability." />
   <SectionCard icon="Zap" title="Valkey" href="/data/databases/valkey" description="Add Valkey (a Redis-compatible key/value store) to an environment, connect an app, and manage its storage and high availability." />
+  <SectionCard icon="FileInput" title="Import a database dump" href="/data/databases/import-dump" description="Load a pg_dump or mysqldump file into a PostgreSQL or MariaDB database with the CLI, and check the rows." />
   <SectionCard icon="DatabaseBackup" title="Backups and restore" href="/data/databases/backups" description="Back up an environment's databases, restore a recovery point as a copy, check the copy and point your apps at it." />
   <SectionCard icon="HardDrive" title="Volumes" href="/data/volumes" description="Give a service a disk that keeps its files across restarts and deploys, choose its size and where it's mounted, and remove it." />
   <SectionCard icon="FolderOpen" title="Browse volume files" href="/data/volumes/browse-files" description="Open a volume in the file browser to see, upload, edit, download and delete its files without a terminal." />

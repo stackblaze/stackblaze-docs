@@ -15,6 +15,10 @@ On the project canvas, click **+ Service**, then **Database or cache**. Pick **P
 
 <Screenshot id="postgresql/1-databases" alt="The Databases list in the add menu, with PostgreSQL" />
 
+The list also has **TimescaleDB**: PostgreSQL on a TimescaleDB image, for time-series data, with the `timescaledb` extension already created in the `app` database. It is the open-source edition ("no compression or continuous aggregates"). It's a separate choice when you add the database: an existing database can't be switched to or from it.
+
+<Screenshot id="data/databases-menu" alt="PostgreSQL, TimescaleDB and Valkey in the database list" />
+
 A PostgreSQL card appears under **Databases** marked **Ready to deploy**. Nothing has been created yet.
 
 <Screenshot id="postgresql/2-ready" alt="The PostgreSQL card on the canvas, Ready to deploy" />
@@ -25,7 +29,7 @@ A PostgreSQL card appears under **Databases** marked **Ready to deploy**. Nothin
 
 ### Review and deploy
 
-Click the card. The panel says the database "deploys with the catalog defaults", and that size, high availability and connections are tuned in this panel once it is running. Click **Deploy**.
+Click the card. The catalog defaults are PostgreSQL 17, one instance, a 1 GiB volume, the user `postgres` and the database `app`. The panel says the database "deploys with the catalog defaults", and that size, high availability and connections are tuned in this panel once it is running. Click **Deploy**.
 
 <Screenshot id="postgresql/3-review" alt="Ready to deploy, creates it on Dev right away, with Remove from canvas and Deploy" />
 
@@ -86,6 +90,10 @@ Open the app and go to **Variables**. Connecting added:
 
 Connecting also adds `DATABASE_URL`, a `postgres://` URL built from the `PG*` values. A variable you set yourself with the same name always wins.
 
+When the database includes its own connection pooler (some templates add one), connecting also adds `PGHOST_POOLER` and `PGPORT_POOLER`, the pooler's address.
+
+Build steps and the **Pre-deploy** command get the same variables. When the service has no usable `DATABASE_URL` of its own, they get one built from the `PG*` values, so a migration that reads `DATABASE_URL` works at build time too.
+
 If the app is connected to two databases that both set `DATABASE_URL` (for example PostgreSQL and MariaDB), the first keeps the plain names and the second also gets its whole set under its own prefix, such as `MARIADB_DATABASE_URL` and `MARIADB_MYSQL_HOST`.
 
 From the connected app, `psql "$DATABASE_URL"` reached the database:
@@ -103,6 +111,22 @@ To disconnect, turn the switch off and deploy the change; the `PG*` variables ar
 The card on the canvas shows the database's address for the SQL console (see [below](#sql-console)) and its status. The instance count (**1** with an arrow) opens the list of the database's volumes, with their size.
 
 <Screenshot id="postgresql/m-card-volume" alt="The PostgreSQL card with its volume list open: postgresql-…-1, 1Gi" />
+
+## Connect from your machine
+
+`stackblaze connect postgres` opens a `psql` shell on the database without opening it to the internet. Name the app it's connected to:
+
+```sh
+stackblaze connect postgres -p shop -e dev -a web            # psql runs inside the app
+stackblaze connect postgres --local -p shop -e dev -a web    # psql runs on your machine
+stackblaze connect postgres --tunnel -p shop -e dev -a web   # keep a local port open for GUI tools
+```
+
+- By default `psql` runs inside the app's instance.
+- `--local` runs your own `psql` through a private tunnel: `Tunnel 127.0.0.1:33567 → postgres addon "postgresql-u0kr". Running local psql…`
+- `--tunnel` keeps the tunnel open and prints the host, port, user and database for a GUI tool. `--print-only` prints a `postgresql://…@127.0.0.1:<port>/…` connection string instead of starting a client, and `--port` picks the local port.
+
+The tunnel listens on `127.0.0.1` only, closes after 30 minutes idle, and needs write access to the app. When the app has several databases, add `--instance <name>`.
 
 ## Connect from outside StackBlaze [#public-access]
 
@@ -267,9 +291,15 @@ The top of **Settings** shows what your plan allows for this database: how many 
 
 <Screenshot id="postgresql/m-limits" alt="Plan limits: Connections and Backup retention" />
 
+## Import a dump
+
+To load an existing database, see [Import a database dump](/data/databases/import-dump).
+
 ## Backups
 
-Back up the database, restore it as a copy, and move your apps onto the copy with **Switch instance**: see [Backups and restore](/data/databases/backups).
+Back up the database, restore it as a copy, and move your apps onto the copy with **Switch instance**: see [Backups and restore](/data/databases/backups). A recovery point holds a dump of the database.
+
+PostgreSQL also has [point-in-time recovery](/data/databases/backups#point-in-time-recovery), through the API only.
 
 ## Delete
 
