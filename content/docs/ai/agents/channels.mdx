@@ -71,6 +71,8 @@ The reply comes with the tokens it used (`usage`) and the model that answered. S
 
 `GET /v1/chats/<chat_id>` with the same key returns the chat: its channel (`api`), turns, tokens and every event, including the tools the agent used.
 
+To save a call, put the first message in `POST /v1/chats`: `-d '{"message":"Hello there"}'` creates the chat and returns the reply in one answer. Add `"stream": true` to either call to get the answer as server-sent events. Streaming, the chat limits and every error are on [AI agents API](/ai/agents/api).
+
 </Step>
 
 <Step>
@@ -84,6 +86,8 @@ Click **Revoke** next to the key and confirm **Revoke sbag_…? Anything using i
 </Step>
 
 </Steps>
+
+API keys start with `sbag_`. StackBlaze keeps only a hash of each key, so a lost key can't be shown again: revoke it and create another. An agent has up to 20 API keys.
 
 ## Start it from a webhook
 
@@ -120,6 +124,25 @@ The webhook answers at once with `202` and the new chat's id, `{"chat_id":"…"}
 
 A wrong secret gets `401` with `{"error":"Missing or invalid webhook secret."}`.
 
+What else a webhook takes, as we tried it on a test agent:
+
+- **The secret in its own header.** A sender that can't set `Authorization` can send `X-Agent-Webhook-Secret: <secret>` instead. Secrets start with `sbwh_`.
+- **Any body.** JSON, plain text or anything else, up to 64 KB. JSON is pretty-printed into the message, other text is passed as it is. A bigger body gets `413` with `Request body too large.`
+- **Wait for the answer.** Add `?wait=true` to the URL. The call then returns `200` once the agent has answered, with `chat_id`, `reply`, `usage` and `error`:
+
+  ```bash
+  curl -X POST 'https://<agent-address>/v1/hooks/<id>?wait=true' \
+    -H 'X-Agent-Webhook-Secret: <secret>' \
+    -H 'Content-Type: application/json' \
+    -d '{"event":"order.paid","id":7}'
+  ```
+
+  Most senders give up after a few seconds, so leave it off for them.
+- **60 calls per minute.** Each webhook takes up to 60 calls a minute. We sent 63: the last ones got `429` with `Too many calls to this webhook. Try again in a minute.` and a `Retry-After` header. Calls with a wrong secret don't count.
+- Only `POST`: a `GET` gets `405` with `Use POST.` A URL with an unknown webhook id gets `404` with `No such webhook.`
+
+An agent has up to 20 webhooks.
+
 </Step>
 
 <Step>
@@ -146,8 +169,8 @@ A schedule sends the agent a message at set times, like a daily report. Each run
 
 Go to **Agent** → **Triggers** → **Time** and click **Add schedule**. A schedule has:
 
-- **When**: a cron expression with five fields (minute, hour, day, month, weekday). It starts at `0 9 * * 1-5`. **Presets** fills in **Every hour** (`0 * * * *`), **Every day at 09:00** (`0 9 * * *`), **Weekdays at 09:00** (`0 9 * * 1-5`) or **Every Monday at 09:00** (`0 9 * * 1`).
-- **Time zone**: the zone the times are in.
+- **When**: a cron expression with five fields (minute, hour, day, month, weekday): see [Cron expressions](#cron-expressions). It starts at `0 9 * * 1-5`. **Presets** fills in **Every hour** (`0 * * * *`), **Every day at 09:00** (`0 9 * * *`), **Weekdays at 09:00** (`0 9 * * 1-5`) or **Every Monday at 09:00** (`0 9 * * 1`).
+- **Time zone**: the zone the times are in: **UTC** first, then every time zone your browser knows, like `Europe/Berlin`. Times are local times in that zone, summer time included, so `0 9 * * *` in `Europe/Berlin` runs at 09:00 Berlin time all year.
 - **On**: turn it off to keep the schedule without running it.
 - The message the agent gets, up to 4,000 characters.
 
@@ -181,6 +204,25 @@ Click **Remove** on the schedule, then **Stage changes**, and commit and deploy 
 
 </Steps>
 
+An agent has up to 20 schedules. A run is skipped while the previous run of the same schedule is still going.
+
+### Cron expressions
+
+The five fields are minute (0–59), hour (0–23), day of the month (1–31), month (1–12) and day of the week (0–7, where both 0 and 7 are Sunday). Each field is one of these, or a comma list of them:
+
+| Form | Example | Means |
+| --- | --- | --- |
+| `*` | `*` | Every value |
+| A number | `9` | That value |
+| A range | `1-5` | Monday to Friday, in the weekday field |
+| A step | `*/15` | Every 15th value: minutes 0, 15, 30 and 45 |
+| A range with a step | `0-30/10` | 0, 10, 20 and 30 |
+| A list | `1,15` | The 1st and the 15th |
+
+Names like `MON` or `JAN` aren't accepted, and neither are `?`, `L`, `W` or `#`. A step needs `*` or a range in front of it: write `5-59/15`, not `5/15`. A field that doesn't fit says which one is wrong, for example **The day of week field is not valid (0-7, \*, lists, ranges, steps).**
+
+When both day fields are set, a day that matches either one runs. `0 9 1 * 1` runs on the 1st of the month and on every Monday. `0 9 * * 1` runs on Mondays only.
+
 ## Put it on your website
 
 The widget is a chat bubble for the visitors of your site.
@@ -195,7 +237,7 @@ Go to **Agent** → **Triggers** → **Widget** and turn on **Website widget**.
 
 <Screenshot id="ai-agent/ch-widget-off" alt="Website widget, off" />
 
-Visitors are anonymous, so while the widget is on, the agent has no shell or file-editing tools (**bash**, **edit** and **write**), and its integrations are off. **Integrations** then says **Integrations are off while the website widget is on: a visitor could talk the agent into using them.**
+Turning on the widget makes the agent public. Visitors are anonymous, so while the widget is on, the agent has no shell or file-editing tools (**bash**, **edit** and **write**), and its integrations are off. **Integrations** then says **Integrations are off while the website widget is on: a visitor could talk the agent into using them.**
 
 </Step>
 
@@ -205,7 +247,7 @@ Visitors are anonymous, so while the widget is on, the agent has no shell or fil
 
 Under **Sites that may embed it**, type the address of each site that shows the bubble, and click **Add site** for another (up to 20). **Remove** takes a site off the list.
 
-Give the address only: `https://` and the host, with a port if it has one. `http://` works only for `localhost`. The field explains what is wrong:
+Give the address only: `https://` and the host, with a port if it has one, like `https://shop.acme.com:8443`. `http://` works only for `localhost`. The field explains what is wrong:
 
 - `acme.com`: **Enter a site address, like https://acme.com.**
 - `https://acme.com/shop`: **Only the site address: no path, like https://acme.com.**
@@ -232,6 +274,14 @@ Paste it before `</body>` on the pages that should show the bubble.
 
 The bubble opens a chat panel with the agent's name, a **Type a message…** box and **Send**. On a site that is not on the list, the panel refuses to load.
 
+How the widget keeps visitors apart and limits them:
+
+- Each visitor gets an anonymous token for 24 hours, tied to your site. A visitor can only continue their own chats.
+- A visitor can send 10 messages a minute and start 3 chats a day. From one address, at most 60 messages and 10 new visitors a minute. Over a limit, the widget's calls get `429`.
+- A message is up to 8,000 characters, as on the [API](/ai/agents/api#chat-limits).
+
+The widget doesn't change who can reach the agent's address: that's its [visibility](/networking/visibility). The API and webhooks still need their key or secret.
+
 <Screenshot id="ai-agent/ch-widget-chat" alt="A test page with the widget open: a question and the agent's answer" />
 
 To turn the widget off, turn off **Website widget**, stage the change and deploy it.
@@ -246,7 +296,16 @@ To turn the widget off, turn off **Website widget**, stage the change and deploy
 
 <Screenshot id="ai-agent/ch-sessions" alt="Sessions: chats from the Widget, Schedule, Webhook and API channels" />
 
-The list shows **All channels**, or one of them: **Team chat**, **API**, **Widget**, **Webhook**, **Schedule** or **Eval**.
+The list shows **All channels**, or one of them:
+
+| Channel | Where the chat came from |
+| --- | --- |
+| **Team chat** | The team chat page (**open chat**) |
+| **API** | A call with an API key |
+| **Widget** | A visitor on your website |
+| **Webhook** | A webhook call |
+| **Schedule** | A schedule run |
+| **Eval** | An [eval](/ai/agents/evals) trial, an eval judge, or an [optimization](/ai/agents/optimizations) run |
 
 <Screenshot id="ai-agent/ch-sessions-channels" alt="The channel menu: All channels, Team chat, API, Widget, Webhook, Schedule, Eval" />
 

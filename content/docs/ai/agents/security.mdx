@@ -1,0 +1,63 @@
+---
+title: Security and limits
+description: Who can reach an AI agent, what its tools can reach, where its keys and secrets are kept, and who on your team can change it.
+---
+
+An [AI agent](/ai/agents) talks to people you may not know, through tools you choose. This page says what keeps it in its lane. Its limits are listed on the [AI agents](/ai/agents#limits) page.
+
+## Who can start a chat
+
+An agent is private when you create it. Only these can start a chat:
+
+- Your team, through **open chat**.
+- Whoever holds one of its [API keys](/ai/agents/channels#call-it-from-your-code) or a [webhook](/ai/agents/channels#start-it-from-a-webhook) secret.
+- Its own [schedules](/ai/agents/channels#run-it-on-a-schedule), evals and optimizations.
+
+Turning on the [website widget](/ai/agents/channels#put-it-on-your-website) makes it public: anyone on the sites you list can chat with it. A public agent:
+
+- Can't use **bash**, **edit** or **write**, whatever its settings say. The form greys them out, and the API refuses them.
+- Has no integrations.
+- Shows its chat panel only inside the sites you listed.
+- Lets each visitor continue only their own chats.
+
+The widget doesn't change who can reach the agent's address. That's its [visibility](/networking/visibility), like any service.
+
+## Signing in to the chat page
+
+**open chat** signs you in with a link that works for 120 seconds. Each team member gets their own session on the chat page, which lasts 12 hours. A link that has expired says: "This sign-in link is not valid or has expired. Open the agent from the dashboard again."
+
+## What its tools can reach
+
+Only the eight tools on the form can be turned on: **read**, **grep**, **glob**, **web_search**, **todo**, **bash**, **edit** and **write**.
+
+The file tools reach only the agent's knowledge folder. An agent with **edit** or **write** on also gets a working folder for each chat. Anything else is refused, with a reason the agent sees:
+
+- URLs and internal addresses: "URLs and internal URIs are not available to this agent".
+- Paths on other machines: "remote paths are not available to this agent".
+- `~` paths: "home-directory paths are not available to this agent".
+- Any other path, such as system folders or a link that points out of the folder: "that path is outside the files this agent may use".
+
+The agent can read its [skills](/ai/agents/knowledge#skills) but never change them.
+
+## Where the secrets are kept
+
+| Secret | Starts with | How it is kept |
+| --- | --- | --- |
+| API key | `sbag_` | Only a hash of it. It's shown once when you create it. |
+| Webhook secret | `sbwh_` | Only a hash of it, compared in constant time. It's shown once. |
+| Integration token | | A masked variable of the agent. It's sent only to its own server. |
+| Provider key | | In the [AI Gateway](/ai/agent-gateway)'s variables, never on the agent. The API refuses a provider key on an agent. |
+
+- Each agent gets its own gateway key, limited to its model. StackBlaze talks to the gateway's admin side privately, inside the platform, and never returns, logs or hands its master key to an agent.
+- Each chat runs as its own process, which gets only what it needs: the model's key, the agent's settings and the tokens of its own integrations. Nothing else from the service's environment.
+- The agent never writes message text to its logs. A log line for a chat turn has its channel, time, tokens, tool count and any error.
+
+## Who can change an agent
+
+| What | Who |
+| --- | --- |
+| See the agent, its sessions, files, skills, evals and optimizations | Anyone with read access to the project |
+| Create, change and delete agents, keys, webhooks, files, skills and integrations, run evals and optimizations | Write access |
+| **open chat** | Write access |
+
+The same rules apply to the [API](/ai/agents/api#the-stackblaze-api).

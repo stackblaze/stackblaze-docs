@@ -39,6 +39,13 @@ The account menu on the left shows the Hugging Face account models download with
 
 <Screenshot id="ai-model/3-hf-menu" alt="The Hugging Face account menu" />
 
+**Gated models** (some publishers only let approved accounts download) need two things first: sign in with Hugging Face for the workspace (**Settings** → **Integrations**), and accept the model's licence on huggingface.co with that same account. The catalog models aren't gated. StackBlaze checks before it rents a GPU, and refuses the deploy with one of these:
+
+- Not signed in: **&lt;model&gt; is gated: connect Hugging Face for this workspace (Settings → Integrations), then deploy again.**
+- Licence not accepted: **The Hugging Face account &lt;account&gt; cannot download &lt;model&gt; yet. Accept the model's licence on huggingface.co/&lt;model&gt; with that account, then deploy again.**
+
+If the workspace signs out of Hugging Face later, a gated model can't download on its next start. Its card then says **Hugging Face is not connected for this workspace, so this gated model cannot download. Connect it again in Settings → Integrations.**
+
 </Step>
 
 <Step>
@@ -80,11 +87,32 @@ When it is ready, the last log line is "Ready: the model is answering requests",
 
 <Screenshot id="ai-model/m-snippet-curl" alt="The curl snippet" />
 
-A request to a sleeping model wakes it and waits for the answer, which takes about a minute.
+A request to a model that went to sleep on its own wakes it and waits for the answer, which takes about a minute. See [Sleep and wake](#sleep-and-wake) for how long a request waits.
 
 </Step>
 
 </Steps>
+
+## Its API
+
+The base URL has the form `https://api.stackblaze.cloud/api/inference/<id>/v1`. The API key starts with `sbai_`. Only that key is accepted: an API token or a dashboard sign-in isn't. A missing or wrong key gets `401` with **Missing or invalid API key.**
+
+| Path | What it does |
+| --- | --- |
+| `GET /v1/models` | Lists the one model it serves |
+| `POST /v1/chat/completions` | Chat |
+| `POST /v1/completions` | Plain text completion |
+
+- `"stream": true` streams the answer as server-sent events.
+- The `model` field in a request is ignored: the model always answers.
+- The catalog models are set up for tool calling and have a 16,384-token context.
+- Qwen3, DeepSeek-R1 and QwQ models put their thinking in a separate `reasoning_content` field, streamed too, so the answer itself has none.
+
+For **Metrics**, StackBlaze records each request's time, how long it took, whether it worked and its tokens. The relay doesn't save the prompt or the answer.
+
+<Callout type="warn">
+The API key is a live credential: anyone with it can use the model, and it's billed to you. Each time someone shows or reads the key (**Show**, or `stackblaze models key`), it's written to the [audit log](/security/audit-log), and only members with write access can read it. Keep it in a secret variable, not in your code.
+</Callout>
 
 ## Chat with it
 
@@ -101,11 +129,76 @@ A request to a sleeping model wakes it and waits for the answer, which takes abo
 
 <Screenshot id="ai-model/m-manual-menu" alt="Manual Deploy: Put to sleep and Replace GPU…" />
 
+### How long a request waits
+
+A request to a model that went to sleep after **Sleep after** wakes it, and is held until the model answers:
+
+- Usually the model wakes on the same machine, in about a minute. The request waits up to 150 seconds. After that it gets `503` with a `Retry-After: 30` header and **The model is waking up. Retry in about 30 seconds.**
+- If the machine was given to someone else while the model slept, StackBlaze rents a new GPU and downloads the model again, which takes several minutes. The card then says **next wake may take minutes**. The request waits up to 270 seconds, then gets `503` with `Retry-After: 60` and **This model's GPU was given to someone else while it slept, and the new GPU is still starting. Retry in about a minute.**
+
+So give your client a timeout of a few minutes, and retry a `503` after the `Retry-After` seconds. To wake the model before a demo, use **Wake now** on the **Deployment** tab or `stackblaze models wake`. If the first request must never wait, set **Sleep after** to **Never (always on)**.
+
+### A model you put to sleep
+
+**Put to sleep** (or `stackblaze models sleep`) is different: requests don't wake it. Until you wake it, they get `503` with **This AI model is asleep. Wake it in the dashboard, then try again.** Wake it with **Wake now** on the **Deployment** tab, **Wake up** in the card's menu, or `stackblaze models wake`.
+
+The same goes for a model StackBlaze put to sleep because it couldn't start (see [Where it runs](#where-it-runs)).
+
 ## Metrics
 
 **Metrics** shows, for **1h**, **6h**, **24h** or **7d**: requests, response time, tokens and errors through the model's URL, and the GPU's load, memory and temperature and the CPU while it runs.
 
 <Screenshot id="ai-model/m-metrics-after" alt="Metrics after one request: Requests, Response time, Tokens, Errors" />
+
+## Plans and GPU credit
+
+Every plan includes AI models. Your plan sets how many you can have per workspace, how many copies (**GPUs**) each can run, and how big a machine it can rent:
+
+| Plan | AI models | Copies of a model | GPUs in one machine |
+| --- | --- | --- | --- |
+| Free Trial | 3 | 1 | 1 |
+| Developer | 3 | 1 | 1 |
+| Pro | 3 | 2 | 4 |
+| Business | 10 | 6 | 8 |
+
+A model too big for one GPU runs on a machine with 2, 4 or 8 GPUs. Over your plan's limits, the deploy is refused with the reason, such as **Your plan allows up to 3 AI models per workspace. Delete one to add another.** `stackblaze models sizes` shows your plan's limits.
+
+GPU time is paid from prepaid [GPU credit](/billing#gpu-credit), billed per second:
+
+- **Deploying** needs credit for one hour at the model's highest price. Otherwise it's refused: **AI models run on prepaid GPU credit. Add GPU credit in Billing to deploy one.**, or with some credit, **This model can cost up to $… an hour and your GPU credit is $…. Add GPU credit in Billing to deploy it.**
+- **When the credit runs out**, every model of the workspace is paused: no GPU runs, and requests get `503` with **This AI model is paused.** and the reason. The card says **Paused: your GPU credit is used up. Add GPU credit in Billing to start it again.** Once you add credit, each model starts again, or goes back to sleep if it was asleep.
+- **Asleep**, a model is billed for its stored disk only. `stackblaze models sizes` gives the price: on our account, up to $0.02 an hour.
+
+Models are also paused while the workspace has an unpaid invoice, has used up its usage credit, or is on a plan without AI models. The card then says why.
+
+## Where it runs
+
+- The model server runs on x86-64 machines. By default, StackBlaze only rents GPUs of compute capability 8.0 or newer, and never Tesla V100 or GB10.
+- A start that gets stuck in one step (renting, downloading, loading) is moved to another GPU once. The card says **The first GPU took too long to start, so this model was moved to another one. It should be ready in a few minutes.** If the second GPU is slow too, the model is put to sleep to stop charges: **This model did not start on two different GPUs, so it was put to sleep to stop charges. Wake it to try again, or delete it and deploy it in another region or on a larger GPU.**
+- When maintenance is announced on its machine, the model is moved to another GPU ahead of time: a sleeping one at once, a running one 30 minutes before the maintenance.
+
+## From the terminal
+
+The [CLI](/cli/reference/models) does the same as the dashboard:
+
+```sh
+stackblaze models search qwen3                 # find a model on Hugging Face
+stackblaze models check Qwen/Qwen3-4B          # the GPU it needs, its price, whether it's gated
+stackblaze models deploy Qwen/Qwen3-4B -p my-project -e production --wait
+stackblaze models url <name> -p my-project -e production
+stackblaze models key <name> -p my-project -e production
+```
+
+`models check` deploys nothing. On our account it said:
+
+```text
+OK Qwen/Qwen3-4B can be deployed
+runs on  16 GB GPU per copy
+price    from $0.12 up to $0.29 per hour, per copy
+gated    no
+```
+
+`models deploy` prints what the model will run on, its price range and your GPU credit before it creates anything. `--wait` follows the start until the model answers. `models key` is the only command that prints the key.
 
 ## Change or delete it
 
@@ -114,3 +207,28 @@ A request to a sleeping model wakes it and waits for the answer, which takes abo
 Delete is a canvas change: it is staged ("Delete staged") until you commit. Click **Commit 1 change** on the canvas. The review says the model "releases its GPU; its URL and API key stop working". Type the confirmation it asks for (`sudo delete <name>`) and click the delete button.
 
 <Screenshot id="ai-model/x-delete-staged" alt="Delete staged: commit the changes to delete this model and release its GPU" />
+
+## Use it from your apps
+
+Any app can call the model with an OpenAI client: give it the **Base URL** and **API key** from **Connect** as [variables](/configure/environment-variables), and keep the key secret.
+
+The AI templates in the [catalog](/build-deploy/templates) (**LiteLLM**, **vLLM**, **Langflow** and **Kestra**) read the model from three variables, which start empty:
+
+| Variable | What to put in it |
+| --- | --- |
+| `MODEL_URL` | The model's **Base URL** |
+| `MODEL_API_KEY` | The model's **API key** |
+| `MODEL_NAME` | The model id, like `Qwen/Qwen3-4B` |
+
+Deploy the template, fill in the three variables on its **Variables** tab, and deploy the change. Apps from these templates, and any app with a `MODEL_URL` variable, get a 600-second request timeout, so a request can wait for the model to wake.
+
+What each template does with them:
+
+- **vLLM** puts one OpenAI-compatible URL with its own key in front of the model, for several apps to share. Apps call the vLLM app's address with `/v1`, the key from its `API_KEY` variable, and the model name from `MODEL_ALIAS` (`model` by default). It doesn't log message text.
+- **LiteLLM** registers the model at start, under `MODEL_ALIAS` if you set one, otherwise under `MODEL_NAME`. Its admin page (sign in with `UI_USERNAME` and `UI_PASSWORD` from **Variables**) adds more models and gives each app its own key. `MODEL_TIMEOUT` is 600 seconds.
+- **Langflow** gets the three variables as global variables, for its model components. The model's host is added to the hosts Langflow may send credentials to, so you don't have to.
+- **Kestra** also sets `ENV_MODEL_URL`, `ENV_MODEL_API_KEY` and `ENV_MODEL_NAME` from them, for your flows.
+
+`MODEL_URL` works with or without `/v1` at the end for vLLM and LiteLLM.
+
+The [AI Gateway](/ai/agent-gateway) that AI agents use is the same **LiteLLM** template. A LiteLLM app you deploy yourself in an environment is offered to that environment's agents as a gateway too.

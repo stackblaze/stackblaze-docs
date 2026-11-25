@@ -1,0 +1,274 @@
+---
+title: AI agents API
+description: Manage AI agents with the StackBlaze API, and chat with an agent through its own chat API, with streaming, limits and errors.
+---
+
+There are two APIs for an [AI agent](/ai/agents):
+
+| API | Address | Token | What it's for |
+| --- | --- | --- | --- |
+| The StackBlaze API | `https://api.stackblaze.cloud/api/ai-agents/…` | A personal [API token](/security/api-tokens) (`sb_pat_…`) | Create, change and delete agents, and manage their files, keys, evals and the rest |
+| The agent's chat API | `https://<agent-address>/v1/…` | An agent API key (`sbag_…`) | Chat with one agent from your code |
+
+The agent's address is under its name at the top of its panel. To create an `sbag_` key, see [Call it from your code](/ai/agents/channels#call-it-from-your-code).
+
+We ran the calls on this page against a test agent. Its model was a small test endpoint that echoes the message back, so the replies below start with `echo:`.
+
+## The chat API
+
+Send the agent key as a bearer token on every call.
+
+| Route | What it does |
+| --- | --- |
+| `POST /v1/chats` | Starts a chat. With `{"message": "…"}`, it also sends the first message and returns the reply. |
+| `POST /v1/chats/{id}/messages` | Sends a message: `{"message": "…", "stream": false}` |
+| `GET /v1/chats/{id}` | The chat: its channel, turns, tokens and every event |
+| `DELETE /v1/chats/{id}` | Stops the chat's process now, instead of after 10 idle minutes |
+
+### Start a chat with its first message
+
+```bash
+curl -X POST https://<agent-address>/v1/chats \
+  -H "Authorization: Bearer $AGENT_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"message":"Hello there"}'
+```
+
+```json
+{"chat_id":"9f63ce77-…","reply":"echo: Hello there","usage":{"input":10,"output":5,"cached":0},"model":"gateway/echo","error":null}
+```
+
+The answer is `201`. Without `message` (or with `{}`), the call only creates the chat and returns `{"chat_id":"…"}`.
+
+### What a reply holds
+
+- `reply`: the agent's answer.
+- `usage.input`: the tokens of the whole prompt, the instructions and the earlier turns included. `usage.output`: the tokens of the answer.
+- `usage.cached`: the part of `usage.input` the provider read from its prompt cache.
+- `model`: the model that answered.
+- `error`: why the turn failed, or `null`.
+
+### Stream the answer
+
+Add `"stream": true` to get server-sent events instead of one JSON answer. Use `curl -N` so curl prints them as they arrive:
+
+```bash
+curl -N -X POST https://<agent-address>/v1/chats/<chat_id>/messages \
+  -H "Authorization: Bearer $AGENT_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"message":"Stream this","stream":true}'
+```
+
+```text
+event: chat
+data: {"id":"9f61843a-…"}
+
+event: delta
+data: {"text":"echo: Stream this"}
+
+event: done
+data: {"reply":"echo: Stream this","usage":{"input":10,"output":5,"cached":0},"model":"gateway/echo","error":null}
+```
+
+The events are:
+
+- `chat`: the chat's id, first.
+- `delta`: a piece of the answer's text.
+- `tool`: a tool the agent called, as `{"name":"read"}`.
+- `done`: the whole reply, with `usage`, `model` and `error`.
+- `error`: the turn failed, with `{"message":"…"}`.
+
+`POST /v1/chats` takes `"stream": true` too, with its first message.
+
+### End a chat
+
+`DELETE /v1/chats/<chat_id>` answers `{"ended":true}`. It stops the process that runs the chat. The chat itself stays: `GET` still returns it, it still shows in **Sessions**, and a new message continues it with its history.
+
+### Chat limits
+
+| Limit | Value | When it's over |
+| --- | --- | --- |
+| Message length | 8,000 characters | `422` `Message is longer than 8000 characters.` |
+| Turns per chat | 30 | `422` `This chat reached its limit of 30 turns. Start a new chat.` |
+| Time for one answer | 120 seconds | The turn ends with an error |
+| Chats running at once | 5 per agent | A new one takes the place of the chat that has been idle longest. If all 5 are answering: `503` `All chat slots are busy. Try again in a moment.` |
+
+A chat with no message for 10 minutes is put to sleep. The next message wakes it with its history. Chats are kept in the agent's PostgreSQL, so they survive restarts. A chat that hasn't changed for 90 days is removed.
+
+### Errors
+
+Every error is JSON: `{"error":"…"}`.
+
+| Status | When | Message |
+| --- | --- | --- |
+| `400` | No `message` in the body | `"message" is required.` |
+| `401` | No key, or a key of another agent or a revoked one | `Missing or invalid credentials.` |
+| `403` | `GET /v1/chats` with an API key | `Listing chats is for the team only.` |
+| `404` | No chat with that id | `No such chat.` |
+| `413` | A body over 64 KB | `Request body too large.` |
+| `422` | An empty or too long message, or a full chat | See the limits above |
+| `503` | All chat slots busy (`Retry-After: 5`), or the chat store is starting (`Retry-After: 10`) | |
+
+We saw the `400`, `401`, `403`, `404` and `422` answers on our test agent.
+
+A list of all chats isn't part of the chat API for keys. Read it with the StackBlaze API instead: see [Sessions](#sessions) below.
+
+## The StackBlaze API
+
+Every route starts with `https://api.stackblaze.cloud/api/ai-agents/{project}/{environment}`, here shortened to `…`. `{name}` is the agent's service name, like `docs-a-aqp2`, not its display name.
+
+- Reading needs read access to the project (`app:read`). Every change needs write access (`app:write`).
+- No route returns a provider key, an integration token or a stored secret. A new API key or webhook secret is returned once, when you create it.
+
+```bash
+curl -H "Authorization: Bearer $STACKBLAZE_TOKEN" \
+  https://api.stackblaze.cloud/api/ai-agents/<project>/<environment>
+```
+
+The CLI does the same with your stored sign-in: `stackblaze api GET /api/ai-agents/<project>/<environment>`. See [Call the API](/cli/api).
+
+### Agents
+
+| Route | What it does |
+| --- | --- |
+| `GET …` | The agents of the environment |
+| `POST …` | Create an agent |
+| `GET …/{name}` | One agent, without its keys |
+| `PUT …/{name}` | Change its settings. Fields you leave out keep their value. It's a new release, and the agent restarts. |
+| `DELETE …/{name}` | Delete the agent and its chats. See [Delete it](/ai/agents/run#delete-it) for what else goes. |
+| `POST …/{name}/update-image` | Move it to the agent version new agents get. It restarts; its data and settings stay. |
+| `POST …/{name}/chat` | A sign-in link to its chat page, valid for 120 seconds. Needs write access. |
+
+The body of a create or a change:
+
+```json
+{
+  "name": "support",
+  "title": "Support",
+  "instructions": "You answer questions about our shop.",
+  "tools": ["read", "grep", "glob"],
+  "public": false,
+  "model": { "source": "litellm", "app": "ai-gateway-1yq5", "model": "echo" },
+  "widget": { "enabled": false, "origins": [] },
+  "schedules": [{ "cron": "0 9 * * 1-5", "message": "Write the daily report.", "tz": "UTC", "enabled": true }]
+}
+```
+
+- `name` is needed to create. `title` is up to 60 characters and `instructions` up to 20,000.
+- `tools`: any of `read`, `grep`, `glob`, `web_search`, `todo`, `bash`, `edit` and `write`. Without it, an agent gets `read`, `grep` and `glob`.
+- `model` is one of two kinds:
+  - `{"source": "ai-model", "aiModel": "<name>"}`: an [AI model](/ai/models) of the same environment.
+  - `{"source": "litellm", "app": "<gateway>", "model": "<model id>"}`: a model of an [AI Gateway](/ai/agent-gateway) in the same environment.
+- `public: true` lets the website widget work, and refuses `bash`, `edit` and `write`. A public agent with one of them is refused: `A public agent cannot use bash: turn those tools off or keep the agent private.`
+- `widget`: `enabled` and up to 20 `origins`, each `https://host` with an optional port. `http://` only for `localhost`. The widget needs `public: true`.
+- `schedules`: the whole list, up to 20. `cron` has five fields, `tz` is `UTC` or a time zone name like `Europe/Berlin`, and the message is up to 4,000 characters. The server adds an `id` to each one.
+
+A provider key never goes on the agent. We tried both ways on the API:
+
+- A model with `"source": "url"` gets `400` `Provider keys are not stored on agents. Use LiteLLM in this environment (it holds the key) or an AI model of the environment.`
+- A `modelKey` field gets `400` `modelKey is not accepted: provider keys are stored in LiteLLM, never on an agent.`
+
+To use a provider, deploy an AI Gateway with the key first (below), then create the agent on one of its models.
+
+### AI Gateways
+
+| Route | What it does |
+| --- | --- |
+| `GET …/litellm` | The gateways of the environment and their models |
+| `POST …/litellm` | Deploy a new gateway with a provider key |
+| `POST …/litellm/{app}/setup` | Give a gateway that has no models yet a provider key and its models |
+
+The body of both `POST`s:
+
+| Field | Value |
+| --- | --- |
+| `provider` | `anthropic`, `openai` or `openai-compatible` |
+| `apiKey` | The provider's key. Optional for `openai-compatible`, for an endpoint that needs none. |
+| `models` | The model ids, 1 to 10. Not for `anthropic`, which gets its models from StackBlaze. |
+| `baseUrl` | For `openai-compatible`: the endpoint, like `https://gpu.example/v1` |
+
+We deployed our test gateway with `{"provider":"openai-compatible","models":["echo"],"baseUrl":"https://<endpoint>/v1"}`. It answered `{"app":"ai-gateway-1yq5","displayName":"ai-gateway"}`, and `GET …/litellm` listed its `echo` model about a minute later. An environment can have up to 20 gateways.
+
+### Keys and webhooks
+
+| Route | What it does |
+| --- | --- |
+| `POST …/{name}/keys` | Create an API key: `{"label": "…"}`. The key (`sbag_…`) is in the answer, once. |
+| `DELETE …/{name}/keys/{id}` | Revoke a key |
+| `POST …/{name}/webhooks` | Create a webhook: `{"label": "…"}`. Its `url` and `secret` (`sbwh_…`) are in the answer, once. |
+| `DELETE …/{name}/webhooks/{id}` | Revoke a webhook |
+
+An agent has up to 20 API keys and 20 webhooks.
+
+### Knowledge, skills and integrations
+
+| Route | What it does |
+| --- | --- |
+| `GET …/{name}/knowledge` | The knowledge files: name, size and date |
+| `PUT …/{name}/knowledge/{file}` | Upload a file. The body is the file itself (`Content-Type: application/octet-stream`), up to 10 MB. A file with the same name is replaced. |
+| `DELETE …/{name}/knowledge/{file}` | Delete a file |
+| `GET …/{name}/skills` | The skills: name and description |
+| `GET …/{name}/skills/{skill}` | One skill with its steps |
+| `PUT …/{name}/skills/{skill}` | Create or change a skill: `{"description": "…", "body": "…"}` |
+| `DELETE …/{name}/skills/{skill}` | Delete a skill |
+| `POST …/{name}/integrations` | Add an integration: `{"name", "url", "token"?, "header"?, "scheme"?, "label"?}` |
+| `DELETE …/{name}/integrations/{id}` | Remove an integration and its stored token |
+
+The rules for each are on [Knowledge, skills and integrations](/ai/agents/knowledge).
+
+### Sessions
+
+| Route | What it does |
+| --- | --- |
+| `GET …/{name}/sessions` | Every chat, newest first. `?limit` (50 by default, up to 200), `?channel` and `?before` for the next page. |
+| `GET …/{name}/sessions/{chat}` | One chat, with its messages and the tools it used |
+
+`channel` is `chat` (team chat), `api`, `widget`, `webhook`, `schedule` or `eval`. Each answer has a `nextBefore`: pass it as `?before` to get the next page.
+
+```bash
+stackblaze api GET /api/ai-agents/<project>/<environment>/<name>/sessions -q limit=1 -q channel=webhook
+```
+
+```json
+{
+  "storage": "postgres",
+  "chats": [
+    {
+      "id": "f20c20ba-…",
+      "channel": "webhook",
+      "turns": 1,
+      "tokens_in": 10,
+      "tokens_out": 5,
+      "user": "webhook:e60849250f4d",
+      "first_message": "A webhook \"e60849250f4d\" was received.\n\nn48"
+    }
+  ],
+  "nextBefore": "2026-11-25T08:00:19.784Z"
+}
+```
+
+### Evals
+
+| Route | What it does |
+| --- | --- |
+| `GET …/{name}/evals` | The evals, each with its last run |
+| `GET …/{name}/evals/{eval}` | One eval |
+| `PUT …/{name}/evals/{eval}` | Create or change an eval: `{samples, checks, epochs}` |
+| `DELETE …/{name}/evals/{eval}` | Delete an eval and its runs |
+| `POST …/{name}/evals/{eval}/run` | Start a run. The answer is `{"run": "…", "total_trials": 4}`. |
+| `GET …/{name}/evals/{eval}/runs/{run}` | A run: `running` or `done`, its trials and summary |
+
+The eval's JSON is on [Test your agent](/ai/agents/evals#the-evals-json).
+
+### Optimizations
+
+| Route | What it does |
+| --- | --- |
+| `GET …/{name}/optimizations` | Whether the agent can run one, and its runs |
+| `POST …/{name}/optimizations` | Start a run: `{"budget": 1}` (dollars, up to 500) |
+| `GET …/{name}/optimizations/{run}` | One run |
+| `POST …/{name}/optimizations/{run}/accept` | Apply the recommended change |
+| `POST …/{name}/optimizations/{run}/dismiss` | Keep the agent as it is |
+| `POST …/{name}/optimizations/{run}/cancel` | Stop the run |
+
+See [Optimizations](/ai/agents/optimizations).

@@ -4,6 +4,9 @@
     "run",
     "channels",
     "knowledge",
-    "evals"
+    "evals",
+    "optimizations",
+    "api",
+    "security"
   ]
 }

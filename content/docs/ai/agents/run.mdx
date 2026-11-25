@@ -33,7 +33,7 @@ The tabs are **Deployment**, **Agent**, **Variables**, **Logs**, **Metrics**, **
 | **Integrations** | Outside services as tools | Saved at once, then the agent restarts: see [Integrations](/ai/agents/knowledge#integrations) |
 | **Triggers** | **Time**, **Webhook**, **API** and **Widget** | Schedules and the widget are staged. Keys and webhooks are saved at once. See [Reach your agent](/ai/agents/channels) |
 | **Evals** | Repeatable tests | Saved at once: see [Test your agent](/ai/agents/evals) |
-| **Optimizations** | Cheaper ways to run it | See [Optimizations](/ai/agents/evals#optimizations) |
+| **Optimizations** | Cheaper ways to run it | See [Optimizations](/ai/agents/optimizations) |
 | **Sessions** | Every chat, from every channel | Read only: see [below](#read-its-sessions) |
 
 Each section's title has an **(i)** that explains it.
@@ -116,6 +116,8 @@ A small model doesn't always say when it can't do something. Without its tools, 
 
 On a gateway model, the hint says **The agent gets its own gateway key, limited to this model: no key to paste.**
 
+An agent created before provider keys moved to the gateway may still hold its own key. **Model** then has a group **Key on this agent (no longer offered)**, and the hint says **This agent still holds its own provider key. Pick an AI Gateway model to move the key off the agent.** Once you pick a gateway model and deploy, the key is off the agent.
+
 We moved our agent from the AI model to the gateway of our second agent, and turned its tools back on in the same change. The commit said **changes model, tools**. After the restart, it answered from its FAQ through the gateway as before.
 
 ## Chat with it
@@ -140,7 +142,25 @@ We moved our agent from the AI model to the gateway of our second agent, and tur
 
 <Screenshot id="ai-agent/p-session-1" alt="Sessions: the chat that used read, with Team chat, 3,689 in / 59 out, used read and the answer" />
 
+Chats are kept in the agent's PostgreSQL, so they survive restarts and updates. A chat that hasn't changed for 90 days is removed. An older agent may still keep its chats in memory. Its **Sessions** then says **This agent keeps chats in memory: they reset when it restarts. Agents created now get their own database.**
+
 **Add to eval** turns the chat's question into a test case: see [Test your agent](/ai/agents/evals#turn-a-real-chat-into-a-test-case). The channels are explained in [Reach your agent](/ai/agents/channels#read-the-sessions).
+
+## Chat limits
+
+- A message is up to 8,000 characters, and a chat up to 30 turns.
+- An answer that takes more than 120 seconds is stopped: the chat page shows **No reply within 120 s.**
+- Up to 5 chats run at once. A new one takes the place of the chat that has been idle longest. A chat with no message for 10 minutes is put to sleep, and the next message wakes it with its history.
+
+The [API](/ai/agents/api#chat-limits) page has the errors you get over each limit.
+
+## Update the agent version
+
+New agents get the latest version of the agent software. An agent keeps the version it was created with until you update it. When a newer one exists, **Agent** → **General** shows **A newer agent version is available.**, the version it runs and the one new agents get, and **Update agent**.
+
+**Update agent** asks **Update this agent to the newer version? It restarts; open chats continue afterwards.** It's a release of its own, not a staged change. The agent restarts, and its chats, files and settings stay. Some newer features need the newer version.
+
+None of our test agents was on an older version, so we haven't seen this banner ourselves.
 
 ## Rename it
 
@@ -184,12 +204,16 @@ Click **Commit 2 changes**. The dialog lists the agent under **Services** and it
 
 </Steps>
 
+<Screenshot id="ai-agent/lc-own-delete-commit" alt="1 change to apply: only docs-a (delete), docs-a is deleted permanently, with any data it holds, and Delete 1 resource" />
+
 What goes with the agent:
 
 - Its chats, knowledge files, skills, keys and webhooks.
 - An agent on an AI model, or on a gateway it didn't create, takes its own PostgreSQL with it.
-- An agent deployed with its own gateway has no database of its own. We deleted such an agent while another agent used its gateway: the commit listed only the agent (**Delete 1 resource**), and the gateway and its PostgreSQL kept running for the other one. Delete the gateway on its own once no agent uses it: see [AI Gateway](/ai/agent-gateway#delete-it).
+- An agent deployed with its own gateway has no database of its own: its chats are in the gateway's PostgreSQL. Deleting it on the canvas leaves the gateway and its PostgreSQL running, whether or not another agent uses them. We deleted such an agent when no other agent used its gateway: the commit listed only the agent (**Delete 1 resource**), and the gateway stayed. Delete the gateway on its own once no agent uses it: see [AI Gateway](/ai/agent-gateway#delete-it).
 - The AI model it used stays. Delete it from its own panel: see [AI models](/ai/models).
+
+The [API](/ai/agents/api#agents) works differently here. `DELETE /api/ai-agents/{project}/{environment}/{name}` also deletes the agent's own gateway and its PostgreSQL when no other agent is behind that gateway. We tried it: the answer listed `"gatewayDeleted"` and `"databaseDeleted"`, and both were gone a few seconds later. When another agent uses the gateway, it is kept and the answer says `"gatewayKept"`.
 
 ## When something goes wrong
 

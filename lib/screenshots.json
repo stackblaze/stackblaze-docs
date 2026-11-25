@@ -461,6 +461,20 @@
     "capturedAt": "2026-11-24T21:42:44.818Z",
     "source": "/pipeline/github-demo-cw8z/apps"
   },
+  "ai-agent/ev-abstain-summary": {
+    "src": "/screenshots/ai-agent/ev-abstain-summary.png",
+    "width": 812,
+    "height": 154,
+    "capturedAt": "2026-11-25T08:13:51.084Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/ev-abstain-trial": {
+    "src": "/screenshots/ai-agent/ev-abstain-trial.png",
+    "width": 810,
+    "height": 419,
+    "capturedAt": "2026-11-25T08:13:52.009Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
   "ai-agent/ev-check-types": {
     "src": "/screenshots/ai-agent/ev-check-types.png",
     "width": 1440,
@@ -552,11 +566,25 @@
     "capturedAt": "2026-11-24T22:33:28.453Z",
     "source": "/pipeline/github-demo-cw8z/apps"
   },
+  "ai-agent/lc-own-delete-commit": {
+    "src": "/screenshots/ai-agent/lc-own-delete-commit.png",
+    "width": 576,
+    "height": 518,
+    "capturedAt": "2026-11-25T08:18:23.204Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
   "ai-agent/lc-paused-card": {
     "src": "/screenshots/ai-agent/lc-paused-card.png",
     "width": 310,
     "height": 200,
     "capturedAt": "2026-11-24T22:15:34.007Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "ai-agent/op-run": {
+    "src": "/screenshots/ai-agent/op-run.png",
+    "width": 812,
+    "height": 417,
+    "capturedAt": "2026-11-25T08:17:24.470Z",
     "source": "/pipeline/github-demo-cw8z/apps"
   },
   "ai-agent/p-apps-card": {
@@ -838,6 +866,27 @@
     "height": 900,
     "capturedAt": "2026-11-24T19:21:43.598Z",
     "source": "/pipeline/my-first-project-h22a/apps"
+  },
+  "ask-agent/confirm-card": {
+    "src": "/screenshots/ask-agent/confirm-card.png",
+    "width": 397,
+    "height": 854,
+    "capturedAt": "2026-11-25T07:45:57.670Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "ask-agent/confirm-declined": {
+    "src": "/screenshots/ask-agent/confirm-declined.png",
+    "width": 397,
+    "height": 854,
+    "capturedAt": "2026-11-25T07:46:13.538Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
+  },
+  "ask-agent/perf-answer": {
+    "src": "/screenshots/ask-agent/perf-answer.png",
+    "width": 397,
+    "height": 854,
+    "capturedAt": "2026-11-25T07:49:29.805Z",
+    "source": "/pipeline/github-demo-kpw0/apps"
   },
   "backups/1-sheet": {
     "src": "/screenshots/backups/1-sheet.png",

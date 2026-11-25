@@ -8,6 +8,8 @@ The StackBlaze CLI can set up your AI coding tool in one command. It installs:
 - **The StackBlaze skill**: instructions that teach the agent how to use the `stackblaze` CLI and MCP tools (deploying apps, linking a project, reading logs, managing add-ons).
 - **The StackBlaze MCP server**: `https://mcp.stackblaze.cloud/mcp`, which the agent calls with your API token.
 
+Any MCP client that speaks streamable HTTP can use the server, not only the tools below. Its tools act as you: they can see and change only what your role allows.
+
 You need the [CLI installed and signed in](/cli/install) first.
 
 ## Set up every tool at once
@@ -75,13 +77,60 @@ url = "https://mcp.stackblaze.cloud/mcp"
 bearer_token_env_var = "STACKBLAZE_TOKEN"
 ```
 
-Replace `<STACKBLAZE_TOKEN>` with an API token. The CLI suggests creating one per tool, for example:
+The other tools take the same entry with a different shape. Windsurf names the address `serverUrl`:
+
+```sh
+stackblaze setup mcp --ide windsurf --print
+```
+
+```json
+{
+  "mcpServers": {
+    "stackblaze": {
+      "serverUrl": "https://mcp.stackblaze.cloud/mcp",
+      "headers": {
+        "Authorization": "Bearer <STACKBLAZE_TOKEN>"
+      }
+    }
+  }
+}
+```
+
+VS Code (Copilot) puts it under `servers`. The CLI suggests pasting it into `.vscode/mcp.json` to set it up for one workspace:
+
+```sh
+stackblaze setup mcp --ide vscode --print
+```
+
+```json
+{
+  "servers": {
+    "stackblaze": {
+      "type": "http",
+      "url": "https://mcp.stackblaze.cloud/mcp",
+      "headers": {
+        "Authorization": "Bearer <STACKBLAZE_TOKEN>"
+      }
+    }
+  }
+}
+```
+
+### Get a token
+
+Replace `<STACKBLAZE_TOKEN>` with an API token. Create one in the dashboard (see [API tokens](/security/api-tokens)) or with the CLI. The CLI suggests one per tool, for example:
 
 ```sh
 stackblaze tokens create claude-mcp
 ```
 
-The MCP server rejects requests without a token.
+The token is printed once. A token from the CLI expires after 30 days unless you pass `--expires` (like `90d`, `1y` or a date). Tokens start with `sb_pat_`. Tokens made before the rename, starting with `kbr_pat_`, still work.
+
+<Callout type="warn">
+The token can do whatever your account can. Keep it out of your repositories and shared config, give it an expiry, and revoke it in [API tokens](/security/api-tokens) once a tool no longer uses it.
+</Callout>
+
+The MCP server rejects requests without a token: it answers `401`.
 
 ## Install only the skill
 
@@ -95,3 +144,32 @@ stackblaze setup skills
 OK Installed skill → ~/.agents/skills/stackblaze/SKILL.md
 OK Installed skill → ~/.cursor/skills-cursor/stackblaze/SKILL.md
 ```
+
+## Which tools your AI tool sees
+
+The server lists a core set of tools by default: deploying, and finding out why something is broken. The rest are parked, so your AI tool's context isn't filled with tools it rarely needs. Two tools reach them:
+
+- `find_tools` searches every tool, parked ones included, and returns each one's name, description and parameters.
+- `run_tool` runs any tool by name.
+
+To list every tool from the start, add `?profile=all` to the URL (`https://mcp.stackblaze.cloud/mcp?profile=all`), or send the header `X-Kubero-MCP-Tool-Profile: all`.
+
+The tools, by what they're for (★ is in the core set):
+
+| Area | Tools |
+| --- | --- |
+| Browse | `list_pipelines` ★, `get_app` ★, `list_builds` ★, `list_addons` ★, `get_environment`, `status` |
+| Deploy | `search_templates` ★, `get_template` ★, `deploy_template` ★, `inspect_repo` ★, `inspect_image` ★, `deploy_app` ★, `update_app` ★, `create_pipeline` ★, `redeploy` ★, `trigger_build` ★, `wait_for_app` ★, `rename_app`, `delete_app` ★, `delete_pipeline` ★ |
+| Logs and troubleshooting | `get_logs` ★, `search_logs` ★, `get_metrics` ★, `get_app_events` ★, `check_app_health` ★, `diagnose_app_performance` ★, `restart_app` ★, `scale_app` |
+| Add-ons and data | `repair_addon_connection` ★, `rename_addon`, `reset_addon_credential`, `inspect_database`, `manage_kafka_connectors` |
+| Snapshots | `snapshot_app`, `list_snapshots`, `clone_app`, `get_snapshot_job`, `migrate_app` |
+| [Functions](/build-deploy/functions) | `list_functions`, `get_function`, `deploy_function`, `invoke_function`, `delete_function` |
+| Account | `get_billing` ★, `get_audit` |
+| Support | `list_support_tickets`, `get_support_ticket`, `create_support_ticket`, `reply_support_ticket` |
+
+A few things to know:
+
+- **Deletes need a yes.** `delete_app`, `delete_pipeline` and `delete_function` refuse to run unless the call says `confirm: true`, and they tell your AI tool to ask you first. Deleting an app also deletes its volumes and the databases made only for it. A call through `run_tool` needs the same `confirm: true`.
+- **Logs**: `get_logs` reads a service's recent lines, the same ones as its **Logs** tab. `search_logs` searches the stored log history. For a live tail, use `stackblaze logs -f` in a terminal. See [Logs](/observe/logs).
+- **`inspect_repo`** clones public repositories over HTTPS only. To deploy private code, connect the repository in the dashboard: see [Deploy from GitHub](/build-deploy/deploy-from-github).
+- **`inspect_database`** only reads.

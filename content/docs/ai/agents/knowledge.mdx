@@ -25,6 +25,10 @@ Any other file is refused with a toast. For a PNG it says **logo.png was not upl
 
 Each file in the list shows its name, size and date, with **Delete**.
 
+- A file name has letters, digits, spaces, dots, dashes and underscores, up to 100 characters, and starts with a letter or digit. The folder is flat: there are no subfolders. Other names get **A file name is 1-100 letters, digits, spaces, dots, dashes or underscores, starting with a letter or digit.**
+- Uploading a file with a name that's already there replaces it. We uploaded `faq.md` twice: the list kept one `faq.md`, with the new size.
+- An agent holds up to 200 files and 200 MB in all.
+
 <Screenshot id="ai-agent/kn-uploaded" alt="Knowledge: faq.md, 261 B, with Delete" />
 
 </Step>
@@ -39,6 +43,8 @@ In our test, the **FAQ bot** template on Qwen3 4B got a small FAQ file (`faq.md`
 
 - Asked **Do you sell decaf?**, it called no tool and answered **I don't sell decaf.** That's wrong.
 - Asked **Read faq.md in your knowledge folder, then tell me: do you sell decaf?**, it used **read** and answered **Yes, I do sell decaf. The Night Owl blend is Swiss Water decaf.**
+
+The agent can only read its files with **read**, **grep** and **glob**. With those tools off, it can't see its knowledge at all. Its file tools reach the knowledge folder and nothing else on the service: see [Security and limits](/ai/agents/security#what-its-tools-can-reach).
 
 <Callout type="warn">
 A file in **Knowledge** doesn't mean the agent will look at it. A small model may skip the tools and answer from its own knowledge. Name the files in the instructions, add a [skill](#skills) for the task, or use a larger model. Then check with an [eval](/ai/agents/evals) that it now reads them.
@@ -69,8 +75,12 @@ A skill is a step-by-step note for one kind of task, like how to handle a refund
 Click **New skill**. A skill has:
 
 - **Name**: lowercase letters, digits and dashes, up to 40. What you type is turned into that form as you type: `Decaf Orders!` becomes `decaf-orders-`.
-- **When to use it**: one line that says when the agent should use the skill.
-- **Steps**: what the agent should do, up to 40,000 characters. The counter shows how many you have used.
+- **When to use it**: one line that says when the agent should use the skill, up to 300 characters.
+- **Steps**: what the agent should do, in Markdown, up to 40,000 characters. The counter shows how many you have used.
+
+An agent has up to 50 skills.
+
+**Instructions or a skill?** What applies to every chat goes in the [instructions](/ai/agents#write-the-instructions). The steps for one kind of request go in a skill: the agent sees only the skill's name and **When to use it** in every chat, and reads the steps when a request matches. Many skills cost little until they are used.
 
 <Screenshot id="ai-agent/sk-form" alt="New skill: Name decaf-question, When to use it, and three Steps" />
 
@@ -104,9 +114,11 @@ It followed the skill's last step but made up the name of the blend: it didn't r
 
 </Steps>
 
+The agent reads its skills with **read**. With **read** off, the tab says **Skills need the read tool, which is off for this agent. Turn it on in General → Tools.** The agent can read its skills but never change them, even with **edit** or **write** on.
+
 ## Integrations
 
-Integrations are outside services the agent can use as tools, like looking up an issue or an order. Each one is a hosted MCP server. Adding or removing one restarts the agent. Integrations are off while the [website widget](/ai/agents/channels#put-it-on-your-website) is on.
+Integrations are outside services the agent can use as tools, like looking up an issue or an order. Each one is a hosted MCP server. Adding or removing one restarts the agent. Integrations are off while the [website widget](/ai/agents/channels#put-it-on-your-website) is on: to add one to a widget agent, turn the widget off first. An agent has up to 10 integrations.
 
 <Steps>
 
@@ -128,7 +140,7 @@ Picking a service fills in the **Name**: lowercase letters, digits and dashes, u
 
 GitHub, Stripe and Linear need a **Token**. The field says which kind, for example **A personal access token (ghp_… or github_pat_…)** for GitHub. Without one, the form shows **Paste the token.**
 
-The token is kept in the agent's variables, masked like any secret, and never shown again. Use a token limited to what the agent should be able to do.
+The token is kept in the agent's variables, masked like any secret, and never shown again. It is sent only to its own server: the agent's settings name the variable, never the token. Use a token limited to what the agent should be able to do.
 
 <Screenshot id="ai-agent/in-github" alt="Add integration with GitHub: Service, Name and Token, with Paste the token." />
 
@@ -149,6 +161,7 @@ A bad URL is refused:
 - `http://mcp.example.com/mcp`: **The URL must be https (http only for a service of this environment).**
 - `https://10.0.0.5/mcp`: **Name the server by host name, not by address.**
 - A user and password in the URL: **Put the secret in the token field, not in the URL.**
+- A host name that doesn't point to a public address, like `localhost.localdomain`: **The server URL does not resolve to a public address.**
 
 </Step>
 
@@ -156,7 +169,12 @@ A bad URL is refused:
 
 ### Add it and check its tools
 
-Click **Add integration**. The list shows its name, URL, **token stored** or **no token**, and **Remove**. The agent restarts with the new tools.
+Click **Add integration**. StackBlaze first connects to the server with the token and asks it for its tools:
+
+- If the server refuses the token (`401` or `403`), the integration isn't added: **&lt;Service&gt; refused the token (401). Check it and paste it again.**
+- If the server can't be reached, or doesn't answer as an MCP server, the integration is added anyway. We added a web address that isn't an MCP server: it was added, and the agent got no tools from it.
+
+The list shows its name, URL, **token stored** or **no token**, and **Remove**. The agent restarts with the new tools.
 
 In our test, we added a public MCP server without a token under the name `docs`. Asked to list its tools, the agent answered **read**, **grep**, **glob** and three tools named `mcp__docs_…`. The server's tools are named `mcp__<name>_<tool>`.
 
@@ -165,3 +183,7 @@ In our test, we added a public MCP server without a token under the name `docs`.
 </Step>
 
 </Steps>
+
+## From the API
+
+Knowledge files, skills and integrations each have routes in the StackBlaze API: upload a file with `PUT …/knowledge/{file}`, write a skill with `PUT …/skills/{skill}`, add an integration with `POST …/integrations`. See [AI agents API](/ai/agents/api#knowledge-skills-and-integrations).

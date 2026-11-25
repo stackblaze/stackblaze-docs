@@ -5,13 +5,18 @@ description: Create an AI agent from a template, pick its model and tools, and s
 
 An AI agent is a service in your environment that answers with your instructions and can use the tools you allow. Each agent comes with a team chat page, an API, a PostgreSQL database for its chats, and a panel where you change it.
 
+An AI agent is not the same as [Ask Agent](/ai/ask-agent), the assistant in the dashboard that looks at and changes your StackBlaze projects for you. An AI agent is a service you build for your own users or team. To let your coding tool operate StackBlaze, see [coding tools](/ai/coding-tools).
+
 This page creates agents and explains every field of the form. The other agent pages cover the rest:
 
 - [Run and change your agent](/ai/agents/run): the agent's panel, the chat page, changing its settings, pausing and deleting it.
 - [AI Gateway](/ai/agent-gateway): the service that holds a provider key for your agents.
 - [Reach your agent](/ai/agents/channels): its API, webhooks, schedules and the website widget.
 - [Knowledge, skills and integrations](/ai/agents/knowledge): documents, step-by-step skills and outside tools.
-- [Test your agent](/ai/agents/evals): evals and optimizations.
+- [Test your agent](/ai/agents/evals): evals.
+- [Optimizations](/ai/agents/optimizations): cheaper ways to run it, tried on its own sessions.
+- [AI agents API](/ai/agents/api): manage agents and chat with them from your code.
+- [Security and limits](/ai/agents/security): what an agent can reach, where secrets are kept, and every limit.
 
 We made two agents for these pages, both on Qwen3 4B, a small open model running as an [AI model](/ai/models) in the same environment. One used **Blank** and talked to the model directly. The other used **Webhook triage** through an AI Gateway.
 
@@ -74,6 +79,10 @@ See [Put it on your website](/ai/agents/channels#put-it-on-your-website) for the
 
 **Instructions** is what the agent is told before every chat: who it is, what it may answer and how. The counter shows how many characters you've used, up to 20,000. Over that, **Deploy** shows **Up to 20,000 characters.**
 
+The instructions take the place of the general-purpose prompt the agent would otherwise get. StackBlaze adds only a short header in front of them: the agent's name, not to reveal its configuration or credentials, and, when it has knowledge files, to look things up there first.
+
+Keep the instructions to what applies in every chat. Put facts in [Knowledge](/ai/agents/knowledge#knowledge) and the steps for one kind of request in a [skill](/ai/agents/knowledge#skills), which the agent reads only when it needs it. For an agent that answers from its files, say so in the instructions, as **FAQ bot** does: *You answer questions using only the documents in your knowledge folder. Search them first.*
+
 You can change the instructions after deploying. We did, and the agent followed them in the next chat: see [Change its instructions](/ai/agents/run#change-its-instructions).
 
 </Step>
@@ -104,6 +113,8 @@ What each choice asks for:
 | **Another endpoint** | **Base URL**, **API key (optional)** and **Model ids** | A new AI Gateway, then the agent |
 | An AI Gateway already here | Nothing | The agent only, on that gateway |
 
+A gateway that has no models yet shows in the menu with **add a provider key…**. Pick it to give it a key and its models. While it is still starting, it shows **starting… (checked every 10 s)** and can't be picked.
+
 <Screenshot id="ai-agent/cr-model-docs-qwen" alt="Model set to docs-qwen: Connected like any app: no key needed." />
 
 **Model ids** takes several ids, separated by commas. The gateway serves all of them, and the agent uses the first. Under each key field: **Saved in the new AI Gateway's variables, not on the agent.**
@@ -118,9 +129,11 @@ What each choice asks for:
 - No model id: **Name at least one OpenAI model id.**, or **Name at least one model id.** for another endpoint.
 - A base URL that isn't a full address, like `gpu.example`: **An http(s) URL, like https://gpu.example/v1.**
 
+Before the gateway is deployed, StackBlaze asks the provider whether it accepts the key. A key the provider refuses deploys nothing: the toast says **The API key was refused** and **Nothing was deployed. Check the key and try again.**, and the key field shows the provider's answer. We tried a made-up Anthropic key: **Anthropic refused this API key (401). Check the key and paste it again.** A provider that is down or slow doesn't block the deploy. **Another endpoint** isn't checked.
+
 <Screenshot id="ai-agent/cr-model-another" alt="Another endpoint after Deploy: An http(s) URL, like https://gpu.example/v1. and Name at least one model id." />
 
-**Another endpoint** also works for an AI model of this environment. Paste the model's **Base URL**, **API key** and model id from its [Connect](/ai/models#call-it) section. The agent then talks to the model through a gateway, which [optimizations](/ai/agents/evals#optimizations) need.
+**Another endpoint** also works for an AI model of this environment. Paste the model's **Base URL**, **API key** and model id from its [Connect](/ai/models#call-it) section. The agent then talks to the model through a gateway, which [optimizations](/ai/agents/optimizations) need.
 
 <Screenshot id="ai-agent/dp-filled" alt="Webhook triage on Another endpoint: the AI model's Base URL, its key hidden, and the model id Qwen/Qwen3-4B" />
 
@@ -195,6 +208,24 @@ Next: [chat with it and change it](/ai/agents/run).
 ## Limits
 
 - AI agents are on in production. The platform can turn agents on per plan. Where they're off, creating one is refused, but existing agents keep running and can still be changed and deleted.
-- Instructions: up to 20,000 characters. Skills: up to 40,000 characters each. Schedules: up to 20, each message up to 4,000 characters. Widget sites: up to 20.
+- Each agent has a 1 GB volume for its knowledge, skills, evals, optimization runs and the working files of its chats.
+
+| What | Limit |
+| --- | --- |
+| Instructions | 20,000 characters |
+| A message | 8,000 characters |
+| A chat | 30 turns, and 120 seconds for each answer |
+| Chats running at once | 5 per agent. An idle chat sleeps after 10 minutes and wakes with its history. |
+| Chat history | Removed 90 days after a chat's last change |
+| Knowledge | 10 MB per file, 200 files and 200 MB in all |
+| Skills | 50 per agent. **When to use it**: 300 characters. Steps: 40,000 characters. |
+| Integrations | 10 per agent |
+| API keys | 20 per agent |
+| Webhooks | 20 per agent. Bodies up to 64 KB, 60 calls a minute each. |
+| Schedules | 20 per agent, each message up to 4,000 characters |
+| Website widget | 20 sites. Per visitor: 10 messages a minute and 3 new chats a day. Per address: 60 messages and 10 new visitors a minute. |
+| Evals | 20 per agent, 100 test cases and 20 checks each, 1 to 3 epochs, 300 trials and 600 seconds per trial. The last 20 runs of each eval are kept. |
+| Optimizations | A budget of $1 to $500, one run at a time. The last 10 runs are kept. |
+| AI Gateways | 20 per environment, 10 models each |
 - An agent is a service: its instances, sleep mode and volumes follow your plan, like any service. On our Business plan test account, **Settings** → **Scale** offered up to 10 instances.
 - Every chat uses tokens on the agent's model. With a provider, you pay the provider. With an AI model of your own, you pay for its GPU.

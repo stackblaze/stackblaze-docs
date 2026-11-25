@@ -44,7 +44,7 @@ We signed in and saw a home page with the total requests and spend, and pages fo
 
 ## Delete it
 
-A gateway isn't deleted with an agent while another agent still uses it. We deleted ours once no agent used it: right-click its card and choose **Delete**. Its PostgreSQL is staged with it.
+Deleting an agent from the canvas never deletes its gateway, even when no other agent uses it: [Delete it](/ai/agents/run#delete-it) covers this and the API, which does remove a gateway no other agent uses. To delete a gateway yourself, right-click its card and choose **Delete**. Its PostgreSQL is staged with it.
 
 Click **Commit 2 changes**. The dialog warns **ai-gateway and ai-gateway-postgresql are deleted permanently, with any data they hold.** Type `sudo delete ai-gateway ai-gateway-postgresql` and click **Delete 2 resources**.
 
