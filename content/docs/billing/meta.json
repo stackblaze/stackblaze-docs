@@ -1,4 +1,8 @@
 {
   "title": "Billing",
-  "pages": ["index", "usage"]
+  "pages": [
+    "index",
+    "usage"
+  ],
+  "defaultOpen": true
 }

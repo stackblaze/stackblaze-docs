@@ -1,0 +1,51 @@
+---
+title: Advanced networking
+description: Answer cross-origin requests with CORS, and allow or block visitor IP ranges before they reach a service.
+---
+
+**Advanced networking** ("CORS, ingress tuning, and inbound IP rules — only needed for special setups.") is in a web service's **Settings** → **Network**, below [Basic Auth](/networking/basic-auth). Switch on **Enable advanced networking** to see its settings. Like other settings, every change is staged: commit and deploy it.
+
+## CORS
+
+Turn on **CORS** when a website on another domain calls this service from the browser. Three fields appear, filled with defaults:
+
+| Field | Default |
+| --- | --- |
+| **CORS Allow Origin** | `*` (any website) |
+| **CORS Allow Headers** | `DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization` |
+| **CORS Allow Methods** | `GET, PUT, POST, DELETE, PATCH, OPTIONS` |
+
+Here only `https://app.example.com` may call the service, with `GET, POST, OPTIONS`:
+
+<Screenshot id="settings/cors" alt="Advanced networking on, CORS on, Allow Origin https://app.example.com, Allow Methods GET, POST, OPTIONS" />
+
+The commit dialog lists **CORS** going from **off** to **on**.
+
+<Screenshot id="settings/cors-commit" alt="2 settings to apply: Basic auth on → off and CORS off → on" />
+
+After the deploy, a browser preflight (`OPTIONS`) from `https://app.example.com` got `204` with `Access-Control-Allow-Origin: https://app.example.com` and the allowed methods, and normal requests from that origin carried the same header.
+
+## Inbound IP rules
+
+**Inbound IP rules** ("Allow or block visitor IP ranges at the edge before requests reach this app.") take comma-separated IPv4 ranges in CIDR notation:
+
+- **Allowed IP ranges**: "When set, every other IP gets a 403 — include your own address."
+- **Blocked IP ranges**: ranges to reject with `403`.
+
+An address that isn't a valid range is flagged before you commit, for example "Not valid IPv4 CIDR notation: 198.51.100 (example: 203.0.113.0/24)".
+
+<Screenshot id="settings/ip-rules-warning" alt="Inbound IP rules with the warning: Not valid IPv4 CIDR notation: 198.51.100" />
+
+To block a single address, add `/32`. The commit dialog lists **Blocked IP ranges** with the new value:
+
+<Screenshot id="settings/ip-rules-commit" alt="1 setting to apply: Blocked IP ranges 203.0.113.10/32" />
+
+After the deploy, requests from the blocked address got `403 Forbidden` ("Request forbidden by administrative rules."), while the service kept running.
+
+## Turn it off
+
+Switch off **Enable advanced networking**, then commit and deploy. The dialog lists each setting being removed, here **Blocked IP ranges** and **CORS** going **on** → **off**. Our service answered `200` again from the address we had blocked.
+
+<Screenshot id="settings/advanced-off-commit" alt="2 settings to apply: Blocked IP ranges removed and CORS on → off" />
+
+Advanced networking is included in the **Business** plan.

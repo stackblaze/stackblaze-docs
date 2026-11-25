@@ -1,11 +1,12 @@
 {
-  "title": "Projects",
+  "title": "Projects & teams",
+  "defaultOpen": true,
   "pages": [
     "index",
     "environments",
-    "preview-environments",
     "project-settings",
     "organizations",
-    "infrastructure-as-code"
+    "members-and-roles",
+    "integrations"
   ]
 }

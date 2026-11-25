@@ -1,0 +1,276 @@
+---
+title: PostgreSQL
+description: Add a PostgreSQL database to an environment, find its connection details, and connect an app to it.
+---
+
+A database is added to one environment of a project, and any app in that environment can connect to it. This guide adds PostgreSQL to the **Dev** environment and connects an app that is already running there.
+
+<Steps>
+
+<Step>
+
+### Add PostgreSQL
+
+On the project canvas, click **+ Service**, then **Database or cache**. Pick **PostgreSQL**.
+
+<Screenshot id="postgresql/1-databases" alt="The Databases list in the add menu, with PostgreSQL" />
+
+A PostgreSQL card appears under **Databases** marked **Ready to deploy**. Nothing has been created yet.
+
+<Screenshot id="postgresql/2-ready" alt="The PostgreSQL card on the canvas, Ready to deploy" />
+
+</Step>
+
+<Step>
+
+### Review and deploy
+
+Click the card. The panel says the database "deploys with the catalog defaults", and that size, high availability and connections are tuned in this panel once it is running. Click **Deploy**.
+
+<Screenshot id="postgresql/3-review" alt="Ready to deploy, creates it on Dev right away, with Remove from canvas and Deploy" />
+
+If you change your mind, **Remove from canvas** takes the card away without creating anything.
+
+When it is ready, the card shows **Running**.
+
+<Screenshot id="postgresql/4-running" alt="The PostgreSQL card, Running" />
+
+</Step>
+
+<Step>
+
+### Find the connection details
+
+Click **PostgreSQL** on the card, open **Settings**, and look under **Access**:
+
+- **Connect from apps**: the **Host**, the short **Service** name, **Username**, **Password** and **Database**. The port is `5432`.
+- **Connection URL**: the same details as a `postgresql://` URL, plus a **JDBC** URL. These work from apps in this environment and are "not reachable from the public internet".
+- **Environment snippet**: ready-made lines (`DATABASE_URL`, `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, `PGDATABASE`, …) to paste into an app's variables.
+
+<Screenshot id="postgresql/5-access" alt="Access: Connect from apps, Connection URL and Environment snippet" />
+
+</Step>
+
+<Step>
+
+### Connect an app
+
+Further down, **Connections** lists the apps in the environment. Turn on the switch next to your app. The change is staged.
+
+<Screenshot id="postgresql/6-connect" alt="Connections with nginx switched on, marked staged" />
+
+Close the panel, click **Commit 1 change**, then **Deploy 1 change**. The app redeploys.
+
+<Screenshot id="postgresql/7-commit" alt="1 change to apply: nginx ⇄ postgresql, off → on" />
+
+</Step>
+
+<Step>
+
+### Check the app's variables
+
+Open the app and go to **Variables**. Connecting added:
+
+| Variable | |
+|---|---|
+| `PGHOST`, `PGPORT` | the database's in-cluster address (the primary) |
+| `PGHOST_RO`, `PGPORT_RO` | the read-only address of the replicas, which only has instances behind it once [high availability](#high-availability) is on |
+| `PGUSER`, `PGDATABASE` | the user and database name |
+| `PGPASSWORD` | read from the database's secret ("Provided by add-on") |
+
+<Screenshot id="postgresql/8-variables" alt="The app's variables, with PGHOST to PGDATABASE and PGPASSWORD provided by add-on" />
+
+</Step>
+
+</Steps>
+
+Connecting also adds `DATABASE_URL`, a `postgres://` URL built from the `PG*` values. A variable you set yourself with the same name always wins.
+
+If the app is connected to two databases that both set `DATABASE_URL` (for example PostgreSQL and MariaDB), the first keeps the plain names and the second also gets its whole set under its own prefix, such as `MARIADB_DATABASE_URL` and `MARIADB_MYSQL_HOST`.
+
+From the connected app, `psql "$DATABASE_URL"` reached the database:
+
+```text
+$ psql "$DATABASE_URL" -At -c "show server_version;" -c "select current_database();"
+17.5 (Debian 17.5-1.pgdg110+1)
+app
+```
+
+To disconnect, turn the switch off and deploy the change; the `PG*` variables are removed from the app.
+
+## The database card
+
+The card on the canvas shows the database's address for the SQL console (see [below](#sql-console)) and its status. The instance count (**1** with an arrow) opens the list of the database's volumes, with their size.
+
+<Screenshot id="postgresql/m-card-volume" alt="The PostgreSQL card with its volume list open: postgresql-…-1, 1Gi" />
+
+## Connect from outside StackBlaze [#public-access]
+
+By default the database is only reachable from apps in the same environment. **Public access** opens it to clients outside the platform (a laptop, a BI tool, another cloud), only from IP addresses you allow, and only over TLS.
+
+<Steps>
+
+<Step>
+
+### Allow your IP addresses
+
+Open the database's **Settings** → **Access** and find **Public access**. In **Allowed IPs**, enter the addresses that may connect, separated by commas. Ranges in CIDR form (like `198.51.100.0/24`) work too.
+
+**Allow any IP** lets anyone who has the password connect. The panel marks it "not recommended".
+
+<Screenshot id="postgresql/m-public-off" alt="Public access, Off, with an allowed IP entered" />
+
+</Step>
+
+<Step>
+
+### Turn it on
+
+Turn on the **Public access** switch. You get an **Address** and a **Connection string** that ends in `?sslmode=require`.
+
+<Screenshot id="postgresql/m-public-on" alt="Public access, On, with Address, Connection string and Allowed IPs" />
+
+</Step>
+
+<Step>
+
+### Connect
+
+Copy the **Connection string** and use it from an allowed address, for example:
+
+```sh
+psql "postgresql://postgres:<password>@<address>/app?sslmode=require"
+```
+
+When we did this, the address refused connections for a short while after the switch turned on, then accepted them.
+
+</Step>
+
+</Steps>
+
+To change the list later, edit **Allowed IPs** and click **Save allowed IPs**. Turning the switch off asks "Turn off public access? Clients outside the platform will be disconnected." After that, the address no longer accepts connections.
+
+## SQL console [#sql-console]
+
+The address on the database card (`db.…`) opens a SQL console in a new tab. You are signed in, and the database is listed under **Shared**.
+
+<Screenshot id="postgresql/m-console" alt="The SQL console with the project's database under Shared" />
+
+Open a SQL editor, choose the database's connection if the editor asks for one, type a query and press **Ctrl+Enter**.
+
+<Screenshot id="postgresql/m-console-query" alt="A query in the SQL editor and its result" />
+
+## Extensions
+
+**Settings** → **Extensions** lists the PostgreSQL extensions available on the database's image and how many are enabled. Extensions are per database: pick the database (for example `app`) in the menu next to **Refresh**. Use **Filter by name…** to find one, then turn its switch on.
+
+<Screenshot id="postgresql/m-ext-on" alt="Extensions, filtered to pg_trgm, switched On" />
+
+Some extensions are marked **needs restart**: they load a library into `shared_preload_libraries`.
+
+<Screenshot id="postgresql/m-ext-restart-row" alt="pg_stat_statements, marked needs restart, Off" />
+
+Turning one on asks first. The dialog warns that it "triggers a rolling restart of the PostgreSQL cluster. Existing connections will be briefly interrupted while the primary restarts." Click **Restart & enable**.
+
+<Screenshot id="postgresql/m-ext-restart-dialog" alt="Enable pg_stat_statements: needs its library added to shared_preload_libraries, with Cancel and Restart & enable" />
+
+<Screenshot id="postgresql/m-ext-restart-on" alt="pg_stat_statements, On" />
+
+## Storage
+
+**Settings** → **Storage** shows each volume, how much of it is used, and **Expand storage**. Volumes can only grow.
+
+<Screenshot id="postgresql/m-storage" alt="Storage: the volume's usage and Expand storage" />
+
+Choose a new size and click **Expand**.
+
+<Screenshot id="postgresql/m-storage-sizes" alt="Expand storage with the size options open" />
+
+The resize can take a few minutes. Once it is done, the volume shows its new size.
+
+<Screenshot id="postgresql/m-storage-expanded" alt="Storage after expanding: 10 GiB" />
+
+## High availability
+
+A new database runs as a **Single primary**. **Settings** → **HA** → **Enable HA** turns it into a cluster of three.
+
+<Screenshot id="postgresql/m-ha-off" alt="High availability: Single primary, with Enable HA" />
+
+The dialog says it "Scales the Postgres cluster to 3 instances. This is a one-way upgrade — there is no in-place downgrade to a single primary." Click **Enable HA**.
+
+<Screenshot id="postgresql/m-ha-confirm" alt="Enable high availability? with Cancel and Enable HA" />
+
+When it is done, the section shows the cluster: its health, **3/3** replicas ready, which instance is the primary, the mode (**Streaming replication**), and each member with its role (one **primary**, two **replica**).
+
+<Screenshot id="postgresql/m-ha-on" alt="High availability: 3 instances, Healthy, one primary and two replicas" />
+
+Connected apps keep the same variables: `PGHOST` still points at the primary, and `PGHOST_RO` now reaches the two replicas, so you can send read-only queries there.
+
+## Deployments
+
+The **Deployment** tab lists the database's deploys and restarts, with the image each one ran.
+
+<Screenshot id="postgresql/m-deployment" alt="Deployments: Deploy running, with the image and date" />
+
+The **⋯** menu on a deploy has **Redeploy** and **Inspect Deployment**.
+
+<Screenshot id="postgresql/m-deploy-menu" alt="The menu on a deploy: Redeploy, Inspect Deployment" />
+
+**Inspect Deployment** opens that deploy's logs.
+
+<Screenshot id="postgresql/m-deploy-inspect" alt="Inspect Deployment: the deploy's logs" />
+
+**Redeploy** asks first ("This will restart the add-on with the exact same configuration"), then restarts the database. The deploy's time in the list changes to when it restarted.
+
+<Screenshot id="postgresql/m-deploy-redeploy-confirm" alt="Redeploy deployment confirmation" />
+
+<Screenshot id="postgresql/m-deploy-after-redeploy" alt="The Deployment tab after a redeploy" />
+
+## Logs
+
+The **Logs** tab streams the database's logs.
+
+<Screenshot id="postgresql/m-logs" alt="The Logs tab" />
+
+- **All pods**: show every instance, or pick one (for example `primary · postgresql-…-1`).
+- **App logs** / **System events**: the database's own output, or platform events about it.
+- **Search logs**: filter the lines.
+- **Live tail**, **Last 15 minutes**, **Last 1 hour**, **Last 6 hours**, **Last 24 hours**, **All loaded**: the time range.
+- The expand button opens the logs full size. The **⋯** menu has **Refresh**, **Copy logs** and **Download logs**.
+
+<Screenshot id="postgresql/m-logs-range" alt="The time range menu: Live tail to All loaded" />
+
+<Screenshot id="postgresql/m-logs-source" alt="The source menu: App logs, System events" />
+
+## Metrics
+
+The **Metrics** tab shows the last **2h**, **24h** or **7d**, with **Refresh**. At the top: **Connections** (open sessions), **Queries** (statement rate), **Replica lag** and **Data size**.
+
+<Screenshot id="postgresql/m-metrics" alt="Metrics: the summary and Host resources" />
+
+Below that are charts in four groups:
+
+| Group | Charts |
+|---|---|
+| Host resources | Memory usage, CPU usage |
+| Workload | Open connections, Queries / s, Writes / s (each **Overall** or **Per-pod**) |
+| Health | Query time, Waiting on locks |
+| Storage & replicas | Data on disk, Replica lag |
+
+<Screenshot id="postgresql/m-metrics-workload" alt="Metrics: Workload charts" />
+
+<Screenshot id="postgresql/m-metrics-health" alt="Metrics: Health charts" />
+
+## Plan limits
+
+The top of **Settings** shows what your plan allows for this database: how many clients can connect at once (**Connections**) and how long its backups are kept (**Backup retention**).
+
+<Screenshot id="postgresql/m-limits" alt="Plan limits: Connections and Backup retention" />
+
+## Backups
+
+Back up the database, restore it as a copy, and move your apps onto the copy with **Switch instance**: see [Backups and restore](/data/databases/backups).
+
+## Delete
+
+**Delete add-on**, at the bottom of **Settings**, deletes the database and its data. It is only available once no apps are connected: disconnect them first in **Connections**.

@@ -1,0 +1,109 @@
+---
+title: Test your agent
+description: Write an eval for your AI agent, run it, read the results, and turn real chats into test cases.
+---
+
+An eval is a repeatable test of an [AI agent](/ai/agents): test cases (requests the agent should handle), checks measured on every case, and how many times each case runs. Run it after you change the instructions, a skill or the model, to see what broke before a customer does.
+
+<Callout type="warn">
+Every trial is a real chat on the **Eval** channel: it uses tokens and shows in **Sessions**. A **Judge response quality** check uses the agent's model a second time to grade the answer.
+</Callout>
+
+Click the agent's card on the canvas to open its sheet, then **Agent** → **Evals**.
+
+## Write an eval
+
+<Steps>
+
+<Step>
+
+### Name it
+
+Click **New eval**. Give it a **Name**: lowercase letters, digits and dashes, up to 40.
+
+The editor has two modes: **Guided builder** (the form below) and **Advanced JSON** (the same eval as JSON).
+
+</Step>
+
+<Step>
+
+### Add test cases
+
+Under **Test cases**, each case has a **Test case ID** and a **Request**: the message the agent gets. **Add test case** adds another (up to 100). The bin icon removes one. Each case runs on its own.
+
+</Step>
+
+<Step>
+
+### Add checks
+
+Under **Checks**, **Add check** adds a check (up to 20). The bin icon removes it. Each check has a **Check type**:
+
+- **Judge response quality**: a **Score name** and **What should a good result do?**. It is graded by the agent's own model in a second chat: a second opinion, not an independent one.
+- **Tool was called**: a **Tool name**, like `read`. `mcp__<integration>` matches any tool of that [integration](/ai/agents/knowledge#integrations).
+- **Tool call contains arguments**: a **Tool name** and the **Expected arguments** (**Add argument** adds one). Values can be text, numbers, booleans, arrays or JSON objects.
+- **Output matches text**: a **Mode** (**Contains** or **Does not contain**), **Case sensitive**, and the **Text** to look for.
+
+<Screenshot id="ai-agent/ev-check-types" alt="The Check type menu: Judge response quality, Tool was called, Tool call contains arguments, Output matches text" />
+
+</Step>
+
+<Step>
+
+### Choose how many times it runs
+
+Under **Run settings**, **Epochs** is how many times each test case runs: **1**, **2** or **3**. **Total trials** is the number of cases times the epochs.
+
+</Step>
+
+<Step>
+
+### Save it
+
+Click **Save**. With a field missing, the form marks it (**Write the request.**, **Say what a good result should do.**) and says **Fix the fields marked above.** **Cancel** closes the editor without saving.
+
+Here is our eval in **Advanced JSON**. It has one test case, `decaf`, and three checks: the reply contains **Night Owl**, the agent called **read**, and a judge scores whether it said yes and named the blend.
+
+<Screenshot id="ai-agent/ev-json" alt="Advanced JSON: samples with the decaf case; checks outputMatches Night Owl, hasToolCall read and llmJudge answered" />
+
+The toast says **Eval decaf saved**. The list shows each eval with its number of test cases and checks, its last result (**Not run yet** at first), and **Run**, **Results**, **Edit** and **Delete**.
+
+<Screenshot id="ai-agent/ev-list" alt="Evals: decaf, 1 test case, 3 checks, Not run yet, with Run, Results, Edit and Delete" />
+
+</Step>
+
+</Steps>
+
+## Run it
+
+Click **Run**. When it is done, a toast gives the result, for example **decaf: Structural: 2 failed · answered 0%**, and the results open below the list. **Results** shows the last run.
+
+The results show three summaries side by side:
+
+- **Structural**: the text and tool checks. **All passed** or **Not all passed**, with how many passed, failed and abstained. An abstention is neither a pass nor a fail.
+- **Behavioral**: each judge's score.
+- **Efficiency**: the tokens the agent used, the extra tokens the judges used (**eval overhead**) and the time per trial.
+
+Below, each test case shows the agent's reply and every check, with ✗ for a fail and the reason.
+
+<Screenshot id="ai-agent/ev-results" alt="Results: Not all passed, 0 passed and 2 failed; answered 0%; 1,836 agent tokens; and the reply with three failed checks" />
+
+Our run failed. The agent didn't read its FAQ file and answered **I don't sell decaf.** The three checks say why: the reply doesn't contain "Night Owl", no tool was called, and the judge found it didn't say yes. This is the same mistake we saw in [Knowledge](/ai/agents/knowledge#knowledge). Change the instructions or the model, then run the eval again.
+
+To delete an eval, click **Delete** and confirm **Delete the eval decaf and its results?**
+
+## Turn a real chat into a test case
+
+In **Sessions**, open a chat and click **Add to eval**. **Evals** opens with **Add this request to an eval as a test case:** and the chat's first message. Pick **A new eval** or an existing eval, then click **Add test case**. **Cancel** drops it.
+
+<Screenshot id="ai-agent/ev-incoming" alt="Add this request to an eval as a test case, with A new eval, Add test case and Cancel" />
+
+## Optimizations
+
+**Optimizations** tries cheaper ways to run the agent (a cheaper model, fewer tools, a tighter prompt) against its own recent sessions. It keeps a change only where quality holds up, and nothing changes until you accept. It builds its eval from the last 10 sessions, so the agent needs that many completed sessions first.
+
+Optimizations price their runs on the agent's [AI Gateway](/ai/agent-gateway). An agent that talks to an AI model directly shows **Optimizations need the agent on its AI Gateway: costs are priced there.** Move it to a gateway model in **General** first: see [Change its model](/ai/agents/run#change-its-model).
+
+Set a **Budget** from $1 to $500 (it starts at $50). **New optimization** starts a run once the agent has enough sessions. Until then it is greyed out with **The agent needs 10 completed sessions; it has 8.**
+
+<Screenshot id="ai-agent/ev-optimizations" alt="Optimizations: Budget $50, New optimization, and The agent needs 10 completed sessions; it has 8." />

@@ -1,0 +1,42 @@
+---
+title: Service settings
+description: What the Settings tab of a service holds, and which sections each kind of service has.
+---
+
+Open a service (click its name on the canvas card), then **Settings**. The settings are one long page; the rail on the right jumps to each section.
+
+<Screenshot id="settings/0-overview" alt="The Settings tab of a web service, with the rail: Access, Domains, Deploy, Health, Network, Scale, Storage, Scans, Tracing, Logs" />
+
+Every change here is staged, like a variable: nothing reaches the running service until you click **Commit N changes** in the canvas toolbar and then **Deploy N changes**. **Discard all** in the same dialog drops what you staged.
+
+## Which sections a service has
+
+The rail depends on the kind of service:
+
+| Section | Public | Internal | Worker |
+| --- | --- | --- | --- |
+| **Access** | Yes | Yes | Yes |
+| **Domains** | Yes | No (no Custom domains card) | No |
+| **Deploy** | Yes | Yes | Yes |
+| **Health** | Yes | Yes | No |
+| **Network** | Yes | Yes | Yes |
+| **Scale** | Yes | Yes | Yes |
+| **Storage** | Yes | Yes | Yes |
+| **Scans** | Yes | Yes | Yes |
+| **Tracing** | Yes | Yes | Yes |
+| **Logs** | Yes | Yes | Yes |
+
+A service built from a git repository also has **Source** and **Build** at the top of the rail. See [Source and build](/configure/source-and-build).
+
+A [function](/build-deploy/functions) has a much shorter Settings tab: **Schedule**, **Custom domains** (only while it has no schedule) and **Log retention**.
+
+## The sections
+
+- **Access**: Public, Internal or Worker. See [Visibility and access](/networking/visibility).
+- **Domains**: the default `stackblaze.app` URL and your own hostnames. See [Custom domains](/networking/custom-domains).
+- **Deploy**: the pre-deploy command and the start command. See [Start command](/configure/start-and-build).
+- **Health**: the HTTP check a new version must pass before it gets traffic. See [Health checks](/configure/health-checks).
+- **Network**: **Basic Auth** (a username and password in front of the site) and **Advanced networking** (CORS and inbound IP rules). See [Basic Auth](/networking/basic-auth) and [Advanced networking](/networking/advanced-networking).
+- **Scale**: instances, autoscale and sleep mode. Scaling covers instances and autoscale. See [Scaling](/configure/scaling).
+- **Storage**: **Volumes**, a shared (RWX) filesystem that every instance mounts. See [Volumes](/data/volumes) and [Browse volume files](/data/volumes/browse-files).
+- **Scans**: **Vulnerability scans** of the service's image after every deploy; see [Vulnerability scans](/security/vulnerability-scans). **Tracing**: OpenTelemetry traces. **Logs**: **Log retention**, how far back the logs can be searched (read-only; it comes from your plan). See [Tracing and log retention](/observe/tracing-and-log-retention).

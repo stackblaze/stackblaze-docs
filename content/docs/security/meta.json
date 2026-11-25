@@ -1,0 +1,12 @@
+{
+  "title": "Security",
+  "defaultOpen": true,
+  "pages": [
+    "index",
+    "vulnerability-scans",
+    "ssh-keys",
+    "api-tokens",
+    "account-security",
+    "audit-log"
+  ]
+}

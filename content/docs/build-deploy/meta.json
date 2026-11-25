@@ -1,0 +1,16 @@
+{
+  "title": "Build & deploy",
+  "defaultOpen": true,
+  "pages": [
+    "index",
+    "deploy-docker-image",
+    "deploy-from-github",
+    "import",
+    "templates",
+    "functions",
+    "developer-sandbox",
+    "deployments",
+    "preview-environments",
+    "infrastructure-as-code"
+  ]
+}

@@ -1,1 +1,12 @@
-{"title": "Observe", "pages": ["deployments", "logs", "log-drains", "metrics", "notifications"]}
+{
+  "title": "Observability",
+  "defaultOpen": true,
+  "pages": [
+    "index",
+    "logs",
+    "log-drains",
+    "metrics",
+    "tracing-and-log-retention",
+    "notifications"
+  ]
+}

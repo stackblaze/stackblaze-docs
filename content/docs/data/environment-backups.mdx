@@ -1,0 +1,94 @@
+---
+title: Environment backups
+description: Back up a whole environment — its app volumes and databases — on a schedule or on demand, and restore any of it as a copy.
+---
+
+A recovery point holds an environment's **volumes** (the disks attached to your apps) and its **databases**, taken together. You can take one on demand or on a schedule, and restore some or all of it as a copy next to what is running.
+
+This page covers the schedule and volumes. For restoring a database and moving your apps onto the copy, see [Database backups and restore](/data/databases/backups).
+
+## Open Backup and restore
+
+On the project canvas, click **+ Service**, then **Backups** (**Snapshots and restore for this environment**). The row is only listed once the environment has something in it.
+
+<Screenshot id="env-backups/1-menu" alt="The Add to Dev menu with Backups: Snapshots and restore for this environment" />
+
+**Backup and restore** has two tabs: **Backups** (the schedule, **Back up now** and the recovery points) and **Restore**.
+
+## Turn on a schedule
+
+<Steps>
+
+<Step>
+
+### Edit the schedule
+
+Under **Schedule**, a new environment says **Off — back up on demand**. Click **Edit**.
+
+There are three cadences: **Daily**, **Weekly** and **Monthly**. Tick the ones you want and choose how long each keeps its recovery points.
+
+<Screenshot id="env-backups/12-daily-on" alt="The schedule editor: Daily ticked with Keep 6 days, Weekly and Monthly unticked" />
+
+The retention choices are **Keep 3 days**, **6 days**, **7 days**, **14 days**, **1 month**, **3 months**, **6 months** and **1 year**. The defaults are **Keep 6 days** for Daily and **Keep 1 month** for Weekly and Monthly.
+
+<Screenshot id="env-backups/11-retention" alt="The retention menu: Keep 3 days to Keep 1 year" />
+
+</Step>
+
+<Step>
+
+### Save and deploy
+
+Click **Save**. Like other canvas changes, the schedule is staged ("Schedule staged. Commit to apply."). Click **Commit 1 change**; the dialog lists **Save backup schedule — when recovery points run and what they cover**. Click **Deploy 1 change**.
+
+<Screenshot id="env-backups/13-schedule-commit" alt="1 change to apply: Save backup schedule" />
+
+The schedule now reads, for example, **Daily · keep 6 days**.
+
+<Screenshot id="env-backups/14-schedule-on" alt="Backup and restore with Schedule: Daily · keep 6 days" />
+
+</Step>
+
+</Steps>
+
+To turn the schedule off, click **Edit**, untick every cadence and click **Save**. The commit dialog lists **Save backup schedule — turns volume backups off**; deploy it and the schedule reads **Off — back up on demand** again. Existing recovery points stay.
+
+## Back up now
+
+Click **Back up now**. It is staged too: click **Commit 1 change**, check **Create a recovery point — backs up volumes and databases**, and click **Deploy 1 change**. The new point shows **Backing up…** ("usually a minute or two") until it is done.
+
+Each recovery point lists what it holds and how it was taken, for example **1 database · 1 volume · on demand**. Click a point to open it: it lists its **Databases** and **Volumes** (with the app each volume belongs to), and **Delete recovery point**.
+
+<Screenshot id="env-backups/16-point-open" alt="A recovery point opened: the postgresql database, the data volume of nginx, and Delete recovery point" />
+
+## Restore a volume as a copy
+
+Restoring never touches what is running: it creates the copy next to it, under a new name. Copies are billed like any other volume or database.
+
+<Steps>
+
+<Step>
+
+### Choose what to restore
+
+Open the **Restore** tab. Pick the recovery point under **From**. Under **What**, keep **Everything** or pick **Choose…** and tick only what you need — here, the `data` volume of nginx. The summary names the copy, for example "Adds data-restored from Nov 24, 2026, 12:19 PM, next to what is running. Nothing running changes."
+
+<Screenshot id="env-backups/18-restore-volume" alt="Restore with Choose…: only the data volume ticked, and the copy it adds" />
+
+</Step>
+
+<Step>
+
+### Stage and deploy
+
+Click **Stage restore**, then **Commit 1 change**. Type **copy** to confirm and click **Deploy 1 change**.
+
+<Screenshot id="env-backups/19-restore-commit" alt="1 change to apply: Copy from the recovery point, with copy typed to confirm" />
+
+The copy, `data-restored`, appears on the canvas as its own card, next to the app and its original volume.
+
+</Step>
+
+</Steps>
+
+Restoring a database works the same way; [Database backups and restore](/data/databases/backups) shows it end to end, including **Switch instance** to move your apps onto the copy and how to delete a recovery point.

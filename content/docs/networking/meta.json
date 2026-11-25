@@ -1,0 +1,11 @@
+{
+  "title": "Networking",
+  "defaultOpen": true,
+  "pages": [
+    "index",
+    "visibility",
+    "custom-domains",
+    "basic-auth",
+    "advanced-networking"
+  ]
+}

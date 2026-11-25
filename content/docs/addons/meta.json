@@ -6,5 +6,6 @@
     "memcached",
     "proxysql",
     "kafka"
-  ]
+  ],
+  "defaultOpen": true
 }

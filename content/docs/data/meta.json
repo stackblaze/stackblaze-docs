@@ -1,0 +1,10 @@
+{
+  "title": "Data & storage",
+  "defaultOpen": true,
+  "pages": [
+    "index",
+    "databases",
+    "volumes",
+    "environment-backups"
+  ]
+}

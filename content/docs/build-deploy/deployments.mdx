@@ -1,0 +1,98 @@
+---
+title: Deployments
+description: Every release of a service, what it changed and who made it. Redeploy, restart, cancel a rollout, or roll the configuration back to an earlier release.
+---
+
+Each time a service's configuration changes, or it is restarted or deployed again, StackBlaze makes a new **release**. Open a service on the canvas and click **Deployment** to see them: **Events, deploys and rollbacks**, newest first.
+
+<Screenshot id="deployments/1-tab" alt="The Deployment tab: the running release titled Redeploy, then earlier ones titled Restarted, Rollback to Add CANVAS_DEMO and Remove CANVAS_DEMO" />
+
+Each row shows:
+
+- the status: **rolling out** while the new version starts, **running** for the one serving now, **superseded** for older ones;
+- the image (for example `nginx:1.27`), with its digest when one was recorded;
+- when it started, how long the rollout took, and who made it;
+- on the right, its title.
+
+## Name a release
+
+When you commit staged changes, the **Commit message** you type becomes the release's title in the history. Here a new variable is committed as **Add CANVAS_DEMO**:
+
+<Screenshot id="deployments/0-commit-message" alt="1 change to apply: Configuration · web, + CANVAS_DEMO, Commit message Add CANVAS_DEMO, Deploy 1 change" />
+
+The message is optional. Without one, the release is titled **Configuration updated**. A service's first release is **First Deploy**.
+
+## Deploy again
+
+**Manual Deploy**, at the top right of the list, offers two actions for a service that runs a Docker image:
+
+- **Deploy latest reference** pulls the image reference again and deploys it, so a tag like `latest` picks up a newer image.
+- **Restart service** restarts what is running, with the same configuration.
+
+<Screenshot id="deployments/2-manual-menu" alt="The Manual Deploy menu: Deploy latest reference and Restart service" />
+
+**Restart service** adds a release titled **Restarted**, and **Deploy latest reference** one titled **Redeploy**.
+
+## Services built from git
+
+For a service built from a [git repository](/build-deploy/deploy-from-github), each release row shows the commit it was built from: its short hash and message, for example `92fdae6 Remove build artifacts…`. A release that is still building reads **Deploy building**, with **Cancel**.
+
+**Manual Deploy** offers different actions:
+
+- **Deploy latest commit** builds the newest commit of the branch and deploys it. Ours added a release titled **Manual**; its build **Succeeded** and the new version went live.
+- **Deploy a specific commit…** opens **Choose commit to deploy**: "Builds the selected commit from main. Auto-deploy stays on — the next push supersedes this deploy." Pick a commit from the list or paste a SHA, then click **Deploy commit**.
+
+<Screenshot id="deployments/git-1-manual-menu" alt="Manual Deploy for a git service: Deploy latest commit and Deploy a specific commit" />
+
+<Screenshot id="deployments/git-2-commit-dialog" alt="Choose commit to deploy: a search field, two commits with their messages, Cancel and Deploy commit" />
+
+## Actions on a release
+
+Every row has a **⋯** menu:
+
+- **Redeploy** runs the service again. For a Docker image service, it restarts the service with its current configuration, adding a release titled **Restarted**; it doesn't bring back that release's settings. To do that, use **Rollback Config**.
+- **Inspect Deployment** opens the service's logs.
+- **Copy URL** and **Visit**.
+- **Cancel**, only while a release is rolling out. The row also has a **Cancel** button then.
+
+<Screenshot id="deployments/9-row-menu-0" alt="The menu of a release that is rolling out: Cancel, Redeploy, Inspect Deployment, Copy URL, Visit" />
+
+Earlier releases also have **Rollback Config**:
+
+<Screenshot id="deployments/9-row-menu-2" alt="The menu of an earlier release: Rollback Config, Redeploy, Inspect Deployment, Copy URL, Visit" />
+
+**Inspect Deployment** opens the logs over the panel:
+
+<Screenshot id="deployments/4-inspect" alt="The service's logs opened from Inspect Deployment, with App logs, Search logs and Live tail" />
+
+## Roll back the configuration
+
+**Rollback Config** puts the service's configuration back to how it was in that release.
+
+<Steps>
+
+<Step>
+
+### Review it
+
+In the release's **⋯** menu, choose **Rollback Config**. The review, titled after the release (here **Rollback to "Remove CANVAS_DEMO"**), lists every setting that will change, from its current value to the one it had then. It says the rollback is "Applied as a new release — add-ons, volumes, and domains stay as they are", and which service will redeploy.
+
+You can type a **Commit message** for the history. Without one, the release is titled after the one you rolled back to.
+
+<Screenshot id="deployments/10-rollback-review" alt="Rollback to Remove CANVAS_DEMO: an optional commit message, Variables CANVAS_DEMO to be removed, and web-tjlc will redeploy" />
+
+</Step>
+
+<Step>
+
+### Roll back
+
+Click **Rollback**. The service redeploys, and a new release appears at the top. Ours, rolling back to **Add CANVAS_DEMO**, brought the `CANVAS_DEMO` variable back and is titled **Rollback to Add CANVAS_DEMO**.
+
+<Screenshot id="deployments/11-after-rollback" alt="The history with the new release Rollback to Add CANVAS_DEMO rolling out above Remove CANVAS_DEMO and Add CANVAS_DEMO" />
+
+</Step>
+
+</Steps>
+
+Rolling back never deletes releases. The ones in between stay in the history, so you can roll forward again the same way.

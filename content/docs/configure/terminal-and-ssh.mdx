@@ -97,7 +97,7 @@ With an SSH key on your account you can use the real `ssh` client, and with it `
 
 ### Add an SSH key
 
-Add your public key to your account. See [SSH keys](/team/ssh-keys), or use the CLI:
+Add your public key to your account. See [SSH keys](/security/ssh-keys), or use the CLI:
 
 ```sh
 stackblaze ssh-keys add ~/.ssh/id_ed25519.pub --name docs-terminal-test
@@ -129,7 +129,7 @@ US Central: host key SHA256:BLPHXSd404l6QjYuKC8yHMMJeRZNYSxBMwO5hcqpEvU (ssh.us-
 ssh -p 2202 my-project.production.web-ab12@ssh.us-central-1.stackblaze.cloud
 ```
 
-The user is the service, written `project.environment.service`. Each region has its own SSH address and host key; the command uses the one of the service's region, and the first line gives the host key so you can check it on first connect. The addresses, ports and host keys of every region are listed on [SSH keys](/team/ssh-keys).
+The user is the service, written `project.environment.service`. Each region has its own SSH address and host key; the command uses the one of the service's region, and the first line gives the host key so you can check it on first connect. The addresses, ports and host keys of every region are listed on [SSH keys](/security/ssh-keys).
 
 </Step>
 
