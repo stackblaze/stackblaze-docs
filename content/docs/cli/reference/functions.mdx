@@ -43,6 +43,22 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+List the functions in an environment, how each one runs and its URL.
+
+```sh
+stackblaze functions list -p github-demo-cw8z -e dev
+```
+
+```text
+┌───────┬────────────┬───────────────────────────────────────────────────────┐
+│ Name  │ Runs       │ URL                                                   │
+├───────┼────────────┼───────────────────────────────────────────────────────┤
+│ hello │ on request │ https://hello-4qcf.cloud-dev-central-1.stackblaze.app │
+└───────┴────────────┴───────────────────────────────────────────────────────┘
+```
+
 ## functions get
 
 ```text
@@ -60,6 +76,30 @@ Options:
   --code                 Print the function's TypeScript file (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Show how a function runs and whether it is awake, then print its code.
+
+```sh
+stackblaze functions get hello -p github-demo-cw8z -e dev
+stackblaze functions get hello -p github-demo-cw8z -e dev --code
+```
+
+```text
+OK github-demo-cw8z/dev/hello
+runs:   on request (TypeScript on Bun)
+url:    https://hello-4qcf.cloud-dev-central-1.stackblaze.app
+status: sleeping (wakes on the next request)
+code:   242 bytes (print it with --code)
+Bun.serve({
+  port: Number(process.env.PORT ?? 8080),
+  async fetch(req) {
+    const name = req.method === "POST" ? (await req.text()) || "world" : "world";
+    return Response.json({ hello: name, path: new URL(req.url).pathname });
+  },
+});
 ```
 
 ## functions deploy
@@ -104,6 +144,29 @@ An existing function keeps its variables and settings; only what you pass
 changes. Its logs (a scheduled function: its runs): stackblaze logs -a <name>.
 ```
 
+### Example
+
+Create a function from one TypeScript file and wait until it is ready. Running the same command again with a changed file updates its code.
+
+```sh
+cat hello.ts
+stackblaze functions deploy hello --file hello.ts --wait -p github-demo-cw8z -e dev
+```
+
+```text
+Bun.serve({
+  port: Number(process.env.PORT ?? 8080),
+  async fetch(req) {
+    const name = req.method === "POST" ? (await req.text()) || "world" : "world";
+    return Response.json({ hello: name, path: new URL(req.url).pathname });
+  },
+});
+Waiting for function hello-4qcf…
+  hello-4qcf: Waiting for hello-4qcf-kuberoapp-web deployment
+OK Function hello is ready
+url: https://hello-4qcf.cloud-dev-central-1.stackblaze.app
+```
+
 ## functions invoke
 
 ```text
@@ -125,6 +188,22 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+Call a function with a request body (POST by default), then with a GET on another path. A sleeping function wakes for the call.
+
+```sh
+stackblaze functions invoke hello -p github-demo-cw8z -e dev --body Ada
+stackblaze functions invoke hello -p github-demo-cw8z -e dev --method GET --path /status
+```
+
+```text
+OK Invoked hello (HTTP 200)
+{"hello":"Ada","path":"/"}
+OK Invoked hello (HTTP 200)
+{"hello":"world","path":"/status"}
+```
+
 ## functions delete
 
 ```text
@@ -142,4 +221,18 @@ Options:
   -y, --yes              Skip confirmation (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Delete a function. Type the function name to confirm, or pass `-y`.
+
+```sh
+stackblaze functions delete hello -p github-demo-cw8z -e dev
+```
+
+```text
+!  This will DELETE function hello in github-demo-cw8z/dev.
+Type the function name to confirm: hello
+OK Deleted function hello from github-demo-cw8z/dev
 ```

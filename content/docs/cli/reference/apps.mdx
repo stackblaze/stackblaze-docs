@@ -56,6 +56,22 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+List the apps in one project, with the environment each one runs in.
+
+```sh
+stackblaze apps list -p github-demo-gv35
+```
+
+```text
+┌──────────────────┬─────────────┬───────┬──────────┐
+│ Project          │ Environment │ App   │ Strategy │
+├──────────────────┼─────────────┼───────┼──────────┤
+│ github-demo-gv35 │ dev         │ nginx │ docker   │
+└──────────────────┴─────────────┴───────┴──────────┘
+```
+
 ## apps get
 
 ```text
@@ -75,6 +91,25 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+Show an app's resource name, public URL, status, pod count and number of variables.
+
+```sh
+stackblaze apps get hello-web -p github-demo-cw8z -e dev
+```
+
+```text
+OK github-demo-cw8z/dev/hello-web
+resource: hello-web-qw6y
+url:    https://hello-web-qw6y.cloud-dev-central-1.stackblaze.app
+status: running
+pods:   1
+env:    2 variable(s)
+```
+
+Add `--json` for the full spec (image, health check, ingress, resources, variables with masked values).
+
 ## apps restart
 
 ```text
@@ -91,6 +126,18 @@ Options:
   --json                 Output JSON (same as -o json) (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Rolling restart of an app by name: same image, no rebuild.
+
+```sh
+stackblaze apps restart hello-web -p github-demo-cw8z -e dev
+```
+
+```text
+OK Restarted github-demo-cw8z/dev/hello-web (same image, no rebuild)
 ```
 
 ## apps redeploy
@@ -111,6 +158,18 @@ Options:
   -m, --message <text>   Release message shown in the deployments timeline
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Deploy an image app on a different tag.
+
+```sh
+stackblaze apps redeploy hello-web -p github-demo-cw8z -e dev --tag 1.27.4-alpine -m "nginx 1.27.4"
+```
+
+```text
+OK Deploying github-demo-cw8z/dev/hello-web → tag 1.27.4-alpine
 ```
 
 ## apps scale
@@ -153,6 +212,20 @@ Instance counts are checked against your plan's per-service limit. Use
 --skip-deploy to stage the change and ship it later with other staged changes.
 ```
 
+### Example
+
+Turn on autoscaling between 1 and 3 web instances, then go back to a fixed single instance.
+
+```sh
+stackblaze apps scale -p github-demo-cw8z -e dev -a hello-web --autoscale web=1:3 -m "Autoscale web"
+stackblaze apps scale -p github-demo-cw8z -e dev -a hello-web --autoscale-off web web=1
+```
+
+```text
+OK Scaled github-demo-cw8z/dev/hello-web web → autoscaling 1–3
+OK Scaled github-demo-cw8z/dev/hello-web web → 1 instance(s) (was 2), autoscaling off
+```
+
 ## apps delete
 
 ```text
@@ -175,6 +248,19 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+Delete an app together with the PostgreSQL database only it uses. Without `-y` the CLI lists what will go and asks you to confirm; pass `--keep-data` to keep the database.
+
+```sh
+stackblaze apps delete hello-site -y -p github-demo-cw8z -e dev
+```
+
+```text
+OK Deleted github-demo-cw8z/dev/hello-site
+OK Deleted database hello-web-qw6y-postgresql-s32l (PostgreSQL) and its data
+```
+
 ## apps rename
 
 ```text
@@ -192,6 +278,24 @@ Options:
   --json                 Output JSON (same as -o json) (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Change the name people see for an app. Its resource name, URL and data stay the same, and the new name works with `-a` and `apps get`.
+
+```sh
+stackblaze apps rename hello-web hello-site -p github-demo-cw8z -e dev
+stackblaze apps get hello-site -p github-demo-cw8z -e dev
+```
+
+```text
+OK Renamed github-demo-cw8z/dev/hello-web → hello-site
+Only the name people see changed; the app, its URL and data are untouched.
+OK github-demo-cw8z/dev/hello-site
+resource: hello-web-qw6y
+url:    https://hello-web-qw6y.cloud-dev-central-1.stackblaze.app
+…
 ```
 
 ## apps create
@@ -240,6 +344,28 @@ Options:
   -h, --help                 Print help
 ```
 
+### Example
+
+Create an app from a Docker image in the `dev` environment, with its port and one variable, and wait until it is running.
+
+```sh
+stackblaze apps create hello-web -p github-demo-cw8z --phase dev \
+  --image nginxinc/nginx-unprivileged:1.27-alpine --port 8080 \
+  --env GREETING=hello --wait
+```
+
+```text
+OK Created github-demo-cw8z/dev/hello-web (docker nginxinc/nginx-unprivileged:1.27-alpine)
+Waiting for github-demo-cw8z/dev/hello-web-qw6y to be ready (up to 10m00s)…
+  github-demo-cw8z/dev/hello-web-qw6y: deploying — Waiting for hello-web-qw6y-web deployment; rolling out (Deploy 1.27-alpine): waiting for the new pod (1s elapsed)
+…
+  github-demo-cw8z/dev/hello-web-qw6y: deploying — Deployment does not have minimum availability. (1m45s elapsed)
+OK github-demo-cw8z/dev/hello-web-qw6y is ready
+url: https://hello-web-qw6y.cloud-dev-central-1.stackblaze.app
+```
+
+The app keeps the name you gave it (`hello-web`); its resource name and URL get a short suffix (`hello-web-qw6y`).
+
 ## apps update
 
 ```text
@@ -279,4 +405,18 @@ Options:
   -o, --output <format>      Output format: text or json (choices: "text",
                              "json")
   -h, --help                 Print help
+```
+
+### Example
+
+Move an image app to a new tag and turn on the HTTP health check, so the new version only takes traffic once `/` answers.
+
+```sh
+stackblaze apps update hello-web -p github-demo-cw8z --phase dev \
+  --tag 1.27.3-alpine --healthcheck-path /
+```
+
+```text
+OK Updated github-demo-cw8z/dev/hello-web
+image.tag, healthcheck.path=/, healthcheck on
 ```

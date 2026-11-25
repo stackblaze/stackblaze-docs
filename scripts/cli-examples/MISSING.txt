@@ -1,102 +1,14 @@
-addons list
-addons add
-addons share
-addons delete
-addons rename
-addons backups list
-addons backups status
-addons backups create
-addons backups restore
-addons import
-addons expose
-addons unexpose
-addons info
-agent
-api
 apply
-apps list
-apps get
-apps restart
-apps redeploy
-apps scale
-apps delete
-apps rename
-apps create
-apps update
-audit
-backups list
-backups show
-backups create
-backups restore
-backups status
-backups schedule
-backups delete
-billing limit
-billing gpu-credit add
-builds list
-builds trigger
-builds logs
 cdn purge
-completion
-connect
-context
-cron list
-cron run
-cron logs
-cron set
-cron delete
-db info
-deploy
-deployments list
-deployments rollback
 destroy
-diagnose
-docs
-domain list
-domain add
-domain verify
-domain remove
-domain status
-down
 env pull
-events
-export
-files mounts
-files list
-files download
-files upload
-files delete
-files rename
-functions list
-functions get
-functions deploy
-functions invoke
-functions delete
-import
 init
-inspect
-link
-list
-log-drains list
-log-drains add
-log-drains remove
-login
-logout
-logs
-members list
 members invite
 members remove
 members role
-members roles
-members invites list
 members invites revoke
-metrics
-models list
 models get
 models deploy
-models check
-models search
-models sizes
 models sleep
 models wake
 models delete
@@ -108,80 +20,17 @@ models logs
 models metrics
 models url
 models key
-notifications list
-notifications add
-notifications enable
-notifications disable
-notifications remove
-notifications events
-open
-orgs list
 orgs switch
-pending list
-pending apply
-pending discard
-phases list
-phases create
-phases delete
-phases use
-plan
-previews list
 previews delete
 previews enable
-previews disable
-projects list
 projects create
 projects delete
-projects rename
-projects iac
-proxy
-redeploy
 regions list
-registry status
-registry login
-registry logout
-restart
-resume
 run
-sandboxes list
-sandboxes sizes
-sandboxes create
-sandboxes get
-sandboxes delete
 sandboxes sleep
 sandboxes wake
 sandboxes resize
 sandboxes ssh
 sandboxes ide
-scale
-setup mcp
-setup skills
-setup agent
 shell
-snapshots list
-snapshots create
-snapshots clone
-snapshots delete
-ssh
-ssh-keys list
-ssh-keys add
-ssh-keys remove
-status
-templates search
-templates deploy
-tokens list
 tokens create
-tokens revoke
-unlink
-up
-upgrade
-variables list
-variables set
-variables unset
-variables import
-variables edit
-volume list
-volume add
-volume delete
-wait
-whoami

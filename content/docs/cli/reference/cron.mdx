@@ -49,6 +49,20 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+List an app's scheduled tasks with their schedule, last run and command.
+
+```sh
+stackblaze cron list -p github-demo-gv35 -e dev -a nginx
+```
+
+```text
+OK github-demo-gv35/dev/nginx-9agm scheduled tasks
+  NAME   SCHEDULE      LAST RUN              COMMAND
+  hello  */30 * * * *  succeeded             /bin/sh -c 'echo hello from nginx; nginx -v'  (managed by scheduled-tasks-31d7)
+```
+
 ## cron run
 
 ```text
@@ -69,6 +83,22 @@ Options:
   --ci                   Output NDJSON events (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Run a scheduled task now, outside its schedule, and wait for it to finish. With `--wait` the command exits with 1 if the run fails.
+
+```sh
+stackblaze cron run nightly-report --wait -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+nightly-report was just saved and is still rolling out — retrying…
+Started nightly-report (run hello-web-qw6y-nightly-report-mmww8ro2s) — waiting for it to finish…
+run hello-web-qw6y-nightly-report-mmww8ro2s → running
+run hello-web-qw6y-nightly-report-mmww8ro2s → succeeded
+OK nightly-report succeeded (run hello-web-qw6y-nightly-report-mmww8ro2s)
 ```
 
 ## cron logs
@@ -92,6 +122,19 @@ Options:
   -n, --limit <n>        Newest N lines
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Show the output of a scheduled task's runs. Add `-f` to follow a run live, or `--job <run>` for one run.
+
+```sh
+stackblaze cron logs nightly-report -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+2026-11-25T14:51:31.415Z report for 2026-11-25
+2026-11-25T14:51:31.417Z nginx version: nginx/1.27.3
 ```
 
 ## cron set
@@ -122,6 +165,22 @@ Examples:
   stackblaze cron set cleanup --schedule "30 3 * * *"   # change the schedule only
 ```
 
+### Example
+
+Create a scheduled task that runs every night at 02:00 UTC in the app's image. Use `sh -c '…'` when the command needs a shell.
+
+```sh
+stackblaze cron set nightly-report --schedule "0 2 * * *" \
+  --command "sh -c 'echo report for \$(date -u +%F); nginx -v'" \
+  -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+OK Created nightly-report: 0 2 * * *  sh -c 'echo report for $(date -u +%F); nginx -v'
+```
+
+Run it again with only `--schedule` or only `--command` to change just that.
+
 ## cron delete
 
 ```text
@@ -139,4 +198,18 @@ Options:
   -y, --yes              Skip the confirmation prompt (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Remove a scheduled task. Type the task name to confirm, or pass `-y`.
+
+```sh
+stackblaze cron delete nightly-report -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+!  This removes the scheduled task nightly-report from github-demo-cw8z/dev/hello-web-qw6y.
+Type the task name to confirm: nightly-report
+OK Removed scheduled task nightly-report
 ```

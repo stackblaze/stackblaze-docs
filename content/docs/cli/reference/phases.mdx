@@ -42,6 +42,38 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+List a project's environments and the cluster each one runs on:
+
+```sh
+stackblaze phases list -p github-demo-cw8z
+```
+
+```text
+┌─────────────┬─────────┬─────────────────────┐
+│ Environment │ Enabled │ Context             │
+├─────────────┼─────────┼─────────────────────┤
+│ dev         │ yes     │ cloud-dev-central-1 │
+├─────────────┼─────────┼─────────────────────┤
+│ stage       │ yes     │ cloud-dev-central-1 │
+├─────────────┼─────────┼─────────────────────┤
+│ production  │ yes     │ cloud-dev-central-1 │
+└─────────────┴─────────┴─────────────────────┘
+```
+
+Get just the names in a script:
+
+```sh
+stackblaze phases list -p github-demo-cw8z --json | jq -r '.[].name'
+```
+
+```text
+dev
+stage
+production
+```
+
 ## phases create
 
 ```text
@@ -72,6 +104,33 @@ off. Pull-request preview apps are not copied. Requires the Preview
 environments platform switch (same as `previews`).
 ```
 
+### Example
+
+Add an empty `qa` environment to a project:
+
+```sh
+stackblaze phases create qa -p github-demo-cw8z
+stackblaze phases list -p github-demo-cw8z
+```
+
+```text
+OK Created environment qa in project github-demo-cw8z
+context: cloud-dev-central-1
+┌─────────────┬─────────┬─────────────────────┐
+│ Environment │ Enabled │ Context             │
+├─────────────┼─────────┼─────────────────────┤
+│ dev         │ yes     │ cloud-dev-central-1 │
+├─────────────┼─────────┼─────────────────────┤
+│ stage       │ yes     │ cloud-dev-central-1 │
+├─────────────┼─────────┼─────────────────────┤
+│ production  │ yes     │ cloud-dev-central-1 │
+├─────────────┼─────────┼─────────────────────┤
+│ qa          │ yes     │ cloud-dev-central-1 │
+└─────────────┴─────────┴─────────────────────┘
+```
+
+`--from staging` would instead copy an existing environment's settings and every app in it (with empty data and new URLs).
+
 ## phases delete
 
 ```text
@@ -91,6 +150,20 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+Remove an environment. To confirm, type the environment's name (or pass `-y`):
+
+```sh
+stackblaze phases delete qa -p github-demo-cw8z
+```
+
+```text
+!  This will DELETE environment qa from project github-demo-cw8z (no apps).
+Type the environment name to confirm deletion: qa
+OK Deleted environment qa from project github-demo-cw8z
+```
+
 ## phases use
 
 ```text
@@ -107,4 +180,24 @@ Options:
   --json                 Output JSON (same as -o json) (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Switch a folder linked to `github-demo-gv35` / `dev` over to the `stage` environment, then check the result:
+
+```sh
+stackblaze phases use stage
+stackblaze context
+```
+
+```text
+OK Using environment stage of github-demo-gv35
+saved to /tmp/shop/.stackblaze/project.json
+Context
+  api:         https://api-dev.stackblaze.cloud
+  project:     github-demo-gv35
+  environment: stage
+  app:         (none)
+  file:        .stackblaze/project.json
 ```

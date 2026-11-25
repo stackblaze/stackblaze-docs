@@ -56,6 +56,25 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+The recovery points of an environment, newest first:
+
+```sh
+stackblaze backups list -p github-demo-gv35 -e dev
+```
+
+```text
+OK github-demo-gv35/dev recovery points
+┌───────────────────────────────────────────┬──────────────────┬───────────┬─────────┬────────────────────────────────────┬──────┐
+│ ID                                        │ Time             │ Status    │ Trigger │ Contents                           │ Size │
+├───────────────────────────────────────────┼──────────────────┼───────────┼─────────┼────────────────────────────────────┼──────┤
+│ manual-github-demo-gv35-dev-1795522713511 │ 2026-11-24 12:19 │ Completed │ manual  │ everything (1 database, 1 volume)  │ —    │
+├───────────────────────────────────────────┼──────────────────┼───────────┼─────────┼────────────────────────────────────┼──────┤
+│ manual-github-demo-gv35-dev-1795522382810 │ 2026-11-24 12:13 │ Completed │ manual  │ everything (1 database, 0 volumes) │ —    │
+└───────────────────────────────────────────┴──────────────────┴───────────┴─────────┴────────────────────────────────────┴──────┘
+```
+
 ## backups show
 
 ```text
@@ -72,6 +91,29 @@ Options:
   --json                 Output JSON (same as -o json) (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+What a recovery point holds, and what restoring it would create:
+
+```sh
+stackblaze backups show manual-github-demo-cw8z-dev-1795617417246 -p github-demo-cw8z -e dev
+```
+
+```text
+OK github-demo-cw8z/dev recovery point manual-github-demo-cw8z-dev-1795617417246  Completed
+time      2026-11-25T14:37:00Z
+trigger   manual
+contents  partial: whiteboard-8stj-postgresql-6bt2
+expires   2026-12-02T14:36:58Z
+
+Databases:
+  whiteboard-8stj-postgresql-6bt2
+Volumes:
+  none
+
+Restore: as NEW databases and volumes — everything in the point, or only chosen items (--database / --volume); nothing running is touched. See `stackblaze backups restore --help`.
 ```
 
 ## backups create
@@ -105,6 +147,24 @@ Examples:
   $ stackblaze backups create --wait
   $ stackblaze backups create --only web --only web-postgresql -e staging
 ```
+
+### Example
+
+Take a partial recovery point of just the `whiteboard` app and its database, and wait until the dump is saved:
+
+```sh
+stackblaze backups create -p github-demo-cw8z -e dev --only whiteboard,whiteboard-8stj-postgresql-6bt2 --wait
+```
+
+```text
+Backup manual-github-demo-cw8z-dev-1795617417246 started — waiting for it to finish…
+backup manual-github-demo-cw8z-dev-1795617417246 → InProgress
+backup manual-github-demo-cw8z-dev-1795617417246 → saving databases
+backup manual-github-demo-cw8z-dev-1795617417246 → Completed
+OK Backup manual-github-demo-cw8z-dev-1795617417246 completed (partial: whiteboard-8stj-postgresql-6bt2)
+```
+
+The app has no volumes, so the point holds only the database.
 
 ## backups restore
 
@@ -153,6 +213,19 @@ Examples:
   $ stackblaze backups restore latest --wait -e staging
 ```
 
+### Example
+
+Restore only the database from the newest recovery point, as a new database. Nothing running changes:
+
+```sh
+stackblaze backups restore latest --database whiteboard-8stj-postgresql-6bt2 -p github-demo-cw8z -e dev
+```
+
+```text
+OK Restore b55c0774-27d9-4e7f-b893-c73d874d7282 started for github-demo-cw8z/dev
+Follow it with `stackblaze backups status -p github-demo-cw8z -e dev` (or pass --wait).
+```
+
 ## backups status
 
 ```text
@@ -169,6 +242,36 @@ Options:
   --json                 Output JSON (same as -o json) (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Follow a restore. While it runs:
+
+```sh
+stackblaze backups status -p github-demo-cw8z -e dev
+```
+
+```text
+OK Copy b55c0774-27d9-4e7f-b893-c73d874d7282 from manual-github-demo-cw8z-dev-1795617417246: Copying
+  dumps    running
+  volumes  pending
+  whiteboard-8stj-postgresql-6bt2 → whiteboard-8stj-postgresql-restored-z27r
+```
+
+When a restore has finished, the last line names the new database:
+
+```text
+OK Copy 0465f4c7-bd44-407c-b873-6eb59c30c738 from manual-github-demo-cw8z-dev-1795617417246: Succeeded
+  dumps    done
+  volumes  skipped
+  whiteboard-8stj-postgresql-6bt2 → whiteboard-8stj-postgresql-restored-nev0
+```
+
+With no restore running or ended in the last 10 minutes:
+
+```text
+OK No restore running in github-demo-gv35/dev (none ended in the last 10 minutes)
 ```
 
 ## backups schedule
@@ -188,6 +291,59 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+See whether the environment is backed up on a schedule. The CLI only reads it; you turn it on in the dashboard:
+
+```sh
+stackblaze backups schedule -p github-demo-cw8z -e dev
+```
+
+```text
+OK github-demo-cw8z/dev scheduled backups: off
+Set the schedule in the dashboard (environment → Backups). The CLI never creates a schedule.
+```
+
+The JSON lists each cadence with its cron and how long its points are kept:
+
+```sh
+stackblaze backups schedule -p github-demo-cw8z -e dev --json
+```
+
+```text
+{
+  "pipeline": "github-demo-cw8z",
+  "phase": "dev",
+  "cadences": [
+    {
+      "id": "6h",
+      "enabled": false,
+      "retentionHours": 168,
+      "cron": "0 */6 * * *"
+    },
+    {
+      "id": "daily",
+      "enabled": false,
+      "retentionHours": 144,
+      "cron": "0 2 * * *"
+    },
+    {
+      "id": "weekly",
+      "enabled": false,
+      "retentionHours": 720,
+      "cron": "0 3 * * 0"
+    },
+    {
+      "id": "monthly",
+      "enabled": false,
+      "retentionHours": 720,
+      "cron": "0 4 1 * *"
+    }
+  ],
+  "pvcNames": null
+}
+```
+
 ## backups delete
 
 ```text
@@ -204,4 +360,18 @@ Options:
   -y, --yes              Skip the confirmation prompt (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Delete a recovery point you no longer need. You confirm by typing its id:
+
+```sh
+stackblaze backups delete manual-github-demo-cw8z-dev-1795617417246 -p github-demo-cw8z -e dev
+```
+
+```text
+!  This deletes recovery point manual-github-demo-cw8z-dev-1795617417246 (2026-11-25T14:37:00Z) of github-demo-cw8z/dev and its data.
+Type "manual-github-demo-cw8z-dev-1795617417246" to confirm: 
+OK Deleted recovery point manual-github-demo-cw8z-dev-1795617417246
 ```

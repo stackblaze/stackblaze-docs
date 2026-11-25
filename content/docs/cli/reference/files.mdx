@@ -48,6 +48,21 @@ Options:
 May be disabled by your platform admin.
 ```
 
+### Example
+
+List the paths in the app's pod where you can read and write files: its volumes, plus `/tmp`.
+
+```sh
+stackblaze files mounts -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+pod=hello-web-qw6y-web-59ffbdcb4-xckfx  container=web
+/data/uploads  pvc=uploads  1Gi
+  access: ReadWriteMany
+/tmp
+```
+
 ## files list
 
 ```text
@@ -70,6 +85,19 @@ Options:
   -h, --help             Print help
 
 May be disabled by your platform admin.
+```
+
+### Example
+
+List a folder on the app's volume.
+
+```sh
+stackblaze files list /data/uploads/imports -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+/data/uploads/imports  pod=hello-web-qw6y-web-59ffbdcb4-xckfx
+f  customers.csv 22B
 ```
 
 ## files download
@@ -97,6 +125,22 @@ Options:
 May be disabled by your platform admin.
 ```
 
+### Example
+
+Download a folder from the app's volume as a tar archive, then look inside it.
+
+```sh
+stackblaze files download /data/uploads/imports --out imports-backup.tar -p github-demo-cw8z -e dev -a hello-web
+tar tvf imports-backup.tar
+```
+
+```text
+OK Saved /data/uploads/imports → <current directory>/imports-backup.tar
+Archive is tar format; extract with: tar xf imports-backup.tar
+drwxr-xr-x nginx/nginx       0 2026-11-25 14:55 imports/
+-rw-r--r-- nginx/nginx      22 2026-11-25 14:55 imports/customers-2026-11.csv
+```
+
 ## files upload
 
 ```text
@@ -120,6 +164,19 @@ Options:
   -h, --help             Print help
 
 May be disabled by your platform admin.
+```
+
+### Example
+
+Upload a local file into a folder on the app's volume. A trailing `/` on `--path` means "into this folder"; it is created if needed.
+
+```sh
+stackblaze files upload customers.csv --path /data/uploads/imports/ -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+OK Uploaded → /data/uploads/imports/customers.csv
+pod=hello-web-qw6y-web-59ffbdcb4-xckfx
 ```
 
 ## files delete
@@ -146,6 +203,23 @@ Options:
 May be disabled by your platform admin.
 ```
 
+### Example
+
+Delete a file on the app's volume. Type `yes` to confirm, or pass `-y`.
+
+```sh
+stackblaze files delete /data/uploads/imports/customers-2026-11.csv -p github-demo-cw8z -e dev -a hello-web
+stackblaze files list /data/uploads/imports -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+!  Delete /data/uploads/imports/customers-2026-11.csv on github-demo-cw8z/dev/hello-web-qw6y?
+Type "yes" to continue: yes
+OK Deleted /data/uploads/imports/customers-2026-11.csv
+/data/uploads/imports  pod=hello-web-qw6y-web-59c674b9c6-f8jsk
+(empty)
+```
+
 ## files rename
 
 ```text
@@ -168,4 +242,19 @@ Options:
   -h, --help             Print help
 
 May be disabled by your platform admin.
+```
+
+### Example
+
+Rename a file on the app's volume, then list the folder.
+
+```sh
+stackblaze files rename --from /data/uploads/imports/customers.csv --to /data/uploads/imports/customers-2026-11.csv -p github-demo-cw8z -e dev -a hello-web
+stackblaze files list /data/uploads/imports -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+OK Renamed /data/uploads/imports/customers.csv → /data/uploads/imports/customers-2026-11.csv
+/data/uploads/imports  pod=hello-web-qw6y-web-59ffbdcb4-xckfx
+f  customers-2026-11.csv 22B
 ```

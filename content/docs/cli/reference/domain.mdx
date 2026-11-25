@@ -51,6 +51,27 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+List an app's domains: its platform hostname and any custom domains, with verification and certificate status.
+
+```sh
+stackblaze domain list -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+OK github-demo-cw8z/dev/hello-web-qw6y
+┌───────────────────────────────────────────────────┬──────────┬─────────────────┬─────────────┐
+│ Host                                              │ Type     │ Status          │ Certificate │
+├───────────────────────────────────────────────────┼──────────┼─────────────────┼─────────────┤
+│ hello-web-qw6y.cloud-dev-central-1.stackblaze.app │ platform │ active          │ ready       │
+├───────────────────────────────────────────────────┼──────────┼─────────────────┼─────────────┤
+│ shop.example.com                                  │ custom   │ waiting for DNS │ pending     │
+└───────────────────────────────────────────────────┴──────────┴─────────────────┴─────────────┘
+shop.example.com: TXT _stackblaze-verify.shop.example.com not found; CNAME shop.example.com → fkzcqciuasaoyxoc.edge.stackblaze.cloud not found
+shop.example.com: Not verified yet. Until it is, other accounts can claim this domain too: the first claim whose TXT record verifies gets it, and the other claims are released.
+```
+
 ## domain add
 
 ```text
@@ -75,6 +96,28 @@ Options:
                          consecutive checks (≥10 min) (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Add a custom domain to an app. The CLI prints the two DNS records to create at your DNS provider.
+
+```sh
+stackblaze domain add shop.example.com -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+OK Added shop.example.com to github-demo-cw8z/dev/hello-web-qw6y
+Create these DNS records at your DNS provider:
+┌───────┬─────────────────────────────────────┬────────────────────────────────────────────────────┬───────┐
+│ Type  │ Name                                │ Value                                              │ Found │
+├───────┼─────────────────────────────────────┼────────────────────────────────────────────────────┼───────┤
+│ TXT   │ _stackblaze-verify.shop.example.com │ stackblaze-verify=3d4addb81a98383f5bc0688f8423c1fe │ no    │
+├───────┼─────────────────────────────────────┼────────────────────────────────────────────────────┼───────┤
+│ CNAME │ shop.example.com                    │ fkzcqciuasaoyxoc.edge.stackblaze.cloud             │ no    │
+└───────┴─────────────────────────────────────┴────────────────────────────────────────────────────┴───────┘
+Not verified yet. Until it is, other accounts can claim this domain too: the first claim whose TXT record verifies gets it, and the other claims are released.
+Then run `stackblaze domain verify shop.example.com` (or add --wait) — the platform also re-checks every 5 minutes.
 ```
 
 ## domain verify
@@ -103,6 +146,28 @@ Exit code: 0 only when the domain is active (DNS verified and HTTPS ready);
 --wait times out. The JSON document (--json) is printed either way.
 ```
 
+### Example
+
+Check a domain's DNS now. Until both records are found it stays pending, and the command exits with 1; add `--wait` to keep checking until HTTPS is ready.
+
+```sh
+stackblaze domain verify shop.example.com -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+shop.example.com  waiting for DNS  cert: pending
+TXT _stackblaze-verify.shop.example.com not found; CNAME shop.example.com → fkzcqciuasaoyxoc.edge.stackblaze.cloud not found
+Not verified yet. Until it is, other accounts can claim this domain too: the first claim whose TXT record verifies gets it, and the other claims are released.
+┌───────┬─────────────────────────────────────┬────────────────────────────────────────────────────┬───────┐
+│ Type  │ Name                                │ Value                                              │ Found │
+├───────┼─────────────────────────────────────┼────────────────────────────────────────────────────┼───────┤
+│ TXT   │ _stackblaze-verify.shop.example.com │ stackblaze-verify=3d4addb81a98383f5bc0688f8423c1fe │ no    │
+├───────┼─────────────────────────────────────┼────────────────────────────────────────────────────┼───────┤
+│ CNAME │ shop.example.com                    │ fkzcqciuasaoyxoc.edge.stackblaze.cloud             │ no    │
+└───────┴─────────────────────────────────────┴────────────────────────────────────────────────────┴───────┘
+shop.example.com is not active yet (waiting for DNS). Run `stackblaze domain verify shop.example.com --wait` to wait for it.
+```
+
 ## domain remove
 
 ```text
@@ -122,6 +187,20 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+Remove a custom domain from an app. Type `yes` to confirm, or pass `-y`.
+
+```sh
+stackblaze domain remove shop.example.com -p github-demo-cw8z -e dev -a hello-site
+```
+
+```text
+!  Removing shop.example.com from github-demo-cw8z/dev/hello-web-qw6y detaches it from the app and stops serving HTTPS for it; visitors using it will get errors until it is added again.
+Type "yes" to continue: yes
+OK Removed domain shop.example.com from github-demo-cw8z/dev/hello-web-qw6y
+```
+
 ## domain status
 
 ```text
@@ -139,3 +218,19 @@ Options:
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
 ```
+
+### Example
+
+Show whether the app's ingress is on and which hosts it serves.
+
+```sh
+stackblaze domain status -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+OK github-demo-cw8z/dev/hello-web-qw6y
+ingress: enabled
+  hello-web-qw6y.cloud-dev-central-1.stackblaze.app  no tls record
+```
+
+A custom domain shows up here once it is verified; until then, check it with `stackblaze domain list`.

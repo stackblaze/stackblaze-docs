@@ -71,6 +71,47 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+The add-on types you can attach to an app (the `kind` is what `addons add --kind` takes):
+
+```sh
+stackblaze addons list -p github-demo-gv35 -e dev -a nginx
+```
+
+```text
+Memcached  kind=Memcached
+ProxySQL  kind=ProxySQL
+Cloudflare Tunnel  kind=Tunnel
+PostgreSQL (CloudNativePG)  kind=Cluster
+MariaDB  kind=MariaDB
+Valkey  kind=Valkey
+Kafka (Strimzi)  kind=Kafka
+OpenSearch  kind=OpenSearchCluster
+FerretDB  kind=FerretDB
+MongoDB  kind=MongoDB
+MySQL  kind=MySQL
+S3 bucket  kind=Tenant
+ClickHouse  kind=ClickHouseInstallation
+RabbitMQ  kind=RabbitmqCluster
+Scheduled tasks  kind=ScheduledTasks
+Email  kind=Smtp
+Linkerd  kind=Linkerd
+```
+
+With `--attached`, the add-ons this app already uses, with their instance names:
+
+```sh
+stackblaze addons list -p github-demo-gv35 -e dev -a nginx --attached
+```
+
+```text
+OK github-demo-gv35/dev/nginx-9agm
+email  kind=Smtp  phase=running  Canvas-level add-on — no operator resource
+scheduled-tasks-31d7  kind=ScheduledTasks  phase=running
+memcached-o440  kind=Memcached  phase=running
+```
+
 ## addons add
 
 ```text
@@ -94,6 +135,24 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+Give the `whiteboard` app a PostgreSQL database and wait until both are running. The app gets `DATABASE_URL`, `PGHOST` and the other connection variables:
+
+```sh
+stackblaze addons add postgres -p github-demo-cw8z -e dev -a whiteboard --wait
+```
+
+```text
+OK Added PostgreSQL (CloudNativePG) (whiteboard-8stj-postgresql) to github-demo-cw8z/dev/whiteboard-8stj
+Waiting for github-demo-cw8z/dev/whiteboard-8stj to be ready (up to 10m00s)…
+  github-demo-cw8z/dev/whiteboard-8stj: deploying — Addon whiteboard-8stj-postgresql-6bt2: Setting up primary; addon whiteboard-8stj-postgresql-6bt2 deploying; rolling out (Updated env vars (DATABASE_URL, PGDATABASE, PGHOST, +5), shared add-ons): waiting for the new pod (1s elapsed)
+…
+  github-demo-cw8z/dev/whiteboard-8stj: deploying — Addon whiteboard-8stj-postgresql-6bt2: Cluster Is Not Ready; addon whiteboard-8stj-postgresql-6bt2 deploying (1m02s elapsed)
+OK github-demo-cw8z/dev/whiteboard-8stj is ready
+url: https://whiteboard-8stj.cloud-dev-central-1.stackblaze.app
+```
+
 ## addons share
 
 ```text
@@ -114,6 +173,24 @@ Options:
   --timeout <seconds>    Max --wait time (default: 600)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Connect the `whiteboard` app to a second database that already runs in the environment (here, one restored from a dump). Its variables get the database's name as a prefix, so they don't clash with the app's own `DATABASE_URL`:
+
+```sh
+stackblaze addons share whiteboard-8stj-postgresql-restored-76yo -p github-demo-cw8z -e dev --with whiteboard --wait
+```
+
+```text
+OK Shared whiteboard-8stj-postgresql-restored-76yo with github-demo-cw8z/dev/whiteboard
+Waiting for github-demo-cw8z/dev/whiteboard-8stj to be ready (up to 10m00s)…
+  github-demo-cw8z/dev/whiteboard-8stj: deploying — Rolling out new version; rolling out (Updated env vars (NOTES_COPY_DATABASE_URL, NOTES_COPY_PGDATABASE, NOTES_COPY_PGHOST, +5), shared add-ons): waiting for the new pod (2s elapsed)
+…
+  github-demo-cw8z/dev/whiteboard-8stj: deploying — Rolling out new version (1m38s elapsed)
+OK github-demo-cw8z/dev/whiteboard-8stj is ready
+url: https://whiteboard-8stj.cloud-dev-central-1.stackblaze.app
 ```
 
 ## addons delete
@@ -142,6 +219,32 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+Detach a database from the `whiteboard` app and delete it with its data. `--destroy` asks you to type the add-on's name:
+
+```sh
+stackblaze addons delete --instance whiteboard-8stj-postgresql-restored-76yo --destroy -p github-demo-cw8z -e dev -a whiteboard
+```
+
+```text
+!  This detaches whiteboard-8stj-postgresql-restored-76yo from github-demo-cw8z/dev/whiteboard-8stj and then DELETES the shared add-on and ALL ITS DATA (refused while another app still uses it). This cannot be undone.
+Type the add-on name (whiteboard-8stj-postgresql-restored-76yo) to confirm: 
+OK Detached addon whiteboard-8stj-postgresql-restored-76yo from github-demo-cw8z/dev/whiteboard-8stj
+OK Deleted add-on whiteboard-8stj-postgresql-restored-76yo and its data from github-demo-cw8z/dev
+```
+
+A database no app uses any more needs no `-a`. In a script, `--yes` skips the prompt:
+
+```sh
+stackblaze addons delete --instance whiteboard-8stj-postgresql-restored-fob8 --destroy -p github-demo-cw8z -e dev --yes
+```
+
+```text
+!  This DELETES the shared add-on whiteboard-8stj-postgresql-restored-fob8 (PostgreSQL) in github-demo-cw8z/dev and ALL ITS DATA (refused while an app still uses it). This cannot be undone.
+OK Deleted add-on whiteboard-8stj-postgresql-restored-fob8 and its data from github-demo-cw8z/dev
+```
+
 ## addons rename
 
 ```text
@@ -159,6 +262,19 @@ Options:
   --json                 Output JSON (same as -o json) (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Give a restored database a name people recognise. The instance name, data and connection details stay the same:
+
+```sh
+stackblaze addons rename whiteboard-8stj-postgresql-restored-76yo notes-copy -p github-demo-cw8z -e dev
+```
+
+```text
+OK Renamed add-on whiteboard-8stj-postgresql-restored-76yo → notes-copy in github-demo-cw8z/dev
+Only the name people see changed; its data and connection details are untouched.
 ```
 
 ## addons backups
@@ -223,6 +339,27 @@ Options:
   -h, --help             Print help
 ```
 
+#### Example
+
+The dumps of the app's database, newest first, and the jobs that made them:
+
+```sh
+stackblaze addons backups list -p github-demo-cw8z -e dev -a whiteboard
+```
+
+```text
+OK whiteboard-8stj-postgresql-6bt2 (PostgreSQL) dumps
+  NAME                                                       SIZE       TIME              RECOVERY POINT
+  dump-whiteboard-8stj-postgresql-6bt2-1795617127898-435d2c  3.2 KB     2026-11-25T14:32:10.236Z—
+  dump-whiteboard-8stj-postgresql-6bt2-1795617069871-8f0c9b  1.3 KB     2026-11-25T14:31:11.695Z—
+Restore a dump as a NEW database (`<db>-restored`): `stackblaze addons backups restore <db> --backup <name>`.
+
+Jobs:
+  NAME                                                       TYPE     PHASE      STARTED                   FINISHED
+  dump-whiteboard-8stj-postgresql-6bt2-1795617127898-435d2c  dump     Completed  2026-11-25T14:32:07.000Z  2026-11-25T14:32:13.000Z
+  dump-whiteboard-8stj-postgresql-6bt2-1795617069871-8f0c9b  dump     Completed  2026-11-25T14:31:09.000Z  2026-11-25T14:31:14.000Z
+```
+
 ### addons backups status
 
 ```text
@@ -239,6 +376,22 @@ Options:
   --json                 Output JSON (same as -o json) (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+#### Example
+
+Check whether the environment's scheduled backups cover the app's database:
+
+```sh
+stackblaze addons backups status -p github-demo-cw8z -e dev -a whiteboard
+```
+
+```text
+OK whiteboard-8stj-postgresql-6bt2 (PostgreSQL) scheduled backups: off
+  Turn scheduled backups on in the dashboard (environment → Backups). The CLI never creates a schedule.
+  last dump:  -
+  dumps kept: 0
+  `stackblaze backups create --only whiteboard-8stj-postgresql-6bt2` takes a recovery point of it now (no schedule needed).
 ```
 
 ### addons backups create
@@ -261,6 +414,21 @@ Options:
   --ci                   Output NDJSON events (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+#### Example
+
+Dump the app's database now, without a schedule, and wait for it:
+
+```sh
+stackblaze addons backups create -p github-demo-cw8z -e dev -a whiteboard --wait
+```
+
+```text
+Dump dump-whiteboard-8stj-postgresql-6bt2-1795617127898-435d2c started — waiting for it to finish…
+dump dump-whiteboard-8stj-postgresql-6bt2-1795617127898-435d2c → Running
+dump dump-whiteboard-8stj-postgresql-6bt2-1795617127898-435d2c → Completed
+OK Backup dump-whiteboard-8stj-postgresql-6bt2-1795617127898-435d2c completed
 ```
 
 ### addons backups restore
@@ -293,6 +461,19 @@ Options:
   --ci                   Output NDJSON events (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+#### Example
+
+Restore the newest dump as a new database next to the running one. The app keeps using its database until you connect it to the new one (`addons share`):
+
+```sh
+stackblaze addons backups restore whiteboard-8stj-postgresql-6bt2 -p github-demo-cw8z -e dev -a whiteboard
+```
+
+```text
+OK New PostgreSQL database whiteboard-8stj-postgresql-restored-2 (whiteboard-8stj-postgresql-restored-76yo) is being restored from dump-whiteboard-8stj-postgresql-6bt2-1795617127898-435d2c of whiteboard-8stj-postgresql-6bt2 (job restore-whiteboard-8stj-postgresql-restore-1795617222737-bdd6b9)
+Follow it with `stackblaze backups status -p github-demo-cw8z -e dev` (or pass --wait).
 ```
 
 ## addons import
@@ -359,6 +540,25 @@ Examples:
 
 Importing from an `s3://` source needs a Storage bucket add-on, which isn't available yet.
 
+### Example
+
+Load a plain SQL dump (made with `pg_dump --no-owner --no-acl`) from this machine into an empty PostgreSQL add-on. The CLI uploads the file, the cluster loads it, and `--wait` prints the result:
+
+```sh
+stackblaze addons import notes.sql --addon whiteboard-8stj-postgresql-6bt2 -p github-demo-cw8z -e dev --wait
+```
+
+```text
+!  This loads notes.sql into PostgreSQL add-on "whiteboard-8stj-postgresql-6bt2" of github-demo-cw8z/dev on https://api-dev.stackblaze.cloud, inside the cluster. It writes into the existing database: use an empty one.
+Type "yes" to continue: 
+Uploading notes.sql (plain SQL, 2.0 KB)…
+Uploading: 100% (2.0 KB/2.0 KB)
+Import import-whiteboard-8stj-postgresql-6bt2-1795617111618-6e1dbb started in the cluster (uploaded file).
+  pending … 0s
+  restore: loading it into the database … 6s
+OK Imported 1 table, 3 rows (2.0 KB, plain SQL) — "whiteboard-8stj-postgresql-6bt2" (import-whiteboard-8stj-postgresql-6bt2-1795617111618-6e1dbb).
+```
+
 ## addons expose
 
 ```text
@@ -387,6 +587,20 @@ decides which engines can be exposed and says why when it cannot (exit 3).
 Credentials: `stackblaze addons info <addon> --reveal`.
 ```
 
+### Example
+
+Let one address connect to the app's PostgreSQL from outside the platform:
+
+```sh
+stackblaze addons expose whiteboard-8stj-postgresql-6bt2 -p github-demo-cw8z -e dev -a whiteboard --allow 203.0.113.10
+```
+
+```text
+OK whiteboard-8stj-postgresql-6bt2 is public at db.edge.stackblaze.cloud:15000
+  allowed: 203.0.113.10
+  credentials: `stackblaze addons info whiteboard-8stj-postgresql-6bt2 --reveal`
+```
+
 ## addons unexpose
 
 ```text
@@ -403,6 +617,18 @@ Options:
   --json                 Output JSON (same as -o json) (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Turn public access off again. The database stays reachable from your apps:
+
+```sh
+stackblaze addons unexpose whiteboard-8stj-postgresql-6bt2 -p github-demo-cw8z -e dev -a whiteboard
+```
+
+```text
+OK whiteboard-8stj-postgresql-6bt2 is no longer public (reachable from inside the platform only)
 ```
 
 ## addons info
@@ -423,4 +649,59 @@ Options:
   --reveal               Show passwords and connection strings (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+How to connect to the app's PostgreSQL. Passwords and connection strings stay hidden until you pass `--reveal`:
+
+```sh
+stackblaze addons info whiteboard-8stj-postgresql-6bt2 -p github-demo-cw8z -e dev -a whiteboard
+```
+
+```text
+OK whiteboard-8stj-postgresql-6bt2 (PostgreSQL)
+  engine:      postgres
+  host:        whiteboard-8stj-postgresql-6bt2-rw.github-demo-cw8z-dev.svc.cluster.local
+  port:        5432
+  database:    app
+  user:        postgres
+  password:    ********
+  uri:         ********
+  public:      db.edge.stackblaze.cloud:15000
+  allowed:     203.0.113.10
+  Credentials hidden; pass --reveal to show them.
+```
+
+The JSON also has the JDBC URL and the public access settings:
+
+```sh
+stackblaze addons info whiteboard-8stj-postgresql-6bt2 -p github-demo-cw8z -e dev -a whiteboard --json
+```
+
+```text
+{
+  "addon": "whiteboard-8stj-postgresql-6bt2",
+  "kind": "Cluster",
+  "engine": "postgres",
+  "host": "whiteboard-8stj-postgresql-6bt2-rw.github-demo-cw8z-dev.svc.cluster.local",
+  "port": 5432,
+  "username": "postgres",
+  "password": "********",
+  "database": "app",
+  "system": "PostgreSQL",
+  "server": "whiteboard-8stj-postgresql-6bt2-rw",
+  "uri": "********",
+  "jdbcUrl": "jdbc:postgresql://whiteboard-8stj-postgresql-6bt2-rw.github-demo-cw8z-dev.svc.cluster.local:5432/app",
+  "envSnippet": "********",
+  …
+  "publicExposed": true,
+  "publicExposable": true,
+  "publicAddress": "db.edge.stackblaze.cloud:15000",
+  "publicAllowList": [
+    "203.0.113.10"
+  ],
+  "publicAllowAll": false,
+  "publicTls": false
+}
 ```

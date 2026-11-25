@@ -44,6 +44,28 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+List a project's preview apps, here narrowed to one environment. This project has none yet:
+
+```sh
+stackblaze previews list -p github-demo-gv35 -e dev
+```
+
+```text
+No preview environments in project github-demo-gv35 (environment dev).
+```
+
+In a script, `--json` prints an empty list:
+
+```sh
+stackblaze previews list -p github-demo-gv35 --json
+```
+
+```text
+[]
+```
+
 ## previews delete
 
 ```text
@@ -100,4 +122,17 @@ Options:
   --json                 Output JSON (same as -o json) (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Stop pull requests from creating new previews in a project. Previews that already exist keep running:
+
+```sh
+stackblaze previews disable -p github-demo-cw8z
+```
+
+```text
+OK Preview environments are off for project github-demo-cw8z
+Existing previews keep running until their pull request closes or you delete them.
 ```

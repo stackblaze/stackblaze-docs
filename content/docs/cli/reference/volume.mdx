@@ -45,6 +45,22 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+List the volumes attached to an app.
+
+```sh
+stackblaze volume list -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+┌─────────┬───────────────┬──────┬────────┐
+│ Name    │ Mount         │ Size │ Class  │
+├─────────┼───────────────┼──────┼────────┤
+│ uploads │ /data/uploads │ 1Gi  │ shared │
+└─────────┴───────────────┴──────┴────────┘
+```
+
 ## volume add
 
 ```text
@@ -68,6 +84,18 @@ Options:
 A volume belongs to this app. To share files between apps, add a Storage bucket and connect it to both apps.
 ```
 
+### Example
+
+Attach a 1 GiB persistent volume to an app at `/data/uploads`. The app rolls out with it.
+
+```sh
+stackblaze volume add uploads --mount /data/uploads --size 1Gi -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+OK Added volume uploads at /data/uploads on github-demo-cw8z/dev/hello-web-qw6y
+```
+
 ## volume delete
 
 ```text
@@ -85,4 +113,20 @@ Options:
   -y, --yes              Skip confirmation (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Detach a volume from an app. Type the volume name to confirm, or pass `-y`.
+
+```sh
+stackblaze volume delete data -p github-demo-cw8z -e stage -a vite-starter
+stackblaze volume list -p github-demo-cw8z -e stage -a vite-starter
+```
+
+```text
+!  This will detach volume data from the app.
+Type the volume name to confirm: data
+OK Removed volume data from github-demo-cw8z/stage/vite-starter-5tjx
+No extra volumes on this app.
 ```

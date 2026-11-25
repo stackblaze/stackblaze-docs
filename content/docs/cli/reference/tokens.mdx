@@ -38,6 +38,28 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+List your API tokens. Only names, prefixes and dates are shown, never the secrets. Each `stackblaze login` in a browser adds a `CLI · <date>` token:
+
+```sh
+stackblaze tokens list
+```
+
+```text
+┌───────────────────────────┬─────────────────────────────────────────────────────────┬─────────────────┬────────────┬────────────┬────────────┐
+│ ID                        │ Name                                                    │ Prefix          │ Created    │ Expires    │ Last used  │
+├───────────────────────────┼─────────────────────────────────────────────────────────┼─────────────────┼────────────┼────────────┼────────────┤
+│ cmvreqvnx002kw8011bbwbk2q │ CLI · 2026-10-28                                        │ sb_pat_…        │ 2026-10-28 │ 2027-10-28 │ 2026-10-28 │
+├───────────────────────────┼─────────────────────────────────────────────────────────┼─────────────────┼────────────┼────────────┼────────────┤
+…
+├───────────────────────────┼─────────────────────────────────────────────────────────┼─────────────────┼────────────┼────────────┼────────────┤
+│ cmwu9eok6024usr01zojl6bl6 │ CLI · 2026-11-24                                        │ sb_pat_…        │ 2026-11-24 │ 2027-11-24 │ 2026-11-25 │
+├───────────────────────────┼─────────────────────────────────────────────────────────┼─────────────────┼────────────┼────────────┼────────────┤
+…
+└───────────────────────────┴─────────────────────────────────────────────────────────┴─────────────────┴────────────┴────────────┴────────────┘
+```
+
 ## tokens create
 
 ```text
@@ -73,4 +95,27 @@ Options:
   -y, --yes              Skip confirmation prompt (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Revoke a token you no longer use, by its ID from `stackblaze tokens list` (a name works too when it's unique). The CLI asks first:
+
+```sh
+stackblaze tokens revoke cmww81ta7005huz01djfqp8kx
+```
+
+```text
+Revoke token "CLI · 2026-11-25" (cmww81ta7005huz01djfqp8kx)? Anything using it stops working [y/N]: y
+OK Revoked token CLI · 2026-11-25
+```
+
+A machine still signed in with that token is refused from then on:
+
+```sh
+stackblaze whoami
+```
+
+```text
+x  Unauthorized
 ```

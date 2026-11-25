@@ -42,6 +42,50 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+List the organization's members with their role and teams:
+
+```sh
+stackblaze members list
+```
+
+```text
+┌────────────────────────┬────────────────────────┬───────┬──────────────────────────────────┬───────────────────────────┐
+│ User                   │ Email                  │ Role  │ Teams                            │ ID                        │
+├────────────────────────┼────────────────────────┼───────┼──────────────────────────────────┼───────────────────────────┤
+│ <email>                │ <email>                │ admin │ admin (admin), all users (admin) │ cmtxmgub2002cvq014h3z0qeh │
+└────────────────────────┴────────────────────────┴───────┴──────────────────────────────────┴───────────────────────────┘
+```
+
+With `--json`:
+
+```sh
+stackblaze members list --json
+```
+
+```text
+[
+  {
+    "userId": "cmtxmgub2002cvq014h3z0qeh",
+    "username": "<email>",
+    "email": "<email>",
+    "name": null,
+    "role": "admin",
+    "teams": [
+      {
+        "team": "admin",
+        "role": "admin"
+      },
+      {
+        "team": "all users",
+        "role": "admin"
+      }
+    ]
+  }
+]
+```
+
 ## members invite
 
 ```text
@@ -104,6 +148,26 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+List the roles you can give a member with `members invite --role` or `members role`:
+
+```sh
+stackblaze members roles
+```
+
+```text
+┌────────┬───────────────────────────────────────────────────────────┬───────────────────────────┐
+│ Role   │ Description                                               │ ID                        │
+├────────┼───────────────────────────────────────────────────────────┼───────────────────────────┤
+│ admin  │ Tenant administrator — full access within their tenant    │ cmt4z5di6000jsc01q1dra1cv │
+├────────┼───────────────────────────────────────────────────────────┼───────────────────────────┤
+│ member │ Tenant member — deploy and manage apps within their teams │ cmt4z5djl000usc01x3pjqjzk │
+├────────┼───────────────────────────────────────────────────────────┼───────────────────────────┤
+│ guest  │ Tenant guest — read-only                                  │ cmt4z5drp0015sc019aunpbvp │
+└────────┴───────────────────────────────────────────────────────────┴───────────────────────────┘
+```
+
 ## members invites
 
 ```text
@@ -137,6 +201,24 @@ Options:
                          (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+#### Example
+
+List pending invitations. Here there are none, so `--all` also shows the accepted and revoked ones:
+
+```sh
+stackblaze members invites list
+stackblaze members invites list --all
+```
+
+```text
+No pending invitations (--all shows accepted/revoked ones too).
+┌───────────────────────────┬────────────────────────┬────────┬─────────┬────────────┐
+│ ID                        │ Email                  │ Role   │ Status  │ Expires    │
+├───────────────────────────┼────────────────────────┼────────┼─────────┼────────────┤
+│ cmwuv73he005ut301eyy7c06u │ <email>                │ member │ revoked │ 2026-12-01 │
+└───────────────────────────┴────────────────────────┴────────┴─────────┴────────────┘
 ```
 
 ### members invites revoke

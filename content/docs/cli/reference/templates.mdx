@@ -41,6 +41,56 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+Find a template by what it does, then by category. The id in the first column is what `templates deploy` takes:
+
+```sh
+stackblaze templates search whiteboard
+stackblaze templates search --category monitoring
+```
+
+```text
+1 match(es) of 54 template(s) for "whiteboard"
+Deploy one with: stackblaze templates deploy <id>
+excalidraw  excalidraw — Virtual whiteboard for sketching hand-drawn style diagrams, with live collaboration and shareable links that are end-to-end encrypted and stored on your own instance.
+1 match(es) of 54 template(s)
+Deploy one with: stackblaze templates deploy <id>
+uptime-kuma  uptime-kuma — Self-hosted uptime monitoring. Check websites, APIs, ports, DNS and more on your own schedule, get alerts in 90+ notification services, and publish public status pages.  addons: MariaDB, Smtp
+```
+
+With `--json`, each template also lists its categories, add-ons and variants (`deploymentTypes`):
+
+```sh
+stackblaze templates search whiteboard --json
+```
+
+```text
+{
+  "total": 54,
+  "matched": 1,
+  "templates": [
+    {
+      "id": "excalidraw",
+      "name": "excalidraw",
+      "description": "Virtual whiteboard for sketching hand-drawn style diagrams, with live collaboration and shareable links that are end-to-end encrypted and stored on your own instance.",
+      "categories": [
+        "documentation",
+        "work",
+        "collaboration"
+      ],
+      "addons": [],
+      "deploymentTypes": [
+        "standard"
+      ],
+      "locked": false,
+      "lockReason": null,
+      "haLocked": null
+    }
+  ]
+}
+```
+
 ## templates deploy
 
 ```text
@@ -71,4 +121,22 @@ for every service first, then creates them all, the main app first. If one
 fails, the ones already created keep running and the command exits 3 saying
 which exist. --env sets variables on the main app (and on companions that
 inherit its environment).
+```
+
+### Example
+
+Deploy the Excalidraw template into the `dev` environment as an app called `whiteboard`, and wait until it is up. The environment flag is `--phase` here:
+
+```sh
+stackblaze templates deploy excalidraw -p github-demo-cw8z --phase dev --name whiteboard --wait
+```
+
+```text
+OK Deployed template excalidraw → github-demo-cw8z/dev/whiteboard
+Waiting for github-demo-cw8z/dev/whiteboard-8stj to be ready (up to 10m00s)…
+  github-demo-cw8z/dev/whiteboard-8stj: deploying — Waiting for whiteboard-8stj-web deployment; rolling out (Deploy 2026.11.12-1440f2d): waiting for the new pod (2s elapsed)
+…
+  github-demo-cw8z/dev/whiteboard-8stj: deploying — Waiting for whiteboard-8stj-web deployment (1m22s elapsed)
+OK github-demo-cw8z/dev/whiteboard-8stj is ready
+url: https://whiteboard-8stj.cloud-dev-central-1.stackblaze.app
 ```

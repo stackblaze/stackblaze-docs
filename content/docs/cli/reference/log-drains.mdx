@@ -46,6 +46,54 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+List the app's log drains:
+
+```sh
+stackblaze log-drains list -p github-demo-cw8z -e dev -a shop-web-xivg
+```
+
+```text
+OK github-demo-cw8z/dev/shop-web-xivg log drains
+┌────────┬─────────┬──────┬────────────────────────────┬───────────────┐
+│ Name   │ Sources │ Sink │ Endpoint                   │ Filter        │
+├────────┼─────────┼──────┼────────────────────────────┼───────────────┤
+│ errors │ web     │ http │ https://example.com/ingest │ level ≥ error │
+└────────┴─────────┴──────┴────────────────────────────┴───────────────┘
+```
+
+With `--json`, as saved on the app:
+
+```sh
+stackblaze log-drains list -p github-demo-cw8z -e dev -a shop-web-xivg --json
+```
+
+```text
+{
+  "pipeline": "github-demo-cw8z",
+  "phase": "dev",
+  "app": "shop-web-xivg",
+  "logDrains": [
+    {
+      "filter": {
+        "minLevel": "error"
+      },
+      "name": "errors",
+      "select": {
+        "sources": [
+          "web"
+        ]
+      },
+      "sink": {
+        "endpoint": "https://example.com/ingest",
+        "type": "http"
+      }
+    }
+  ]
+}
+```
+
 ## log-drains add
 
 ```text
@@ -93,6 +141,32 @@ Examples:
 May be disabled by your platform admin.
 ```
 
+### Example
+
+Ship only the web process's error lines to your own HTTP collector. The endpoint has to be a public address:
+
+```sh
+stackblaze log-drains add errors --type http --endpoint https://example.com/ingest \
+  --source web --min-level error -p github-demo-cw8z -e dev -a shop-web-xivg
+```
+
+```text
+OK Added log drain errors to github-demo-cw8z/dev/shop-web-xivg
+web → http https://example.com/ingest  (level ≥ error)
+The app rolls out with the new drain; logs start shipping once the new pods are up.
+```
+
+A host that doesn't resolve is refused:
+
+```sh
+stackblaze log-drains add errors --type http --endpoint https://logs.example.com/ingest \
+  --source web --min-level error -p github-demo-cw8z -e dev -a shop-web-xivg
+```
+
+```text
+x  logDrains[0].sink.endpoint must be a public destination (host logs.example.com does not resolve)
+```
+
 ## log-drains remove
 
 ```text
@@ -112,4 +186,18 @@ Options:
   -h, --help             Print help
 
 May be disabled by your platform admin.
+```
+
+### Example
+
+Remove a log drain. Type `yes` to confirm (or pass `-y`). The app rolls out without it:
+
+```sh
+stackblaze log-drains remove errors -p github-demo-cw8z -e dev -a shop-web-xivg
+```
+
+```text
+!  Removing log drain errors from github-demo-cw8z/dev/shop-web-xivg: its logs stop shipping there.
+Type "yes" to continue: yes
+OK Removed log drain errors from github-demo-cw8z/dev/shop-web-xivg
 ```

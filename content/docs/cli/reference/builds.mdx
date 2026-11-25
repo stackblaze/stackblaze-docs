@@ -40,6 +40,19 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+List a git app's builds, newest first, with their state and the image tag each one produced.
+
+```sh
+stackblaze builds list -p github-demo-cw8z -e stage -a vite-starter
+```
+
+```text
+vite-starter-5tjx-github-demo-cw-20261125-150350-e709  Succeeded  tag=main-20261125-150350-e709  2026-11-25T15:03:51.000Z
+vite-starter-5tjx-github-demo-cw-20261125-150148-59ba  Succeeded  tag=main-1795618908110-20261125-150148-59ba  2026-11-25T15:01:49.000Z
+```
+
 ## builds trigger
 
 ```text
@@ -62,6 +75,18 @@ Options:
   -o, --output <format>     Output format: text or json (choices: "text",
                             "json")
   -h, --help                Print help
+```
+
+### Example
+
+Start a new build of a git app from the head of `main`, then follow it with `builds logs -f`.
+
+```sh
+stackblaze builds trigger -p github-demo-cw8z -e stage -a vite-starter --reference main
+```
+
+```text
+OK Build triggered for github-demo-cw8z/stage/vite-starter-5tjx
 ```
 
 ## builds logs
@@ -99,3 +124,37 @@ Examples:
   stackblaze builds logs web-x7k2 -f     # follow a named build
   stackblaze builds logs -f --ci         # NDJSON for CI
 ```
+
+### Example
+
+Follow a build (a name from `builds list`) live, from cloning the repository to pushing the image. The command exits when the build finishes, with 1 if it failed.
+
+```sh
+stackblaze builds logs vite-starter-5tjx-github-demo-cw-20261125-150148-59ba -f -p github-demo-cw8z -e stage -a vite-starter
+```
+
+```text
+Streaming logs for build vite-starter-5tjx-github-demo-cw-20261125-150148-59ba (Active)
+[fetch] ========== clone https://github.com/stackblaze/react-vite-starter.git (ref main)
+[fetch] Cloning into '.'...
+…
+[fetch] HEAD is now at 92fdae6 Remove build artifacts and pnpm workspace file from starter.
+                   
+╭─────────────────╮
+│ Railpack 0.39.0 │
+╰─────────────────╯
+  ↳ Detected Node
+  ↳ Using pnpm package manager
+  ↳ Deploying as vite static site
+  ↳ Output directory: dist
+…
+[push] #25 exporting to image
+[push] #25 pushing layers 5.1s done
+…
+[push] #25 DONE 6.3s
+…
+build vite-starter-5tjx-github-demo-cw-20261125-150148-59ba → Succeeded
+OK Build vite-starter-5tjx-github-demo-cw-20261125-150148-59ba finished (Succeeded)
+```
+
+Leave out the build name to follow the latest build; leave out `-f` to poll instead of streaming.

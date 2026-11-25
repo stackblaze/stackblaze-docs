@@ -55,6 +55,23 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+The sandboxes of an environment. This one is still waiting for a machine:
+
+```sh
+stackblaze sandboxes list -p github-demo-cw8z -e dev
+```
+
+```text
+OK github-demo-cw8z/dev sandboxes
+┌──────────────┬─────────┬──────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────┬─────┬──────────────────┐
+│ Name         │ Status  │ Size │ Image                                                                                                        │ For │ Created          │
+├──────────────┼─────────┼──────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────┼─────┼──────────────────┤
+│ scratch-mkwl │ pending │ 1x   │ ghcr.io/stackblaze/agent-sandbox:dev@sha256:9e19299090c2ac2dc81a8fa68876b861f0d14981c1b14222c2826acf66196d99 │ —   │ 2026-11-25 14:39 │
+└──────────────┴─────────┴──────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────┴─────┴──────────────────┘
+```
+
 ## sandboxes sizes
 
 ```text
@@ -70,6 +87,31 @@ Options:
   --json                 Output JSON (same as -o json) (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+The machine sizes for a sandbox, and which ones your plan allows. The disk comes with the size:
+
+```sh
+stackblaze sandboxes sizes -p github-demo-cw8z -e dev
+```
+
+```text
+┌─────┬──────┬──────┬────────┬────────┬──────┐
+│     │ Size │ vCPU │ Memory │ Disk   │ Plan │
+├─────┼──────┼──────┼────────┼────────┼──────┤
+│     │ 1x   │ 1    │ 2 GiB  │ 10 GiB │ ok   │
+├─────┼──────┼──────┼────────┼────────┼──────┤
+│ *   │ 2x   │ 2    │ 4 GiB  │ 20 GiB │ ok   │
+├─────┼──────┼──────┼────────┼────────┼──────┤
+│     │ 4x   │ 4    │ 8 GiB  │ 40 GiB │ ok   │
+├─────┼──────┼──────┼────────┼────────┼──────┤
+│     │ 8x   │ 8    │ 16 GiB │ 80 GiB │ ok   │
+└─────┴──────┴──────┴────────┴────────┴──────┘
+Business allows up to 8 vCPU / 32 GiB per sandbox.
+image: ghcr.io/stackblaze/agent-sandbox:dev
+* = default for `sandboxes create` without --size
 ```
 
 ## sandboxes create
@@ -107,6 +149,20 @@ Examples:
 May be disabled by your platform admin.
 ```
 
+### Example
+
+Create a small sandbox called `scratch` in the `dev` environment. The environment flag is `--phase` here (`--env` sets variables inside the sandbox). The name gets a suffix:
+
+```sh
+stackblaze sandboxes create scratch --size 1x -p github-demo-cw8z --phase dev
+```
+
+```text
+OK Sandbox scratch-mkwl is booting in github-demo-cw8z/dev (size 1x, 10Gi disk)
+Shell: stackblaze sandboxes ssh scratch-mkwl -p github-demo-cw8z -e dev
+VS Code: stackblaze sandboxes ide scratch-mkwl
+```
+
 ## sandboxes get
 
 ```text
@@ -122,6 +178,24 @@ Options:
   --json                 Output JSON (same as -o json) (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+One sandbox's status, size, image, workspace disk and VS Code address. While it waits for a machine, the note says why:
+
+```sh
+stackblaze sandboxes get scratch-mkwl -p github-demo-cw8z -e dev
+```
+
+```text
+OK github-demo-cw8z/dev/scratch-mkwl  pending
+size        1x
+image       ghcr.io/stackblaze/agent-sandbox:dev@sha256:9e19299090c2ac2dc81a8fa68876b861f0d14981c1b14222c2826acf66196d99
+workspace   /workspace (10Gi, volume scratch-mkwl-workspace)
+vs code     https://scratch-mkwl.cloud-dev-central-1.stackblaze.app
+created     2026-11-25T14:39:05.673Z by <email>
+note        Waiting for capacity — the sandbox nodes are out of CPU or memory. It starts automatically when room frees up.
 ```
 
 ## sandboxes delete
@@ -141,6 +215,20 @@ Options:
   -y, --yes              Skip the confirmation prompt (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Delete a sandbox with its workspace disk and checkpoints. You confirm by typing its name (`--yes` skips this):
+
+```sh
+stackblaze sandboxes delete scratch-mkwl -p github-demo-cw8z -e dev
+```
+
+```text
+!  This will DELETE sandbox scratch-mkwl in github-demo-cw8z/dev, its workspace disk and its checkpoints.
+Type the sandbox name to confirm: 
+OK Deleted sandbox scratch-mkwl
 ```
 
 ## sandboxes sleep

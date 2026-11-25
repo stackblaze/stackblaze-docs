@@ -46,6 +46,50 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+List the projects and their environments:
+
+```sh
+stackblaze projects list
+```
+
+```text
+┌───────────────────────┬────────────────────────┬────────┐
+│ Project               │ Environments           │ Domain │
+├───────────────────────┼────────────────────────┼────────┤
+│ github-demo-587h      │ dev, stage, production │ —      │
+├───────────────────────┼────────────────────────┼────────┤
+…
+├───────────────────────┼────────────────────────┼────────┤
+│ github-demo-gv35      │ dev, stage, production │ —      │
+├───────────────────────┼────────────────────────┼────────┤
+│ github-demo-kpw0      │ dev, stage, production │ —      │
+├───────────────────────┼────────────────────────┼────────┤
+…
+└───────────────────────┴────────────────────────┴────────┘
+```
+
+In a script, pick one project out of the `--json` list, e.g. to see whether preview environments (`reviewapps`) are on:
+
+```sh
+stackblaze projects list --json | jq '.[] | select(.name=="github-demo-gv35")'
+```
+
+```text
+{
+  "name": "github-demo-gv35",
+  "displayName": null,
+  "phases": [
+    "dev",
+    "stage",
+    "production"
+  ],
+  "reviewapps": false,
+  "strategy": "git"
+}
+```
+
 ## projects create
 
 ```text
@@ -127,6 +171,39 @@ Examples:
   $ stackblaze projects rename --clear -p shop
 ```
 
+### Example
+
+Give a project a name people recognize. Only the display name changes; `-p`, URLs and environments keep using the ID:
+
+```sh
+stackblaze projects rename "Shop (docs demo)" -p github-demo-cw8z
+stackblaze projects list
+```
+
+```text
+OK Project github-demo-cw8z is now shown as "Shop (docs demo)"
+Its ID stays github-demo-cw8z: commands, URLs and environments are unchanged.
+┌───────────────────────┬──────────────────┬────────────────────────┬────────┐
+│ Project               │ Name             │ Environments           │ Domain │
+├───────────────────────┼──────────────────┼────────────────────────┼────────┤
+…
+├───────────────────────┼──────────────────┼────────────────────────┼────────┤
+│ github-demo-cw8z      │ Shop (docs demo) │ dev, stage, production │ —      │
+├───────────────────────┼──────────────────┼────────────────────────┼────────┤
+…
+```
+
+Remove it again with `--clear`:
+
+```sh
+stackblaze projects rename --clear -p github-demo-cw8z
+```
+
+```text
+OK Project github-demo-cw8z has no display name any more (its ID is shown)
+Its ID stays github-demo-cw8z: commands, URLs and environments are unchanged.
+```
+
 ## projects iac
 
 ```text
@@ -152,4 +229,34 @@ Examples:
   $ stackblaze projects iac              # show
   $ stackblaze projects iac on -p demo
   $ stackblaze projects iac off
+```
+
+### Example
+
+Check whether a project accepts `plan` and `apply`, turn Infrastructure as Code on, and later back off:
+
+```sh
+stackblaze projects iac -p github-demo-cw8z
+stackblaze projects iac on -p github-demo-cw8z
+```
+
+```text
+Infrastructure as Code is off for project github-demo-cw8z
+apply/plan need it: stackblaze projects iac on -p github-demo-cw8z
+OK Infrastructure as Code turned on for project github-demo-cw8z
+`stackblaze plan` and `stackblaze apply` can now change project github-demo-cw8z.
+```
+
+```sh
+stackblaze projects iac off -p github-demo-cw8z
+stackblaze projects iac -p github-demo-cw8z --json
+```
+
+```text
+OK Infrastructure as Code turned off for project github-demo-cw8z
+apply and plan are refused for it until IaC is on again; export still works.
+{
+  "pipeline": "github-demo-cw8z",
+  "iacEnabled": false
+}
 ```

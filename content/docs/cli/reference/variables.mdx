@@ -61,6 +61,29 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+List an app's variables. Values are masked unless you pass `--reveal` (needs write access to the app).
+
+```sh
+stackblaze variables list -p github-demo-cw8z -e dev -a hello-web
+stackblaze variables list -p github-demo-cw8z -e dev -a hello-web --reveal
+```
+
+```text
+OK github-demo-cw8z/dev/hello-web-qw6y
+  GREETING=••••••••
+  PORT=••••••••
+Values are masked; pass --reveal to show them (needs write access).
+OK github-demo-cw8z/dev/hello-web-qw6y
+  GREETING=hello
+  PORT=8080
+  LOG_LEVEL=debug
+  FEATURE_SEARCH=on
+```
+
+The second listing is after the `variables set` example. Add `--all` to include the variables the platform injects.
+
 ## variables set
 
 ```text
@@ -92,6 +115,21 @@ Examples:
   $ stackblaze variables set FOO=1 --skip-deploy    (stage, apply later)
 ```
 
+### Example
+
+Set two variables in one release, with a message for the deployments timeline.
+
+```sh
+stackblaze variables set LOG_LEVEL=debug FEATURE_SEARCH=on -p github-demo-cw8z -e dev -a hello-web -m "Turn on search"
+```
+
+```text
+OK Updated github-demo-cw8z/dev/hello-web-qw6y: LOG_LEVEL, FEATURE_SEARCH
+One release: rolling out (config revision cmww804df0033wn01o5acjwh4). Follow it with `stackblaze deployments`.
+```
+
+To keep a secret out of your shell history, pipe it in: `printf %s "$SECRET" | stackblaze variables set API_KEY --stdin`.
+
 ## variables unset
 
 ```text
@@ -112,6 +150,21 @@ Options:
   -y, --yes              Skip confirmation prompt (default: false)
   -o, --output <format>  Output format: text or json (choices: "text", "json")
   -h, --help             Print help
+```
+
+### Example
+
+Remove a variable. Type `yes` to confirm, or pass `-y`.
+
+```sh
+stackblaze variables unset FEATURE_SEARCH -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
+!  This will DELETE 1 variable(s) from github-demo-cw8z/dev/hello-web-qw6y: FEATURE_SEARCH
+Type "yes" to continue: yes
+OK Updated github-demo-cw8z/dev/hello-web-qw6y: FEATURE_SEARCH
+One release: rolling out (config revision cmww80vvi0036wn019c60smi2). Follow it with `stackblaze deployments`.
 ```
 
 ## variables import
@@ -140,6 +193,22 @@ Options:
   -h, --help             Print help
 ```
 
+### Example
+
+Set every variable from a `.env` file in one release. Variables that aren't in the file stay as they are (pass `--replace` to remove them).
+
+```sh
+cat .env.production
+stackblaze variables import .env.production -p github-demo-cw8z -e dev -a hello-web -m "Import production settings"
+```
+
+```text
+CACHE_TTL=300
+SUPPORT_EMAIL=help@example.com
+OK Imported into github-demo-cw8z/dev/hello-web-qw6y: CACHE_TTL, SUPPORT_EMAIL
+One release: rolling out (config revision cmww82bif005puz01d5nsbwb5). Follow it with `stackblaze deployments`.
+```
+
 ## variables edit
 
 ```text
@@ -165,4 +234,21 @@ Opens $VISUAL / $EDITOR (default vi) on a KEY=VALUE buffer of the app's own
 variables (needs write access). After you save and quit, the added (+),
 changed (~) and removed (-) names are shown and you confirm before ONE
 PATCH is sent. The temporary file is created 0600 and deleted afterwards.
+```
+
+### Example
+
+Edit the app's variables in your editor. Here the editor changed `LOG_LEVEL`, deleted `CACHE_TTL` and added `MAINTENANCE`; after you save and quit, the CLI lists the changes and asks before it ships them as one release.
+
+```sh
+stackblaze variables edit -p github-demo-cw8z -e dev -a hello-web
+```
+
+```text
++ MAINTENANCE
+~ LOG_LEVEL
+- CACHE_TTL
+Apply 3 change(s) to github-demo-cw8z/dev/hello-web-qw6y? Type "yes": yes
+OK Updated github-demo-cw8z/dev/hello-web-qw6y: CACHE_TTL, MAINTENANCE, LOG_LEVEL
+One release: rolling out (config revision cmww83ymj0065uz01q547qmmd). Follow it with `stackblaze deployments`.
 ```

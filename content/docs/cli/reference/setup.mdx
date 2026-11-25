@@ -57,6 +57,41 @@ Examples:
   $ stackblaze setup mcp --ide vscode --print   # paste into .vscode/mcp.json
 ```
 
+### Example
+
+Add the StackBlaze MCP server to Cursor. The `stackblaze` entry is merged into `~/.cursor/mcp.json` with your saved token, and other servers in the file are kept:
+
+```sh
+stackblaze setup mcp --ide cursor
+```
+
+```text
+OK Configured stackblaze MCP for Cursor → /tmp/home/.cursor/mcp.json
+HTTP transport: https://mcp-dev.stackblaze.cloud/mcp
+```
+
+`--print` shows the snippet instead of writing it, with a placeholder for the token:
+
+```sh
+stackblaze setup mcp --ide claude --print
+```
+
+```text
+{
+  "mcpServers": {
+    "stackblaze": {
+      "type": "http",
+      "url": "https://mcp-dev.stackblaze.cloud/mcp",
+      "headers": {
+        "Authorization": "Bearer <STACKBLAZE_TOKEN>"
+      }
+    }
+  }
+}
+# Claude Code: add this to /tmp/home/.claude.json
+# Replace <STACKBLAZE_TOKEN> with an API token (create one: stackblaze tokens create claude-mcp).
+```
+
 ## setup skills
 
 ```text
@@ -69,6 +104,19 @@ Options:
   --token <token>  API token, sb_pat_... (env STACKBLAZE_TOKEN)
   --agent <name>   cursor, claude, or all (default: "all")
   -h, --help       Print help
+```
+
+### Example
+
+Install the StackBlaze skill for Claude Code, so the agent knows how to use the CLI:
+
+```sh
+stackblaze setup skills --agent claude
+```
+
+```text
+OK Installed skill → /tmp/home/.agents/skills/stackblaze/SKILL.md
+OK Installed skill → /tmp/home/.claude/skills/stackblaze/SKILL.md
 ```
 
 ## setup agent
@@ -89,4 +137,23 @@ Options:
   --force            Use HTTP MCP even if local server is found (default:
                      false)
   -h, --help         Print help
+```
+
+### Example
+
+Set up every AI coding tool found on this machine in one go: the skill plus the MCP server. Here it found Cursor and Codex:
+
+```sh
+stackblaze setup agent
+```
+
+```text
+Configuring StackBlaze agent tooling (cursor, codex)
+OK Installed skill → /tmp/home/.agents/skills/stackblaze/SKILL.md
+OK Installed skill → /tmp/home/.cursor/skills-cursor/stackblaze/SKILL.md
+OK Configured stackblaze MCP for Cursor → /tmp/home/.cursor/mcp.json
+HTTP transport: https://mcp-dev.stackblaze.cloud/mcp
+OK Configured stackblaze MCP for Codex → /tmp/home/.codex/config.toml
+HTTP transport: https://mcp-dev.stackblaze.cloud/mcp
+OK Agent setup complete. Restart the editor if MCP was already loaded.
 ```
