@@ -12,9 +12,9 @@ html > body[data-scroll-locked] {
 }
 
 /* StackBlaze accent on the neutral theme (website: violet-600 / --primary 263 70% 50%). */
-/* Full width: no cap on the layout; the page uses all space beside the sidebar and outline. */
+/* Sidebar from the left edge; a 900px text column with the outline right beside it. */
 :root {
-  --fd-layout-width: 100vw;
+  --fd-layout-width: 1500px;
   --color-fd-primary: hsl(263 70% 50%);
   --color-fd-primary-foreground: hsl(0 0% 100%);
   --color-fd-ring: hsl(263 70% 50%);

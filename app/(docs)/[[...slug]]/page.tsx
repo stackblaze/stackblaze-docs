@@ -23,7 +23,7 @@ export default async function Page(props: PageProps<'/[[...slug]]'>) {
   const markdownUrl = `${basePath}${page.url === '/' ? '/index' : page.url}.md`;
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full} className="*:mx-auto *:w-full">
+    <DocsPage toc={page.data.toc} full={page.data.full}>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
       <div className="flex flex-row gap-2 items-center border-b pb-6">
