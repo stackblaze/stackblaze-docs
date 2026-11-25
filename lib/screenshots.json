@@ -1231,6 +1231,118 @@
     "capturedAt": "2026-11-24T05:33:52.789Z",
     "source": "/activate"
   },
+  "console/1-card": {
+    "src": "/screenshots/console/1-card.png",
+    "width": 351,
+    "height": 178,
+    "capturedAt": "2026-11-25T15:39:14.111Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "console/1-card-menu": {
+    "src": "/screenshots/console/1-card-menu.png",
+    "width": 208,
+    "height": 219,
+    "capturedAt": "2026-11-25T15:39:14.926Z",
+    "source": "/pipeline/github-demo-cw8z/apps"
+  },
+  "console/10-edited": {
+    "src": "/screenshots/console/10-edited.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:40:00.260Z",
+    "source": "Result grid: a changed cell, SAVE enabled"
+  },
+  "console/11-export-formats": {
+    "src": "/screenshots/console/11-export-formats.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:40:08.730Z",
+    "source": "Export data: formats"
+  },
+  "console/12-export-format": {
+    "src": "/screenshots/console/12-export-format.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:40:10.536Z",
+    "source": "Export configuration (CSV): FORMAT"
+  },
+  "console/13-export-output": {
+    "src": "/screenshots/console/13-export-output.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:40:11.669Z",
+    "source": "Export configuration (CSV): OUTPUT"
+  },
+  "console/14-export-ready": {
+    "src": "/screenshots/console/14-export-ready.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:40:13.491Z",
+    "source": "File is ready to download"
+  },
+  "console/15-no-session": {
+    "src": "/screenshots/console/15-no-session.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:40:14.812Z",
+    "source": "Console address opened directly"
+  },
+  "console/2-start": {
+    "src": "/screenshots/console/2-start.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:39:31.472Z",
+    "source": "Database console: Start page"
+  },
+  "console/3-connection-menu": {
+    "src": "/screenshots/console/3-connection-menu.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:39:32.800Z",
+    "source": "Connection menu"
+  },
+  "console/4-connection-info": {
+    "src": "/screenshots/console/4-connection-info.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:39:35.791Z",
+    "source": "Connection info"
+  },
+  "console/5-script": {
+    "src": "/screenshots/console/5-script.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:39:42.310Z",
+    "source": "Execute SQL Script: Statistics"
+  },
+  "console/6-navigator": {
+    "src": "/screenshots/console/6-navigator.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:39:46.686Z",
+    "source": "Navigator: app \u2192 public \u2192 customers, orders"
+  },
+  "console/7-navigator-settings": {
+    "src": "/screenshots/console/7-navigator-settings.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:39:47.509Z",
+    "source": "Navigator settings"
+  },
+  "console/8-result": {
+    "src": "/screenshots/console/8-result.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:39:51.555Z",
+    "source": "Execute SQL Statement: Result"
+  },
+  "console/9-explain": {
+    "src": "/screenshots/console/9-explain.png",
+    "width": 1440,
+    "height": 900,
+    "capturedAt": "2026-11-25T15:39:54.742Z",
+    "source": "Explain execution plan"
+  },
   "data/addons-menu": {
     "src": "/screenshots/data/addons-menu.png",
     "width": 768,

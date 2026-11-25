@@ -1,0 +1,196 @@
+---
+title: Database console
+description: Open a PostgreSQL or MariaDB database in the browser, browse its tables, run SQL, edit rows and export results.
+---
+
+Every PostgreSQL and MariaDB database has a console in the browser: a SQL editor and a table browser (CloudBeaver), already signed in to your database. You don't need a password, a client or public access.
+
+This page uses a PostgreSQL database in the **Stage** environment, with two small tables, `customers` and `orders`, that the page creates.
+
+## Open the console
+
+On the canvas, the database card shows the console's address (`db.…`, with an arrow). Click it.
+
+<Screenshot id="console/1-card" alt="The PostgreSQL card with db.us-central-1.stackblaze.cloud under its name, Running" />
+
+You can also right-click the card and choose **Open SQL console**.
+
+<Screenshot id="console/1-card-menu" alt="The card menu: Open SQL console, Settings, Rename, Backups and Delete" />
+
+The console opens in a new tab. Under **Shared** on the left is one connection, named after the project, the environment and the database: here `github-demo-cw8z/stage/postgresql-f7jq`. The **Start** page has **SQL** (**Open SQL Editor**) and **Documentation** (**Learn how to use CloudBeaver**).
+
+<Screenshot id="console/2-start" alt="The console: Shared with the database's connection, and the Start page" />
+
+Each time you open the console from the dashboard, you get a new session. If you open the console's address directly, or after the session has expired, you only see "CloudBeaver session missing or expired. Open Database from the addon again." Open it from the card again.
+
+<Screenshot id="console/15-no-session" alt="CloudBeaver session missing or expired. Open Database from the addon again." />
+
+<Callout type="warn">
+The console signs in as the database's own user. Anything you run is applied to the database right away, including `DROP`, `DELETE` and changes you save in a result grid. That's true in every environment, production too.
+</Callout>
+
+## The connection
+
+Right-click the connection for its menu: **Open**, **Connection view**, **SQL Editor**, **Connection info** and **Refresh**. **Connection view** is set to **Simple**; the other choice is **Advanced**, and **Show system objects** is off.
+
+<Screenshot id="console/3-connection-menu" alt="The connection menu with Connection view open: Simple, Advanced and Show system objects" />
+
+**Connection info** shows the **Driver** (here **PostgreSQL**), the **Connection name**, the **Project** (**Shared**) and a **Description**. Close it with **CANCEL**.
+
+<Screenshot id="console/4-connection-info" alt="Connection info: Driver PostgreSQL, Connection name, Project Shared, Description" />
+
+## The navigator
+
+Expand the connection to see its databases. For a PostgreSQL database, the console lists every database on the server: `app` (the one your apps use) and `postgres`. Expand a database, then a schema (here `public`), to see its tables.
+
+<Screenshot id="console/6-navigator" alt="The navigator: app, public, with the tables customers and orders" />
+
+The gear above the tree opens the navigator **SETTINGS**: **Filter**, **Show collapsed**, **Save tree state** (on), **Show objects description** (on) and **Show table elements** (off). Click the gear again to close them.
+
+<Screenshot id="console/7-navigator-settings" alt="Navigator settings: Filter, Show collapsed, Save tree state, Show objects description, Show table elements" />
+
+## Run SQL
+
+<Steps>
+
+<Step>
+
+### Open a SQL editor
+
+Right-click a database (here `app`) and choose **SQL Editor**. A tab named `sql-1` opens. The bar at the top shows the editor's connection and its schema, here **public@app**. Click either one to change it.
+
+The **SQL** button at the top left (or **Open SQL Editor** on the **Start** page) opens an editor too.
+
+</Step>
+
+<Step>
+
+### Run a script
+
+Type or paste several statements and click **Execute SQL Script** (**Alt+X**). We ran this to create the two example tables:
+
+```sql
+DROP TABLE IF EXISTS orders, customers;
+CREATE TABLE customers (id serial PRIMARY KEY, name text NOT NULL, country text NOT NULL);
+CREATE TABLE orders (id serial PRIMARY KEY, customer_id int REFERENCES customers(id), total numeric(10,2) NOT NULL, created_at date NOT NULL);
+INSERT INTO customers (name, country) SELECT 'Customer ' || g, (ARRAY['CA','US','FR','DE'])[1 + g % 4] FROM generate_series(1, 20) g;
+INSERT INTO orders (customer_id, total, created_at) SELECT 1 + g % 20, 10 + (g * 37) % 490, date '2026-10-01' + g % 50 FROM generate_series(1, 120) g;
+```
+
+The **Statistics** tab shows "Executed queries: 5 / 5", the duration and "Updated Rows: 140".
+
+<Screenshot id="console/5-script" alt="Statistics: Executed queries 5 / 5 and Updated Rows 140" />
+
+</Step>
+
+<Step>
+
+### Run a query
+
+Put the cursor in a statement and press **Ctrl+Enter** (**Execute SQL Statement**). The rows appear in a **Result** tab under the editor.
+
+```sql
+SELECT c.name, c.country, count(o.id) AS orders, sum(o.total) AS total
+FROM customers c JOIN orders o ON o.customer_id = c.id
+GROUP BY c.id ORDER BY total DESC;
+```
+
+<Screenshot id="console/8-result" alt="The query and its result: Customer 20, CA, 6 orders, 2148 at the top" />
+
+</Step>
+
+</Steps>
+
+The buttons on the left of the editor, top to bottom:
+
+| Button | Shortcut |
+|---|---|
+| **Execute SQL Statement** | Ctrl+Enter |
+| **Execute SQL Statement in new tab** | Ctrl+\ |
+| **Execute SQL Script** | Alt+X |
+| **Explain execution plan** | Shift+Ctrl+E |
+| **Show server output** | Shift+Ctrl+O |
+| **Format SQL Script** | Shift+Ctrl+F |
+| **Download sql script** | |
+| **Upload sql script** | |
+
+The editor commits each statement as it runs (auto-commit). The top bar's **Switch to manual commit** button turns that off.
+
+### Explain a query
+
+**Explain execution plan** opens an **Execution plan** tab with each step's **NODE TYPE**, **ENTITY**, **COST**, **ROWS**, **TIME** and **CONDITION**. For the query above: a **Sort** over an **Aggregate** over a **Nested Loop**, with a **Seq Scan** on `orders` and an **Index Scan** on `customers` (`id = o.customer_id`).
+
+<Screenshot id="console/9-explain" alt="Execution plan: Sort, Aggregate, Nested Loop, Seq Scan on orders, Memoize, Index Scan on customers" />
+
+## Work with results
+
+Above the grid are **Show SQL** (the query behind the result) and a filter box: "Enter a SQL expression to filter results, e.g. column_name=10". Click a column header to sort; hold Ctrl and click to sort on several columns. On the right, **VALUE**, **GROUPING** and **REFERENCES** open side panels.
+
+Below the grid:
+
+- **Refresh the data**, with **Auto-refresh settings** on its arrow.
+- **Fetch size**: **200** rows by default, and **Get total count** next to it (here **20**).
+- **Add** (**Alt+R**), **Duplicate** (**Shift+Alt+R**), **Delete selected rows** and **Cancel selected**.
+- **SAVE**, **CANCEL** (unsaved changes), **SCRIPT** and **EXPORT**.
+
+### Edit a row
+
+A result from a single table with a primary key can be edited. Double-click a cell, type the new value and press **Enter**. The cell is highlighted and **SAVE** becomes active. Here we renamed `Customer 1` to `Northwind Café`.
+
+<Screenshot id="console/10-edited" alt="The customers result with row 1's name changed and highlighted, SAVE active" />
+
+Click **SAVE** (**Ctrl+Shift+S**) to write the change to the database, or **CANCEL** to drop it. Running `SELECT * FROM customers WHERE id = 1;` afterwards returned `Northwind Café`.
+
+A result without a unique key, like the join above, can't be edited: its columns say "No unique key. Row modification is not available."
+
+## Export a result
+
+<Steps>
+
+<Step>
+
+### Pick a format
+
+Under a result, click **EXPORT**. **Export data** names the result and its query, and lists the formats: **CSV**, **DbUnit**, **JSON**, **Markdown**, **Source code**, **SQL** (INSERT statements), **TXT**, **XML**, **XLSX** and **HTML**.
+
+<Screenshot id="console/11-export-formats" alt="Export data: CSV, DbUnit, JSON, Markdown, Source code, SQL, TXT, XML" />
+
+</Step>
+
+<Step>
+
+### Set the format options
+
+Click a format, here **CSV**. The **FORMAT** tab holds that format's options; for CSV, **Characters escape** (**quotes**), **Delimiter** (`,`), **File extension** (`csv`), **Format arrays**, **Format numbers**, **Header** (**top**) and more. Click **NEXT**.
+
+<Screenshot id="console/12-export-format" alt="Export configuration (CSV), FORMAT: Characters escape, Delimiter, File extension, Format arrays, Format numbers, Header" />
+
+</Step>
+
+<Step>
+
+### Set the output and export
+
+The **OUTPUT** tab has **Encoding** (**UTF-8**), **Insert BOM** and **Compression**. Click **EXPORT**. **BACK** returns to the options; **CANCEL** closes the dialog.
+
+<Screenshot id="console/13-export-output" alt="Export configuration (CSV), OUTPUT: Encoding UTF-8, Insert BOM, Compression, BACK, CANCEL, EXPORT" />
+
+</Step>
+
+<Step>
+
+### Download the file
+
+"File is ready to download" appears at the bottom left. Click **DOWNLOAD**. Ours was named `Result - 3 2026-11-25 15-40-06.csv`: the result's tab name and the time.
+
+<Screenshot id="console/14-export-ready" alt="File is ready to download: Result - 3, SELECT * FROM customers ORDER BY id, with CANCEL and DOWNLOAD" />
+
+</Step>
+
+</Steps>
+
+## Related
+
+- [PostgreSQL](/data/databases/postgresql) and [MariaDB](/data/databases/mariadb): add a database and connect an app.
+- [Import a database dump](/data/databases/import-dump): load a dump, then check it here.
+- [Backups and restore](/data/databases/backups): restore a copy and query it here.

@@ -2,6 +2,7 @@
   "title": "Data & storage",
   "pages": [
     "databases",
+    "console",
     "volumes",
     "environment-backups"
   ],
