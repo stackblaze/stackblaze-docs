@@ -17,6 +17,12 @@ We looked up the default URLs of services in three production regions and one de
 
 The answer depends on where the visitor is. When we asked for the same hostname on behalf of visitors in different parts of the world, we got five different pairs of addresses. Visitors in nearby countries got the same pair. Always point to the hostname, never to an address you looked up: the addresses can change.
 
+## Where the edges are
+
+There are five edge locations, with two edges in each. DNS sends each visitor to a location near them, usually the nearest, and the two addresses in the answer are that location's two edges.
+
+<EdgeMap />
+
 ## When an edge stops answering
 
 Every edge is checked continuously. An edge that stops answering is left out of the DNS answers, and the other edge in the answer keeps serving. Because the addresses expire from DNS caches after 30 seconds, visitors move to the working edge soon after, without you changing anything.

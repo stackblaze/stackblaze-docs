@@ -3,6 +3,7 @@ import type { MDXComponents } from 'mdx/types';
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 import { Screenshot } from '@/components/screenshot';
 import { TemplateGrid } from '@/components/template-grid';
+import { EdgeMap } from '@/components/edge-map';
 import { FeatureCard, FeatureCards, SectionCard, SectionCards } from '@/components/home-cards';
 
 export function getMDXComponents(components?: MDXComponents) {
@@ -12,6 +13,7 @@ export function getMDXComponents(components?: MDXComponents) {
     Steps,
     Screenshot,
     TemplateGrid,
+    EdgeMap,
     FeatureCard,
     FeatureCards,
     SectionCard,
