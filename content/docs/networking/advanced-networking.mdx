@@ -27,7 +27,7 @@ After the deploy, a browser preflight (`OPTIONS`) from `https://app.example.com`
 
 ## Inbound IP rules
 
-**Inbound IP rules** ("Allow or block visitor IP ranges at the edge before requests reach this app.") take comma-separated IPv4 ranges in CIDR notation:
+**Inbound IP rules** ("Allow or block visitor IP ranges before requests reach this app.") take comma-separated IPv4 ranges in CIDR notation:
 
 - **Allowed IP ranges**: "When set, every other IP gets a 403 — include your own address."
 - **Blocked IP ranges**: ranges to reject with `403`.
