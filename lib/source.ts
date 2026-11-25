@@ -4,7 +4,7 @@ import { basePath, docsRoute, siteUrl } from './shared';
 import { defineDocs } from 'fumadocs-mdx/macro';
 import { createElement } from 'react';
 import { Database, HardDrive, LayoutDashboard } from 'lucide-react';
-import type { Folder, Node } from 'fumadocs-core/page-tree';
+import type { Folder, Item, Node } from 'fumadocs-core/page-tree';
 import { metaSchema, pageSchema } from 'fumadocs-core/source/schema';
 
 const docs = defineDocs({
@@ -51,10 +51,10 @@ export const source = loader({
   plugins: [
     lucideIconsPlugin(),
     {
-      // The home page keeps its "StackBlaze Docs" heading; the sidebar calls it Home.
+      // The home page keeps its "StackBlaze Docs" heading; it is Platform's overview (clicking Platform opens it).
       transformPageTree: {
         file(node, filePath) {
-          if (filePath === 'index.mdx') return { ...node, name: 'Home' };
+          if (filePath === 'index.mdx') return { ...node, name: 'Overview' };
           if (filePath === 'projects/index.mdx') return { ...node, name: 'Projects' };
           return node;
         },
@@ -66,8 +66,10 @@ export const source = loader({
             type: 'folder',
             name: 'Platform',
             icon: createElement(LayoutDashboard),
+            // Clicking Platform opens the home page, like Build & deploy opens its overview.
+            index: root.children.find((n): n is Item => n.type === 'page' && n.url === '/'),
             // Sections are flattened: their overview page and pages are listed directly under Platform.
-            children: PLATFORM_URLS.flatMap((u) =>
+            children: PLATFORM_URLS.filter((u) => u !== '/').flatMap((u) =>
               root.children
                 .filter((n) => nodeUrl(n) === u)
                 .flatMap((n): Node[] => (n.type === 'folder' ? [...(n.index ? [n.index] : []), ...n.children] : [n])),
