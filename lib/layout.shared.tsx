@@ -16,9 +16,9 @@ export function baseOptions(): BaseLayoutProps {
       url: '/',
     },
     links: [
-      { text: 'Dashboard', url: `${dashboardUrl}/login`, external: true },
-      { text: 'Website', url: siteUrl, external: true },
-      { text: 'Status', url: 'https://status.stackblaze.cloud', external: true },
+      { text: 'Dashboard', url: `${dashboardUrl}/login`, external: true, on: 'nav' },
+      { text: 'Website', url: siteUrl, external: true, on: 'nav' },
+      { text: 'Status', url: 'https://status.stackblaze.cloud', external: true, on: 'nav' },
     ],
   };
 }
