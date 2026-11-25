@@ -13,7 +13,6 @@ const config = {
   // Pages moved in the sidebar reorganization keep their old addresses.
   async redirects() {
     return [
-      { source: '/ai', destination: '/ai/coding-tools', permanent: true },
       { source: '/ai/agent-channels', destination: '/ai/agents/channels', permanent: true },
       { source: '/ai/agent-evals', destination: '/ai/agents/evals', permanent: true },
       { source: '/ai/agent-knowledge-and-skills', destination: '/ai/agents/knowledge', permanent: true },
