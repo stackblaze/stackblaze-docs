@@ -1,0 +1,165 @@
+---
+title: Kafka
+description: Add a Kafka event-streaming cluster to an environment, connect your services to it, produce and consume messages, and scale it to three brokers.
+---
+
+**Kafka (Strimzi)** runs an Apache Kafka cluster in your environment, in KRaft mode (no separate coordination service). Services you connect to it get the broker address in their variables and talk to it inside the environment.
+
+## Add Kafka
+
+<Steps>
+
+<Step>
+
+### Pick it from the menu
+
+On the canvas, click **+ Service**, then **Add-on** (**Kafka, email, and more**), then **Kafka (Strimzi)** ("Event streaming platform for real-time data pipelines.").
+
+<Screenshot id="kafka/1-menu" alt="The Add-ons menu: Kafka (Strimzi), Memcached, ProxySQL, Email (SMTP) and Scheduled tasks" />
+
+</Step>
+
+<Step>
+
+### Review and deploy
+
+A **Kafka (Strimzi)** card appears on the canvas, **Ready to deploy**. Click it. The panel has no fields: "Deploys with the catalog defaults. Size, HA and connections are tuned on this sheet once it is running." It shows the add-on's name, `kafka`.
+
+<Screenshot id="kafka/2-review" alt="Kafka (Strimzi): Ready to deploy — creates it on Dev right away, with Remove from canvas and Deploy" />
+
+Click **Deploy**. **Remove from canvas** drops the card instead.
+
+The catalog defaults are one broker (a single node that is both controller and broker), Kafka `4.2.0` and a `10 GiB` volume. Ours was up within a few minutes; the card then shows **Running**.
+
+</Step>
+
+</Steps>
+
+## Connect a service
+
+Click the Kafka card, open **Settings** and go to **Connections**. Turn on the switch next to the service. The row shows **staged**.
+
+<Screenshot id="kafka/6-connect" alt="Connections: nginx, staged, switch on" />
+
+Click **Commit 1 change**. The dialog lists **nginx ⇄ kafka off → on**. Click **Deploy 1 change**.
+
+<Screenshot id="kafka/6b-commit" alt="1 change to apply: Connections, nginx ⇄ kafka off → on, Deploy 1 change" />
+
+The service gets three variables, all set to the same broker address on port `9092`:
+
+| Variable | Value |
+| --- | --- |
+| `KAFKA_BOOTSTRAP_SERVERS` | Kafka's address in the environment, port `9092` |
+| `KAFKA_BROKERS` | the same |
+| `KAFKA_URL` | the same |
+
+There is no user or password: services in the environment connect on port `9092` without credentials.
+
+## Create a topic and send a message
+
+We ran the Kafka command-line tools from inside the environment. For that we deployed a second service from the public image `apache/kafka:4.2.0` with the start command `sleep infinity`, made it a **Worker** (see [Visibility and access](/configure/visibility)), named it `kafka-client` and connected Kafka to it as above. Then we opened its **Terminal** tab (see [Terminal and SSH](/configure/terminal-and-ssh)) and clicked **Connect**.
+
+<Steps>
+
+<Step>
+
+### Create the topic
+
+```text
+# cd /opt/kafka/bin
+# env | grep -E '^KAFKA_(BROKERS|BOOTSTRAP_SERVERS|URL)=' | cut -d= -f1 | sort
+KAFKA_BOOTSTRAP_SERVERS
+KAFKA_BROKERS
+KAFKA_URL
+# ./kafka-topics.sh --bootstrap-server "$KAFKA_BOOTSTRAP_SERVERS" --create --topic orders --partitions 3 --replication-factor 1
+Created topic orders.
+# ./kafka-topics.sh --bootstrap-server "$KAFKA_BOOTSTRAP_SERVERS" --describe --topic orders
+Topic: orders   TopicId: EDUMVnmgSY2G4fjL1q8w-w PartitionCount: 3   ReplicationFactor: 1   Configs: min.insync.replicas=1
+        Topic: orders   Partition: 0    Leader: 0       Replicas: 0     Isr: 0  Elr:    LastKnownElr:
+        Topic: orders   Partition: 1    Leader: 0       Replicas: 0     Isr: 0  Elr:    LastKnownElr:
+        Topic: orders   Partition: 2    Leader: 0       Replicas: 0     Isr: 0  Elr:    LastKnownElr:
+```
+
+<Screenshot id="kafka/7-topic" alt="The kafka-client Terminal: the three KAFKA_ variable names, Created topic orders, and the topic's three partitions on broker 0" />
+
+</Step>
+
+<Step>
+
+### Produce and consume
+
+```text
+# echo "order 1001 placed" | ./kafka-console-producer.sh --bootstrap-server "$KAFKA_BOOTSTRAP_SERVERS" --topic orders
+# ./kafka-console-consumer.sh --bootstrap-server "$KAFKA_BOOTSTRAP_SERVERS" --topic orders --from-beginning --max-messages 1
+order 1001 placed
+Processed a total of 1 messages
+```
+
+<Screenshot id="kafka/8-produce-consume" alt="The Terminal: the producer sends order 1001 placed and the consumer reads it back" />
+
+</Step>
+
+</Steps>
+
+Your own services do the same with any Kafka client library, using `KAFKA_BOOTSTRAP_SERVERS` as the bootstrap servers.
+
+## High availability
+
+**Settings** → **HA** shows **High availability** · **Single node** and **Enable HA**: "Enable HA for a one-way upgrade to a redundant cluster. Status details appear here once HA is on — there is no in-place downgrade."
+
+<Screenshot id="kafka/settings-ha" alt="High availability: Single node, Enable HA" />
+
+Click **Enable HA**. The dialog explains what it does:
+
+<Screenshot id="kafka/9-ha-confirm" alt="Enable high availability? Scales the KafkaNodePool to 3 dual-role brokers and raises topic replication factor / min ISR. This is a one-way upgrade" />
+
+Click **Enable HA** again ("High availability enabled"). The section now reads **3 dual-role brokers · one-way (cannot scale back in place)**, with:
+
+- **Cluster health**: **Status** (**Provisioning**, then **Ready**), **Replicas** (for example **1/3 ready**), **Primary** and **Mode** (**KRaft dual-role**).
+- **Members**: each broker with its state (**running** or **pending**), and a refresh button.
+- **Kafka settings**: **Brokers** `3`, **Default RF** `3` and **Min ISR** `2`.
+
+Ours went from **1/3 ready** to **3/3 ready** in under a minute. The card on the canvas shows `3`.
+
+<Screenshot id="kafka/10-ha-on" alt="High availability on: Ready, 3/3 ready, three brokers running, Brokers 3, Default RF 3, Min ISR 2" />
+
+<Screenshot id="kafka/4-running" alt="The Kafka (Strimzi) card: Running, 3" />
+
+The new defaults take a few minutes to apply. A topic we created right after the click still got replication factor `1`; one created a few minutes later got `3`, with `min.insync.replicas=2`. Topics that existed before keep their replication factor: ours, `orders`, stayed at `1`.
+
+```text
+# ./kafka-topics.sh --bootstrap-server "$KAFKA_BOOTSTRAP_SERVERS" --create --topic audit --partitions 3
+Created topic audit.
+# ./kafka-topics.sh --bootstrap-server "$KAFKA_BOOTSTRAP_SERVERS" --describe --topic audit
+Topic: audit    TopicId: WuslJBScRuOX2vYzRxvr6w PartitionCount: 3   ReplicationFactor: 3   Configs: min.insync.replicas=2
+        Topic: audit    Partition: 0    Leader: 1       Replicas: 1,2,0 Isr: 1,2,0  Elr:    LastKnownElr:
+        Topic: audit    Partition: 1    Leader: 2       Replicas: 2,0,1 Isr: 2,0,1  Elr:    LastKnownElr:
+        Topic: audit    Partition: 2    Leader: 0       Replicas: 0,1,2 Isr: 0,1,2  Elr:    LastKnownElr:
+# ./kafka-topics.sh --bootstrap-server "$KAFKA_BOOTSTRAP_SERVERS" --describe --topic orders | head -1
+Topic: orders   TopicId: EDUMVnmgSY2G4fjL1q8w-w PartitionCount: 3   ReplicationFactor: 1   Configs: min.insync.replicas=2
+```
+
+<Callout type="warn">
+There is no way back to a single broker in place. Each broker has its own `10 GiB` volume.
+</Callout>
+
+## The Kafka panel
+
+- **Deployment** lists the add-on's deploys, for example **Deploy running for strimzi/operator:1.3.1** and the Kafka image. Each row's **⋯** menu has **Redeploy** and **Inspect Deployment**.
+- **Logs** streams the output of every Kafka pod. **Pod** picks **All pods** or one pod: the brokers (`…-dual-role-0`, `-1`, `-2`), the entity operator and the Kafka exporter. **Log source** is **App logs** or **System events**. The time menu has **Live tail**, **Last 15 minutes**, **Last 1 hour**, **Last 6 hours**, **Last 24 hours** and **All loaded**, next to a search box.
+- **Metrics** has **2h**, **24h** and **7d** and **Refresh**. **Host resources** has **Memory usage** and **CPU usage**. **Kafka** has **Consumer lag**, **Messages in / s**, **Partitions**, **Brokers online**, **Under-replicated parts** and **Consumer group members**, each **Overall** or **Per-pod**.
+- **Settings** holds **HA**, **Connections**, **Storage** and **Delete add-on**. **Storage** lists each broker's volume with its use, for example **1.0 MiB / 10 GiB · 0%** ("Volumes can only grow. Expansion depends on the storage class.").
+
+<Screenshot id="kafka/tab-logs" alt="Kafka Logs: All pods, App logs, Search logs, Live tail" />
+
+## Delete Kafka
+
+**Delete add-on** needs every service disconnected first ("Disconnect all apps first."). In **Connections**, turn off each service, then commit and deploy (**kafka-client ⇄ kafka on → off**, **nginx ⇄ kafka on → off**). The `KAFKA_` variables are removed from those services.
+
+<Screenshot id="kafka/12-disconnect" alt="2 changes to apply: kafka-client ⇄ kafka on → off and nginx ⇄ kafka on → off" />
+
+Then click **Delete** under **Delete add-on** ("Deletes kafka and its data."). The dialog asks **Remove add-on?** Click **Remove**.
+
+<Screenshot id="kafka/14-delete-confirm" alt="Remove add-on? Its resources and data will be deleted. Cancel, Remove" />
+
+The removal is staged: the card now shows **Removes on commit**. Click **Commit 1 change**. The dialog lists **Add-ons** · **kafka** · **delete** and warns "kafka is deleted permanently, with any data it holds." Type **sudo delete kafka** to confirm, then click **Delete 1 resource**.

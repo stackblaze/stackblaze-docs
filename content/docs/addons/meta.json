@@ -4,6 +4,7 @@
     "email",
     "scheduled-tasks",
     "memcached",
-    "proxysql"
+    "proxysql",
+    "kafka"
   ]
 }
