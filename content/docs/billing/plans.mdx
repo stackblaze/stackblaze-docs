@@ -1,6 +1,6 @@
 ---
 title: Plans
-description: Compare the plans, upgrade, downgrade, cancel a scheduled downgrade, the Free Trial, and cancel your subscription.
+description: Compare the plans, the Free plan and the Free Trial, upgrade, downgrade, cancel a scheduled downgrade, and cancel your subscription.
 ---
 
 Your organization's plan sets its included usage and limits. You change it on [Billing](/billing), under **Administration** in the sidebar. Upgrades apply right away; downgrades and cancellations at the end of the billing period.
@@ -70,7 +70,7 @@ These are the self-serve plans and what **What's included:** lists for each.
 
 Every plan includes custom domains with automatic SSL and unlimited free build minutes. The plan price comes back as included usage: what your apps use is counted against it first (see [Usage](/billing/usage#usage-breakdown)).
 
-Every plan, the Free Trial included, can add any add-on and deploy any template the platform offers. Plans differ only in the limits on this page. A template that needs more than your plan allows, such as more services or databases, or a bigger service than **Size per service**, is refused before anything is created.
+Every plan, the Free plan and the Free Trial included, can add any add-on and deploy any template the platform offers. Plans differ only in the limits on this page. A template that needs more than your plan allows, such as more services or databases, or a bigger service than **Size per service**, is refused before anything is created.
 
 The last three rows are the limits the [Plan limits](/billing/usage#plan-limits) card on Usage counts against.
 
@@ -80,19 +80,19 @@ The last three rows are the limits the [Plan limits](/billing/usage#plan-limits)
 
 Each plan also sets these limits:
 
-| | Free Trial | Developer | Pro | Business |
-| --- | --- | --- | --- | --- |
-| Builds at the same time | 1 | 2 | 5 | 10 |
-| Build timeout | 10 minutes | 30 minutes | 60 minutes | 90 minutes |
-| Log retention | 1 day | 3 days | 14 days | 30 days |
-| Connections per database | 100 | 200 | 400 | 500 |
-| Connections per Valkey database | 50 | 200 | 1,000 | 2,000 |
-| Database backups | No | Yes | Yes | Yes |
-| Highly available databases | No | No | Yes | Yes |
-| Preview environments | No | No | Yes | Yes |
-| AI agents | No | Yes | Yes | Yes |
-| AI models | No | 3 | 3 | 10 |
-| Single sign-on, tracing, security scans, advanced networking | No | No | No | Yes |
+| | Free Trial | Free | Developer | Pro | Business |
+| --- | --- | --- | --- | --- | --- |
+| Builds at the same time | 1 | 1 | 2 | 5 | 10 |
+| Build timeout | 10 minutes | 10 minutes | 30 minutes | 60 minutes | 90 minutes |
+| Log retention | 1 day | 1 day | 3 days | 14 days | 30 days |
+| Connections per database | 100 | 100 | 200 | 400 | 500 |
+| Connections per Valkey database | 50 | 50 | 200 | 1,000 | 2,000 |
+| Database backups | No | No | Yes | Yes | Yes |
+| Highly available databases | No | No | No | Yes | Yes |
+| Preview environments | No | No | No | Yes | Yes |
+| AI agents | No | No | Yes | Yes | Yes |
+| AI models | No | No | 3 | 3 | 10 |
+| Single sign-on, tracing, security scans, advanced networking | No | No | No | No | Yes |
 
 A build over the limit isn't queued: it's refused, and you can start it again once a build finishes (see [Deploy from CI](/cli/ci#build-limits)).
 
@@ -111,12 +111,52 @@ During the trial, the organization has:
 | Instances per service | 1 |
 | Databases | 2, each with a fixed 1 GiB of storage |
 | Valkey memory | 25 MiB |
+| Volumes | 1, of 1 GB |
 | Emails | 100 a day |
 | Outbound data included | 5 GB |
 | Team members | 1 |
 | Regions | 1 |
 
-The **Current plan** card shows **Free trial** and "Pick a plan before" the end date "to keep services online", with **Upgrade**. When the 7 days are over or the $3 is used up, whichever comes first, the services are stopped and new deploys are refused. The card then shows **Trial expired** and **Choose a plan**. Apps and data are kept for 30 days, then deleted unless you choose a plan; choosing one brings the services back.
+The **Current plan** card shows **Free trial** and "Pick a plan before" the end date "to keep services online", with **Upgrade**. When the 7 days are over or the $3 is used up, whichever comes first, the services are stopped and new deploys are refused. The card then shows **Trial expired** and **Choose a plan**. Apps and data are kept for 30 days, then deleted unless you choose a plan; choosing one brings the services back. The [Free plan](#the-free-plan) is one of the plans you can choose.
+
+## The Free plan
+
+The **Free** plan has no monthly fee and includes **$5 of usage every month**. It needs a card on file. It is meant for side projects: it has the Free Trial's limits, without the 7 days and with a larger volume.
+
+| | Free |
+| --- | --- |
+| Price | $0 |
+| Included usage | $5 every month |
+| Card on file | Required |
+| Size per service | Up to 0.5 vCPU · 1 GB RAM |
+| Projects | 1 |
+| Services per project | 3 |
+| Environments per project | 1 |
+| Instances per service | 1 |
+| Databases | 2, each with a fixed 1 GiB of storage |
+| Valkey memory | 25 MiB |
+| Volumes | 1, up to 5 GB |
+| Emails | 100 a day |
+| Team members | 1 |
+| Regions | 1 |
+
+### What you pay
+
+- **Up to $5 of usage in a month: nothing.** Your usage is counted against the included $5 first, the same way a paid plan's included usage works (see [Usage](/billing/usage#usage-breakdown)).
+- **Above $5: only the difference.** Your services keep running, and only the usage above $5 is charged to your card, at the standard rates. If you use $7.40 in a month, you pay $2.40.
+- **Every month.** The $5 starts again with each monthly period. What you don't use doesn't carry over.
+
+You get an email the first time you go past the included $5 in a month, before anything is invoiced.
+
+To stop at $5 instead of paying for more, set **Spend limit** on [Usage](/billing/usage) to **Off**: your apps are then paused once the included usage is used up, until the next period. **Fixed** sets the most you can be charged in a month.
+
+### The card
+
+Free is chosen in the [Change plan](#change-plan) window, where it is listed with the paid plans. Instead of a payment, the window asks for a card and says what it is for: "Free includes $5 of usage every month, at no charge." and "If your workspace uses more, it keeps running and only the usage above $5 is charged to this card, at the standard rates." Nothing is charged when you add it.
+
+One card can hold one Free organization, and one account can own one. A second one is refused with "This card is already used for another workspace on the Free plan. Use a different card, or choose a paid plan." or "You already have a workspace on the Free plan. Choose a paid plan for this one."
+
+Moving from a paid plan to Free is a [downgrade](#downgrade): it takes effect at the end of the period you paid for.
 
 ## Downgrade
 
