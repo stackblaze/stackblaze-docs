@@ -11,7 +11,7 @@ A volume is a shared filesystem: if the service runs more than one instance, eve
 
 Only write to the same files from several instances if your app is built for it. A file database such as SQLite on a volume should run with one instance.
 
-Your plan can limit how many volumes your organization has and how big one can be: the Free Trial has 1 volume of 1 GB, the Free plan 1 volume of 5 GB, and the paid plans have no limit (see [Plans](/billing/plans#the-free-plan)). A volume over the limit is refused when you deploy, with "Your Free plan includes 1 volume. Upgrade to add more." or "A volume can be up to 5 GB on the Free plan; this one asks for 10 GB. Upgrade for larger volumes." Volumes you already have are never removed or shrunk.
+Your plan can limit how many volumes your organization has and how big one can be: the Free Trial and the Free plan without a card have 1 volume of 1 GB, the Free plan with a card on file 1 volume of 5 GB, and the paid plans have no limit (see [Plans](/billing/plans#the-free-plan)). A volume over the limit is refused when you deploy, with "Your Free plan includes 1 volume. Upgrade to add more." or "A volume can be up to 5 GB on the Free plan; this one asks for 10 GB. Upgrade for larger volumes." Volumes you already have are never removed or shrunk.
 
 ## Add a volume
 
@@ -29,7 +29,7 @@ Click **Add volume**. Each volume has:
 
 <Screenshot id="settings/volume-add" alt="A new volume: Name data, Size 5 GB, Mount Path /data" />
 
-The sizes go from **5 GB** to **1 TB**: 5, 10, 20, 30, 40, 50, 75, 100, 150, 200, 250, 500 and 750 GB, and 1 TB. On a plan with a largest volume size, the menu stops there: **1 GB** on the Free Trial, **5 GB** on the Free plan.
+The sizes go from **5 GB** to **1 TB**: 5, 10, 20, 30, 40, 50, 75, 100, 150, 200, 250, 500 and 750 GB, and 1 TB. On a plan with a largest volume size, the menu stops there: **1 GB** on the Free Trial and on the Free plan without a card, **5 GB** on the Free plan with a card on file.
 
 <Screenshot id="settings/volume-sizes" alt="The size menu: 5 GB up to 1 TB" />
 

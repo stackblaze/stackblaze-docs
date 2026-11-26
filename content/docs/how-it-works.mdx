@@ -108,7 +108,7 @@ Pushes that arrive close together are built once, from the newest commit. A new 
 
 ## Builds at the same time
 
-Each plan runs a set number of builds at once across the whole organization: 1 on the Free Trial, 2 on Developer, 5 on Pro and 10 on Business. A build that would go over it is not queued. It's refused, and nothing is built:
+Each plan runs a set number of builds at once across the whole organization: 1 on the Free Trial and the Free plan, 2 on Developer, 5 on Pro and 10 on Business. A build that would go over it is not queued. It's refused, and nothing is built:
 
 - A push that hits the limit is listed on the service's **Deployment** tab as **Skipped: build limit**, with an **Upgrade** button, and the bell gets "Build skipped for *service*: …". The running version keeps serving.
 - A build you start yourself (from the dashboard, the CLI or the API) fails with "Your plan runs *N* builds at a time and … running. Try again when it finishes, or upgrade to build more at once." The API answers `402` with the code `CONCURRENT_BUILD_LIMIT`.
