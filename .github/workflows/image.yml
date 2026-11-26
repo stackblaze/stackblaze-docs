@@ -23,12 +23,14 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      # On a pull request github.ref_name is "<number>/merge", which is not a
+      # valid image tag: the build is tagged pr-<number> there (never pushed).
       - uses: docker/build-push-action@v6
         with:
           context: .
           push: ${{ github.event_name == 'push' }}
           tags: |
-            ghcr.io/stackblaze/stackblaze-docs:${{ github.ref_name }}
+            ghcr.io/stackblaze/stackblaze-docs:${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || github.ref_name }}
             ghcr.io/stackblaze/stackblaze-docs:sha-${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
