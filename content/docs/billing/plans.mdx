@@ -1,6 +1,6 @@
 ---
 title: Plans
-description: Compare the plans, upgrade, downgrade, cancel a scheduled downgrade, the Free Trial, and cancel your subscription.
+description: Compare the plans, the Free plan and the Free Trial, upgrade, downgrade, cancel a scheduled downgrade, and cancel your subscription.
 ---
 
 Your organization's plan sets its included usage and limits. You change it on [Billing](/billing), under **Administration** in the sidebar. Upgrades apply right away; downgrades and cancellations at the end of the billing period.
@@ -9,7 +9,7 @@ Your organization's plan sets its included usage and limits. You change it on [B
 
 The **Current plan** card shows the plan's name and price, for example **Business** **$499/mo**, and when the included usage starts again: "Included usage resets on Dec 11 (17 days left)".
 
-From here you can open **Change plan** or **Cancel subscription**. On the Free Trial the button reads **Upgrade**, or **Choose a plan** once the trial has expired.
+From here you can open **Change plan** or **Cancel subscription**. On the Free Trial the button reads **Upgrade**. On the Free plan without a card it reads **Add a card** (see [The Free plan](#the-free-plan)).
 
 While a downgrade is scheduled, the card says so, for example "Downgrading to Pro on December 1, 2026.", with **Cancel** next to it (see [Cancel a scheduled downgrade](#cancel-a-scheduled-downgrade)). After you cancel the subscription, it says "Your subscription ends on" the date and "You keep" the plan "until then.", with **Keep my plan**.
 
@@ -42,7 +42,7 @@ When it's done, the window shows **Plan updated** and "You're on" the new plan, 
 
 ### From the Free Trial
 
-On the Free Trial, click **Upgrade** (or **Choose a plan** after the trial has ended). The window reads "Choose a paid plan to unlock more templates and deploy heavier apps." There is no saved card yet, so you enter one in the window, then click **Subscribe for** the price, for example **Subscribe for $10/month**, or **Subscribe for $96/year** on **Annual**. Choosing a plan brings stopped services back.
+On the Free Trial, click **Upgrade**. The window reads "Choose a paid plan to unlock more templates and deploy heavier apps." There is no saved card yet, so you enter one in the window, then click **Subscribe for** the price, for example **Subscribe for $10/month**, or **Subscribe for $96/year** on **Annual**. Choosing a plan brings stopped services back.
 
 ### When a feature needs a higher plan
 
@@ -70,7 +70,7 @@ These are the self-serve plans and what **What's included:** lists for each.
 
 Every plan includes custom domains with automatic SSL and unlimited free build minutes. The plan price comes back as included usage: what your apps use is counted against it first (see [Usage](/billing/usage#usage-breakdown)).
 
-Every plan, the Free Trial included, can add any add-on and deploy any template the platform offers. Plans differ only in the limits on this page. A template that needs more than your plan allows, such as more services or databases, or a bigger service than **Size per service**, is refused before anything is created.
+Every plan, the Free plan and the Free Trial included, can add any add-on and deploy any template the platform offers. Plans differ only in the limits on this page. A template that needs more than your plan allows, such as more services or databases, or a bigger service than **Size per service**, is refused before anything is created.
 
 The last three rows are the limits the [Plan limits](/billing/usage#plan-limits) card on Usage counts against.
 
@@ -80,25 +80,25 @@ The last three rows are the limits the [Plan limits](/billing/usage#plan-limits)
 
 Each plan also sets these limits:
 
-| | Free Trial | Developer | Pro | Business |
-| --- | --- | --- | --- | --- |
-| Builds at the same time | 1 | 2 | 5 | 10 |
-| Build timeout | 10 minutes | 30 minutes | 60 minutes | 90 minutes |
-| Log retention | 1 day | 3 days | 14 days | 30 days |
-| Connections per database | 100 | 200 | 400 | 500 |
-| Connections per Valkey database | 50 | 200 | 1,000 | 2,000 |
-| Database backups | No | Yes | Yes | Yes |
-| Highly available databases | No | No | Yes | Yes |
-| Preview environments | No | No | Yes | Yes |
-| AI agents | No | Yes | Yes | Yes |
-| AI models | No | 3 | 3 | 10 |
-| Single sign-on, tracing, security scans, advanced networking | No | No | No | Yes |
+| | Free Trial | Free | Developer | Pro | Business |
+| --- | --- | --- | --- | --- | --- |
+| Builds at the same time | 1 | 1 | 2 | 5 | 10 |
+| Build timeout | 10 minutes | 10 minutes | 30 minutes | 60 minutes | 90 minutes |
+| Log retention | 1 day | 1 day | 3 days | 14 days | 30 days |
+| Connections per database | 100 | 100 | 200 | 400 | 500 |
+| Connections per Valkey database | 50 | 50 | 200 | 1,000 | 2,000 |
+| Database backups | No | No | Yes | Yes | Yes |
+| Highly available databases | No | No | No | Yes | Yes |
+| Preview environments | No | No | No | Yes | Yes |
+| AI agents | No | No | Yes | Yes | Yes |
+| AI models | No | No | 3 | 3 | 10 |
+| Single sign-on, tracing, security scans, advanced networking | No | No | No | No | Yes |
 
 A build over the limit isn't queued: it's refused, and you can start it again once a build finishes (see [Deploy from CI](/cli/ci#build-limits)).
 
 ## The Free Trial
 
-A new account's first organization can start on the **Free trial**: "7 days or $3 of usage · no credit card". The trial is once per account; another organization needs a paid plan from the start.
+A new account's first organization can start on the **Free trial**: 30 days or $5 of usage, whichever comes first, with no credit card. The trial is once per account; another organization needs a paid plan from the start.
 
 During the trial, the organization has:
 
@@ -111,12 +111,89 @@ During the trial, the organization has:
 | Instances per service | 1 |
 | Databases | 2, each with a fixed 1 GiB of storage |
 | Valkey memory | 25 MiB |
+| Volumes | 1, up to 5 GB |
 | Emails | 100 a day |
 | Outbound data included | 5 GB |
 | Team members | 1 |
 | Regions | 1 |
 
-The **Current plan** card shows **Free trial** and "Pick a plan before" the end date "to keep services online", with **Upgrade**. When the 7 days are over or the $3 is used up, whichever comes first, the services are stopped and new deploys are refused. The card then shows **Trial expired** and **Choose a plan**. Apps and data are kept for 30 days, then deleted unless you choose a plan; choosing one brings the services back.
+The **Current plan** card shows **Free trial** and what happens when it ends, for example "On Dec 26 your workspace moves to the Free plan: $1 of usage every month, no card needed. Databases need a card on file.", with **Upgrade**.
+
+When the 30 days are over or the $5 is used up, the organization moves to the [Free plan](#the-free-plan) by itself. Your apps keep running and nothing is deleted, except that [databases need a card](#databases-need-a-card). You get an email that says so. You can also choose a paid plan at any time with **Upgrade**.
+
+## The Free plan
+
+The **Free** plan has no monthly fee and no end date. It is where an organization lands after the Free Trial, and it is meant for side projects. What it includes depends on whether there is a card on file:
+
+| | Free, no card | Free, card on file |
+| --- | --- | --- |
+| Price | $0 | $0 |
+| Included usage | $1 every month | $5 every month |
+| When the included usage is used up | Your apps pause until the next month. Nothing is charged | Your apps keep running. Only the usage above $5 is charged |
+| Databases | None: a database needs a card | 2, each with a fixed 1 GiB of storage |
+| Volumes | 1, up to 5 GB | 1, up to 5 GB |
+| Size per service | Up to 0.5 vCPU · 1 GB RAM | The same |
+| Projects | 1 | 1 |
+| Services per project | 3 | 3 |
+| Environments per project | 1 | 1 |
+| Instances per service | 1 | 1 |
+| Valkey memory | n/a | 25 MiB |
+| Emails | 100 a day | 100 a day |
+| Team members | 1 | 1 |
+| Regions | 1 | 1 |
+
+### Without a card
+
+- **$1 of usage every month, at no charge.** Your usage is counted against it first, at the standard rates (see [Usage](/billing/usage#usage-breakdown)).
+- **When the $1 is used up, your apps pause.** They start again by themselves at the start of the next month. Nothing is ever charged, because there is no card to charge.
+- **Your apps and volumes are kept** while they are paused.
+
+The **Current plan** card shows **Free** and reads "$1 of usage every month, no card. Your apps pause when it is used and start again next month. Add a card for $5 every month and to run databases." The button is **Add a card**.
+
+### Databases need a card
+
+A database can't run on Free without a card. This covers every database kind, Key Value included.
+
+| When | What happens to a database |
+| --- | --- |
+| During the Free Trial | It runs |
+| The trial ends and there is no card | It is stopped. Its data is kept for 30 days. No new database can be created |
+| You add a card within the 30 days | It starts again with its data |
+| 30 days pass without a card | It is deleted with its data. It can't be restored |
+
+You get an email when a database is stopped, another one 3 days before it is deleted, one when it is deleted, and one when it starts again after you add a card. The email that tells you the trial has ended says it too.
+
+Creating a database without a card is refused with "A database needs a credit card on file. Add a card or choose a paid plan to create one."
+
+PostgreSQL and MariaDB are stopped as soon as the trial ends. The other database kinds keep running until the 30 days are over and are then deleted the same way, so add a card before that date to keep them.
+
+### With a card on file
+
+- **Up to $5 of usage in a month: nothing.** Your usage is counted against the included $5 first, the same way a paid plan's included usage works (see [Usage](/billing/usage#usage-breakdown)).
+- **Above $5: only the difference.** Your services keep running, and only the usage above $5 is charged to your card, at the standard rates. If you use $7.40 in a month, you pay $2.40.
+- **Every month.** The $5 starts again with each monthly period. What you don't use doesn't carry over.
+
+You get an email the first time you go past the included $5 in a month, before anything is invoiced.
+
+To stop at $5 instead of paying for more, set **Spend limit** on [Usage](/billing/usage) to **Off**: your apps are then paused once the included usage is used up, until the next period. **Fixed** sets the most you can be charged in a month.
+
+### Add a card
+
+On Free without a card, click **Add a card** on the **Current plan** card. The [Change plan](#change-plan) window opens on **Free** with the description "Card on file: $5 of usage every month"; the paid plans are listed with it. Instead of a payment, the window asks for a card and says what it is for: "Free includes $5 of usage every month, at no charge." and "If your workspace uses more, it keeps running and only the usage above $5 is charged to this card, at the standard rates." Nothing is charged when you add it.
+
+One card can hold one Free organization, and one account can own one. A second one is refused with "This card is already used for another workspace on the Free plan. Use a different card, or choose a paid plan." or "You already have a workspace on the Free plan. Choose a paid plan for this one."
+
+You don't have to use this window. Any card that becomes the default payment method of your organization moves it to Free with a card right away: one added in the billing portal, or while buying credit. Adding a card means usage above the included $5 is charged to it.
+
+### Remove a card
+
+On [Billing](/billing), click **Remove card** next to **Update card**. The confirmation, **Remove your card?**, says "Your workspace moves to the Free plan without a card now: $1 of usage every month, nothing charged. Its databases are stopped and kept for 30 days; add a card in that time to start them again." Click **Remove card** to confirm, or **Keep my card**.
+
+The organization moves to Free without a card at once, and anything used above the included usage so far is invoiced. **Remove card** isn't shown on a paid plan, because the plan is billed to the card: cancel the plan first.
+
+If you add a card during the Free Trial, the organization moves to Free with a card when the trial ends, and its databases keep running.
+
+Moving from a paid plan to Free is a [downgrade](#downgrade): it takes effect at the end of the period you paid for.
 
 ## Downgrade
 
@@ -147,7 +224,9 @@ Click **Cancel subscription** under **Change plan** on [Billing](/billing). The 
 
 <Screenshot id="billing/5-cancel" alt="Cancel your subscription? with Keep my plan and Cancel subscription" />
 
-You keep your plan and everything running until the end of the period you already paid for, and you aren't charged again. After that your services are paused. Their apps and data are kept for 30 days, then deleted unless you choose a plan. Your account stays.
+You keep your plan and everything running until the end of the period you already paid for, and you aren't charged again. After that your organization moves to the [Free plan](#the-free-plan) and keeps running: $1 of usage every month, or $5 every month if a card is on file. [Databases need a card](#databases-need-a-card). Your account stays.
+
+This is for a subscription you cancel yourself. If a subscription ends because a payment failed, your services are paused until you choose a plan, and their apps and data are kept for 30 days.
 
 Click **Keep my plan** to close it without cancelling. After you cancel, **Keep my plan** stays on the **Current plan** card until the end date, so you can undo it.
 
